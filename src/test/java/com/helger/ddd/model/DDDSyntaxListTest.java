@@ -16,29 +16,31 @@
  */
 package com.helger.ddd.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.w3c.dom.Node;
+import org.junit.Test;
 
-import com.helger.commons.error.list.IErrorList;
+import com.helger.commons.collection.impl.ICommonsMap;
 
 /**
- * Get a value from an XML node based on certain rules.
+ * Test class for class {@link DDDSyntaxList}
  *
  * @author Philip Helger
  */
-public interface IDDDGetter
+public class DDDSyntaxListTest
 {
-  /**
-   * Get a value based on a source node
-   *
-   * @param aSourceNode
-   *        The source node to start.
-   * @param aErrorList
-   *        The error list to be filled in case something goes wrong
-   * @return <code>null</code> if no value was found-
-   */
-  @Nullable
-  String getValue (@Nonnull Node aSourceNode, @Nonnull IErrorList aErrorList);
+  @Test
+  public void testDefault ()
+  {
+    final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
+    assertNotNull (aSL);
+
+    final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
+    assertEquals (3, aMap.size ());
+    assertTrue (aMap.containsKey ("ubl2-invoice"));
+    assertTrue (aMap.containsKey ("ubl2-creditnote"));
+    assertTrue (aMap.containsKey ("cii"));
+  }
 }

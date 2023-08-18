@@ -20,17 +20,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.util.Map;
+
+import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.error.list.ErrorList;
+import com.helger.commons.io.file.FileSystemIterator;
+import com.helger.commons.io.file.IFileFilter;
+import com.helger.xml.serialize.read.DOMReader;
 
 /**
  * Test class for class {@link DDDSyntaxList}
  *
  * @author Philip Helger
  */
-public class DDDSyntaxListTest
+public final class DDDSyntaxListTest
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (DDDSyntaxListTest.class);
+
   @Test
   public void testDefault ()
   {
@@ -42,5 +55,33 @@ public class DDDSyntaxListTest
     assertTrue (aMap.containsKey ("ubl2-invoice"));
     assertTrue (aMap.containsKey ("ubl2-creditnote"));
     assertTrue (aMap.containsKey ("cii"));
+  }
+
+  @Test
+  @Ignore
+  public void testAllTestfile ()
+  {
+    final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
+
+    for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
+    {
+      final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
+                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
+      {
+        LOGGER.info ("Reading " + f.toString ());
+
+        final Document aDoc = DOMReader.readXMLDOM (f);
+        assertNotNull (aDoc);
+
+        final ErrorList aErrorList = new ErrorList ();
+        for (final EDDDGetterType eGetter : EDDDGetterType.values ())
+          if (eGetter.isMandatory ())
+          {
+            final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
+            assertNotNull ("Getter " + eGetter + " failed on " + f, sValue);
+          }
+      }
+    }
   }
 }

@@ -124,10 +124,13 @@ public class DDDSyntax implements IHasID <String>, IHasName
   @Nonnull
   public static DDDSyntax readFromXML (@Nonnull final IMicroElement eSyntax)
   {
+    final String sSyntaxID = eSyntax.getAttributeValue ("id");
+    final String sLogPrefix = "Syntax with ID '" + sSyntaxID + "': ";
+
     // Name
     final IMicroElement eName = eSyntax.getFirstChildElement ("name");
     if (eName == null)
-      throw new IllegalArgumentException ("Element 'name' is missing");
+      throw new IllegalArgumentException (sLogPrefix + "Element 'name' is missing");
 
     // Getters
     final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> aGetters = new CommonsHashMap <> ();
@@ -137,7 +140,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
       final String sID = eGet.getAttributeValue ("id");
       final EDDDGetterType eGetterType = EDDDGetterType.getFromIDOrNull (sID);
       if (eGetterType == null)
-        throw new IllegalArgumentException ("The getter ID value '" + sID + "' is invalid");
+        throw new IllegalArgumentException (sLogPrefix + "The getter ID value '" + sID + "' is invalid");
 
       final ICommonsList <IDDDGetter> aGetterList = new CommonsArrayList <> ();
       for (final IMicroElement eChild : eGet.getAllChildElements ())
@@ -149,7 +152,8 @@ public class DDDSyntax implements IHasID <String>, IHasName
             aGetterList.add (new DDDGetterXPath (eChild.getTextContentTrimmed ()));
             break;
           default:
-            throw new IllegalArgumentException ("The getter '" +
+            throw new IllegalArgumentException (sLogPrefix +
+                                                "The getter '" +
                                                 sID +
                                                 "' uses the unsupported type '" +
                                                 sTagName +
@@ -157,11 +161,20 @@ public class DDDSyntax implements IHasID <String>, IHasName
         }
       }
       if (aGetterList.isEmpty ())
-        throw new IllegalArgumentException ("The getter '" + sID + "' contains no actual getter");
+        throw new IllegalArgumentException (sLogPrefix + "The getter '" + sID + "' contains no actual getter");
       aGetters.put (eGetterType, aGetterList);
     }
 
-    return new DDDSyntax (eSyntax.getAttributeValue ("id"),
+    // Check if all mandatory getters are present
+    for (final EDDDGetterType eGetter : EDDDGetterType.values ())
+      if (eGetter.isMandatory ())
+        if (!aGetters.containsKey (eGetter))
+          throw new IllegalArgumentException (sLogPrefix +
+                                              "The mandatory getter '" +
+                                              eGetter.getID () +
+                                              "' is missing");
+
+    return new DDDSyntax (sSyntaxID,
                           eSyntax.getAttributeValue ("nsuri"),
                           eSyntax.getAttributeValue ("root"),
                           eName.getTextContentTrimmed (),

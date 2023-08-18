@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<syntaxes>
+  <syntax nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
+    <name>UBL 2.x Invoice</name>
+    <get id="CustomizationID">
+      <xpath>./CustomizationID/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>./ProfileID/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>./AccountingSupplierParty/Party/EndpointID/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>./AccountingSupplierParty/Party/EndpointID/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>./AccountingCustomerParty/Party/EndpointID/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>./AccountingCustomerParty/Party/EndpointID/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>./ID/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>./AccountingSupplierParty/Party/PartyName/Name/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>./AccountingCustomerParty/Party/PartyName/Name/text()</xpath>
+    </get>
+  </syntax>
+  <syntax nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
+    <name>UBL 2.x Credit Note</name>
+    <get id="CustomizationID">
+      <xpath>./CustomizationID/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>./ProfileID/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>./AccountingSupplierParty/Party/EndpointID/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>./AccountingSupplierParty/Party/EndpointID/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>./AccountingCustomerParty/Party/EndpointID/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>./AccountingCustomerParty/Party/EndpointID/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>./ID/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>./AccountingSupplierParty/Party/PartyName/Name/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>./AccountingCustomerParty/Party/PartyName/Name/text()</xpath>
+    </get>
+  </syntax>
+  <syntax nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
+    <name>UBL 2.x Credit Note</name>
+    <get id="CustomizationID">
+      <xpath>./ExchangedDocumentContext/GuidelineSpecifiedDocumentContextParameter/ID/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/SellerTradeParty/URIUniversalCommunication/URIID/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/SellerTradeParty/URIUniversalCommunication/URIID/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/BuyerTradeParty/URIUniversalCommunication/URIID/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/BuyerTradeParty/URIUniversalCommunication/URIID/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>./ExchangedDocument/ID/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/SellerTradeParty/Name/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>./SupplyChainTradeTransaction/ApplicableHeaderTradeAgreement/BuyerTradeParty/Name/text()</xpath>
+    </get>
+  </syntax>
+</syntaxes>

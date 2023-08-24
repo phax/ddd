@@ -47,8 +47,8 @@ public class DocumentDetails
                           @Nullable final IProcessIdentifier aProcessID,
                           @Nullable final String sVESID,
                           @Nullable final String sBusinessDocumentID,
-                          @Nullable final String sSellerName,
-                          @Nullable final String sBuyerName)
+                          @Nullable final String sSenderName,
+                          @Nullable final String sReceiverName)
   {
     m_aSenderID = aSenderID;
     m_aReceiverID = aReceiverID;
@@ -56,8 +56,8 @@ public class DocumentDetails
     m_aProcessID = aProcessID;
     m_sVESID = sVESID;
     m_sBusinessDocumentID = sBusinessDocumentID;
-    m_sSenderName = sSellerName;
-    m_sReceiverName = sBuyerName;
+    m_sSenderName = sSenderName;
+    m_sReceiverName = sReceiverName;
   }
 
   @Nullable

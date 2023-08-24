@@ -43,24 +43,28 @@ public class DDDSyntax implements IHasID <String>, IHasName
   private final String m_sRootElementNamespaceURI;
   private final String m_sRootElementLocalName;
   private final String m_sName;
+  private final String m_sVersion;
   private final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> m_aGetters;
 
   public DDDSyntax (@Nonnull @Nonempty final String sID,
                     @Nonnull @Nonempty final String sRootElementNamespaceURI,
                     @Nonnull @Nonempty final String sRootElementLocalName,
                     @Nonnull @Nonempty final String sName,
+                    @Nonnull @Nonempty final String sVersion,
                     @Nonnull @Nonempty final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> aGetters)
   {
     ValueEnforcer.notEmpty (sID, "ID");
     ValueEnforcer.notEmpty (sRootElementNamespaceURI, "RootElementNamespaceURI");
     ValueEnforcer.notEmpty (sRootElementLocalName, "RootElementLocalName");
     ValueEnforcer.notEmpty (sName, "Name");
+    ValueEnforcer.notEmpty (sVersion, "Version");
     ValueEnforcer.notEmptyNoNullValue (aGetters, "Getters");
 
     m_sID = sID;
     m_sRootElementNamespaceURI = sRootElementNamespaceURI;
     m_sRootElementLocalName = sRootElementLocalName;
     m_sName = sName;
+    m_sVersion = sVersion;
     m_aGetters = aGetters;
   }
 
@@ -97,6 +101,13 @@ public class DDDSyntax implements IHasID <String>, IHasName
     return m_sName;
   }
 
+  @Nonnull
+  @Nonempty
+  public String getVersion ()
+  {
+    return m_sVersion;
+  }
+
   @Nullable
   public String getValue (@Nonnull final EDDDGetterType eGetter,
                           @Nonnull final Node aSourceNode,
@@ -131,6 +142,11 @@ public class DDDSyntax implements IHasID <String>, IHasName
     final IMicroElement eName = eSyntax.getFirstChildElement ("name");
     if (eName == null)
       throw new IllegalArgumentException (sLogPrefix + "Element 'name' is missing");
+
+    // Version
+    final IMicroElement eVersion = eSyntax.getFirstChildElement ("version");
+    if (eVersion == null)
+      throw new IllegalArgumentException (sLogPrefix + "Element 'version' is missing");
 
     // Getters
     final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> aGetters = new CommonsHashMap <> ();
@@ -178,6 +194,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
                           eSyntax.getAttributeValue ("nsuri"),
                           eSyntax.getAttributeValue ("root"),
                           eName.getTextContentTrimmed (),
+                          eVersion.getTextContentTrimmed (),
                           aGetters);
   }
 }

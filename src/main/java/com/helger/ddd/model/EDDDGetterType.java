@@ -34,11 +34,11 @@ public enum EDDDGetterType implements IHasID <String>, IMandatoryIndicator
 {
   CUSTOMIZATION_ID ("CustomizationID", EMandatory.MANDATORY),
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
+  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.MANDATORY),
   SENDER_ID_VALUE ("SenderIDValue", EMandatory.MANDATORY),
   RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
   RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
-  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY);
 

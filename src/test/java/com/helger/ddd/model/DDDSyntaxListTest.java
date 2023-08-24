@@ -61,24 +61,30 @@ public final class DDDSyntaxListTest
   {
     final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
 
+    // For all syntaxes
     for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
     {
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
+
+      // Search for positive cases for the current syntax
       for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
                                                                                                                     .withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
-        LOGGER.info ("Reading " + f.toString ());
+        LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
 
+        // Read as XML
         final Document aDoc = DOMReader.readXMLDOM (f);
         assertNotNull (aDoc);
 
+        // Test all getters
         final ErrorList aErrorList = new ErrorList ();
         for (final EDDDGetterType eGetter : EDDDGetterType.values ())
         {
           final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
           if (eGetter.isMandatory ())
             assertNotNull ("Getter " + eGetter + " failed on " + f + "\n" + aErrorList.getAllErrors (), sValue);
-          LOGGER.info ("  " + eGetter + " --> " + sValue);
+          if (false)
+            LOGGER.info ("  " + eGetter + " --> " + sValue);
         }
       }
     }

@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +57,6 @@ public final class DDDSyntaxListTest
   }
 
   @Test
-  @Ignore
   public void testAllTestfile ()
   {
     final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
@@ -76,11 +74,12 @@ public final class DDDSyntaxListTest
 
         final ErrorList aErrorList = new ErrorList ();
         for (final EDDDGetterType eGetter : EDDDGetterType.values ())
+        {
+          final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
           if (eGetter.isMandatory ())
-          {
-            final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
-            assertNotNull ("Getter " + eGetter + " failed on " + f, sValue);
-          }
+            assertNotNull ("Getter " + eGetter + " failed on " + f + "\n" + aErrorList.getAllErrors (), sValue);
+          LOGGER.info ("  " + eGetter + " --> " + sValue);
+        }
       }
     }
   }

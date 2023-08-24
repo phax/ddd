@@ -18,10 +18,10 @@ package com.helger.ddd.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.xpath.XPathEvaluationResult;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathNodes;
 
 import org.w3c.dom.Node;
 
@@ -65,11 +65,25 @@ public class DDDGetterXPath implements IDDDGetter
 
     try
     {
-      final XPathEvaluationResult <?> aRes = m_aXPathExpr.evaluateExpression (new DOMSource (aSourceNode));
+      final XPathEvaluationResult <?> aRes = m_aXPathExpr.evaluateExpression (aSourceNode);
       switch (aRes.type ())
       {
         case STRING:
           return String.class.cast (aRes.value ());
+        case NODESET:
+          final XPathNodes aNL = XPathNodes.class.cast (aRes.value ());
+          final int nSize = aNL.size ();
+          if (nSize == 1)
+            return aNL.get (0).getNodeValue ();
+          aErrorList.add (SingleError.builderError ()
+                                     .errorText ("The XPath expression '" +
+                                                 m_sXPath +
+                                                 "' returned " +
+                                                 (nSize == 0 ? "an empty NodeSet" : "a NodeSet with " +
+                                                                                    nSize +
+                                                                                    " elements"))
+                                     .build ());
+          break;
         default:
           aErrorList.add (SingleError.builderError ()
                                      .errorText ("The XPath expression '" +

@@ -14,21 +14,21 @@ import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
 
-public class DDDSetterList
+public class DDDValueProviderList
 {
-  public static final IReadableResource DEFAULT_VESID_LIST_RES = new ClassPathResource ("ddd/vesids.xml",
-                                                                                        DDDSetterList.class.getClassLoader ());
+  public static final IReadableResource DEFAULT_VALUE_PROVIDER_LIST_RES = new ClassPathResource ("ddd/value-providers.xml",
+                                                                                                 DDDValueProviderList.class.getClassLoader ());
 
   private final LocalDate m_aLastMod;
-  private final ICommonsMap <String, DDDSettersPerSyntax> m_aSettersPerSyntaxes;
+  private final ICommonsMap <String, DDDValueProviderPerSyntax> m_aVPPerSyntaxes;
 
-  public DDDSetterList (@Nonnull final LocalDate aLastMod,
-                        @Nonnull final ICommonsMap <String, DDDSettersPerSyntax> aSyntaxes)
+  public DDDValueProviderList (@Nonnull final LocalDate aLastMod,
+                               @Nonnull final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes)
   {
     ValueEnforcer.notNull (aLastMod, "LastMod");
     ValueEnforcer.notNull (aSyntaxes, "Syntaxes");
     m_aLastMod = aLastMod;
-    m_aSettersPerSyntaxes = aSyntaxes;
+    m_aVPPerSyntaxes = aSyntaxes;
   }
 
   @Nonnull
@@ -38,19 +38,19 @@ public class DDDSetterList
   }
 
   @Nonnull
-  public ICommonsMap <String, DDDSettersPerSyntax> getAllSettersPerSyntaxes ()
+  public ICommonsMap <String, DDDValueProviderPerSyntax> getAllValueProvidersPerSyntaxes ()
   {
-    return m_aSettersPerSyntaxes.getClone ();
+    return m_aVPPerSyntaxes.getClone ();
   }
 
   @Nullable
-  public DDDSettersPerSyntax getSettersPerSyntax (@Nullable final String sSyntaxID)
+  public DDDValueProviderPerSyntax getValueProviderPerSyntax (@Nullable final String sSyntaxID)
   {
-    return m_aSettersPerSyntaxes.get (sSyntaxID);
+    return m_aVPPerSyntaxes.get (sSyntaxID);
   }
 
   @Nonnull
-  public static DDDSetterList read (@Nonnull final IReadableResource aRes)
+  public static DDDValueProviderList read (@Nonnull final IReadableResource aRes)
   {
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
     if (aDoc == null)
@@ -60,10 +60,10 @@ public class DDDSetterList
     if (aLastMod == null)
       throw new IllegalArgumentException ("The DDD syntax list is missing a valid 'lastmod' attribute");
 
-    final ICommonsMap <String, DDDSettersPerSyntax> aSyntaxes = new CommonsHashMap <> ();
+    final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes = new CommonsHashMap <> ();
     for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
     {
-      final DDDSettersPerSyntax aVesidPerSyntax = DDDSettersPerSyntax.readFromXML (eSyntax);
+      final DDDValueProviderPerSyntax aVesidPerSyntax = DDDValueProviderPerSyntax.readFromXML (eSyntax);
       if (aSyntaxes.containsKey (aVesidPerSyntax.getSyntaxID ()))
         throw new IllegalStateException ("Another DDD syntax with ID '" +
                                          aVesidPerSyntax.getSyntaxID () +
@@ -71,6 +71,6 @@ public class DDDSetterList
 
       aSyntaxes.put (aVesidPerSyntax.getSyntaxID (), aVesidPerSyntax);
     }
-    return new DDDSetterList (aLastMod, aSyntaxes);
+    return new DDDValueProviderList (aLastMod, aSyntaxes);
   }
 }

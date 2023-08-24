@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.helger.commons.collection.impl.ICommonsMap;
 
 /**
- * Test class for class {@link DDDSetterList}.
+ * Test class for class {@link DDDValueProviderList}.
  *
  * @author Philip Helger
  */
@@ -17,12 +17,12 @@ public final class DDDSetterListTest
   @Test
   public void testBasic ()
   {
-    final DDDSetterList aList = DDDSetterList.read (DDDSetterList.DEFAULT_VESID_LIST_RES);
+    final DDDValueProviderList aList = DDDValueProviderList.read (DDDValueProviderList.DEFAULT_VALUE_PROVIDER_LIST_RES);
     assertNotNull (aList);
 
     assertNotNull (aList.getLastModification ());
 
-    final ICommonsMap <String, DDDSettersPerSyntax> aMap = aList.getAllSettersPerSyntaxes ();
+    final ICommonsMap <String, DDDValueProviderPerSyntax> aMap = aList.getAllValueProvidersPerSyntaxes ();
     assertEquals (3, aMap.size ());
     assertNotNull (aMap.get ("ubl21-invoice"));
     assertNotNull (aMap.get ("ubl21-creditnote"));

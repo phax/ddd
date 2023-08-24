@@ -12,13 +12,13 @@ import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.string.StringHelper;
 import com.helger.xml.microdom.IMicroElement;
 
-public class DDDSettersPerSyntax
+public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
   private final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> m_aSelectors;
 
-  public DDDSettersPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
-                              @Nonnull final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
+  public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
+                                    @Nonnull final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
   {
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
     ValueEnforcer.notEmpty (aSelectors, "Selectors");
@@ -34,13 +34,13 @@ public class DDDSettersPerSyntax
   }
 
   @Nonnull
-  public ICommonsMap <EDDDField, String> findAllMatches (@Nonnull final Function <EDDDField, String> fctFieldProvider)
+  public ICommonsMap <EDDDField, String> getAllDeducedValues (@Nonnull final Function <EDDDField, String> aSourceProvider)
   {
     final ICommonsMap <EDDDField, String> ret = new CommonsHashMap <> ();
     for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aEntry : m_aSelectors.entrySet ())
     {
       // Get the source value
-      final String sSourceValue = fctFieldProvider.apply (aEntry.getKey ());
+      final String sSourceValue = aSourceProvider.apply (aEntry.getKey ());
       if (sSourceValue != null)
       {
         // Find all new values, based on source value (e.g. CustomizationID)
@@ -56,7 +56,7 @@ public class DDDSettersPerSyntax
   }
 
   @Nonnull
-  public static DDDSettersPerSyntax readFromXML (@Nonnull final IMicroElement eVesid)
+  public static DDDValueProviderPerSyntax readFromXML (@Nonnull final IMicroElement eVesid)
   {
     final String sSyntaxID = eVesid.getAttributeValue ("id");
     if (StringHelper.hasNoText (sSyntaxID))
@@ -126,6 +126,6 @@ public class DDDSettersPerSyntax
       aMap.put (eSelector, aSelectors);
     }
 
-    return new DDDSettersPerSyntax (sSyntaxID, aMap);
+    return new DDDValueProviderPerSyntax (sSyntaxID, aMap);
   }
 }

@@ -17,7 +17,7 @@
     limitations under the License.
 
 -->
-<setters lastmod="2023-08-24">
+<root lastmod="2023-08-24">
   <syntax id="ubl21-invoice">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
@@ -92,4 +92,4 @@
       </if>
     </select>
   </syntax>
-</setters>
+</root>

@@ -30,10 +30,10 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.error.list.ErrorList;
 import com.helger.commons.string.StringHelper;
-import com.helger.ddd.model.DDDSetterList;
-import com.helger.ddd.model.DDDSettersPerSyntax;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
+import com.helger.ddd.model.DDDValueProviderList;
+import com.helger.ddd.model.DDDValueProviderPerSyntax;
 import com.helger.ddd.model.EDDDField;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
@@ -53,24 +53,25 @@ public final class DocumentDetailsDeterminator
   private static final Logger LOGGER = LoggerFactory.getLogger (DocumentDetailsDeterminator.class);
 
   private final DDDSyntaxList m_aSyntaxList;
-
-  private final DDDSetterList m_aValueProvider;
+  private final DDDValueProviderList m_aValueProviderList;
 
   public DocumentDetailsDeterminator (@Nonnull final DDDSyntaxList aSyntaxList,
-                                      @Nonnull final DDDSetterList aValueProvider)
+                                      @Nonnull final DDDValueProviderList aValueProviderList)
   {
     ValueEnforcer.notNull (aSyntaxList, "SyntaxList");
-    ValueEnforcer.notNull (aValueProvider, "ValueProvider");
+    ValueEnforcer.notNull (aValueProviderList, "ValueProviderList");
     m_aSyntaxList = aSyntaxList;
-    m_aValueProvider = aValueProvider;
+    m_aValueProviderList = aValueProviderList;
   }
 
   @Nonnull
   private static IParticipantIdentifier _createPID (final String sSchemeID, final String sValue)
   {
     // Scheme is e.g. "0088"
-    return SimpleIdentifierFactory.INSTANCE.createParticipantIdentifier (StringHelper.trim (sSchemeID),
-                                                                         StringHelper.trim (sValue));
+    return SimpleIdentifierFactory.INSTANCE.createParticipantIdentifier (PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS,
+                                                                         StringHelper.trim (sSchemeID) +
+                                                                                                                                         ":" +
+                                                                                                                                         StringHelper.trim (sValue));
   }
 
   @Nullable
@@ -144,8 +145,8 @@ public final class DocumentDetailsDeterminator
     };
 
     // Find all setters
-    final DDDSettersPerSyntax aSetters = m_aValueProvider.getSettersPerSyntax (aSyntax.getID ());
-    final ICommonsMap <EDDDField, String> aMatches = aSetters.findAllMatches (fctFieldProvider);
+    final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
+    final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
     for (final Map.Entry <EDDDField, String> aEntry : aMatches.entrySet ())
     {
       final String sNewValue = aEntry.getValue ();

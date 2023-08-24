@@ -7,6 +7,11 @@ import org.junit.Test;
 
 import com.helger.commons.collection.impl.ICommonsMap;
 
+/**
+ * Test class for class {@link DDDSetterList}.
+ *
+ * @author Philip Helger
+ */
 public final class DDDSetterListTest
 {
   @Test

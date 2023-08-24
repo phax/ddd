@@ -1,5 +1,8 @@
 package com.helger.ddd.model;
 
+import java.util.Map;
+import java.util.function.Function;
+
 import javax.annotation.Nonnull;
 
 import com.helger.commons.ValueEnforcer;
@@ -28,6 +31,28 @@ public class DDDSettersPerSyntax
   public String getSyntaxID ()
   {
     return m_sSyntaxID;
+  }
+
+  @Nonnull
+  public ICommonsMap <EDDDField, String> findAllMatches (@Nonnull final Function <EDDDField, String> fctFieldProvider)
+  {
+    final ICommonsMap <EDDDField, String> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aEntry : m_aSelectors.entrySet ())
+    {
+      // Get the source value
+      final String sSourceValue = fctFieldProvider.apply (aEntry.getKey ());
+      if (sSourceValue != null)
+      {
+        // Find all new values, based on source value (e.g. CustomizationID)
+        final ICommonsMap <EDDDField, String> aSetters = aEntry.getValue ().get (sSourceValue);
+        if (aSetters != null)
+        {
+          ret.putAll (aSetters);
+          break;
+        }
+      }
+    }
+    return ret;
   }
 
   @Nonnull

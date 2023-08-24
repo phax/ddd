@@ -183,7 +183,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
     // Check if all mandatory getters are present
     for (final EDDDField eGetter : EDDDField.values ())
-      if (eGetter.isMandatory ())
+      if (eGetter.isSourceMandatory ())
         if (!aGetters.containsKey (eGetter))
           throw new IllegalArgumentException (sLogPrefix +
                                               "The mandatory getter '" +

@@ -23,33 +23,32 @@ import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 import com.helger.commons.state.EMandatory;
-import com.helger.commons.state.IMandatoryIndicator;
 
 /**
  * Defines the supported fields for document determination.
  *
  * @author Philip Helger
  */
-public enum EDDDField implements IHasID <String>, IMandatoryIndicator
+public enum EDDDField implements IHasID <String>
 {
   CUSTOMIZATION_ID ("CustomizationID", EMandatory.MANDATORY),
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
-  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.MANDATORY),
   SENDER_ID_VALUE ("SenderIDValue", EMandatory.MANDATORY),
   RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
   RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
+  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
   VESID ("VESID", EMandatory.OPTIONAL);
 
   private final String m_sID;
-  private final EMandatory m_eMandatory;
+  private final EMandatory m_eSourceMandatory;
 
-  EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eMandatory)
+  EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eSourceMandatory)
   {
     m_sID = sID;
-    m_eMandatory = eMandatory;
+    m_eSourceMandatory = eSourceMandatory;
   }
 
   @Nonnull
@@ -59,9 +58,9 @@ public enum EDDDField implements IHasID <String>, IMandatoryIndicator
     return m_sID;
   }
 
-  public boolean isMandatory ()
+  public boolean isSourceMandatory ()
   {
-    return m_eMandatory.isMandatory ();
+    return m_eSourceMandatory.isMandatory ();
   }
 
   @Nullable

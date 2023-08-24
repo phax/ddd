@@ -3,6 +3,7 @@ package com.helger.ddd.model;
 import java.time.LocalDate;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.collection.impl.CommonsHashMap;
@@ -40,6 +41,12 @@ public class DDDSetterList
   public ICommonsMap <String, DDDSettersPerSyntax> getAllSettersPerSyntaxes ()
   {
     return m_aSettersPerSyntaxes.getClone ();
+  }
+
+  @Nullable
+  public DDDSettersPerSyntax getSettersPerSyntax (@Nullable final String sSyntaxID)
+  {
+    return m_aSettersPerSyntaxes.get (sSyntaxID);
   }
 
   @Nonnull

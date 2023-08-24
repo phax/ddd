@@ -17,7 +17,7 @@ c
     limitations under the License.
 
 -->
-<syntaxes>
+<syntaxes lastmod="2023-08-24">
   <syntax id="ubl21-invoice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
     <name>UBL Invoice</name>
     <version>2.1</version>

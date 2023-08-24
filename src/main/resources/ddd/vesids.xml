@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    Copyright (C) 2023 Philip Helger (www.helger.com)
+    philip[at]helger[dot]com
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+c
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<vesids lastmod="2023-08-24">
+  <syntax id="ubl21-invoice">
+    <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <vesid>eu.peppol.bis3:invoice:latest</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
+        <vesid>de.xrechnung:ubl-invoice:2.0.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
+        <vesid>de.xrechnung:ubl-invoice:2.1.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
+        <vesid>de.xrechnung:ubl-invoice:2.2.0</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
+        <vesid>de.xrechnung:ubl-invoice:2.3.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
+        <vesid>be.ubl:invoice:latest</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
+        <vesid>org.simplerinvoicing:invoice:latest</vesid>
+      </if>
+    </select>
+  </syntax>
+  <syntax id="ubl21-creditnote">
+    <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <vesid>eu.peppol.bis3:creditnote:latest</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
+        <vesid>de.xrechnung:ubl-creditnote:2.0.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
+        <vesid>de.xrechnung:ubl-creditnote:2.1.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
+        <vesid>de.xrechnung:ubl-creditnote:2.2.0</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
+        <vesid>de.xrechnung:ubl-creditnote:2.3.1</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
+        <vesid>be.ubl:credit-note:latest</vesid>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
+        <vesid>org.simplerinvoicing:creditnote:latest</vesid>
+      </if>
+    </select>  
+  </syntax>
+  <syntax id="cii-d16b">
+    <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <vesid>eu.cen.en16931:cii:latest</vesid>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
+        <vesid>de.xrechnung:cii:2.0.1</vesid>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
+        <vesid>de.xrechnung:cii:2.1.1</vesid>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
+        <vesid>de.xrechnung:cii:2.2.0</vesid>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
+        <vesid>de.xrechnung:cii:2.3.1</vesid>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+    </select>  
+  </syntax>
+</vesids>

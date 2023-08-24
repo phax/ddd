@@ -49,17 +49,21 @@ public final class DDDSyntaxListTest
     final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
     assertNotNull (aSL);
 
+    assertNotNull (aSL.getLastModification ());
+
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
     assertEquals (3, aMap.size ());
-    assertTrue (aMap.containsKey ("ubl2-invoice"));
-    assertTrue (aMap.containsKey ("ubl2-creditnote"));
-    assertTrue (aMap.containsKey ("cii"));
+    assertTrue (aMap.containsKey ("ubl21-invoice"));
+    assertTrue (aMap.containsKey ("ubl21-creditnote"));
+    assertTrue (aMap.containsKey ("cii-d16b"));
   }
 
   @Test
   public void testAllTestfile ()
   {
     final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
+
+    int nFilesRead = 0;
 
     // For all syntaxes
     for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
@@ -71,6 +75,7 @@ public final class DDDSyntaxListTest
                                                                                                                     .withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
+        nFilesRead++;
 
         // Read as XML
         final Document aDoc = DOMReader.readXMLDOM (f);
@@ -88,5 +93,7 @@ public final class DDDSyntaxListTest
         }
       }
     }
+
+    assertTrue ("At least the testfiles must have been read", nFilesRead >= 3);
   }
 }

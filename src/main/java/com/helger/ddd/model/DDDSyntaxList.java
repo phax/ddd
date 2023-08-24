@@ -16,6 +16,8 @@
  */
 package com.helger.ddd.model;
 
+import java.time.LocalDate;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -40,12 +42,21 @@ public class DDDSyntaxList
   public static final IReadableResource DEFAULT_SYNTAX_LIST_RES = new ClassPathResource ("ddd/syntaxes.xml",
                                                                                          DDDSyntaxList.class.getClassLoader ());
 
+  private final LocalDate m_aLastMod;
   private final ICommonsMap <String, DDDSyntax> m_aSyntaxes;
 
-  public DDDSyntaxList (@Nonnull final ICommonsMap <String, DDDSyntax> aSyntaxes)
+  public DDDSyntaxList (@Nonnull final LocalDate aLastMod, @Nonnull final ICommonsMap <String, DDDSyntax> aSyntaxes)
   {
+    ValueEnforcer.notNull (aLastMod, "LastMod");
     ValueEnforcer.notNullNoNullValue (aSyntaxes, "Syntaxes");
+    m_aLastMod = aLastMod;
     m_aSyntaxes = aSyntaxes;
+  }
+
+  @Nonnull
+  public LocalDate getLastModification ()
+  {
+    return m_aLastMod;
   }
 
   @Nonnull
@@ -76,6 +87,10 @@ public class DDDSyntaxList
     if (aDoc == null)
       throw new IllegalArgumentException ("Failed to read DDD syntax list");
 
+    final LocalDate aLastMod = aDoc.getDocumentElement ().getAttributeValueWithConversion ("lastmod", LocalDate.class);
+    if (aLastMod == null)
+      throw new IllegalArgumentException ("The DDD syntax list is missing a valid 'lastmod' attribute");
+
     final ICommonsMap <String, DDDSyntax> aSyntaxes = new CommonsHashMap <> ();
     for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
     {
@@ -85,6 +100,6 @@ public class DDDSyntaxList
 
       aSyntaxes.put (aSyntax.getID (), aSyntax);
     }
-    return new DDDSyntaxList (aSyntaxes);
+    return new DDDSyntaxList (aLastMod, aSyntaxes);
   }
 }

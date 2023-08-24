@@ -26,11 +26,11 @@ import com.helger.commons.state.EMandatory;
 import com.helger.commons.state.IMandatoryIndicator;
 
 /**
- * Defines the supported getters for {@link DDDSyntax}
+ * Defines the supported fields for document determination.
  *
  * @author Philip Helger
  */
-public enum EDDDGetterType implements IHasID <String>, IMandatoryIndicator
+public enum EDDDField implements IHasID <String>, IMandatoryIndicator
 {
   CUSTOMIZATION_ID ("CustomizationID", EMandatory.MANDATORY),
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
@@ -40,12 +40,13 @@ public enum EDDDGetterType implements IHasID <String>, IMandatoryIndicator
   RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
   RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
-  RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY);
+  RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
+  VESID ("VESID", EMandatory.OPTIONAL);
 
   private final String m_sID;
   private final EMandatory m_eMandatory;
 
-  EDDDGetterType (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eMandatory)
+  EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eMandatory)
   {
     m_sID = sID;
     m_eMandatory = eMandatory;
@@ -64,8 +65,8 @@ public enum EDDDGetterType implements IHasID <String>, IMandatoryIndicator
   }
 
   @Nullable
-  public static EDDDGetterType getFromIDOrNull (@Nullable final String sID)
+  public static EDDDField getFromIDOrNull (@Nullable final String sID)
   {
-    return EnumHelper.getFromIDOrNull (EDDDGetterType.class, sID);
+    return EnumHelper.getFromIDOrNull (EDDDField.class, sID);
   }
 }

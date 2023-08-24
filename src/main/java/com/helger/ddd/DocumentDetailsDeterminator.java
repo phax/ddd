@@ -28,7 +28,7 @@ import com.helger.commons.error.list.ErrorList;
 import com.helger.commons.string.StringHelper;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
-import com.helger.ddd.model.EDDDGetterType;
+import com.helger.ddd.model.EDDDField;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
@@ -84,18 +84,18 @@ public final class DocumentDetailsDeterminator
     }
 
     final ErrorList aErrorList = new ErrorList ();
-    final String sCustomizationID = aSyntax.getValue (EDDDGetterType.CUSTOMIZATION_ID, aRootElement, aErrorList);
+    final String sCustomizationID = aSyntax.getValue (EDDDField.CUSTOMIZATION_ID, aRootElement, aErrorList);
     // optional
-    final String sProcessID = aSyntax.getValue (EDDDGetterType.PROCESS_ID, aRootElement, aErrorList);
-    final String sBusinessDocumentID = aSyntax.getValue (EDDDGetterType.BUSINESS_DOCUMENT_ID, aRootElement, aErrorList);
-    final String sSenderScheme = aSyntax.getValue (EDDDGetterType.SENDER_ID_SCHEME, aRootElement, aErrorList);
-    final String sSenderValue = aSyntax.getValue (EDDDGetterType.SENDER_ID_VALUE, aRootElement, aErrorList);
+    final String sProcessID = aSyntax.getValue (EDDDField.PROCESS_ID, aRootElement, aErrorList);
+    final String sBusinessDocumentID = aSyntax.getValue (EDDDField.BUSINESS_DOCUMENT_ID, aRootElement, aErrorList);
+    final String sSenderScheme = aSyntax.getValue (EDDDField.SENDER_ID_SCHEME, aRootElement, aErrorList);
+    final String sSenderValue = aSyntax.getValue (EDDDField.SENDER_ID_VALUE, aRootElement, aErrorList);
     IParticipantIdentifier aSenderID = _createPID (sSenderScheme, sSenderValue);
-    final String sReceiverScheme = aSyntax.getValue (EDDDGetterType.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
-    final String sReceiverValue = aSyntax.getValue (EDDDGetterType.RECEIVER_ID_VALUE, aRootElement, aErrorList);
+    final String sReceiverScheme = aSyntax.getValue (EDDDField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
+    final String sReceiverValue = aSyntax.getValue (EDDDField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
     IParticipantIdentifier aReceiverID = _createPID (sReceiverScheme, sReceiverValue);
-    final String sSenderName = aSyntax.getValue (EDDDGetterType.SENDER_NAME, aRootElement, aErrorList);
-    final String sReceiverName = aSyntax.getValue (EDDDGetterType.RECEIVER_NAME, aRootElement, aErrorList);
+    final String sSenderName = aSyntax.getValue (EDDDField.SENDER_NAME, aRootElement, aErrorList);
+    final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
 
     if (aSenderID == null)
     {
@@ -108,6 +108,7 @@ public final class DocumentDetailsDeterminator
       aReceiverID = aFallbackReceiverID;
     }
 
+    // TODO stuff
     final IDocumentTypeIdentifier aDocTypeID = null;
     final IProcessIdentifier aProcessID = null;
     final String sVESID = null;

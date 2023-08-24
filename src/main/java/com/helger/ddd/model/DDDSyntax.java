@@ -44,14 +44,14 @@ public class DDDSyntax implements IHasID <String>, IHasName
   private final String m_sRootElementLocalName;
   private final String m_sName;
   private final String m_sVersion;
-  private final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> m_aGetters;
+  private final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> m_aGetters;
 
   public DDDSyntax (@Nonnull @Nonempty final String sID,
                     @Nonnull @Nonempty final String sRootElementNamespaceURI,
                     @Nonnull @Nonempty final String sRootElementLocalName,
                     @Nonnull @Nonempty final String sName,
                     @Nonnull @Nonempty final String sVersion,
-                    @Nonnull @Nonempty final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> aGetters)
+                    @Nonnull @Nonempty final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> aGetters)
   {
     ValueEnforcer.notEmpty (sID, "ID");
     ValueEnforcer.notEmpty (sRootElementNamespaceURI, "RootElementNamespaceURI");
@@ -109,7 +109,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
   }
 
   @Nullable
-  public String getValue (@Nonnull final EDDDGetterType eGetter,
+  public String getValue (@Nonnull final EDDDField eGetter,
                           @Nonnull final Node aSourceNode,
                           @Nonnull final IErrorList aErrorList)
   {
@@ -149,14 +149,14 @@ public class DDDSyntax implements IHasID <String>, IHasName
       throw new IllegalArgumentException (sLogPrefix + "Element 'version' is missing");
 
     // Getters
-    final ICommonsMap <EDDDGetterType, ICommonsList <IDDDGetter>> aGetters = new CommonsHashMap <> ();
+    final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> aGetters = new CommonsHashMap <> ();
     for (final IMicroElement eGet : eSyntax.getAllChildElements ("get"))
     {
       // Check type
-      final String sID = eGet.getAttributeValue ("id");
-      final EDDDGetterType eGetterType = EDDDGetterType.getFromIDOrNull (sID);
-      if (eGetterType == null)
-        throw new IllegalArgumentException (sLogPrefix + "The getter ID value '" + sID + "' is invalid");
+      final String sFieldID = eGet.getAttributeValue ("id");
+      final EDDDField eGetter = EDDDField.getFromIDOrNull (sFieldID);
+      if (eGetter == null)
+        throw new IllegalArgumentException (sLogPrefix + "The getter ID field '" + sFieldID + "' is invalid");
 
       final ICommonsList <IDDDGetter> aGetterList = new CommonsArrayList <> ();
       for (final IMicroElement eChild : eGet.getAllChildElements ())
@@ -170,19 +170,19 @@ public class DDDSyntax implements IHasID <String>, IHasName
           default:
             throw new IllegalArgumentException (sLogPrefix +
                                                 "The getter '" +
-                                                sID +
+                                                sFieldID +
                                                 "' uses the unsupported type '" +
                                                 sTagName +
                                                 "'");
         }
       }
       if (aGetterList.isEmpty ())
-        throw new IllegalArgumentException (sLogPrefix + "The getter '" + sID + "' contains no actual getter");
-      aGetters.put (eGetterType, aGetterList);
+        throw new IllegalArgumentException (sLogPrefix + "The getter '" + sFieldID + "' contains no actual getter");
+      aGetters.put (eGetter, aGetterList);
     }
 
     // Check if all mandatory getters are present
-    for (final EDDDGetterType eGetter : EDDDGetterType.values ())
+    for (final EDDDField eGetter : EDDDField.values ())
       if (eGetter.isMandatory ())
         if (!aGetters.containsKey (eGetter))
           throw new IllegalArgumentException (sLogPrefix +

@@ -68,7 +68,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 # News and noteworthy
 
-* v1.0.0 - work in progress
+* v0.1.0 - work in progress
     * Initial version
 
 ---

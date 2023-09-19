@@ -25,7 +25,8 @@ import com.helger.commons.lang.EnumHelper;
 import com.helger.commons.state.EMandatory;
 
 /**
- * Defines the supported fields for document determination.
+ * Defines the supported fields for document determination. They are mapped to
+ * different source elements per syntax.
  *
  * @author Philip Helger
  */
@@ -43,12 +44,12 @@ public enum EDDDField implements IHasID <String>
   VESID ("VESID", EMandatory.OPTIONAL);
 
   private final String m_sID;
-  private final EMandatory m_eSourceMandatory;
+  private final EMandatory m_eSyntaxDefinitionMandatory;
 
   EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eSourceMandatory)
   {
     m_sID = sID;
-    m_eSourceMandatory = eSourceMandatory;
+    m_eSyntaxDefinitionMandatory = eSourceMandatory;
   }
 
   @Nonnull
@@ -58,9 +59,9 @@ public enum EDDDField implements IHasID <String>
     return m_sID;
   }
 
-  public boolean isSourceMandatory ()
+  public boolean isSyntaxDefinitionMandatory ()
   {
-    return m_eSourceMandatory.isMandatory ();
+    return m_eSyntaxDefinitionMandatory.isMandatory ();
   }
 
   @Nullable

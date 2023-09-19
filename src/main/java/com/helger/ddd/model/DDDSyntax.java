@@ -68,6 +68,9 @@ public class DDDSyntax implements IHasID <String>, IHasName
     m_aGetters = aGetters;
   }
 
+  /**
+   * @return The ID of the syntax. Neither <code>null</code> nor empty.
+   */
   @Nonnull
   @Nonempty
   public String getID ()
@@ -183,7 +186,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
     // Check if all mandatory getters are present
     for (final EDDDField eGetter : EDDDField.values ())
-      if (eGetter.isSourceMandatory ())
+      if (eGetter.isSyntaxDefinitionMandatory ())
         if (!aGetters.containsKey (eGetter))
           throw new IllegalArgumentException (sLogPrefix +
                                               "The mandatory getter '" +

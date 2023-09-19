@@ -30,8 +30,16 @@ import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
 
+/**
+ * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The
+ * key is the syntax ID. A default mapping is provided as part of the library.
+ * See {@link #createDefaultValueProviderList()}.
+ *
+ * @author Philip Helger
+ */
 public class DDDValueProviderList
 {
+  /** The resource that contains the default value provide list */
   public static final IReadableResource DEFAULT_VALUE_PROVIDER_LIST_RES = new ClassPathResource ("ddd/value-providers.xml",
                                                                                                  DDDValueProviderList.class.getClassLoader ());
 

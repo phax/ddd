@@ -75,5 +75,4 @@ final class XPathHelper
     EXMLParserFeature.SECURE_PROCESSING.applyTo (aXPathFactory, true);
     return aXPathFactory;
   }
-
 }

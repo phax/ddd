@@ -17,6 +17,7 @@
 package com.helger.ddd.model;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import javax.xml.xpath.XPathFactory;
 
 import com.helger.commons.lang.ClassLoaderHelper;
@@ -27,6 +28,7 @@ import com.helger.xml.EXMLParserFeature;
  *
  * @author Philip Helger
  */
+@Immutable
 final class XPathHelper
 {
   static final XPathFactory XPATH_FACTORY;

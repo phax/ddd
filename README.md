@@ -20,8 +20,8 @@ These fields are to be determined differently depending on a syntax (class `DDDS
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes:
-* UBL 2.1 Invoice (ID `ubl21-invoice`)
-* UBL 2.1 Credit Note (ID `ubl21-creditnote`)
+* UBL 2.x Invoice (ID `ubl2-invoice`)
+* UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * CII D16B (ID `cii-d16b`)
 
 And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
@@ -70,7 +70,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 # News and noteworthy
 
 * v0.1.0 - work in progress
-    * Initial version
+    * Initial version supporting the following syntaxes: UBL 2.x Invoice, UBL 2.x Credit Note and CII D16B
 
 ---
 

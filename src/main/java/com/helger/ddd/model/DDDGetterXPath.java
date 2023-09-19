@@ -18,6 +18,7 @@ package com.helger.ddd.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
@@ -36,6 +37,7 @@ import com.helger.commons.string.ToStringGenerator;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DDDGetterXPath implements IDDDGetter
 {
   private final String m_sXPath;

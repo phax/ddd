@@ -133,8 +133,8 @@ public final class DocumentDetailsDeterminator
     final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
     String sVESID = null;
 
-    if (true)
-      aErrorList.getAllFailures ().forEach (x -> LOGGER.warn (x.getAsString (Locale.US)));
+    if (LOGGER.isDebugEnabled ())
+      aErrorList.getAllFailures ().forEach (x -> LOGGER.debug (x.getAsString (Locale.US)));
 
     // Handle fallbacks (if any)
     if (aSenderID == null && m_aFallbackSenderID != null)

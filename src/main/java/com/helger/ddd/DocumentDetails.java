@@ -19,6 +19,7 @@ package com.helger.ddd;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.json.IJsonObject;
 import com.helger.json.JsonObject;
@@ -61,30 +62,70 @@ public class DocumentDetails
     m_sReceiverName = sReceiverName;
   }
 
+  public final boolean hasSenderID ()
+  {
+    return m_aSenderID != null;
+  }
+
+  /**
+   * @return The C1 sender ID. May be <code>null</code>.
+   */
   @Nullable
   public final IParticipantIdentifier getSenderID ()
   {
     return m_aSenderID;
   }
 
+  public final boolean hasReceiverID ()
+  {
+    return m_aReceiverID != null;
+  }
+
+  /**
+   * @return The C4 receiver ID. May be <code>null</code>.
+   */
   @Nullable
   public final IParticipantIdentifier getReceiverID ()
   {
     return m_aReceiverID;
   }
 
+  public final boolean hasDocumentTypeID ()
+  {
+    return m_aDocTypeID != null;
+  }
+
+  /**
+   * @return The document type ID. May be <code>null</code>.
+   */
   @Nullable
   public final IDocumentTypeIdentifier getDocumentTypeID ()
   {
     return m_aDocTypeID;
   }
 
+  public final boolean hasProcessID ()
+  {
+    return m_aProcessID != null;
+  }
+
+  /**
+   * @return The process ID. May be <code>null</code>.
+   */
   @Nullable
   public final IProcessIdentifier getProcessID ()
   {
     return m_aProcessID;
   }
 
+  public final boolean hasVESID ()
+  {
+    return StringHelper.hasText (m_sVESID);
+  }
+
+  /**
+   * @return The VESID for validation. May be <code>null</code>.
+   */
   @Nullable
   public final String getVESID ()
   {
@@ -93,25 +134,46 @@ public class DocumentDetails
 
   public final boolean areAllKeyFieldsPresent ()
   {
-    return m_aSenderID != null &&
-           m_aReceiverID != null &&
-           m_aDocTypeID != null &&
-           m_aProcessID != null &&
-           m_sVESID != null;
+    return hasSenderID () && hasReceiverID () && hasDocumentTypeID () && hasProcessID () && hasVESID ();
   }
 
+  public final boolean hasBusinessDocumentID ()
+  {
+    return StringHelper.hasText (m_sBusinessDocumentID);
+  }
+
+  /**
+   * @return The business document ID (e.g. Invoice number). May be
+   *         <code>null</code>.
+   */
   @Nullable
   public final String getBusinessDocumentID ()
   {
     return m_sBusinessDocumentID;
   }
 
+  public final boolean hasSenderName ()
+  {
+    return StringHelper.hasText (m_sSenderName);
+  }
+
+  /**
+   * @return The human readable sender name. May be <code>null</code>.
+   */
   @Nullable
   public final String getSenderName ()
   {
     return m_sSenderName;
   }
 
+  public final boolean hasReceiverName ()
+  {
+    return StringHelper.hasText (m_sReceiverName);
+  }
+
+  /**
+   * @return The human readable receiver name. May be <code>null</code>.
+   */
   @Nullable
   public final String getReceiverName ()
   {

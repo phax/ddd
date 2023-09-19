@@ -69,7 +69,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 # News and noteworthy
 
-* v0.1.0 - work in progress
+* v0.1.0 - 2023-09-19
     * Initial version supporting the following syntaxes: UBL 2.x Invoice, UBL 2.x Credit Note and CII D16B
 
 ---

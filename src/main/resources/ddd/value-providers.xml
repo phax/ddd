@@ -18,7 +18,7 @@
 
 -->
 <root lastmod="2023-08-24">
-  <syntax id="ubl21-invoice">
+  <syntax id="ubl2-invoice">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="VESID">eu.peppol.bis3:invoice:latest</set>
@@ -43,7 +43,7 @@
       </if>
     </select>
   </syntax>
-  <syntax id="ubl21-creditnote">
+  <syntax id="ubl2-creditnote">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="VESID">eu.peppol.bis3:creditnote:latest</set>

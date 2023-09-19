@@ -178,6 +178,12 @@ public final class DocumentDetailsDeterminator
 
     // Find all setters for the missing values
     final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
+    if (aValueProvider == null)
+    {
+      LOGGER.error ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
+      return null;
+    }
+
     final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
     for (final Map.Entry <EDDDField, String> aEntry : aMatches.entrySet ())
     {

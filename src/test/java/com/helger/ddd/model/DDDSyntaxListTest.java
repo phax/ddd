@@ -53,8 +53,8 @@ public final class DDDSyntaxListTest
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
     assertEquals (3, aMap.size ());
-    assertTrue (aMap.containsKey ("ubl21-invoice"));
-    assertTrue (aMap.containsKey ("ubl21-creditnote"));
+    assertTrue (aMap.containsKey ("ubl2-invoice"));
+    assertTrue (aMap.containsKey ("ubl2-creditnote"));
     assertTrue (aMap.containsKey ("cii-d16b"));
   }
 

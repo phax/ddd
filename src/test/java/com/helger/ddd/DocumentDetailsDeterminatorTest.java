@@ -42,7 +42,7 @@ public final class DocumentDetailsDeterminatorTest
                                                                               DDDValueProviderList.createDefaultValueProviderList ());
 
     // Read the document to be identified
-    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl21-invoice/good/base-example.xml"));
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/base-example.xml"));
     assertNotNull (aDoc);
 
     // Main determination

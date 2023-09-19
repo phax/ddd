@@ -18,9 +18,9 @@
 
 -->
 <syntaxes lastmod="2023-08-24">
-  <syntax id="ubl21-invoice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
+  <syntax id="ubl2-invoice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
     <name>UBL Invoice</name>
-    <version>2.1</version>
+    <version>2.x</version>
     <get id="CustomizationID">
       <xpath>*[local-name()='CustomizationID']/text()</xpath>
     </get>
@@ -49,9 +49,9 @@
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
-  <syntax id="ubl21-creditnote" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
+  <syntax id="ubl2-creditnote" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
     <name>UBL Credit Note</name>
-    <version>2.1</version>
+    <version>2.x</version>
     <get id="CustomizationID">
       <xpath>*[local-name()='CustomizationID']/text()</xpath>
     </get>

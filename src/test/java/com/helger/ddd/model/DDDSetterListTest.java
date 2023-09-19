@@ -40,8 +40,8 @@ public final class DDDSetterListTest
 
     final ICommonsMap <String, DDDValueProviderPerSyntax> aMap = aList.getAllValueProvidersPerSyntaxes ();
     assertEquals (3, aMap.size ());
-    assertNotNull (aMap.get ("ubl21-invoice"));
-    assertNotNull (aMap.get ("ubl21-creditnote"));
+    assertNotNull (aMap.get ("ubl2-invoice"));
+    assertNotNull (aMap.get ("ubl2-creditnote"));
     assertNotNull (aMap.get ("cii-d16b"));
   }
 }

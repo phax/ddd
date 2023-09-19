@@ -28,7 +28,7 @@ import com.helger.commons.collection.impl.ICommonsMap;
  *
  * @author Philip Helger
  */
-public final class DDDSetterListTest
+public final class DDDValueProviderListTest
 {
   @Test
   public void testBasic ()

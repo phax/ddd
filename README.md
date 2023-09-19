@@ -16,7 +16,7 @@ A set of relevant fields for business document is defined. Per version 1.0 these
 * Sender Name
 * Receiver Name
 
-These fields are to be determined differently depending on a syntax (class `DDDSyntax).
+These fields are to be determined differently depending on a syntax (class `DDDSyntax`).
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes:
@@ -24,7 +24,8 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * CII D16B (ID `cii-d16b`)
 
-And finally certain (missing) values can be deduced based on other values. The deducible values are currently:
+And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
+The deducible values are currently:
 * Process ID (especially for CII based syntaxes)
 * VESID (for selecting the correct validation rules)
 

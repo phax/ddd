@@ -40,6 +40,10 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.3.1</set>
       </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">de.xrechnung:ubl-invoice:3.0.0</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:invoice:latest</set>
@@ -72,6 +76,10 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.3.1</set>
       </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">de.xrechnung:ubl-creditnote:3.0.0</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:credit-note:latest</set>
@@ -102,6 +110,10 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
         <set id="VESID">de.xrechnung:cii:2.3.1</set>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
+        <set id="VESID">de.xrechnung:cii:3.0.0</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
       </if>
     </select>

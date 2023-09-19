@@ -18,12 +18,12 @@ package com.helger.ddd.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.xml.xpath.XPathEvaluationResult;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathNodes;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
@@ -65,35 +65,18 @@ public class DDDGetterXPath implements IDDDGetter
 
     try
     {
-      final XPathEvaluationResult <?> aRes = m_aXPathExpr.evaluateExpression (aSourceNode);
-      switch (aRes.type ())
-      {
-        case STRING:
-          return String.class.cast (aRes.value ());
-        case NODESET:
-          final XPathNodes aNL = XPathNodes.class.cast (aRes.value ());
-          final int nSize = aNL.size ();
-          if (nSize == 1)
-            return aNL.get (0).getNodeValue ();
-          aErrorList.add (SingleError.builderError ()
-                                     .errorText ("The XPath expression '" +
-                                                 m_sXPath +
-                                                 "' returned " +
-                                                 (nSize == 0 ? "an empty NodeSet" : "a NodeSet with " +
-                                                                                    nSize +
-                                                                                    " elements"))
-                                     .build ());
-          break;
-        default:
-          aErrorList.add (SingleError.builderError ()
-                                     .errorText ("The XPath expression '" +
-                                                 m_sXPath +
-                                                 "' returned the unsupported type '" +
-                                                 aRes.type () +
-                                                 "'")
-                                     .build ());
-          break;
-      }
+      final NodeList aNL = (NodeList) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.NODESET);
+      final int nSize = aNL.getLength ();
+      if (nSize == 1)
+        return aNL.item (0).getNodeValue ();
+      aErrorList.add (SingleError.builderError ()
+                                 .errorText ("The XPath expression '" +
+                                             m_sXPath +
+                                             "' returned " +
+                                             (nSize == 0 ? "an empty NodeSet" : "a NodeSet with " +
+                                                                                nSize +
+                                                                                " elements"))
+                                 .build ());
     }
     catch (final Exception ex)
     {

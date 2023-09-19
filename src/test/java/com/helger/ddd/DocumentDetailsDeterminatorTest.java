@@ -46,7 +46,7 @@ public final class DocumentDetailsDeterminatorTest
     assertNotNull (aDoc);
 
     // Main determination
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement (), null, null);
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
     assertNotNull (aDD);
 
     assertEquals ("Snippet1", aDD.getBusinessDocumentID ());

@@ -16,6 +16,7 @@
  */
 package com.helger.ddd;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -54,6 +55,8 @@ public final class DocumentDetailsDeterminator
 
   private final DDDSyntaxList m_aSyntaxList;
   private final DDDValueProviderList m_aValueProviderList;
+  private IParticipantIdentifier m_aFallbackSenderID;
+  private IParticipantIdentifier m_aFallbackReceiverID;
 
   public DocumentDetailsDeterminator (@Nonnull final DDDSyntaxList aSyntaxList,
                                       @Nonnull final DDDValueProviderList aValueProviderList)
@@ -62,6 +65,32 @@ public final class DocumentDetailsDeterminator
     ValueEnforcer.notNull (aValueProviderList, "ValueProviderList");
     m_aSyntaxList = aSyntaxList;
     m_aValueProviderList = aValueProviderList;
+  }
+
+  @Nullable
+  public IParticipantIdentifier getFallbackSenderID ()
+  {
+    return m_aFallbackSenderID;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setFallbackSenderID (@Nullable final IParticipantIdentifier aFallbackSenderID)
+  {
+    m_aFallbackSenderID = aFallbackSenderID;
+    return this;
+  }
+
+  @Nullable
+  public IParticipantIdentifier getFallbackReceiverID ()
+  {
+    return m_aFallbackReceiverID;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setFallbackReceiverID (@Nullable final IParticipantIdentifier aFallbackReceiverID)
+  {
+    m_aFallbackReceiverID = aFallbackReceiverID;
+    return this;
   }
 
   @Nonnull
@@ -75,9 +104,7 @@ public final class DocumentDetailsDeterminator
   }
 
   @Nullable
-  public DocumentDetails findDocumentDetails (@Nonnull final Element aRootElement,
-                                              @Nullable final IParticipantIdentifier aFallbackSenderID,
-                                              @Nullable final IParticipantIdentifier aFallbackReceiverID)
+  public DocumentDetails findDocumentDetails (@Nonnull final Element aRootElement)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
@@ -106,16 +133,19 @@ public final class DocumentDetailsDeterminator
     final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
     String sVESID = null;
 
+    if (true)
+      aErrorList.getAllFailures ().forEach (x -> LOGGER.warn (x.getAsString (Locale.US)));
+
     // Handle fallbacks (if any)
-    if (aSenderID == null)
+    if (aSenderID == null && m_aFallbackSenderID != null)
     {
-      LOGGER.warn ("Falling back to the default sender ID " + aFallbackSenderID);
-      aSenderID = aFallbackSenderID;
+      LOGGER.warn ("Falling back to the default sender ID " + m_aFallbackSenderID);
+      aSenderID = m_aFallbackSenderID;
     }
-    if (aReceiverID == null)
+    if (aReceiverID == null && m_aFallbackReceiverID != null)
     {
-      LOGGER.warn ("Falling back to the default receiver ID " + aFallbackSenderID);
-      aReceiverID = aFallbackReceiverID;
+      LOGGER.warn ("Falling back to the default receiver ID " + m_aFallbackReceiverID);
+      aReceiverID = m_aFallbackReceiverID;
     }
 
     // Source value provider

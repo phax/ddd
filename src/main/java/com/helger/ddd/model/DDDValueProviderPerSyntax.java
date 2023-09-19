@@ -28,11 +28,27 @@ import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.string.StringHelper;
 import com.helger.xml.microdom.IMicroElement;
 
+/**
+ * This class contains the logic to identify missing fields based on existing
+ * values. This class is specific per syntax.
+ *
+ * @author Philip Helger
+ */
 public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
   private final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> m_aSelectors;
 
+  /**
+   * Constructor
+   *
+   * @param sSyntaxID
+   *        The syntax this object works on. May neither be <code>null</code>
+   *        nor empty.
+   * @param aSelectors
+   *        Map from (SelectorField) to (Map from (SelectorValue) to (Map from
+   *        (TargetField) to (TargetValue)))
+   */
   public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
                                     @Nonnull final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
   {
@@ -56,7 +72,8 @@ public class DDDValueProviderPerSyntax
     for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aEntry : m_aSelectors.entrySet ())
     {
       // Get the source value
-      final String sSourceValue = aSourceProvider.apply (aEntry.getKey ());
+      final EDDDField eSelector = aEntry.getKey ();
+      final String sSourceValue = aSourceProvider.apply (eSelector);
       if (sSourceValue != null)
       {
         // Find all new values, based on source value (e.g. CustomizationID)
@@ -81,6 +98,7 @@ public class DDDValueProviderPerSyntax
     final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aMap = new CommonsHashMap <> ();
     for (final IMicroElement eSelect : eVesid.getAllChildElements ("select"))
     {
+      // Selector field
       final String sSelectorID = eSelect.getAttributeValue ("id");
       final EDDDField eSelector = EDDDField.getFromIDOrNull (sSelectorID);
       if (eSelector == null)

@@ -17,28 +17,35 @@
     limitations under the License.
 
 -->
-<root lastmod="2023-08-24">
+<root lastmod="2023-09-19">
   <syntax id="ubl2-invoice">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:invoice:latest</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.0.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.1.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.2.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.3.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:invoice:latest</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.simplerinvoicing:invoice:latest</set>
       </if>
     </select>
@@ -46,24 +53,31 @@
   <syntax id="ubl2-creditnote">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote:latest</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.0.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.1.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.2.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.3.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:credit-note:latest</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
+        <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.simplerinvoicing:creditnote:latest</set>
       </if>
     </select>

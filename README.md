@@ -20,14 +20,15 @@ These fields are to be determined differently depending on a syntax (class `DDDS
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes:
-* UBL 2.x Invoice (ID `ubl2-invoice`)
-* UBL 2.x Credit Note (ID `ubl2-creditnote`)
+* UBL 2.1 Invoice (ID `ubl21-invoice`)
+* UBL 2.1 Credit Note (ID `ubl21-creditnote`)
 * CII D16B (ID `cii-d16b`)
 
 And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently:
 * Process ID (especially for CII based syntaxes)
 * VESID (for selecting the correct validation rules)
+* Syntax Version (especially for UBL, where the same namespace URI and local element name is shared)
 
 # How to use it
 

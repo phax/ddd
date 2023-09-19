@@ -19,6 +19,7 @@ package com.helger.ddd;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.string.ToStringGenerator;
 import com.helger.json.IJsonObject;
 import com.helger.json.JsonObject;
 import com.helger.peppolid.IDocumentTypeIdentifier;
@@ -131,4 +132,19 @@ public class DocumentDetails
     ret.add ("receivername", m_sReceiverName);
     return ret;
   }
+
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (null).append ("SenderID", m_aSenderID)
+                                       .append ("ReceiverID", m_aReceiverID)
+                                       .append ("DocTypeID", m_aDocTypeID)
+                                       .append ("ProcessID", m_aProcessID)
+                                       .append ("VESID", m_sVESID)
+                                       .append ("BusinessDocumentID", m_sBusinessDocumentID)
+                                       .append ("SenderName", m_sSenderName)
+                                       .append ("ReceiverName", m_sReceiverName)
+                                       .getToString ();
+  }
+
 }

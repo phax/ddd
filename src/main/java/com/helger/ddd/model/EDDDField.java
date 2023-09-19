@@ -41,6 +41,7 @@ public enum EDDDField implements IHasID <String>
   BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
+  SYNTAX_VERSION ("SyntaxVersion", EMandatory.OPTIONAL),
   VESID ("VESID", EMandatory.OPTIONAL);
 
   private final String m_sID;

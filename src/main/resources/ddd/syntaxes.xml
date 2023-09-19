@@ -19,8 +19,8 @@
 -->
 <syntaxes lastmod="2023-08-24">
   <syntax id="ubl2-invoice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
-    <name>UBL Invoice</name>
-    <version>2.x</version>
+    <name>UBL 2.x Invoice</name>
+    <!-- no version, because it can be 2.* -->
     <get id="CustomizationID">
       <xpath>*[local-name()='CustomizationID']/text()</xpath>
     </get>
@@ -50,8 +50,8 @@
     </get>
   </syntax>
   <syntax id="ubl2-creditnote" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
-    <name>UBL Credit Note</name>
-    <version>2.x</version>
+    <name>UBL 2.x Credit Note</name>
+    <!-- no version, because it can be 2.* -->
     <get id="CustomizationID">
       <xpath>*[local-name()='CustomizationID']/text()</xpath>
     </get>

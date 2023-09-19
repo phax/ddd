@@ -57,6 +57,8 @@ public final class DocumentDetailsDeterminator
   private final DDDValueProviderList m_aValueProviderList;
   private IParticipantIdentifier m_aFallbackSenderID;
   private IParticipantIdentifier m_aFallbackReceiverID;
+  private String m_sDocTypeIDScheme = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
+  private String m_sProcessIDScheme = PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL;
 
   public DocumentDetailsDeterminator (@Nonnull final DDDSyntaxList aSyntaxList,
                                       @Nonnull final DDDValueProviderList aValueProviderList)
@@ -90,6 +92,32 @@ public final class DocumentDetailsDeterminator
   public DocumentDetailsDeterminator setFallbackReceiverID (@Nullable final IParticipantIdentifier aFallbackReceiverID)
   {
     m_aFallbackReceiverID = aFallbackReceiverID;
+    return this;
+  }
+
+  @Nullable
+  public String getDocTypeIDScheme ()
+  {
+    return m_sDocTypeIDScheme;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setDocTypeIDScheme (@Nullable final String sDocTypeIDScheme)
+  {
+    m_sDocTypeIDScheme = sDocTypeIDScheme;
+    return this;
+  }
+
+  @Nullable
+  public String getProcessIDScheme ()
+  {
+    return m_sProcessIDScheme;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setProcessIDScheme (@Nullable final String sProcessIDScheme)
+  {
+    m_sProcessIDScheme = sProcessIDScheme;
     return this;
   }
 
@@ -131,6 +159,8 @@ public final class DocumentDetailsDeterminator
     final String sBusinessDocumentID = aSyntax.getValue (EDDDField.BUSINESS_DOCUMENT_ID, aRootElement, aErrorList);
     final String sSenderName = aSyntax.getValue (EDDDField.SENDER_NAME, aRootElement, aErrorList);
     final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
+    // optional value
+    String sSyntaxVersion = aSyntax.getVersion ();
     String sVESID = null;
 
     if (LOGGER.isDebugEnabled ())
@@ -193,6 +223,9 @@ public final class DocumentDetailsDeterminator
         case PROCESS_ID:
           sProcessID = sNewValue;
           break;
+        case SYNTAX_VERSION:
+          sSyntaxVersion = sNewValue;
+          break;
         case VESID:
           sVESID = sNewValue;
           break;
@@ -201,23 +234,23 @@ public final class DocumentDetailsDeterminator
       }
     }
 
+    // Assemble Document Type ID
     final IDocumentTypeIdentifier aDocTypeID;
-    if (StringHelper.hasText (sCustomizationID))
+    if (StringHelper.hasText (sCustomizationID) && StringHelper.hasText (sSyntaxVersion))
     {
       final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aRootElement.getNamespaceURI (),
                                                                             aRootElement.getLocalName (),
                                                                             sCustomizationID,
-                                                                            aSyntax.getVersion ()).getAsDocumentTypeIdentifierValue ();
-      aDocTypeID = SimpleIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS,
-                                                                                  sDocTypeIDValue);
+                                                                            sSyntaxVersion).getAsDocumentTypeIdentifierValue ();
+      aDocTypeID = SimpleIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (m_sDocTypeIDScheme, sDocTypeIDValue);
     }
     else
       aDocTypeID = null;
 
+    // Assemble Process ID
     final IProcessIdentifier aProcessID;
     if (StringHelper.hasText (sProcessID))
-      aProcessID = SimpleIdentifierFactory.INSTANCE.createProcessIdentifier (PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL,
-                                                                             sProcessID);
+      aProcessID = SimpleIdentifierFactory.INSTANCE.createProcessIdentifier (m_sProcessIDScheme, sProcessID);
     else
       aProcessID = null;
 

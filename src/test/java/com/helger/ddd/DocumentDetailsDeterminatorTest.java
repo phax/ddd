@@ -49,9 +49,20 @@ public final class DocumentDetailsDeterminatorTest
     final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
     assertNotNull (aDD);
 
-    assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
+    assertNotNull (aDD.getSenderID ());
     assertEquals ("0088:9482348239847239874", aDD.getSenderID ().getValue ());
+
+    assertNotNull (aDD.getReceiverID ());
     assertEquals ("0002:FR23342", aDD.getReceiverID ().getValue ());
+
+    assertNotNull (aDD.getDocumentTypeID ());
+    assertEquals ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1",
+                  aDD.getDocumentTypeID ().getValue ());
+
+    assertNotNull (aDD.getProcessID ());
+    assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
+
+    assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
     assertEquals ("SupplierTradingName Ltd.", aDD.getSenderName ());
     assertEquals ("BuyerTradingName AS", aDD.getReceiverName ());
     assertEquals ("eu.peppol.bis3:invoice:latest", aDD.getVESID ());

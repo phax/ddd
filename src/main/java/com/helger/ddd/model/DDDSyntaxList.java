@@ -30,6 +30,7 @@ import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
+import com.helger.commons.string.ToStringGenerator;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
@@ -75,6 +76,12 @@ public class DDDSyntaxList
   }
 
   @Nullable
+  public DDDSyntax getSyntaxOfID (@Nullable final String sSyntaxID)
+  {
+    return m_aSyntaxes.get (sSyntaxID);
+  }
+
+  @Nullable
   public DDDSyntax findMatchingSyntax (@Nonnull final Element aRootElement)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
@@ -87,6 +94,14 @@ public class DDDSyntaxList
         return aSyntax;
 
     return null;
+  }
+
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (null).append ("LastModification", m_aLastMod)
+                                       .append ("Syntaxes", m_aSyntaxes)
+                                       .getToString ();
   }
 
   @Nonnull
@@ -105,7 +120,11 @@ public class DDDSyntaxList
     final ICommonsMap <String, DDDSyntax> aSyntaxes = new CommonsHashMap <> ();
     for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
     {
-      final DDDSyntax aSyntax = DDDSyntax.readFromXML (eSyntax);
+      final DDDSyntax aSyntax = DDDSyntax.readFromXML (eSyntax, syntaxID -> {
+        // Resolve previously known syntaxes
+        final DDDSyntax aResolvedSyntax = aSyntaxes.get (syntaxID);
+        return aResolvedSyntax == null ? null : aResolvedSyntax.getAllGetters ();
+      });
       if (aSyntaxes.containsKey (aSyntax.getID ()))
         throw new IllegalStateException ("Another DDD syntax with ID '" + aSyntax.getID () + "' is already contained");
 

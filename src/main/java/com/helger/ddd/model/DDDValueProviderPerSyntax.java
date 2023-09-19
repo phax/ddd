@@ -28,6 +28,7 @@ import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.string.StringHelper;
+import com.helger.commons.string.ToStringGenerator;
 import com.helger.xml.microdom.IMicroElement;
 
 /**
@@ -106,6 +107,14 @@ public class DDDValueProviderPerSyntax
       }
     }
     return ret;
+  }
+
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
+                                       .append ("Selectors", m_aSelectors)
+                                       .getToString ();
   }
 
   @Nonnull

@@ -30,6 +30,7 @@ import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
+import com.helger.commons.string.ToStringGenerator;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
@@ -83,6 +84,14 @@ public class DDDValueProviderList
   public DDDValueProviderPerSyntax getValueProviderPerSyntax (@Nullable final String sSyntaxID)
   {
     return m_aVPPerSyntaxes.get (sSyntaxID);
+  }
+
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (null).append ("LastModification", m_aLastMod)
+                                       .append ("VPPerSyntaxes", m_aVPPerSyntaxes)
+                                       .getToString ();
   }
 
   @Nonnull

@@ -102,4 +102,16 @@ public class DDDSyntaxList
     }
     return new DDDSyntaxList (aLastMod, aSyntaxes);
   }
+
+  /**
+   * @return The syntax list from the default syntax list file. Never
+   *         <code>null</code>.
+   * @see #readFromXML(IReadableResource)
+   * @see #DEFAULT_SYNTAX_LIST_RES
+   */
+  @Nonnull
+  public static DDDSyntaxList createDefaultSyntaxList ()
+  {
+    return readFromXML (DEFAULT_SYNTAX_LIST_RES);
+  }
 }

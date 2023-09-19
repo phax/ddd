@@ -46,7 +46,7 @@ public final class DDDSyntaxListTest
   @Test
   public void testDefault ()
   {
-    final DDDSyntaxList aSL = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
+    final DDDSyntaxList aSL = DDDSyntaxList.createDefaultSyntaxList ();
     assertNotNull (aSL);
 
     assertNotNull (aSL.getLastModification ());

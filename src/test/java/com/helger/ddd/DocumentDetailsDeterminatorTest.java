@@ -37,17 +37,18 @@ public final class DocumentDetailsDeterminatorTest
   @Test
   public void testDiscovery ()
   {
-    final DDDSyntaxList aSyntaxList = DDDSyntaxList.readFromXML (DDDSyntaxList.DEFAULT_SYNTAX_LIST_RES);
-    assertNotNull (aSyntaxList);
-    final DDDValueProviderList aValueProviderList = DDDValueProviderList.read (DDDValueProviderList.DEFAULT_VALUE_PROVIDER_LIST_RES);
-    assertNotNull (aValueProviderList);
+    // The main determinator
+    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.createDefaultSyntaxList (),
+                                                                              DDDValueProviderList.createDefaultValueProviderList ());
 
-    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (aSyntaxList, aValueProviderList);
-
+    // Read the document to be identified
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl21-invoice/good/base-example.xml"));
     assertNotNull (aDoc);
+
+    // Main determination
     final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement (), null, null);
     assertNotNull (aDD);
+
     assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
     assertEquals ("0088:9482348239847239874", aDD.getSenderID ().getValue ());
     assertEquals ("0002:FR23342", aDD.getReceiverID ().getValue ());

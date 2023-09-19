@@ -66,7 +66,7 @@ public class DDDValueProviderList
   }
 
   @Nonnull
-  public static DDDValueProviderList read (@Nonnull final IReadableResource aRes)
+  public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
   {
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
     if (aDoc == null)
@@ -88,5 +88,17 @@ public class DDDValueProviderList
       aSyntaxes.put (aVesidPerSyntax.getSyntaxID (), aVesidPerSyntax);
     }
     return new DDDValueProviderList (aLastMod, aSyntaxes);
+  }
+
+  /**
+   * @return The value provider list from the default file. Never
+   *         <code>null</code>.
+   * @see #readFromXML(IReadableResource)
+   * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
+   */
+  @Nonnull
+  public static DDDValueProviderList createDefaultValueProviderList ()
+  {
+    return readFromXML (DEFAULT_VALUE_PROVIDER_LIST_RES);
   }
 }

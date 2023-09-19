@@ -90,6 +90,7 @@ public final class DocumentDetailsDeterminator
       return null;
     }
 
+    // Get all the values from the source XML
     final ErrorList aErrorList = new ErrorList ();
     final String sCustomizationID = aSyntax.getValue (EDDDField.CUSTOMIZATION_ID, aRootElement, aErrorList);
     // optional
@@ -105,6 +106,7 @@ public final class DocumentDetailsDeterminator
     final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
     String sVESID = null;
 
+    // Handle fallbacks (if any)
     if (aSenderID == null)
     {
       LOGGER.warn ("Falling back to the default sender ID " + aFallbackSenderID);
@@ -144,7 +146,7 @@ public final class DocumentDetailsDeterminator
       }
     };
 
-    // Find all setters
+    // Find all setters for the missing values
     final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
     final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
     for (final Map.Entry <EDDDField, String> aEntry : aMatches.entrySet ())
@@ -163,14 +165,25 @@ public final class DocumentDetailsDeterminator
       }
     }
 
-    final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aRootElement.getNamespaceURI (),
-                                                                          aRootElement.getLocalName (),
-                                                                          sCustomizationID,
-                                                                          aSyntax.getVersion ()).getAsDocumentTypeIdentifierValue ();
-    final IDocumentTypeIdentifier aDocTypeID = SimpleIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS,
-                                                                                                              sDocTypeIDValue);
-    final IProcessIdentifier aProcessID = SimpleIdentifierFactory.INSTANCE.createProcessIdentifier (PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL,
-                                                                                                    sProcessID);
+    final IDocumentTypeIdentifier aDocTypeID;
+    if (StringHelper.hasText (sCustomizationID))
+    {
+      final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aRootElement.getNamespaceURI (),
+                                                                            aRootElement.getLocalName (),
+                                                                            sCustomizationID,
+                                                                            aSyntax.getVersion ()).getAsDocumentTypeIdentifierValue ();
+      aDocTypeID = SimpleIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS,
+                                                                                  sDocTypeIDValue);
+    }
+    else
+      aDocTypeID = null;
+
+    final IProcessIdentifier aProcessID;
+    if (StringHelper.hasText (sProcessID))
+      aProcessID = SimpleIdentifierFactory.INSTANCE.createProcessIdentifier (PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL,
+                                                                             sProcessID);
+    else
+      aProcessID = null;
 
     // All elements are optional
     return new DocumentDetails (aSenderID,

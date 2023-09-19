@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
@@ -56,13 +57,14 @@ public class DDDValueProviderList
   }
 
   @Nonnull
-  public LocalDate getLastModification ()
+  public final LocalDate getLastModification ()
   {
     return m_aLastMod;
   }
 
   @Nonnull
-  public ICommonsMap <String, DDDValueProviderPerSyntax> getAllValueProvidersPerSyntaxes ()
+  @ReturnsMutableCopy
+  public final ICommonsMap <String, DDDValueProviderPerSyntax> getAllValueProvidersPerSyntaxes ()
   {
     return m_aVPPerSyntaxes.getClone ();
   }

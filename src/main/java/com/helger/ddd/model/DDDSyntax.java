@@ -18,11 +18,13 @@ package com.helger.ddd.model;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsList;
@@ -37,6 +39,7 @@ import com.helger.xml.microdom.IMicroElement;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DDDSyntax implements IHasID <String>, IHasName
 {
   private final String m_sID;
@@ -73,21 +76,21 @@ public class DDDSyntax implements IHasID <String>, IHasName
    */
   @Nonnull
   @Nonempty
-  public String getID ()
+  public final String getID ()
   {
     return m_sID;
   }
 
   @Nonnull
   @Nonempty
-  public String getRootElementNamespaceURI ()
+  public final String getRootElementNamespaceURI ()
   {
     return m_sRootElementNamespaceURI;
   }
 
   @Nonnull
   @Nonempty
-  public String getRootElementLocalName ()
+  public final String getRootElementLocalName ()
   {
     return m_sRootElementLocalName;
   }
@@ -99,16 +102,24 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
   @Nonnull
   @Nonempty
-  public String getName ()
+  public final String getName ()
   {
     return m_sName;
   }
 
   @Nonnull
   @Nonempty
-  public String getVersion ()
+  public final String getVersion ()
   {
     return m_sVersion;
+  }
+
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableCopy
+  public final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> getAllGetters ()
+  {
+    return m_aGetters.getClone ();
   }
 
   @Nullable

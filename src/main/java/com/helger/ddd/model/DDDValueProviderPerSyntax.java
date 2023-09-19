@@ -20,9 +20,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.string.StringHelper;
@@ -34,6 +36,7 @@ import com.helger.xml.microdom.IMicroElement;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
@@ -50,7 +53,7 @@ public class DDDValueProviderPerSyntax
    *        (TargetField) to (TargetValue)))
    */
   public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
-                                    @Nonnull final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
+                                    @Nonnull @Nonempty final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
   {
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
     ValueEnforcer.notEmpty (aSelectors, "Selectors");
@@ -60,9 +63,26 @@ public class DDDValueProviderPerSyntax
 
   @Nonnull
   @Nonempty
-  public String getSyntaxID ()
+  public final String getSyntaxID ()
   {
     return m_sSyntaxID;
+  }
+
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableCopy
+  public final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> getAllSelectors ()
+  {
+    // Deep clone
+    final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> e : m_aSelectors.entrySet ())
+    {
+      final ICommonsMap <String, ICommonsMap <EDDDField, String>> ret2 = new CommonsHashMap <> ();
+      for (final Map.Entry <String, ICommonsMap <EDDDField, String>> e2 : e.getValue ().entrySet ())
+        ret2.put (e2.getKey (), e2.getValue ().getClone ());
+      ret.put (e.getKey (), ret2);
+    }
+    return ret;
   }
 
   @Nonnull

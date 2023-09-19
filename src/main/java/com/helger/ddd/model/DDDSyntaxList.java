@@ -54,13 +54,13 @@ public class DDDSyntaxList
   }
 
   @Nonnull
-  public LocalDate getLastModification ()
+  public final LocalDate getLastModification ()
   {
     return m_aLastMod;
   }
 
   @Nonnull
-  public ICommonsMap <String, DDDSyntax> getAllSyntaxes ()
+  public final ICommonsMap <String, DDDSyntax> getAllSyntaxes ()
   {
     return m_aSyntaxes.getClone ();
   }

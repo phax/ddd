@@ -6,7 +6,7 @@ name: Maven deploy Snapshots
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:

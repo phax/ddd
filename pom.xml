@@ -140,8 +140,10 @@
         <configuration>
           <instructions>
             <Automatic-Module-Name>com.helger.ddd</Automatic-Module-Name>
-            <Export-Package>com.helger.ddd.*</Export-Package>
-            <Private-Package>com.helger.ddd.*</Private-Package>
+            <Export-Package>
+              com.helger.ddd.*,
+              com.helger.ddd.model.*
+            </Export-Package>
             <Import-Package>!javax.annotation.*,*</Import-Package>
           </instructions>
         </configuration>

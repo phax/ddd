@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.helger.commons.ValueEnforcer;
@@ -39,8 +41,15 @@ import com.helger.xml.microdom.serialize.MicroReader;
  */
 public class DDDSyntaxList
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (DDDSyntaxList.class);
+
   public static final IReadableResource DEFAULT_SYNTAX_LIST_RES = new ClassPathResource ("ddd/syntaxes.xml",
                                                                                          DDDSyntaxList.class.getClassLoader ());
+
+  private static class SingletonHolder
+  {
+    static final DDDSyntaxList INSTANCE = readFromXML (DEFAULT_SYNTAX_LIST_RES);
+  }
 
   private final LocalDate m_aLastMod;
   private final ICommonsMap <String, DDDSyntax> m_aSyntaxes;
@@ -83,6 +92,8 @@ public class DDDSyntaxList
   @Nonnull
   public static DDDSyntaxList readFromXML (@Nonnull final IReadableResource aRes)
   {
+    LOGGER.info ("Reading DDDSyntaxList from '" + aRes.getPath () + "'");
+
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
     if (aDoc == null)
       throw new IllegalArgumentException ("Failed to read DDD syntax list");
@@ -110,8 +121,8 @@ public class DDDSyntaxList
    * @see #DEFAULT_SYNTAX_LIST_RES
    */
   @Nonnull
-  public static DDDSyntaxList createDefaultSyntaxList ()
+  public static DDDSyntaxList getDefaultSyntaxList ()
   {
-    return readFromXML (DEFAULT_SYNTAX_LIST_RES);
+    return SingletonHolder.INSTANCE;
   }
 }

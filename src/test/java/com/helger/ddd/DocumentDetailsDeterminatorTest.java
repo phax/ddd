@@ -38,8 +38,8 @@ public final class DocumentDetailsDeterminatorTest
   public void testDiscovery ()
   {
     // The main determinator
-    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.createDefaultSyntaxList (),
-                                                                              DDDValueProviderList.createDefaultValueProviderList ());
+    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
+                                                                              DDDValueProviderList.getDefaultValueProviderList ());
 
     // Read the document to be identified
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/base-example.xml"));

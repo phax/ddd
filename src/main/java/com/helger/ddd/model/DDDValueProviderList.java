@@ -21,6 +21,9 @@ import java.time.LocalDate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsHashMap;
@@ -34,15 +37,22 @@ import com.helger.xml.microdom.serialize.MicroReader;
 /**
  * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The
  * key is the syntax ID. A default mapping is provided as part of the library.
- * See {@link #createDefaultValueProviderList()}.
+ * See {@link #getDefaultValueProviderList()}.
  *
  * @author Philip Helger
  */
 public class DDDValueProviderList
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (DDDValueProviderList.class);
+
   /** The resource that contains the default value provide list */
   public static final IReadableResource DEFAULT_VALUE_PROVIDER_LIST_RES = new ClassPathResource ("ddd/value-providers.xml",
                                                                                                  DDDValueProviderList.class.getClassLoader ());
+
+  private static class SingletonHolder
+  {
+    static final DDDValueProviderList INSTANCE = readFromXML (DEFAULT_VALUE_PROVIDER_LIST_RES);
+  }
 
   private final LocalDate m_aLastMod;
   private final ICommonsMap <String, DDDValueProviderPerSyntax> m_aVPPerSyntaxes;
@@ -78,6 +88,8 @@ public class DDDValueProviderList
   @Nonnull
   public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
   {
+    LOGGER.info ("Reading DDDValueProviderList from '" + aRes.getPath () + "'");
+
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
     if (aDoc == null)
       throw new IllegalArgumentException ("Failed to read DDD syntax list");
@@ -107,8 +119,8 @@ public class DDDValueProviderList
    * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
    */
   @Nonnull
-  public static DDDValueProviderList createDefaultValueProviderList ()
+  public static DDDValueProviderList getDefaultValueProviderList ()
   {
-    return readFromXML (DEFAULT_VALUE_PROVIDER_LIST_RES);
+    return SingletonHolder.INSTANCE;
   }
 }

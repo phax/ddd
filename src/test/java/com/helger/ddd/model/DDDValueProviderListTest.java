@@ -33,7 +33,7 @@ public final class DDDValueProviderListTest
   @Test
   public void testBasic ()
   {
-    final DDDValueProviderList aList = DDDValueProviderList.createDefaultValueProviderList ();
+    final DDDValueProviderList aList = DDDValueProviderList.getDefaultValueProviderList ();
     assertNotNull (aList);
 
     assertNotNull (aList.getLastModification ());

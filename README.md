@@ -22,16 +22,17 @@ Each syntax is uniquely determined by the combination of the XML root element na
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
-* UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`)
+* UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`) - added in v0.1.1
 * UBL 2.x Invoice (ID `ubl2-invoice`)
-* UBL 2.x Order (ID `ubl2-order`)
-* UBL 2.x Order Response (ID `ubl2-orderresponse`)
+* UBL 2.x Order (ID `ubl2-order`) - added in v0.1.1
+* UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 
 And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently:
 * Process ID (especially for CII based syntaxes)
 * VESID (for selecting the correct validation rules) - see https://github.com/phax/ph-diver for details
 * Syntax Version (especially for UBL, where the same namespace URI and local element name is shared)
+* Profile Name (mainly to indicate what was found - should be globally unique; added in v0.1.2)
 
 # How to use it
 
@@ -72,11 +73,14 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 # News and noteworthy
 
+* v0.1.2 - 2023-11-13
+    * Added new element `ProfileName`
+    * Extended value provider mapping for "UBL 2.x Order Response"
 * v0.1.1 - 2023-11-13
     * Extended syntax list - added "UBL 2.x Despatch Advice", "UBL 2.x Order" and "UBL 2.x Order Response"
     * Improved customizability of `DocumentDetailsDeterminator`
 * v0.1.0 - 2023-09-19
-    * Initial version supporting the following syntaxes: UBL 2.x Invoice, UBL 2.x Credit Note and CII D16B
+    * Initial version supporting the following syntaxes: "UBL 2.x Invoice", "UBL 2.x Credit Note" and "CII D16B"
 
 ---
 

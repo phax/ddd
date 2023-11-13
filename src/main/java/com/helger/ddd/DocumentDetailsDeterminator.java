@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.xml.namespace.QName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,15 +183,13 @@ public final class DocumentDetailsDeterminator
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
-    m_aInfoHdl.accept ("Searching document details for " + XMLHelper.getQName (aRootElement).toString ());
+    final QName aQName = XMLHelper.getQName (aRootElement);
+    m_aInfoHdl.accept ("Searching document details for " + aQName.toString ());
 
     final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aRootElement);
     if (aSyntax == null)
     {
-      m_aErrorHdl.accept ("Unsupported Document Type syntax {" +
-                          aRootElement.getNamespaceURI () +
-                          "}" +
-                          aRootElement.getLocalName ());
+      m_aErrorHdl.accept ("Unsupported Document Type syntax " + aQName.toString ());
       return null;
     }
 

@@ -18,6 +18,7 @@ package com.helger.ddd;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
@@ -59,6 +60,9 @@ public final class DocumentDetailsDeterminator
   private IParticipantIdentifier m_aFallbackReceiverID;
   private String m_sDocTypeIDScheme = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
   private String m_sProcessIDScheme = PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL;
+  private Consumer <String> m_aInfoHdl = LOGGER::info;
+  private Consumer <String> m_aWarnHdl = LOGGER::warn;
+  private Consumer <String> m_aErrorHdl = LOGGER::error;
 
   public DocumentDetailsDeterminator (@Nonnull final DDDSyntaxList aSyntaxList,
                                       @Nonnull final DDDValueProviderList aValueProviderList)
@@ -122,6 +126,48 @@ public final class DocumentDetailsDeterminator
   }
 
   @Nonnull
+  public Consumer <String> getInfoHdl ()
+  {
+    return m_aInfoHdl;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setInfoHdl (@Nonnull final Consumer <String> aInfoHdl)
+  {
+    ValueEnforcer.notNull (aInfoHdl, "InfoHdl");
+    m_aInfoHdl = aInfoHdl;
+    return this;
+  }
+
+  @Nonnull
+  public Consumer <String> getWarnHdl ()
+  {
+    return m_aWarnHdl;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setWarnHdl (@Nonnull final Consumer <String> aWarnHdl)
+  {
+    ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
+    m_aWarnHdl = aWarnHdl;
+    return this;
+  }
+
+  @Nonnull
+  public Consumer <String> getErrorHdl ()
+  {
+    return m_aErrorHdl;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setErrorHdl (@Nonnull final Consumer <String> aErrorHdl)
+  {
+    ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
+    m_aErrorHdl = aErrorHdl;
+    return this;
+  }
+
+  @Nonnull
   private static IParticipantIdentifier _createPID (final String sSchemeID, final String sValue)
   {
     // Scheme is e.g. "0088"
@@ -136,12 +182,15 @@ public final class DocumentDetailsDeterminator
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
-    LOGGER.info ("Searching document details for " + XMLHelper.getQName (aRootElement).toString ());
+    m_aInfoHdl.accept ("Searching document details for " + XMLHelper.getQName (aRootElement).toString ());
 
     final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aRootElement);
     if (aSyntax == null)
     {
-      LOGGER.error ("Unsupported Document Type syntax");
+      m_aErrorHdl.accept ("Unsupported Document Type syntax {" +
+                          aRootElement.getNamespaceURI () +
+                          "}" +
+                          aRootElement.getLocalName ());
       return null;
     }
 
@@ -169,12 +218,12 @@ public final class DocumentDetailsDeterminator
     // Handle fallbacks (if any)
     if (aSenderID == null && m_aFallbackSenderID != null)
     {
-      LOGGER.warn ("Falling back to the default sender ID " + m_aFallbackSenderID);
+      m_aWarnHdl.accept ("Falling back to the default sender ID " + m_aFallbackSenderID);
       aSenderID = m_aFallbackSenderID;
     }
     if (aReceiverID == null && m_aFallbackReceiverID != null)
     {
-      LOGGER.warn ("Falling back to the default receiver ID " + m_aFallbackReceiverID);
+      m_aWarnHdl.accept ("Falling back to the default receiver ID " + m_aFallbackReceiverID);
       aReceiverID = m_aFallbackReceiverID;
     }
 
@@ -210,7 +259,7 @@ public final class DocumentDetailsDeterminator
     final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
     if (aValueProvider == null)
     {
-      LOGGER.error ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
+      m_aErrorHdl.accept ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
       return null;
     }
 

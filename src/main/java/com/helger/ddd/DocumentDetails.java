@@ -19,6 +19,7 @@ package com.helger.ddd;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.builder.IBuilder;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
@@ -230,10 +231,25 @@ public class DocumentDetails
                                        .getToString ();
   }
 
+  /**
+   * @return A new empty Builder. Never <code>null</code>.
+   */
   @Nonnull
   public static Builder builder ()
   {
     return new Builder ();
+  }
+
+  /**
+   * @param aSource
+   *        The document details source to use. May not be <code>null</code>.
+   * @return A new Builder prefilled with the provided document details. Never
+   *         <code>null</code>.
+   */
+  @Nonnull
+  public static Builder builder (@Nonnull final DocumentDetails aSource)
+  {
+    return new Builder (aSource);
   }
 
   /**
@@ -254,64 +270,80 @@ public class DocumentDetails
     private String m_sReceiverName;
     private String m_sProfileName;
 
+    public Builder ()
+    {}
+
+    public Builder (@Nonnull final DocumentDetails aSource)
+    {
+      ValueEnforcer.notNull (aSource, "Source");
+      senderID (aSource.getSenderID ()).receiverID (aSource.getReceiverID ())
+                                       .documentTypeID (aSource.getDocumentTypeID ())
+                                       .processID (aSource.getProcessID ())
+                                       .vesid (aSource.getVESID ())
+                                       .businessDocumentID (aSource.getBusinessDocumentID ())
+                                       .senderName (aSource.getSenderName ())
+                                       .receiverName (aSource.getReceiverName ())
+                                       .profileName (aSource.getProfileName ());
+    }
+
     @Nonnull
-    public Builder senderID (@Nullable final IParticipantIdentifier a)
+    public final Builder senderID (@Nullable final IParticipantIdentifier a)
     {
       m_aSenderID = a;
       return this;
     }
 
     @Nonnull
-    public Builder receiverID (@Nullable final IParticipantIdentifier a)
+    public final Builder receiverID (@Nullable final IParticipantIdentifier a)
     {
       m_aReceiverID = a;
       return this;
     }
 
     @Nonnull
-    public Builder documentTypeID (@Nullable final IDocumentTypeIdentifier a)
+    public final Builder documentTypeID (@Nullable final IDocumentTypeIdentifier a)
     {
       m_aDocTypeID = a;
       return this;
     }
 
     @Nonnull
-    public Builder processID (@Nullable final IProcessIdentifier a)
+    public final Builder processID (@Nullable final IProcessIdentifier a)
     {
       m_aProcessID = a;
       return this;
     }
 
     @Nonnull
-    public Builder vesid (@Nullable final String s)
+    public final Builder vesid (@Nullable final String s)
     {
       m_sVESID = s;
       return this;
     }
 
     @Nonnull
-    public Builder businessDocumentID (@Nullable final String s)
+    public final Builder businessDocumentID (@Nullable final String s)
     {
       m_sBusinessDocumentID = s;
       return this;
     }
 
     @Nonnull
-    public Builder senderName (@Nullable final String s)
+    public final Builder senderName (@Nullable final String s)
     {
       m_sSenderName = s;
       return this;
     }
 
     @Nonnull
-    public Builder receiverName (@Nullable final String s)
+    public final Builder receiverName (@Nullable final String s)
     {
       m_sReceiverName = s;
       return this;
     }
 
     @Nonnull
-    public Builder profileName (@Nullable final String s)
+    public final Builder profileName (@Nullable final String s)
     {
       m_sProfileName = s;
       return this;

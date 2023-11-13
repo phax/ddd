@@ -19,6 +19,7 @@ package com.helger.ddd;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.builder.IBuilder;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.json.IJsonObject;
@@ -227,5 +228,108 @@ public class DocumentDetails
                                        .append ("ReceiverName", m_sReceiverName)
                                        .append ("ProfileName", m_sProfileName)
                                        .getToString ();
+  }
+
+  @Nonnull
+  public static Builder builder ()
+  {
+    return new Builder ();
+  }
+
+  /**
+   * Builder for {@link DocumentDetails}
+   *
+   * @author Philip Helger
+   * @since 0.1.2
+   */
+  public static class Builder implements IBuilder <DocumentDetails>
+  {
+    private IParticipantIdentifier m_aSenderID;
+    private IParticipantIdentifier m_aReceiverID;
+    private IDocumentTypeIdentifier m_aDocTypeID;
+    private IProcessIdentifier m_aProcessID;
+    private String m_sVESID;
+    private String m_sBusinessDocumentID;
+    private String m_sSenderName;
+    private String m_sReceiverName;
+    private String m_sProfileName;
+
+    @Nonnull
+    public Builder senderID (@Nullable final IParticipantIdentifier a)
+    {
+      m_aSenderID = a;
+      return this;
+    }
+
+    @Nonnull
+    public Builder receiverID (@Nullable final IParticipantIdentifier a)
+    {
+      m_aReceiverID = a;
+      return this;
+    }
+
+    @Nonnull
+    public Builder documentTypeID (@Nullable final IDocumentTypeIdentifier a)
+    {
+      m_aDocTypeID = a;
+      return this;
+    }
+
+    @Nonnull
+    public Builder processID (@Nullable final IProcessIdentifier a)
+    {
+      m_aProcessID = a;
+      return this;
+    }
+
+    @Nonnull
+    public Builder vesid (@Nullable final String s)
+    {
+      m_sVESID = s;
+      return this;
+    }
+
+    @Nonnull
+    public Builder businessDocumentID (@Nullable final String s)
+    {
+      m_sBusinessDocumentID = s;
+      return this;
+    }
+
+    @Nonnull
+    public Builder senderName (@Nullable final String s)
+    {
+      m_sSenderName = s;
+      return this;
+    }
+
+    @Nonnull
+    public Builder receiverName (@Nullable final String s)
+    {
+      m_sReceiverName = s;
+      return this;
+    }
+
+    @Nonnull
+    public Builder profileName (@Nullable final String s)
+    {
+      m_sProfileName = s;
+      return this;
+    }
+
+    @Nonnull
+    public DocumentDetails build ()
+    {
+      // All fields are optional
+      return new DocumentDetails (m_aSenderID,
+                                  m_aReceiverID,
+                                  m_aDocTypeID,
+                                  m_aProcessID,
+                                  m_sVESID,
+                                  m_sBusinessDocumentID,
+                                  m_sSenderName,
+                                  m_sReceiverName,
+                                  m_sProfileName);
+    }
   }
 }

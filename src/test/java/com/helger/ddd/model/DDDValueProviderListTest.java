@@ -39,9 +39,12 @@ public final class DDDValueProviderListTest
     assertNotNull (aList.getLastModification ());
 
     final ICommonsMap <String, DDDValueProviderPerSyntax> aMap = aList.getAllValueProvidersPerSyntaxes ();
-    assertEquals (3, aMap.size ());
-    assertNotNull (aMap.get ("ubl2-invoice"));
-    assertNotNull (aMap.get ("ubl2-creditnote"));
+    assertEquals (6, aMap.size ());
     assertNotNull (aMap.get ("cii-d16b"));
+    assertNotNull (aMap.get ("ubl2-creditnote"));
+    assertNotNull (aMap.get ("ubl2-despatchadvice"));
+    assertNotNull (aMap.get ("ubl2-invoice"));
+    assertNotNull (aMap.get ("ubl2-order"));
+    assertNotNull (aMap.get ("ubl2-orderresponse"));
   }
 }

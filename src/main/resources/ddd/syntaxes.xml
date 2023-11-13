@@ -17,7 +17,36 @@
     limitations under the License.
 
 -->
-<syntaxes lastmod="2023-09-19">
+<syntaxes lastmod="2023-11-13">
+  <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
+    <name>Cross Industry Invoice</name>
+    <version>D16B</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+  </syntax>
+  
   <syntax id="ubl2-creditnote" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
     <name>UBL 2.x Credit Note</name>
     <!-- no version, because it can be 2.* -->
@@ -171,34 +200,6 @@
     </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
-  </syntax>
-  <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
-    <name>Cross Industry Invoice</name>
-    <version>D16B</version>
-    <get id="CustomizationID">
-      <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
-    </get>
-    <get id="SenderIDScheme">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
-    </get>
-    <get id="SenderIDValue">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
-    </get>
-    <get id="ReceiverIDScheme">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
-    </get>
-    <get id="ReceiverIDValue">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
-    </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
-    </get>
-    <get id="ReceiverName">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
 </syntaxes>

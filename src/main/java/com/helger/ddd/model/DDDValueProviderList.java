@@ -97,6 +97,8 @@ public class DDDValueProviderList
   @Nonnull
   public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
   {
+    ValueEnforcer.notNull (aRes, "Resource");
+
     LOGGER.info ("Reading DDDValueProviderList from '" + aRes.getPath () + "'");
 
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);

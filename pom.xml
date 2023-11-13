@@ -25,7 +25,7 @@
     <version>2.0.4</version>
   </parent>
   <artifactId>ddd</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.1</version>
   <packaging>bundle</packaging>
   <name>ddd</name>
   <description>Document Details Determinator library</description>
@@ -44,7 +44,7 @@
     <connection>scm:git:git@github.com:phax/ddd.git</connection>
     <developerConnection>scm:git:git@github.com:phax/ddd.git</developerConnection>
     <url>http://github.com/phax/ddd</url>
-    <tag>HEAD</tag>
+    <tag>ddd-0.1.1</tag>
   </scm>
 
   <organization>

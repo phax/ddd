@@ -76,6 +76,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 * v0.1.2 - 2023-11-13
     * Added new element `ProfileName`
     * Extended value provider mapping for "UBL 2.x Order Response"
+    * Added builder to `DocumentDetails` class
 * v0.1.1 - 2023-11-13
     * Extended syntax list - added "UBL 2.x Despatch Advice", "UBL 2.x Order" and "UBL 2.x Order Response"
     * Improved customizability of `DocumentDetailsDeterminator`

@@ -23,26 +23,32 @@
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="VESID">eu.cen.en16931:cii:latest</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">Peppol BIS Billing CII Invoice V3</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
         <set id="VESID">de.xrechnung:cii:2.0.1</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">XRechnung CII 2.0.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
         <set id="VESID">de.xrechnung:cii:2.1.1</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">XRechnung CII 2.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="VESID">de.xrechnung:cii:2.2.0</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">XRechnung CII 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
         <set id="VESID">de.xrechnung:cii:2.3.1</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">XRechnung CII 2.3.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
         <set id="VESID">de.xrechnung:cii:3.0.0</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">XRechnung CII 3.0.0</set>
       </if>
     </select>
   </syntax>
@@ -52,49 +58,57 @@
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote:latest</set>
+        <set id="ProfileName">Peppol BIS Billing UBL CreditNote V3</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.0.1</set>
+        <set id="ProfileName">XRechnung UBL CreditNote 2.0.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.1.1</set>
+        <set id="ProfileName">XRechnung UBL CreditNote 2.1.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.2.0</set>
+        <set id="ProfileName">XRechnung UBL CreditNote 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.3.1</set>
+        <set id="ProfileName">XRechnung UBL CreditNote 2.3.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:3.0.0</set>
+        <set id="ProfileName">XRechnung UBL CreditNote 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:credit-note:latest</set>
+        <set id="ProfileName">UBL.BE Credit Note 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.simplerinvoicing:creditnote:latest</set>
+        <set id="ProfileName">SI-UBL 2.0 CreditNote</set>
       </if>
     </select>
   </syntax>
   
   <syntax id="ubl2-despatchadvice">
     <select id="CustomizationID">
-      <!-- AGID Peppol Despatch Advice -->
       <if value="urn:fdc:peppol.eu:poacc:trns:despatch_advice:3:extended:urn:www.agid.gov.it:trns:ddt:3.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">it.peppol:despatch-advice:latest</set>
+        <set id="ProfileName">AGID Peppol Despatch Advice</set>
       </if>
-      <!-- Peppol BIS Order -->
       <if value="urn:fdc:peppol.eu:poacc:bis:despatch_advice:3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:despatch-advice:latest</set>
+        <set id="ProfileName">Peppol Despatch Advice transaction V3</set>
       </if>
     </select>
   </syntax>
@@ -104,59 +118,72 @@
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:invoice:latest</set>
+        <set id="ProfileName">Peppol BIS Billing UBL Invoice V3</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.0.1</set>
+        <set id="ProfileName">XRechnung UBL Invoice 2.0.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.1.1</set>
+        <set id="ProfileName">XRechnung UBL Invoice 2.1.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.2.0</set>
+        <set id="ProfileName">XRechnung UBL Invoice 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:2.3.1</set>
+        <set id="ProfileName">XRechnung UBL Invoice 2.3.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-invoice:3.0.0</set>
+        <set id="ProfileName">XRechnung UBL Invoice 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">be.ubl:invoice:latest</set>
+        <set id="ProfileName">UBL.BE Invoice 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.simplerinvoicing:invoice:latest</set>
+        <set id="ProfileName">SI-UBL 2.0 Invoice</set>
       </if>
     </select>
   </syntax>
   
   <syntax id="ubl2-order">
     <select id="CustomizationID">
-      <!-- AGID Peppol Order -->
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">it.peppol:order:latest</set>
+        <set id="ProfileName">AGID Peppol Order</set>
       </if>
       <!-- Peppol BIS Order -->
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:order:latest</set>
+        <set id="ProfileName">Peppol Order transaction V3</set>
       </if>
     </select>
   </syntax>
   
   <syntax id="ubl2-orderresponse">
     <select id="CustomizationID">
-      <!-- AGID Peppol Order Response -->
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3:restrictive:urn:www.agid.gov.it:trns:risposta_ordine:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">it.peppol:order-response:latest</set>
+        <set id="ProfileName">AGID Peppol Order Response</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:order-response:latest</set>
+        <set id="ProfileName">Peppol Order Response transaction V3</set>
       </if>
     </select>
   </syntax>

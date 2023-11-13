@@ -30,7 +30,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently:
 * Process ID (especially for CII based syntaxes)
-* VESID (for selecting the correct validation rules)
+* VESID (for selecting the correct validation rules) - see https://github.com/phax/ph-diver for details
 * Syntax Version (especially for UBL, where the same namespace URI and local element name is shared)
 
 # How to use it
@@ -73,7 +73,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 # News and noteworthy
 
 * v0.1.1 - 2023-11-13
-    * Extended syntax list
+    * Extended syntax list - added "UBL 2.x Despatch Advice", "UBL 2.x Order" and "UBL 2.x Order Response"
     * Improved customizability of `DocumentDetailsDeterminator`
 * v0.1.0 - 2023-09-19
     * Initial version supporting the following syntaxes: UBL 2.x Invoice, UBL 2.x Credit Note and CII D16B

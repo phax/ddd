@@ -66,5 +66,6 @@ public final class DocumentDetailsDeterminatorTest
     assertEquals ("SupplierTradingName Ltd.", aDD.getSenderName ());
     assertEquals ("BuyerTradingName AS", aDD.getReceiverName ());
     assertEquals ("eu.peppol.bis3:invoice:latest", aDD.getVESID ());
+    assertEquals ("Peppol BIS Billing UBL Invoice V3", aDD.getProfileName ());
   }
 }

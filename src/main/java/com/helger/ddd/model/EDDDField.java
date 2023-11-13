@@ -42,7 +42,8 @@ public enum EDDDField implements IHasID <String>
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
   SYNTAX_VERSION ("SyntaxVersion", EMandatory.OPTIONAL),
-  VESID ("VESID", EMandatory.OPTIONAL);
+  VESID ("VESID", EMandatory.OPTIONAL),
+  PROFILE_NAME ("ProfileName", EMandatory.OPTIONAL);
 
   private final String m_sID;
   private final EMandatory m_eSyntaxDefinitionMandatory;

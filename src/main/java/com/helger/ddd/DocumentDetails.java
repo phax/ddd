@@ -42,15 +42,17 @@ public class DocumentDetails
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
   private final String m_sReceiverName;
+  private final String m_sProfileName;
 
-  public DocumentDetails (@Nullable final IParticipantIdentifier aSenderID,
-                          @Nullable final IParticipantIdentifier aReceiverID,
-                          @Nullable final IDocumentTypeIdentifier aDocTypeID,
-                          @Nullable final IProcessIdentifier aProcessID,
-                          @Nullable final String sVESID,
-                          @Nullable final String sBusinessDocumentID,
-                          @Nullable final String sSenderName,
-                          @Nullable final String sReceiverName)
+  protected DocumentDetails (@Nullable final IParticipantIdentifier aSenderID,
+                             @Nullable final IParticipantIdentifier aReceiverID,
+                             @Nullable final IDocumentTypeIdentifier aDocTypeID,
+                             @Nullable final IProcessIdentifier aProcessID,
+                             @Nullable final String sVESID,
+                             @Nullable final String sBusinessDocumentID,
+                             @Nullable final String sSenderName,
+                             @Nullable final String sReceiverName,
+                             @Nullable final String sProfileName)
   {
     m_aSenderID = aSenderID;
     m_aReceiverID = aReceiverID;
@@ -60,6 +62,7 @@ public class DocumentDetails
     m_sBusinessDocumentID = sBusinessDocumentID;
     m_sSenderName = sSenderName;
     m_sReceiverName = sReceiverName;
+    m_sProfileName = sProfileName;
   }
 
   public final boolean hasSenderID ()
@@ -180,6 +183,21 @@ public class DocumentDetails
     return m_sReceiverName;
   }
 
+  public final boolean hasProfileName ()
+  {
+    return StringHelper.hasText (m_sProfileName);
+  }
+
+  /**
+   * @return The human readable name of the profile / document type found. May
+   *         be <code>null</code>.
+   */
+  @Nullable
+  public final String getProfileName ()
+  {
+    return m_sProfileName;
+  }
+
   @Nonnull
   public final IJsonObject getAsJson ()
   {
@@ -192,6 +210,7 @@ public class DocumentDetails
     ret.add ("bdid", m_sBusinessDocumentID);
     ret.add ("sendername", m_sSenderName);
     ret.add ("receivername", m_sReceiverName);
+    ret.add ("profilename", m_sProfileName);
     return ret;
   }
 
@@ -206,7 +225,7 @@ public class DocumentDetails
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)
                                        .append ("ReceiverName", m_sReceiverName)
+                                       .append ("ProfileName", m_sProfileName)
                                        .getToString ();
   }
-
 }

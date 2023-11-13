@@ -277,6 +277,7 @@ public final class DocumentDetailsDeterminator
       return null;
     }
 
+    String sProfileName = null;
     final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
     for (final Map.Entry <EDDDField, String> aEntry : aMatches.entrySet ())
     {
@@ -291,6 +292,9 @@ public final class DocumentDetailsDeterminator
           break;
         case VESID:
           sVESID = sNewValue;
+          break;
+        case PROFILE_NAME:
+          sProfileName = sNewValue;
           break;
         default:
           throw new IllegalStateException ("The field " + aEntry.getKey () + " can currently not be set");
@@ -325,6 +329,7 @@ public final class DocumentDetailsDeterminator
                                 sVESID,
                                 sBusinessDocumentID,
                                 sSenderName,
-                                sReceiverName);
+                                sReceiverName,
+                                sProfileName);
   }
 }

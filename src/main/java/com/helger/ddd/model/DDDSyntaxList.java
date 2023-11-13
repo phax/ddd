@@ -17,6 +17,7 @@
 package com.helger.ddd.model;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
@@ -63,24 +65,47 @@ public class DDDSyntaxList
     m_aSyntaxes = aSyntaxes;
   }
 
+  /**
+   * @return The last modification of the syntax list.
+   */
   @Nonnull
   public final LocalDate getLastModification ()
   {
     return m_aLastMod;
   }
 
+  /**
+   * @return A map with all contained syntaxes. Key is the syntax ID and value
+   *         is the {@link DDDSyntax} object. Never <code>null</code>.
+   */
   @Nonnull
+  @ReturnsMutableCopy
   public final ICommonsMap <String, DDDSyntax> getAllSyntaxes ()
   {
     return m_aSyntaxes.getClone ();
   }
 
+  /**
+   * Find a syntax by ID
+   *
+   * @param sSyntaxID
+   *        The syntax ID to search. May be <code>null</code>.
+   * @return <code>null</code> if no such syntax exists.
+   */
   @Nullable
   public DDDSyntax getSyntaxOfID (@Nullable final String sSyntaxID)
   {
     return m_aSyntaxes.get (sSyntaxID);
   }
 
+  /**
+   * Find a matching syntax based on an XML document root element namespace URI
+   * and local name.
+   *
+   * @param aRootElement
+   *        The root element of an XML document. May not be <code>null</code>.
+   * @return <code>null</code> if no matching syntax was found.
+   */
   @Nullable
   public DDDSyntax findMatchingSyntax (@Nonnull final Element aRootElement)
   {
@@ -143,5 +168,45 @@ public class DDDSyntaxList
   public static DDDSyntaxList getDefaultSyntaxList ()
   {
     return SingletonHolder.INSTANCE;
+  }
+
+  /**
+   * Merge the two syntax lists into a single one. Each syntax must only be
+   * contained in one list to be mergable. Otherwise an exception is thrown.
+   *
+   * @param aSL1
+   *        First syntax list. May not be <code>null</code>.
+   * @param aSL2
+   *        Second syntax list. May not be <code>null</code>.
+   * @return The new merged syntax list. Never <code>null</code>.
+   * @throws IllegalArgumentException
+   *         if the syntaxes are not distinct.
+   */
+  @Nonnull
+  public static DDDSyntaxList createMergedSyntaxList (@Nonnull final DDDSyntaxList aSL1,
+                                                      @Nonnull final DDDSyntaxList aSL2)
+  {
+    ValueEnforcer.notNull (aSL1, "SyntaxList1");
+    ValueEnforcer.notNull (aSL2, "SyntaxList2");
+
+    // find last
+    final LocalDate aLasMod = aSL1.getLastModification ().isAfter (aSL2.getLastModification ()) ? aSL1
+                                                                                                      .getLastModification ()
+                                                                                                : aSL2.getLastModification ();
+
+    final ICommonsMap <String, DDDSyntax> aMergedMap = new CommonsHashMap <> ();
+    for (final Map.Entry <String, DDDSyntax> aEntry1 : aSL1.m_aSyntaxes.entrySet ())
+    {
+      final String sKey = aEntry1.getKey ();
+      if (aSL2.m_aSyntaxes.containsKey (sKey))
+        throw new IllegalArgumentException ("The syntax '" +
+                                            sKey +
+                                            "' is contained in both syntax lists - cannot merge this");
+      aMergedMap.put (sKey, aEntry1.getValue ());
+    }
+    // Must be distinct
+    aMergedMap.putAll (aSL2.m_aSyntaxes);
+
+    return new DDDSyntaxList (aLasMod, aMergedMap);
   }
 }

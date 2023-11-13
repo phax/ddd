@@ -41,6 +41,7 @@ import com.helger.ddd.model.EDDDField;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
+import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
 import com.helger.peppolid.peppol.PeppolIdentifierHelper;
 import com.helger.peppolid.peppol.doctype.PeppolDocumentTypeIdentifierParts;
@@ -57,6 +58,7 @@ public final class DocumentDetailsDeterminator
 
   private final DDDSyntaxList m_aSyntaxList;
   private final DDDValueProviderList m_aValueProviderList;
+  private IIdentifierFactory m_aIF = SimpleIdentifierFactory.INSTANCE;
   private IParticipantIdentifier m_aFallbackSenderID;
   private IParticipantIdentifier m_aFallbackReceiverID;
   private String m_sDocTypeIDScheme = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
@@ -72,6 +74,20 @@ public final class DocumentDetailsDeterminator
     ValueEnforcer.notNull (aValueProviderList, "ValueProviderList");
     m_aSyntaxList = aSyntaxList;
     m_aValueProviderList = aValueProviderList;
+  }
+
+  @Nonnull
+  public IIdentifierFactory getIdentifierFactory ()
+  {
+    return m_aIF;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setIdentifierFactory (@Nullable final IIdentifierFactory aIF)
+  {
+    ValueEnforcer.notNull (aIF, "IdentifierFactory");
+    m_aIF = aIF;
+    return this;
   }
 
   @Nullable
@@ -168,14 +184,12 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
-  @Nonnull
-  private static IParticipantIdentifier _createPID (final String sSchemeID, final String sValue)
+  @Nullable
+  private IParticipantIdentifier _createPID (@Nullable final String sSchemeID, @Nullable final String sValue)
   {
     // Scheme is e.g. "0088"
-    return SimpleIdentifierFactory.INSTANCE.createParticipantIdentifier (PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS,
-                                                                         StringHelper.trim (sSchemeID) +
-                                                                                                                                         ":" +
-                                                                                                                                         StringHelper.trim (sValue));
+    return m_aIF.createParticipantIdentifier (PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS,
+                                              StringHelper.trim (sSchemeID) + ":" + StringHelper.trim (sValue));
   }
 
   @Nullable
@@ -211,18 +225,19 @@ public final class DocumentDetailsDeterminator
     String sSyntaxVersion = aSyntax.getVersion ();
     String sVESID = null;
 
+    // Debug log specific value found while retrieving certain values
     if (LOGGER.isDebugEnabled ())
       aErrorList.getAllFailures ().forEach (x -> LOGGER.debug (x.getAsString (Locale.US)));
 
     // Handle fallbacks (if any)
     if (aSenderID == null && m_aFallbackSenderID != null)
     {
-      m_aWarnHdl.accept ("Falling back to the default sender ID " + m_aFallbackSenderID);
+      m_aWarnHdl.accept ("Falling back to the default sender ID '" + m_aFallbackSenderID.getURIEncoded () + "'");
       aSenderID = m_aFallbackSenderID;
     }
     if (aReceiverID == null && m_aFallbackReceiverID != null)
     {
-      m_aWarnHdl.accept ("Falling back to the default receiver ID " + m_aFallbackReceiverID);
+      m_aWarnHdl.accept ("Falling back to the default receiver ID '" + m_aFallbackReceiverID.getURIEncoded () + "'");
       aReceiverID = m_aFallbackReceiverID;
     }
 
@@ -278,7 +293,7 @@ public final class DocumentDetailsDeterminator
           sVESID = sNewValue;
           break;
         default:
-          throw new IllegalStateException ("The field " + aEntry.getKey () + " cannot be set atm");
+          throw new IllegalStateException ("The field " + aEntry.getKey () + " can currently not be set");
       }
     }
 
@@ -290,7 +305,7 @@ public final class DocumentDetailsDeterminator
                                                                             aRootElement.getLocalName (),
                                                                             sCustomizationID,
                                                                             sSyntaxVersion).getAsDocumentTypeIdentifierValue ();
-      aDocTypeID = SimpleIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (m_sDocTypeIDScheme, sDocTypeIDValue);
+      aDocTypeID = m_aIF.createDocumentTypeIdentifier (m_sDocTypeIDScheme, sDocTypeIDValue);
     }
     else
       aDocTypeID = null;
@@ -298,7 +313,7 @@ public final class DocumentDetailsDeterminator
     // Assemble Process ID
     final IProcessIdentifier aProcessID;
     if (StringHelper.hasText (sProcessID))
-      aProcessID = SimpleIdentifierFactory.INSTANCE.createProcessIdentifier (m_sProcessIDScheme, sProcessID);
+      aProcessID = m_aIF.createProcessIdentifier (m_sProcessIDScheme, sProcessID);
     else
       aProcessID = null;
 

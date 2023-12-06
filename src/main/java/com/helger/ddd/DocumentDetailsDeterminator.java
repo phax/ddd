@@ -48,12 +48,16 @@ import com.helger.peppolid.peppol.doctype.PeppolDocumentTypeIdentifierParts;
 import com.helger.xml.XMLHelper;
 
 /**
- * Determine the document details from the payload. Heuristics.
+ * Determine the document details from the payload.
  *
  * @author Philip Helger
  */
 public final class DocumentDetailsDeterminator
 {
+  public static final String DEFAULT_PARTICIPANT_ID_SCHEME = PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS;
+  public static final String DEFAULT_DOCUMENT_TYPE_ID_SCHEME = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
+  public static final String DEFAULT_PROCESS_ID_SCHEME = PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL;
+
   private static final Logger LOGGER = LoggerFactory.getLogger (DocumentDetailsDeterminator.class);
 
   private final DDDSyntaxList m_aSyntaxList;
@@ -61,8 +65,9 @@ public final class DocumentDetailsDeterminator
   private IIdentifierFactory m_aIF = SimpleIdentifierFactory.INSTANCE;
   private IParticipantIdentifier m_aFallbackSenderID;
   private IParticipantIdentifier m_aFallbackReceiverID;
-  private String m_sDocTypeIDScheme = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
-  private String m_sProcessIDScheme = PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL;
+  private String m_sParticipantIDScheme = DEFAULT_PARTICIPANT_ID_SCHEME;
+  private String m_sDocTypeIDScheme = DEFAULT_DOCUMENT_TYPE_ID_SCHEME;
+  private String m_sProcessIDScheme = DEFAULT_PROCESS_ID_SCHEME;
   private Consumer <String> m_aInfoHdl = LOGGER::info;
   private Consumer <String> m_aWarnHdl = LOGGER::warn;
   private Consumer <String> m_aErrorHdl = LOGGER::error;
@@ -76,12 +81,24 @@ public final class DocumentDetailsDeterminator
     m_aValueProviderList = aValueProviderList;
   }
 
+  /**
+   * @return The Identifier Factory used internally to created structured IDs.
+   *         Never <code>null</code>.
+   */
   @Nonnull
   public IIdentifierFactory getIdentifierFactory ()
   {
     return m_aIF;
   }
 
+  /**
+   * Set the Identifier Factory to be used. By default the
+   * {@link SimpleIdentifierFactory} is used.
+   *
+   * @param aIF
+   *        The Identifier Factory to use. May not be <code>null</code>.
+   * @return this for chaining
+   */
   @Nonnull
   public DocumentDetailsDeterminator setIdentifierFactory (@Nullable final IIdentifierFactory aIF)
   {
@@ -90,6 +107,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The fallback sending participant ID in case non could be determined
+   *         from the payload. May be <code>null</code>.
+   */
   @Nullable
   public IParticipantIdentifier getFallbackSenderID ()
   {
@@ -103,6 +124,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The fallback receiving participant ID in case non could be
+   *         determined from the payload. May be <code>null</code>.
+   */
   @Nullable
   public IParticipantIdentifier getFallbackReceiverID ()
   {
@@ -116,6 +141,28 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The Participant Identifier Scheme to be used. Defaults to the
+   *         Peppol one. May be <code>null</code>.
+   * @since 0.1.3
+   */
+  @Nullable
+  public String getParticipantIDScheme ()
+  {
+    return m_sParticipantIDScheme;
+  }
+
+  @Nonnull
+  public DocumentDetailsDeterminator setParticipantIDScheme (@Nullable final String sParticipantIDScheme)
+  {
+    m_sParticipantIDScheme = sParticipantIDScheme;
+    return this;
+  }
+
+  /**
+   * @return The Document Type Identifier Scheme to be used. Defaults to the
+   *         Peppol one. May be <code>null</code>.
+   */
   @Nullable
   public String getDocTypeIDScheme ()
   {
@@ -129,6 +176,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The Process Identifier Scheme to be used. Defaults to the Peppol
+   *         one. May be <code>null</code>.
+   */
   @Nullable
   public String getProcessIDScheme ()
   {
@@ -142,6 +193,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The handler for "information" messages that occurred during
+   *         document detail determination. Never <code>null</code>.
+   */
   @Nonnull
   public Consumer <String> getInfoHdl ()
   {
@@ -156,6 +211,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The handler for "warning" messages that occurred during document
+   *         detail determination. Never <code>null</code>.
+   */
   @Nonnull
   public Consumer <String> getWarnHdl ()
   {
@@ -170,6 +229,10 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * @return The handler for "error" messages that occurred during document
+   *         detail determination. Never <code>null</code>.
+   */
   @Nonnull
   public Consumer <String> getErrorHdl ()
   {
@@ -187,8 +250,9 @@ public final class DocumentDetailsDeterminator
   @Nullable
   private IParticipantIdentifier _createPID (@Nullable final String sSchemeID, @Nullable final String sValue)
   {
+    // Participant ID Scheme: iso6523-actorid-upis
     // Scheme is e.g. "0088"
-    return m_aIF.createParticipantIdentifier (PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS,
+    return m_aIF.createParticipantIdentifier (m_sParticipantIDScheme,
                                               StringHelper.trim (sSchemeID) + ":" + StringHelper.trim (sValue));
   }
 

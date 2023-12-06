@@ -73,6 +73,10 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 # News and noteworthy
 
+* v0.1.3 - 2023-12-06
+    * Fixed XRechnung 3.0 detection 
+    * Added support for XRechnung 1.2
+    * Added support for all XRechnung Extension versions
 * v0.1.2 - 2023-11-13
     * Added new element `ProfileName`
     * Extended value provider mapping for "UBL 2.x Order Response"

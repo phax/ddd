@@ -61,9 +61,6 @@
     </developer>
   </developers>
 
-  <properties>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -76,7 +73,7 @@
       <dependency>
         <groupId>com.helger.peppol</groupId>
         <artifactId>peppol-commons-parent-pom</artifactId>
-        <version>9.1.1</version>
+        <version>9.1.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

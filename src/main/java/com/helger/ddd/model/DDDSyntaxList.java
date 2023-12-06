@@ -46,11 +46,17 @@ public class DDDSyntaxList
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (DDDSyntaxList.class);
 
+  /**
+   * The resource that contains the default syntax list. Part of this JAR file.
+   */
   public static final IReadableResource DEFAULT_SYNTAX_LIST_RES = new ClassPathResource ("ddd/syntaxes.xml",
                                                                                          DDDSyntaxList.class.getClassLoader ());
 
   private static class SingletonHolder
   {
+    /**
+     * Singleton accessor.
+     */
     static final DDDSyntaxList INSTANCE = readFromXML (DEFAULT_SYNTAX_LIST_RES);
   }
 
@@ -129,9 +135,24 @@ public class DDDSyntaxList
                                        .getToString ();
   }
 
+  /**
+   * Create a new {@link DDDSyntaxList} object from the internal XML
+   * representation. This is primarily used to read the
+   * {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
+   *
+   * @param aRes
+   *        The resource to read. Must not be <code>null</code>.
+   * @return The created {@link DDDSyntaxList} and never <code>null</code>.
+   * @throws IllegalArgumentException
+   *         If the XML does not match the required layout
+   * @throws IllegalStateException
+   *         If the XML is inconsistent
+   */
   @Nonnull
   public static DDDSyntaxList readFromXML (@Nonnull final IReadableResource aRes)
   {
+    ValueEnforcer.notNull (aRes, "Resource");
+
     LOGGER.info ("Reading DDDSyntaxList from '" + aRes.getPath () + "'");
 
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
@@ -172,7 +193,7 @@ public class DDDSyntaxList
 
   /**
    * Merge the two syntax lists into a single one. Each syntax must only be
-   * contained in one list to be mergable. Otherwise an exception is thrown.
+   * contained in one list to be mergable - otherwise an exception is thrown.
    *
    * @param aSL1
    *        First syntax list. May not be <code>null</code>.
@@ -189,8 +210,8 @@ public class DDDSyntaxList
     ValueEnforcer.notNull (aSL1, "SyntaxList1");
     ValueEnforcer.notNull (aSL2, "SyntaxList2");
 
-    // find last
-    final LocalDate aLasMod = aSL1.getLastModification ().isAfter (aSL2.getLastModification ()) ? aSL1
+    // find latest last modification
+    final LocalDate aLastMod = aSL1.getLastModification ().isAfter (aSL2.getLastModification ()) ? aSL1
                                                                                                       .getLastModification ()
                                                                                                 : aSL2.getLastModification ();
 
@@ -207,6 +228,6 @@ public class DDDSyntaxList
     // Must be distinct
     aMergedMap.putAll (aSL2.m_aSyntaxes);
 
-    return new DDDSyntaxList (aLasMod, aMergedMap);
+    return new DDDSyntaxList (aLastMod, aMergedMap);
   }
 }

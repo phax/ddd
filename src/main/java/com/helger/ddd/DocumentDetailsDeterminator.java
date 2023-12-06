@@ -195,7 +195,8 @@ public final class DocumentDetailsDeterminator
 
   /**
    * @return The handler for "information" messages that occurred during
-   *         document detail determination. Never <code>null</code>.
+   *         document detail determination. Default is to log with info level.
+   *         Never <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getInfoHdl ()
@@ -213,7 +214,8 @@ public final class DocumentDetailsDeterminator
 
   /**
    * @return The handler for "warning" messages that occurred during document
-   *         detail determination. Never <code>null</code>.
+   *         detail determination. Default is to log with warning level. Never
+   *         <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getWarnHdl ()
@@ -231,7 +233,8 @@ public final class DocumentDetailsDeterminator
 
   /**
    * @return The handler for "error" messages that occurred during document
-   *         detail determination. Never <code>null</code>.
+   *         detail determination. Default is to log with error level. Never
+   *         <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getErrorHdl ()

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
+import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
@@ -71,6 +72,13 @@ public class DDDValueProviderList
   public final LocalDate getLastModification ()
   {
     return m_aLastMod;
+  }
+
+  @Nonnull
+  @ReturnsMutableObject
+  public final ICommonsMap <String, DDDValueProviderPerSyntax> valueProvidersPerSyntaxes ()
+  {
+    return m_aVPPerSyntaxes;
   }
 
   @Nonnull

@@ -270,9 +270,18 @@ public class DocumentDetails
     private String m_sReceiverName;
     private String m_sProfileName;
 
+    /**
+     * Builder constructor with all fields empty.
+     */
     public Builder ()
     {}
 
+    /**
+     * Builder constructor using an existing {@link DocumentDetails} object.
+     *
+     * @param aSource
+     *        The source object to fill from. May not be <code>null</code>.
+     */
     public Builder (@Nonnull final DocumentDetails aSource)
     {
       ValueEnforcer.notNull (aSource, "Source");

@@ -21,6 +21,7 @@ Each syntax is uniquely determined by the combination of the XML root element na
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
+* UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`) - added in v0.1.1
 * UBL 2.x Invoice (ID `ubl2-invoice`)
@@ -71,8 +72,12 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
   <version>x.y.z</version>
 </dependency>
 ```
+
 # News and noteworthy
 
+* v0.1.4 - work in progress
+    * Extended syntax list - added UBL 2.x Application Response
+    * Added support for Peppol MLR
 * v0.1.3 - 2023-12-06
     * Fixed XRechnung 3.0 detection 
     * Added support for XRechnung 1.2

@@ -264,13 +264,23 @@ public final class DocumentDetailsDeterminator
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
+    // Get the qualified name of the root element
     final QName aQName = XMLHelper.getQName (aRootElement);
     m_aInfoHdl.accept ("Searching document details for " + aQName.toString ());
 
+    // First find the matching syntax from the root element
     final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aRootElement);
     if (aSyntax == null)
     {
       m_aErrorHdl.accept ("Unsupported Document Type syntax " + aQName.toString ());
+      return null;
+    }
+
+    // Find the value provider for the selected syntax
+    final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
+    if (aValueProvider == null)
+    {
+      m_aErrorHdl.accept ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
       return null;
     }
 
@@ -335,14 +345,6 @@ public final class DocumentDetailsDeterminator
           throw new IllegalArgumentException ("Unsupported field " + field);
       }
     };
-
-    // Find all setters for the missing values
-    final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
-    if (aValueProvider == null)
-    {
-      m_aErrorHdl.accept ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
-      return null;
-    }
 
     String sProfileName = null;
     final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);

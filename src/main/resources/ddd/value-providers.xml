@@ -83,6 +83,16 @@
     </select>
   </syntax>
   
+  <syntax id="ubl2-applicationresponse">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:poacc:trns:mlr:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:mlr:latest</set>
+        <set id="ProfileName">Peppol Message Level Response V3</set>
+      </if>
+    </select>
+  </syntax>    
+  
   <syntax id="ubl2-creditnote">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">

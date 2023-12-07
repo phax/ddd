@@ -46,6 +46,38 @@
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
+
+  <syntax id="ubl2-applicationresponse" nsuri="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2" root="ApplicationResponse">
+    <name>UBL 2.x Application Response</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='SenderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='SenderParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SenderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+  </syntax>
   
   <syntax id="ubl2-creditnote" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" root="CreditNote">
     <name>UBL 2.x Credit Note</name>
@@ -78,6 +110,7 @@
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
+  
   <syntax id="ubl2-despatchadvice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2" root="DespatchAdvice">
     <name>UBL 2.x Despatch Advice</name>
     <!-- no version, because it can be 2.* -->
@@ -109,6 +142,7 @@
       <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
+  
   <syntax id="ubl2-invoice" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" root="Invoice">
     <name>UBL 2.x Invoice</name>
     <!-- no version, because it can be 2.* -->
@@ -140,6 +174,7 @@
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
+  
   <syntax id="ubl2-order" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Order-2" root="Order">
     <name>UBL 2.x Order</name>
     <!-- no version, because it can be 2.* -->
@@ -171,6 +206,7 @@
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
     </get>
   </syntax>
+  
   <syntax id="ubl2-orderresponse" nsuri="urn:oasis:names:specification:ubl:schema:xsd:OrderResponse-2" root="OrderResponse">
     <name>UBL 2.x Order Response</name>
     <!-- no version, because it can be 2.* -->

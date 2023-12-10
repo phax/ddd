@@ -41,9 +41,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:phax/ddd.git</connection>
-    <developerConnection>scm:git:git@github.com:phax/ddd.git</developerConnection>
-    <url>http://github.com/phax/ddd</url>
+    <connection>scm:git:https://github.com/phax/ddd.git</connection>
+    <developerConnection>scm:git:https://github.com/phax/ddd.git</developerConnection>
+    <url>https://github.com/phax/ddd</url>
     <tag>HEAD</tag>
   </scm>
 

@@ -37,12 +37,17 @@ public enum EDDDField implements IHasID <String>
   // Special case - missing in CII based syntaxes
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
   BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
+
   SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.MANDATORY),
   SENDER_ID_VALUE ("SenderIDValue", EMandatory.MANDATORY),
+  SENDER_NAME ("SenderName", EMandatory.MANDATORY),
+  SENDER_COUNTRY_CODE ("SenderCountryCode", EMandatory.OPTIONAL),
+
   RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
   RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
-  SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
+  RECEIVER_COUNTRY_CODE ("ReceiverCountryCode", EMandatory.OPTIONAL),
+
   // Deduced fields:
   SYNTAX_VERSION ("SyntaxVersion", EMandatory.OPTIONAL),
   VESID ("VESID", EMandatory.OPTIONAL),
@@ -64,6 +69,11 @@ public enum EDDDField implements IHasID <String>
     return m_sID;
   }
 
+  /**
+   * @return <code>true</code> if this field needs to be present in all syntax
+   *         definitions. If this field is mandatory, it doesn't mean that the
+   *         field needs to be present in all instances-
+   */
   public boolean isSyntaxDefinitionMandatory ()
   {
     return m_eSyntaxDefinitionMandatory.isMandatory ();

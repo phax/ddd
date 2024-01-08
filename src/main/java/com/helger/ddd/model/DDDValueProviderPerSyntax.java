@@ -87,8 +87,11 @@ public class DDDValueProviderPerSyntax
   }
 
   @Nonnull
+  @ReturnsMutableCopy
   public ICommonsMap <EDDDField, String> getAllDeducedValues (@Nonnull final Function <EDDDField, String> aSourceProvider)
   {
+    ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
+
     final ICommonsMap <EDDDField, String> ret = new CommonsHashMap <> ();
     for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aEntry : m_aSelectors.entrySet ())
     {

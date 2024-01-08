@@ -33,17 +33,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
     </get>
   </syntax>
 
@@ -65,17 +71,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='SenderParty']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SenderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='SenderParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='SenderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
   
@@ -97,17 +109,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
   
@@ -129,17 +147,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
   
@@ -161,17 +185,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
   
@@ -193,17 +223,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
   
@@ -225,17 +261,23 @@
     <get id="SenderIDValue">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
     <get id="ReceiverIDScheme">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
     </get>
-    <get id="SenderName">
-      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
-    </get>
     <get id="ReceiverName">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
 </syntaxes>

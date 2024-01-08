@@ -44,7 +44,9 @@ public final class DocumentDetailsTest
                                                .processID (aIF.parseProcessIdentifier ("pro::cess"))
                                                .businessDocumentID ("id")
                                                .senderName ("sn")
+                                               .senderCountryCode ("sc")
                                                .receiverName ("rn")
+                                               .receiverCountryCode ("rc")
                                                .vesid ("ves")
                                                .profileName ("pn")
                                                .build ();
@@ -67,7 +69,9 @@ public final class DocumentDetailsTest
 
     assertEquals ("id", aDD.getBusinessDocumentID ());
     assertEquals ("sn", aDD.getSenderName ());
+    assertEquals ("sc", aDD.getSenderCountryCode ());
     assertEquals ("rn", aDD.getReceiverName ());
+    assertEquals ("rc", aDD.getReceiverCountryCode ());
     assertEquals ("ves", aDD.getVESID ());
     assertEquals ("pn", aDD.getProfileName ());
   }
@@ -83,7 +87,9 @@ public final class DocumentDetailsTest
     assertNull (aDD.getProcessID ());
     assertNull (aDD.getBusinessDocumentID ());
     assertNull (aDD.getSenderName ());
+    assertNull (aDD.getSenderCountryCode ());
     assertNull (aDD.getReceiverName ());
+    assertNull (aDD.getReceiverCountryCode ());
     assertNull (aDD.getVESID ());
     assertNull (aDD.getProfileName ());
   }

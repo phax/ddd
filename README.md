@@ -12,9 +12,11 @@ A set of relevant fields for business documents is defined. Currently these are 
 * Process ID
 * Business Document ID
 * Sender ID (comprised of scheme and value)
-* Receiver ID (comprised of scheme and value)
 * Sender Name
+* Sender Country Code - added in v0.1.4
+* Receiver ID (comprised of scheme and value)
 * Receiver Name
+* Receiver Country Code - added in v0.1.4
 
 These fields are to be determined differently depending on a specific syntax (class `DDDSyntax`).
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.

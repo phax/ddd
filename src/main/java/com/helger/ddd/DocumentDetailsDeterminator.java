@@ -297,7 +297,9 @@ public final class DocumentDetailsDeterminator
     IParticipantIdentifier aReceiverID = _createPID (sReceiverScheme, sReceiverValue);
     final String sBusinessDocumentID = aSyntax.getValue (EDDDField.BUSINESS_DOCUMENT_ID, aRootElement, aErrorList);
     final String sSenderName = aSyntax.getValue (EDDDField.SENDER_NAME, aRootElement, aErrorList);
+    final String sSenderCountryCode = aSyntax.getValue (EDDDField.SENDER_COUNTRY_CODE, aRootElement, aErrorList);
     final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
+    final String sReceiverCountryCode = aSyntax.getValue (EDDDField.RECEIVER_COUNTRY_CODE, aRootElement, aErrorList);
     // optional value
     String sSyntaxVersion = aSyntax.getVersion ();
     String sVESID = null;
@@ -327,20 +329,24 @@ public final class DocumentDetailsDeterminator
           return sCustomizationID;
         case PROCESS_ID:
           return sSourceProcessID;
+        case BUSINESS_DOCUMENT_ID:
+          return sBusinessDocumentID;
         case SENDER_ID_SCHEME:
           return sSenderScheme;
         case SENDER_ID_VALUE:
           return sSenderValue;
+        case SENDER_NAME:
+          return sSenderName;
+        case SENDER_COUNTRY_CODE:
+          return sSenderCountryCode;
         case RECEIVER_ID_SCHEME:
           return sReceiverScheme;
         case RECEIVER_ID_VALUE:
           return sReceiverValue;
-        case BUSINESS_DOCUMENT_ID:
-          return sBusinessDocumentID;
-        case SENDER_NAME:
-          return sSenderName;
         case RECEIVER_NAME:
           return sReceiverName;
+        case RECEIVER_COUNTRY_CODE:
+          return sReceiverCountryCode;
         default:
           throw new IllegalArgumentException ("Unsupported field " + field);
       }
@@ -397,7 +403,9 @@ public final class DocumentDetailsDeterminator
                                 aProcessID,
                                 sBusinessDocumentID,
                                 sSenderName,
+                                sSenderCountryCode,
                                 sReceiverName,
+                                sReceiverCountryCode,
                                 sVESID,
                                 sProfileName);
   }

@@ -42,7 +42,9 @@ public class DocumentDetails
   private final IProcessIdentifier m_aProcessID;
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
+  private final String m_sSenderCountryCode;
   private final String m_sReceiverName;
+  private final String m_sReceiverCountryCode;
   private final String m_sVESID;
   private final String m_sProfileName;
 
@@ -52,7 +54,9 @@ public class DocumentDetails
                              @Nullable final IProcessIdentifier aProcessID,
                              @Nullable final String sBusinessDocumentID,
                              @Nullable final String sSenderName,
+                             @Nullable final String sSenderCountryCode,
                              @Nullable final String sReceiverName,
+                             @Nullable final String sReceiverCountryCode,
                              @Nullable final String sVESID,
                              @Nullable final String sProfileName)
   {
@@ -62,7 +66,9 @@ public class DocumentDetails
     m_aProcessID = aProcessID;
     m_sBusinessDocumentID = sBusinessDocumentID;
     m_sSenderName = sSenderName;
+    m_sSenderCountryCode = sSenderCountryCode;
     m_sReceiverName = sReceiverName;
+    m_sReceiverCountryCode = sReceiverCountryCode;
     m_sVESID = sVESID;
     m_sProfileName = sProfileName;
   }
@@ -162,6 +168,20 @@ public class DocumentDetails
     return m_sSenderName;
   }
 
+  public final boolean hasSenderCountryCode ()
+  {
+    return StringHelper.hasText (m_sSenderCountryCode);
+  }
+
+  /**
+   * @return The sender country code. May be <code>null</code>.
+   */
+  @Nullable
+  public final String getSenderCountryCode ()
+  {
+    return m_sSenderCountryCode;
+  }
+
   public final boolean hasReceiverName ()
   {
     return StringHelper.hasText (m_sReceiverName);
@@ -174,6 +194,20 @@ public class DocumentDetails
   public final String getReceiverName ()
   {
     return m_sReceiverName;
+  }
+
+  public final boolean hasReceiverCountryCode ()
+  {
+    return StringHelper.hasText (m_sReceiverCountryCode);
+  }
+
+  /**
+   * @return The receiver country code. May be <code>null</code>.
+   */
+  @Nullable
+  public final String getReceiverCountryCode ()
+  {
+    return m_sReceiverCountryCode;
   }
 
   public final boolean hasVESID ()
@@ -214,10 +248,12 @@ public class DocumentDetails
     ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
     ret.add ("process", m_aProcessID == null ? null : m_aProcessID.getURIEncoded ());
     ret.add ("bdid", m_sBusinessDocumentID);
-    ret.add ("sendername", m_sSenderName);
-    ret.add ("receivername", m_sReceiverName);
+    ret.add ("senderName", m_sSenderName);
+    ret.add ("senderCountryCode", m_sSenderCountryCode);
+    ret.add ("receiverName", m_sReceiverName);
+    ret.add ("receiverCountryCode", m_sReceiverCountryCode);
     ret.add ("vesid", m_sVESID);
-    ret.add ("profilename", m_sProfileName);
+    ret.add ("profileName", m_sProfileName);
     return ret;
   }
 
@@ -230,7 +266,9 @@ public class DocumentDetails
                                        .append ("ProcessID", m_aProcessID)
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)
+                                       .append ("SenderCountryCode", m_sSenderCountryCode)
                                        .append ("ReceiverName", m_sReceiverName)
+                                       .append ("ReceiverCountryCode", m_sReceiverCountryCode)
                                        .append ("VESID", m_sVESID)
                                        .append ("ProfileName", m_sProfileName)
                                        .getToString ();
@@ -271,7 +309,9 @@ public class DocumentDetails
     private IProcessIdentifier m_aProcessID;
     private String m_sBusinessDocumentID;
     private String m_sSenderName;
+    private String m_sSenderCountryCode;
     private String m_sReceiverName;
+    private String m_sReceiverCountryCode;
     private String m_sVESID;
     private String m_sProfileName;
 
@@ -295,7 +335,9 @@ public class DocumentDetails
                                        .processID (aSource.getProcessID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
                                        .senderName (aSource.getSenderName ())
+                                       .senderCountryCode (aSource.getSenderCountryCode ())
                                        .receiverName (aSource.getReceiverName ())
+                                       .receiverCountryCode (aSource.getReceiverCountryCode ())
                                        .vesid (aSource.getVESID ())
                                        .profileName (aSource.getProfileName ());
     }
@@ -343,9 +385,23 @@ public class DocumentDetails
     }
 
     @Nonnull
+    public final Builder senderCountryCode (@Nullable final String s)
+    {
+      m_sSenderCountryCode = s;
+      return this;
+    }
+
+    @Nonnull
     public final Builder receiverName (@Nullable final String s)
     {
       m_sReceiverName = s;
+      return this;
+    }
+
+    @Nonnull
+    public final Builder receiverCountryCode (@Nullable final String s)
+    {
+      m_sReceiverCountryCode = s;
       return this;
     }
 
@@ -373,7 +429,9 @@ public class DocumentDetails
                                   m_aProcessID,
                                   m_sBusinessDocumentID,
                                   m_sSenderName,
+                                  m_sSenderCountryCode,
                                   m_sReceiverName,
+                                  m_sReceiverCountryCode,
                                   m_sVESID,
                                   m_sProfileName);
     }

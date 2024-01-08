@@ -20,6 +20,11 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+/**
+ * Test class for class {@link DDDVersion}
+ *
+ * @author Philip Helger
+ */
 public final class DDDVersionTest
 {
   @Test

@@ -10,7 +10,7 @@ Currently only XML payloads are supported.
 
 # Concept
 
-A set of relevant fields for business documents is defined. Currently these are (enum `EDDDField`):
+A set of relevant fields for business documents is defined. Currently these are (enum `EDDDSourceField`):
 * Customization ID
 * Process ID
 * Business Document ID
@@ -34,7 +34,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
-The deducible values are currently (also in enum `EDDDField`):
+The deducible values are currently (in enum `EDDDDeterminedField`):
 * Process ID (especially for CII based syntaxes)
 * VESID (for selecting the correct validation rules) - see https://github.com/phax/ph-diver for details
 * Syntax Version (especially for UBL, where the same namespace URI and local element name is shared)
@@ -80,6 +80,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.2.0 - work in progress
+    * Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
 * v0.1.4 - 2024-01-08
     * Extended syntax list - added UBL 2.x Application Response
     * Added support for Peppol MLR

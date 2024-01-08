@@ -87,7 +87,7 @@ public final class DDDSyntaxListTest
 
         // Test all getters
         final ErrorList aErrorList = new ErrorList ();
-        for (final EDDDField eGetter : EDDDField.values ())
+        for (final EDDDSourceField eGetter : EDDDSourceField.values ())
         {
           final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
           if (eGetter.isSyntaxDefinitionMandatory ())

@@ -52,14 +52,14 @@ public class DDDSyntax implements IHasID <String>, IHasName
   private final String m_sRootElementLocalName;
   private final String m_sName;
   private final String m_sVersion;
-  private final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> m_aGetters;
+  private final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> m_aGetters;
 
   public DDDSyntax (@Nonnull @Nonempty final String sID,
                     @Nonnull @Nonempty final String sRootElementNamespaceURI,
                     @Nonnull @Nonempty final String sRootElementLocalName,
                     @Nonnull @Nonempty final String sName,
                     @Nullable final String sVersion,
-                    @Nonnull @Nonempty final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> aGetters)
+                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters)
   {
     ValueEnforcer.notEmpty (sID, "ID");
     ValueEnforcer.notEmpty (sRootElementNamespaceURI, "RootElementNamespaceURI");
@@ -132,17 +132,17 @@ public class DDDSyntax implements IHasID <String>, IHasName
   @Nonnull
   @Nonempty
   @ReturnsMutableCopy
-  public final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> getAllGetters ()
+  public final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> getAllGetters ()
   {
     // Deep clone
-    final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> ret = new CommonsHashMap <> ();
-    for (final Map.Entry <EDDDField, ICommonsList <IDDDGetter>> e : m_aGetters.entrySet ())
+    final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDSourceField, ICommonsList <IDDDGetter>> e : m_aGetters.entrySet ())
       ret.put (e.getKey (), e.getValue ().getClone ());
     return ret;
   }
 
   @Nullable
-  public String getValue (@Nonnull final EDDDField eGetter,
+  public String getValue (@Nonnull final EDDDSourceField eGetter,
                           @Nonnull final Node aSourceNode,
                           @Nonnull final IErrorList aErrorList)
   {
@@ -179,7 +179,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
   @Nonnull
   public static DDDSyntax readFromXML (@Nonnull final IMicroElement eSyntax,
-                                       @Nonnull final Function <String, ICommonsMap <EDDDField, ICommonsList <IDDDGetter>>> aExternalGettersProvider)
+                                       @Nonnull final Function <String, ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>>> aExternalGettersProvider)
   {
     final String sSyntaxID = eSyntax.getAttributeValue ("id");
     final String sLogPrefix = "Syntax with ID '" + sSyntaxID + "': ";
@@ -193,7 +193,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
     final IMicroElement eVersion = eSyntax.getFirstChildElement ("version");
 
     // Getters
-    final ICommonsMap <EDDDField, ICommonsList <IDDDGetter>> aGetters;
+    final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters;
     final IMicroElement eGettersLike = eSyntax.getFirstChildElement ("getters-like");
     if (eGettersLike != null)
     {
@@ -210,7 +210,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
       {
         // Check type
         final String sFieldID = eGet.getAttributeValue ("id");
-        final EDDDField eGetter = EDDDField.getFromIDOrNull (sFieldID);
+        final EDDDSourceField eGetter = EDDDSourceField.getFromIDOrNull (sFieldID);
         if (eGetter == null)
           throw new IllegalArgumentException (sLogPrefix + "The getter ID field '" + sFieldID + "' is invalid");
 
@@ -239,7 +239,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
     }
 
     // Check if all mandatory getters are present
-    for (final EDDDField eGetter : EDDDField.values ())
+    for (final EDDDSourceField eGetter : EDDDSourceField.values ())
       if (eGetter.isSyntaxDefinitionMandatory ())
         if (!aGetters.containsKey (eGetter))
           throw new IllegalArgumentException (sLogPrefix +

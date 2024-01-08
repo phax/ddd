@@ -41,7 +41,7 @@ import com.helger.xml.microdom.IMicroElement;
 public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
-  private final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> m_aSelectors;
+  private final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> m_aSelectors;
 
   /**
    * Constructor
@@ -54,7 +54,7 @@ public class DDDValueProviderPerSyntax
    *        (TargetField) to (TargetValue)))
    */
   public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
-                                    @Nonnull @Nonempty final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aSelectors)
+                                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aSelectors)
   {
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
     ValueEnforcer.notEmpty (aSelectors, "Selectors");
@@ -72,14 +72,14 @@ public class DDDValueProviderPerSyntax
   @Nonnull
   @Nonempty
   @ReturnsMutableCopy
-  public final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> getAllSelectors ()
+  public final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> getAllSelectors ()
   {
     // Deep clone
-    final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> ret = new CommonsHashMap <> ();
-    for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> e : m_aSelectors.entrySet ())
+    final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> e : m_aSelectors.entrySet ())
     {
-      final ICommonsMap <String, ICommonsMap <EDDDField, String>> ret2 = new CommonsHashMap <> ();
-      for (final Map.Entry <String, ICommonsMap <EDDDField, String>> e2 : e.getValue ().entrySet ())
+      final ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>> ret2 = new CommonsHashMap <> ();
+      for (final Map.Entry <String, ICommonsMap <EDDDDeterminedField, String>> e2 : e.getValue ().entrySet ())
         ret2.put (e2.getKey (), e2.getValue ().getClone ());
       ret.put (e.getKey (), ret2);
     }
@@ -88,20 +88,20 @@ public class DDDValueProviderPerSyntax
 
   @Nonnull
   @ReturnsMutableCopy
-  public ICommonsMap <EDDDField, String> getAllDeducedValues (@Nonnull final Function <EDDDField, String> aSourceProvider)
+  public ICommonsMap <EDDDDeterminedField, String> getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)
   {
     ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
 
-    final ICommonsMap <EDDDField, String> ret = new CommonsHashMap <> ();
-    for (final Map.Entry <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aEntry : m_aSelectors.entrySet ())
+    final ICommonsMap <EDDDDeterminedField, String> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aEntry : m_aSelectors.entrySet ())
     {
       // Get the source value
-      final EDDDField eSelector = aEntry.getKey ();
+      final EDDDSourceField eSelector = aEntry.getKey ();
       final String sSourceValue = aSourceProvider.apply (eSelector);
       if (sSourceValue != null)
       {
         // Find all new values, based on source value (e.g. CustomizationID)
-        final ICommonsMap <EDDDField, String> aSetters = aEntry.getValue ().get (sSourceValue);
+        final ICommonsMap <EDDDDeterminedField, String> aSetters = aEntry.getValue ().get (sSourceValue);
         if (aSetters != null)
         {
           ret.putAll (aSetters);
@@ -127,18 +127,18 @@ public class DDDValueProviderPerSyntax
     if (StringHelper.hasNoText (sSyntaxID))
       throw new IllegalStateException ("Failed to read a syntax ID");
 
-    final ICommonsMap <EDDDField, ICommonsMap <String, ICommonsMap <EDDDField, String>>> aMap = new CommonsHashMap <> ();
+    final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aMap = new CommonsHashMap <> ();
     for (final IMicroElement eSelect : eVesid.getAllChildElements ("select"))
     {
       // Selector field
       final String sSelectorID = eSelect.getAttributeValue ("id");
-      final EDDDField eSelector = EDDDField.getFromIDOrNull (sSelectorID);
+      final EDDDSourceField eSelector = EDDDSourceField.getFromIDOrNull (sSelectorID);
       if (eSelector == null)
         throw new IllegalStateException ("The selector field '" +
                                          sSelectorID +
                                          "' is unknown. Valid values are: " +
                                          StringHelper.imploder ()
-                                                     .source (EDDDField.values (), x -> "'" + x.getID () + "'")
+                                                     .source (EDDDSourceField.values (), x -> "'" + x.getID () + "'")
                                                      .separator (", ")
                                                      .build ());
 
@@ -146,7 +146,7 @@ public class DDDValueProviderPerSyntax
         throw new IllegalStateException ("The selector with ID '" + sSelectorID + "' is already contained");
 
       // Read all "if"s
-      final ICommonsMap <String, ICommonsMap <EDDDField, String>> aSelectors = new CommonsHashMap <> ();
+      final ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>> aSelectors = new CommonsHashMap <> ();
       for (final IMicroElement eIf : eSelect.getAllChildElements ("if"))
       {
         final String sConditionValue = eIf.getAttributeValue ("value");
@@ -159,11 +159,11 @@ public class DDDValueProviderPerSyntax
                                            "'");
 
         // Read all setters
-        final ICommonsMap <EDDDField, String> aSetters = new CommonsHashMap <> ();
+        final ICommonsMap <EDDDDeterminedField, String> aSetters = new CommonsHashMap <> ();
         for (final IMicroElement eSet : eIf.getAllChildElements ("set"))
         {
           final String sSetterID = eSet.getAttributeValue ("id");
-          final EDDDField eSetter = EDDDField.getFromIDOrNull (sSetterID);
+          final EDDDDeterminedField eSetter = EDDDDeterminedField.getFromIDOrNull (sSetterID);
           if (eSetter == null)
             throw new IllegalStateException ("The selector field '" +
                                              sSelectorID +
@@ -171,10 +171,11 @@ public class DDDValueProviderPerSyntax
                                              sSetterID +
                                              "'. Valid values are: " +
                                              StringHelper.imploder ()
-                                                         .source (EDDDField.values (), x -> "'" + x.getID () + "'")
+                                                         .source (EDDDDeterminedField.values (),
+                                                                  x -> "'" + x.getID () + "'")
                                                          .separator (", ")
                                                          .build ());
-          if (eSetter == eSelector)
+          if (eSetter.getSourceField () == eSelector)
             throw new IllegalStateException ("The selector field '" +
                                              sSelectorID +
                                              "' cannot be used as a setter field too");

@@ -37,7 +37,8 @@ import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.DDDValueProviderPerSyntax;
-import com.helger.ddd.model.EDDDField;
+import com.helger.ddd.model.EDDDDeterminedField;
+import com.helger.ddd.model.EDDDSourceField;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
@@ -286,20 +287,24 @@ public final class DocumentDetailsDeterminator
 
     // Get all the values from the source XML
     final ErrorList aErrorList = new ErrorList ();
-    final String sCustomizationID = aSyntax.getValue (EDDDField.CUSTOMIZATION_ID, aRootElement, aErrorList);
+    final String sCustomizationID = aSyntax.getValue (EDDDSourceField.CUSTOMIZATION_ID, aRootElement, aErrorList);
     // optional
-    String sProcessID = aSyntax.getValue (EDDDField.PROCESS_ID, aRootElement, aErrorList);
-    final String sSenderScheme = aSyntax.getValue (EDDDField.SENDER_ID_SCHEME, aRootElement, aErrorList);
-    final String sSenderValue = aSyntax.getValue (EDDDField.SENDER_ID_VALUE, aRootElement, aErrorList);
+    String sProcessID = aSyntax.getValue (EDDDSourceField.PROCESS_ID, aRootElement, aErrorList);
+    final String sSenderScheme = aSyntax.getValue (EDDDSourceField.SENDER_ID_SCHEME, aRootElement, aErrorList);
+    final String sSenderValue = aSyntax.getValue (EDDDSourceField.SENDER_ID_VALUE, aRootElement, aErrorList);
     IParticipantIdentifier aSenderID = _createPID (sSenderScheme, sSenderValue);
-    final String sReceiverScheme = aSyntax.getValue (EDDDField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
-    final String sReceiverValue = aSyntax.getValue (EDDDField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
+    final String sReceiverScheme = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
+    final String sReceiverValue = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
     IParticipantIdentifier aReceiverID = _createPID (sReceiverScheme, sReceiverValue);
-    final String sBusinessDocumentID = aSyntax.getValue (EDDDField.BUSINESS_DOCUMENT_ID, aRootElement, aErrorList);
-    final String sSenderName = aSyntax.getValue (EDDDField.SENDER_NAME, aRootElement, aErrorList);
-    final String sSenderCountryCode = aSyntax.getValue (EDDDField.SENDER_COUNTRY_CODE, aRootElement, aErrorList);
-    final String sReceiverName = aSyntax.getValue (EDDDField.RECEIVER_NAME, aRootElement, aErrorList);
-    final String sReceiverCountryCode = aSyntax.getValue (EDDDField.RECEIVER_COUNTRY_CODE, aRootElement, aErrorList);
+    final String sBusinessDocumentID = aSyntax.getValue (EDDDSourceField.BUSINESS_DOCUMENT_ID,
+                                                         aRootElement,
+                                                         aErrorList);
+    final String sSenderName = aSyntax.getValue (EDDDSourceField.SENDER_NAME, aRootElement, aErrorList);
+    final String sSenderCountryCode = aSyntax.getValue (EDDDSourceField.SENDER_COUNTRY_CODE, aRootElement, aErrorList);
+    final String sReceiverName = aSyntax.getValue (EDDDSourceField.RECEIVER_NAME, aRootElement, aErrorList);
+    final String sReceiverCountryCode = aSyntax.getValue (EDDDSourceField.RECEIVER_COUNTRY_CODE,
+                                                          aRootElement,
+                                                          aErrorList);
     // optional value
     String sSyntaxVersion = aSyntax.getVersion ();
     String sVESID = null;
@@ -322,7 +327,7 @@ public final class DocumentDetailsDeterminator
 
     // Source value provider
     final String sSourceProcessID = sProcessID;
-    final Function <EDDDField, String> fctFieldProvider = field -> {
+    final Function <EDDDSourceField, String> fctFieldProvider = field -> {
       switch (field)
       {
         case CUSTOMIZATION_ID:
@@ -353,8 +358,8 @@ public final class DocumentDetailsDeterminator
     };
 
     String sProfileName = null;
-    final ICommonsMap <EDDDField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
-    for (final Map.Entry <EDDDField, String> aEntry : aMatches.entrySet ())
+    final ICommonsMap <EDDDDeterminedField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
+    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aMatches.entrySet ())
     {
       final String sNewValue = aEntry.getValue ();
       switch (aEntry.getKey ())
@@ -372,7 +377,7 @@ public final class DocumentDetailsDeterminator
           sProfileName = sNewValue;
           break;
         default:
-          throw new IllegalStateException ("The field " + aEntry.getKey () + " can currently not be set");
+          throw new IllegalStateException ("The field " + aEntry.getKey () + " is unknown");
       }
     }
 

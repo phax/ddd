@@ -395,10 +395,10 @@ public final class DocumentDetailsDeterminator
                                 aReceiverID,
                                 aDocTypeID,
                                 aProcessID,
-                                sVESID,
                                 sBusinessDocumentID,
                                 sSenderName,
                                 sReceiverName,
+                                sVESID,
                                 sProfileName);
   }
 }

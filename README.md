@@ -2,21 +2,21 @@
 
 Document Details Determinator - determine VESIDs from payload to use with https://github.com/phax/phive and https://github.com/phax/phive-rules
 
-This project helps to determine the VESID from the payload.
+This project helps to determine the VESID from arbitrary payloads.
 Currently only XML payloads are supported.
 
 # Concept
 
-A set of relevant fields for business document is defined. Per version 1.0 these are (enum `EDDDField`):
+A set of relevant fields for business documents is defined. Currently these are (enum `EDDDField`):
 * Customization ID
 * Process ID
-* Sender ID
-* Receiver ID
 * Business Document ID
+* Sender ID (comprised of scheme and value)
+* Receiver ID (comprised of scheme and value)
 * Sender Name
 * Receiver Name
 
-These fields are to be determined differently depending on a syntax (class `DDDSyntax`).
+These fields are to be determined differently depending on a specific syntax (class `DDDSyntax`).
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
@@ -28,8 +28,8 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Order (ID `ubl2-order`) - added in v0.1.1
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 
-And finally certain (missing) values can be deduced based on other values (class `DDDValueProviderPerSyntax`).
-The deducible values are currently:
+The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
+The deducible values are currently (also in enum `EDDDField`):
 * Process ID (especially for CII based syntaxes)
 * VESID (for selecting the correct validation rules) - see https://github.com/phax/ph-diver for details
 * Syntax Version (especially for UBL, where the same namespace URI and local element name is shared)

@@ -24,6 +24,9 @@
     <get id="CustomizationID">
       <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
     </get>
@@ -35,9 +38,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
@@ -56,6 +56,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='SenderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -67,9 +70,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='SenderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
@@ -88,6 +88,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -99,9 +102,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
@@ -120,6 +120,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -131,9 +134,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='DeliveryCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='DespatchSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
@@ -152,6 +152,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -163,9 +166,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
@@ -184,6 +184,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -195,9 +198,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
@@ -216,6 +216,9 @@
     <get id="ProcessID">
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="SenderIDScheme">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
     </get>
@@ -227,9 +230,6 @@
     </get>
     <get id="ReceiverIDValue">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
-    </get>
-    <get id="BusinessDocumentID">
-      <xpath>*[local-name()='ID']/text()</xpath>
     </get>
     <get id="SenderName">
       <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>

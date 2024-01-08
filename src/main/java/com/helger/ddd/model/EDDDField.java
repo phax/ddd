@@ -32,15 +32,18 @@ import com.helger.commons.state.EMandatory;
  */
 public enum EDDDField implements IHasID <String>
 {
+  // Syntax defined fields:
   CUSTOMIZATION_ID ("CustomizationID", EMandatory.MANDATORY),
+  // Special case - missing in CII based syntaxes
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
+  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.MANDATORY),
   SENDER_ID_VALUE ("SenderIDValue", EMandatory.MANDATORY),
   RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
   RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
-  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
   SENDER_NAME ("SenderName", EMandatory.MANDATORY),
   RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
+  // Deduced fields:
   SYNTAX_VERSION ("SyntaxVersion", EMandatory.OPTIONAL),
   VESID ("VESID", EMandatory.OPTIONAL),
   PROFILE_NAME ("ProfileName", EMandatory.OPTIONAL);
@@ -48,10 +51,10 @@ public enum EDDDField implements IHasID <String>
   private final String m_sID;
   private final EMandatory m_eSyntaxDefinitionMandatory;
 
-  EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eSourceMandatory)
+  EDDDField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eSyntaxDefinitionMandatory)
   {
     m_sID = sID;
-    m_eSyntaxDefinitionMandatory = eSourceMandatory;
+    m_eSyntaxDefinitionMandatory = eSyntaxDefinitionMandatory;
   }
 
   @Nonnull

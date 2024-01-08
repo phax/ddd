@@ -40,30 +40,30 @@ public class DocumentDetails
   private final IParticipantIdentifier m_aReceiverID;
   private final IDocumentTypeIdentifier m_aDocTypeID;
   private final IProcessIdentifier m_aProcessID;
-  private final String m_sVESID;
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
   private final String m_sReceiverName;
+  private final String m_sVESID;
   private final String m_sProfileName;
 
   protected DocumentDetails (@Nullable final IParticipantIdentifier aSenderID,
                              @Nullable final IParticipantIdentifier aReceiverID,
                              @Nullable final IDocumentTypeIdentifier aDocTypeID,
                              @Nullable final IProcessIdentifier aProcessID,
-                             @Nullable final String sVESID,
                              @Nullable final String sBusinessDocumentID,
                              @Nullable final String sSenderName,
                              @Nullable final String sReceiverName,
+                             @Nullable final String sVESID,
                              @Nullable final String sProfileName)
   {
     m_aSenderID = aSenderID;
     m_aReceiverID = aReceiverID;
     m_aDocTypeID = aDocTypeID;
     m_aProcessID = aProcessID;
-    m_sVESID = sVESID;
     m_sBusinessDocumentID = sBusinessDocumentID;
     m_sSenderName = sSenderName;
     m_sReceiverName = sReceiverName;
+    m_sVESID = sVESID;
     m_sProfileName = sProfileName;
   }
 
@@ -123,20 +123,11 @@ public class DocumentDetails
     return m_aProcessID;
   }
 
-  public final boolean hasVESID ()
-  {
-    return StringHelper.hasText (m_sVESID);
-  }
-
   /**
-   * @return The VESID for validation. May be <code>null</code>.
+   * @return <code>true</code> if all key fields are present
+   * @deprecated Because the definition of "key field" is too vague
    */
-  @Nullable
-  public final String getVESID ()
-  {
-    return m_sVESID;
-  }
-
+  @Deprecated (forRemoval = true, since = "0.1.4")
   public final boolean areAllKeyFieldsPresent ()
   {
     return hasSenderID () && hasReceiverID () && hasDocumentTypeID () && hasProcessID () && hasVESID ();
@@ -185,6 +176,20 @@ public class DocumentDetails
     return m_sReceiverName;
   }
 
+  public final boolean hasVESID ()
+  {
+    return StringHelper.hasText (m_sVESID);
+  }
+
+  /**
+   * @return The VESID for validation. May be <code>null</code>.
+   */
+  @Nullable
+  public final String getVESID ()
+  {
+    return m_sVESID;
+  }
+
   public final boolean hasProfileName ()
   {
     return StringHelper.hasText (m_sProfileName);
@@ -208,10 +213,10 @@ public class DocumentDetails
     ret.add ("receiver", m_aReceiverID == null ? null : m_aReceiverID.getURIEncoded ());
     ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
     ret.add ("process", m_aProcessID == null ? null : m_aProcessID.getURIEncoded ());
-    ret.add ("vesid", m_sVESID);
     ret.add ("bdid", m_sBusinessDocumentID);
     ret.add ("sendername", m_sSenderName);
     ret.add ("receivername", m_sReceiverName);
+    ret.add ("vesid", m_sVESID);
     ret.add ("profilename", m_sProfileName);
     return ret;
   }
@@ -223,10 +228,10 @@ public class DocumentDetails
                                        .append ("ReceiverID", m_aReceiverID)
                                        .append ("DocTypeID", m_aDocTypeID)
                                        .append ("ProcessID", m_aProcessID)
-                                       .append ("VESID", m_sVESID)
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)
                                        .append ("ReceiverName", m_sReceiverName)
+                                       .append ("VESID", m_sVESID)
                                        .append ("ProfileName", m_sProfileName)
                                        .getToString ();
   }
@@ -243,7 +248,7 @@ public class DocumentDetails
   /**
    * @param aSource
    *        The document details source to use. May not be <code>null</code>.
-   * @return A new Builder prefilled with the provided document details. Never
+   * @return A new Builder pre-filled with the provided document details. Never
    *         <code>null</code>.
    */
   @Nonnull
@@ -264,10 +269,10 @@ public class DocumentDetails
     private IParticipantIdentifier m_aReceiverID;
     private IDocumentTypeIdentifier m_aDocTypeID;
     private IProcessIdentifier m_aProcessID;
-    private String m_sVESID;
     private String m_sBusinessDocumentID;
     private String m_sSenderName;
     private String m_sReceiverName;
+    private String m_sVESID;
     private String m_sProfileName;
 
     /**
@@ -288,10 +293,10 @@ public class DocumentDetails
       senderID (aSource.getSenderID ()).receiverID (aSource.getReceiverID ())
                                        .documentTypeID (aSource.getDocumentTypeID ())
                                        .processID (aSource.getProcessID ())
-                                       .vesid (aSource.getVESID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
                                        .senderName (aSource.getSenderName ())
                                        .receiverName (aSource.getReceiverName ())
+                                       .vesid (aSource.getVESID ())
                                        .profileName (aSource.getProfileName ());
     }
 
@@ -324,13 +329,6 @@ public class DocumentDetails
     }
 
     @Nonnull
-    public final Builder vesid (@Nullable final String s)
-    {
-      m_sVESID = s;
-      return this;
-    }
-
-    @Nonnull
     public final Builder businessDocumentID (@Nullable final String s)
     {
       m_sBusinessDocumentID = s;
@@ -352,6 +350,13 @@ public class DocumentDetails
     }
 
     @Nonnull
+    public final Builder vesid (@Nullable final String s)
+    {
+      m_sVESID = s;
+      return this;
+    }
+
+    @Nonnull
     public final Builder profileName (@Nullable final String s)
     {
       m_sProfileName = s;
@@ -366,10 +371,10 @@ public class DocumentDetails
                                   m_aReceiverID,
                                   m_aDocTypeID,
                                   m_aProcessID,
-                                  m_sVESID,
                                   m_sBusinessDocumentID,
                                   m_sSenderName,
                                   m_sReceiverName,
+                                  m_sVESID,
                                   m_sProfileName);
     }
   }

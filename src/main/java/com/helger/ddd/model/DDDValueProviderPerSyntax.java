@@ -86,6 +86,34 @@ public class DDDValueProviderPerSyntax
     return ret;
   }
 
+  public interface ISelectorCallback
+  {
+    void accept (@Nonnull EDDDSourceField eSourceField,
+                 @Nonnull String sSourceValue,
+                 @Nonnull EDDDDeterminedField eDeterminedField,
+                 @Nonnull String sDeterminedValue);
+  }
+
+  public final void forEachSelector (@Nonnull final ISelectorCallback aConsumer)
+  {
+    ValueEnforcer.notNull (aConsumer, "Consumer");
+
+    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> e : m_aSelectors.entrySet ())
+    {
+      final EDDDSourceField eSourceField = e.getKey ();
+      for (final Map.Entry <String, ICommonsMap <EDDDDeterminedField, String>> e2 : e.getValue ().entrySet ())
+      {
+        final String sSourceValue = e2.getKey ();
+        for (final Map.Entry <EDDDDeterminedField, String> e3 : e2.getValue ().entrySet ())
+        {
+          final EDDDDeterminedField eDeterminedField = e3.getKey ();
+          final String sDeterminedValue = e3.getValue ();
+          aConsumer.accept (eSourceField, sSourceValue, eDeterminedField, sDeterminedValue);
+        }
+      }
+    }
+  }
+
   @Nonnull
   @ReturnsMutableCopy
   public ICommonsMap <EDDDDeterminedField, String> getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)

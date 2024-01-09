@@ -51,12 +51,12 @@
         <set id="ProfileName">XRechnung CII 2.1 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
-        <set id="VESID">de.xrechnung:cii:2.2.0</set>
+        <set id="VESID">de.xrechnung:cii:2.2</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">XRechnung CII 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2#conformant#urn:xoev-de:kosit:extension:xrechnung_2.2">
-        <set id="VESID">de.xrechnung:cii:2.2.0</set>
+        <set id="VESID">de.xrechnung:cii:2.2</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">XRechnung CII 2.2 Extension</set>
       </if>
@@ -127,12 +127,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-creditnote:2.2.0</set>
+        <set id="VESID">de.xrechnung:ubl-creditnote:2.2</set>
         <set id="ProfileName">XRechnung UBL CreditNote 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2#conformant#urn:xoev-de:kosit:extension:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-creditnote:2.2.0</set>
+        <set id="VESID">de.xrechnung:ubl-creditnote:2.2</set>
         <set id="ProfileName">XRechnung UBL CreditNote 2.2 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
@@ -217,12 +217,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-invoice:2.2.0</set>
+        <set id="VESID">de.xrechnung:ubl-invoice:2.2</set>
         <set id="ProfileName">XRechnung UBL Invoice 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2#conformant#urn:xoev-de:kosit:extension:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-invoice:2.2.0</set>
+        <set id="VESID">de.xrechnung:ubl-invoice:2.2</set>
         <set id="ProfileName">XRechnung UBL Invoice 2.2 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">

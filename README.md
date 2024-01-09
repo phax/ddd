@@ -82,6 +82,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 * v0.2.0 - work in progress
     * Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
+    * Fixed error in XRechnung 2.2 VESIDs
 * v0.1.4 - 2024-01-08
     * Extended syntax list - added UBL 2.x Application Response
     * Added support for Peppol MLR

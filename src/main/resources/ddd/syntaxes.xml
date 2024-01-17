@@ -53,6 +53,28 @@
     </get>
   </syntax>
 
+  <syntax id="peppol-eusr" nsuri="urn:fdc:peppol:end-user-statistics-report:1.1" root="EndUserStatisticsReport">
+    <name>Peppol End User Statistics Report</name>
+    <version>1.1</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="peppol-tsr" nsuri="urn:fdc:peppol:transaction-statistics-report:1.0" root="TransactionStatisticsReport">
+    <name>Peppol Transaction Statistics Report</name>
+    <version>1.0</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+  </syntax>
+
   <syntax id="ubl2-applicationresponse" nsuri="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2" root="ApplicationResponse">
     <name>UBL 2.x Application Response</name>
     <!-- no version, because it can be 2.* -->

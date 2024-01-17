@@ -83,6 +83,24 @@
     </select>
   </syntax>
   
+  <syntax id="peppol-eusr">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:edec:trns:end-user-statistics-report:1.1">
+        <set id="VESID">eu.peppol.reporting:eusr:latest</set>
+        <set id="ProfileName">Peppol End User Statistics Report 1.1</set>
+      </if>
+    </select>
+  </syntax>    
+  
+  <syntax id="peppol-tsr">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:edec:trns:transaction-statistics-reporting:1.0">
+        <set id="VESID">eu.peppol.reporting:tsr:latest</set>
+        <set id="ProfileName">Peppol Transaction Statistics Report 1.0</set>
+      </if>
+    </select>
+  </syntax>    
+  
   <syntax id="ubl2-applicationresponse">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:mlr:3">

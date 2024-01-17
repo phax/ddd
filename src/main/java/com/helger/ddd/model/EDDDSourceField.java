@@ -35,17 +35,17 @@ public enum EDDDSourceField implements IHasID <String>
   CUSTOMIZATION_ID ("CustomizationID", EMandatory.MANDATORY),
   // Special case - missing in CII based syntaxes
   PROCESS_ID ("ProcessID", EMandatory.OPTIONAL),
-  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.MANDATORY),
+  BUSINESS_DOCUMENT_ID ("BusinessDocumentID", EMandatory.OPTIONAL),
 
-  SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.MANDATORY),
-  SENDER_ID_VALUE ("SenderIDValue", EMandatory.MANDATORY),
-  SENDER_NAME ("SenderName", EMandatory.MANDATORY),
-  SENDER_COUNTRY_CODE ("SenderCountryCode", EMandatory.MANDATORY),
+  SENDER_ID_SCHEME ("SenderIDScheme", EMandatory.OPTIONAL),
+  SENDER_ID_VALUE ("SenderIDValue", EMandatory.OPTIONAL),
+  SENDER_NAME ("SenderName", EMandatory.OPTIONAL),
+  SENDER_COUNTRY_CODE ("SenderCountryCode", EMandatory.OPTIONAL),
 
-  RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.MANDATORY),
-  RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.MANDATORY),
-  RECEIVER_NAME ("ReceiverName", EMandatory.MANDATORY),
-  RECEIVER_COUNTRY_CODE ("ReceiverCountryCode", EMandatory.MANDATORY);
+  RECEIVER_ID_SCHEME ("ReceiverIDScheme", EMandatory.OPTIONAL),
+  RECEIVER_ID_VALUE ("ReceiverIDValue", EMandatory.OPTIONAL),
+  RECEIVER_NAME ("ReceiverName", EMandatory.OPTIONAL),
+  RECEIVER_COUNTRY_CODE ("ReceiverCountryCode", EMandatory.OPTIONAL);
 
   private final String m_sID;
   private final EMandatory m_eSyntaxDefinitionMandatory;

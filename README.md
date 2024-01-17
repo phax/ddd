@@ -26,6 +26,8 @@ Each syntax is uniquely determined by the combination of the XML root element na
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
+* Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
+* Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`) - added in v0.1.1
@@ -83,6 +85,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 * v0.2.0 - work in progress
     * Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
     * Fixed error in XRechnung 2.2 VESIDs
+    * Added support for Peppol EUSR and Peppol TSR
 * v0.1.4 - 2024-01-08
     * Extended syntax list - added UBL 2.x Application Response
     * Added support for Peppol MLR

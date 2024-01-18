@@ -18,6 +18,7 @@ package com.helger.ddd.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -49,5 +50,14 @@ public final class DDDValueProviderListTest
     assertNotNull (aMap.get ("ubl2-invoice"));
     assertNotNull (aMap.get ("ubl2-order"));
     assertNotNull (aMap.get ("ubl2-orderresponse"));
+
+    for (final DDDValueProviderPerSyntax aVPS : aMap.values ())
+      for (final var e1 : aVPS.getAllSelectors ().entrySet ())
+        for (final var e2 : e1.getValue ().entrySet ())
+        {
+          // Make sure, for each value providers at least the VESID is mapped
+          assertTrue ("VESID missing for " + aVPS.getSyntaxID () + " - " + e1.getKey (),
+                      e2.getValue ().containsKey (EDDDDeterminedField.VESID));
+        }
   }
 }

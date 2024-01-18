@@ -286,6 +286,7 @@
       <!-- Peppol BIS Order -->
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3">
         <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:order:latest</set>
         <set id="ProfileName">Peppol Order transaction V3</set>
       </if>
     </select>

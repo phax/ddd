@@ -193,7 +193,7 @@
         <set id="VESID">it.peppol:despatch-advice:latest</set>
         <set id="ProfileName">AGID Peppol Despatch Advice</set>
       </if>
-      <if value="urn:fdc:peppol.eu:poacc:bis:despatch_advice:3">
+      <if value="urn:fdc:peppol.eu:poacc:trns:despatch_advice:3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:despatch-advice:latest</set>
         <set id="ProfileName">Peppol Despatch Advice transaction V3</set>

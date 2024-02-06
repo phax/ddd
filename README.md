@@ -82,6 +82,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.2.1 - 2024-02-06
+    * Fixed a typo in the Customization of the Peppol BIS Despatch Advice
 * v0.2.0 - 2024-01-18
     * Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
     * Fixed error in XRechnung 2.2 VESIDs

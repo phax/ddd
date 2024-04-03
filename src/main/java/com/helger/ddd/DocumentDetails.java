@@ -18,6 +18,7 @@ package com.helger.ddd;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.builder.IBuilder;
@@ -34,12 +35,14 @@ import com.helger.peppolid.IProcessIdentifier;
  *
  * @author Philip Helger
  */
+@Immutable
 public class DocumentDetails
 {
   private final IParticipantIdentifier m_aSenderID;
   private final IParticipantIdentifier m_aReceiverID;
   private final IDocumentTypeIdentifier m_aDocTypeID;
   private final String m_sCustomizationID;
+  private final String m_sSyntaxVersion;
   private final IProcessIdentifier m_aProcessID;
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
@@ -61,6 +64,8 @@ public class DocumentDetails
    *        Document Type ID.
    * @param sCustomizationID
    *        Customization ID from the Document Type ID.
+   * @param sSyntaxVersion
+   *        Syntax version from the Document Type ID.
    * @param aProcessID
    *        Process ID.
    * @param sBusinessDocumentID
@@ -82,6 +87,7 @@ public class DocumentDetails
                              @Nullable final IParticipantIdentifier aReceiverID,
                              @Nullable final IDocumentTypeIdentifier aDocTypeID,
                              @Nullable final String sCustomizationID,
+                             @Nullable final String sSyntaxVersion,
                              @Nullable final IProcessIdentifier aProcessID,
                              @Nullable final String sBusinessDocumentID,
                              @Nullable final String sSenderName,
@@ -95,6 +101,7 @@ public class DocumentDetails
     m_aReceiverID = aReceiverID;
     m_aDocTypeID = aDocTypeID;
     m_sCustomizationID = sCustomizationID;
+    m_sSyntaxVersion = sSyntaxVersion;
     m_aProcessID = aProcessID;
     m_sBusinessDocumentID = sBusinessDocumentID;
     m_sSenderName = sSenderName;
@@ -161,6 +168,22 @@ public class DocumentDetails
   public final String getCustomizationID ()
   {
     return m_sCustomizationID;
+  }
+
+  public final boolean hasSyntaxVersion ()
+  {
+    return StringHelper.hasText (m_sSyntaxVersion);
+  }
+
+  /**
+   * @return The syntax version contained in the Document Type ID. May be
+   *         <code>null</code>.
+   * @since 0.2.2
+   */
+  @Nullable
+  public final String getSyntaxVersion ()
+  {
+    return m_sSyntaxVersion;
   }
 
   public final boolean hasProcessID ()
@@ -295,6 +318,7 @@ public class DocumentDetails
     ret.add ("receiver", m_aReceiverID == null ? null : m_aReceiverID.getURIEncoded ());
     ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
     ret.add ("customizationID", m_sCustomizationID);
+    ret.add ("syntaxVersion", m_sSyntaxVersion);
     ret.add ("process", m_aProcessID == null ? null : m_aProcessID.getURIEncoded ());
     ret.add ("bdid", m_sBusinessDocumentID);
     ret.add ("senderName", m_sSenderName);
@@ -313,6 +337,7 @@ public class DocumentDetails
                                        .append ("ReceiverID", m_aReceiverID)
                                        .append ("DocTypeID", m_aDocTypeID)
                                        .append ("CustomizationID", m_sCustomizationID)
+                                       .append ("SyntaxVersion", m_sSyntaxVersion)
                                        .append ("ProcessID", m_aProcessID)
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)
@@ -357,6 +382,7 @@ public class DocumentDetails
     private IParticipantIdentifier m_aReceiverID;
     private IDocumentTypeIdentifier m_aDocTypeID;
     private String m_sCustomizationID;
+    private String m_sSyntaxVersion;
     private IProcessIdentifier m_aProcessID;
     private String m_sBusinessDocumentID;
     private String m_sSenderName;
@@ -386,6 +412,7 @@ public class DocumentDetails
                                        .processID (aSource.getProcessID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
                                        .customizationID (aSource.getCustomizationID ())
+                                       .syntaxVersion (aSource.getSyntaxVersion ())
                                        .senderName (aSource.getSenderName ())
                                        .senderCountryCode (aSource.getSenderCountryCode ())
                                        .receiverName (aSource.getReceiverName ())
@@ -419,6 +446,13 @@ public class DocumentDetails
     public final Builder customizationID (@Nullable final String s)
     {
       m_sCustomizationID = s;
+      return this;
+    }
+
+    @Nonnull
+    public final Builder syntaxVersion (@Nullable final String s)
+    {
+      m_sSyntaxVersion = s;
       return this;
     }
 
@@ -486,6 +520,7 @@ public class DocumentDetails
                                   m_aReceiverID,
                                   m_aDocTypeID,
                                   m_sCustomizationID,
+                                  m_sSyntaxVersion,
                                   m_aProcessID,
                                   m_sBusinessDocumentID,
                                   m_sSenderName,

@@ -408,6 +408,7 @@ public final class DocumentDetailsDeterminator
                           .receiverID (aReceiverID)
                           .documentTypeID (aDocTypeID)
                           .customizationID (sCustomizationID)
+                          .syntaxVersion (sSyntaxVersion)
                           .processID (aProcessID)
                           .businessDocumentID (sBusinessDocumentID)
                           .senderName (sSenderName)

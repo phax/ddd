@@ -17,7 +17,7 @@
     limitations under the License.
 
 -->
-<root lastmod="2023-09-19">
+<root lastmod="2024-04-03">
   <syntax id="cii-d16b">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
@@ -90,7 +90,7 @@
         <set id="ProfileName">Peppol End User Statistics Report 1.1</set>
       </if>
     </select>
-  </syntax>    
+  </syntax>
   
   <syntax id="peppol-tsr">
     <select id="CustomizationID">
@@ -99,20 +99,50 @@
         <set id="ProfileName">Peppol Transaction Statistics Report 1.0</set>
       </if>
     </select>
-  </syntax>    
+  </syntax>
   
   <syntax id="ubl2-applicationresponse">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:mlr:3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:mlr:latest</set>
-        <set id="ProfileName">Peppol Message Level Response V3</set>
+        <set id="ProfileName">Peppol Message Level Response transaction 3.0</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:catalogue_response:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:catalogue-response:latest</set>
+        <set id="ProfileName">Peppol Catalogue Response transaction 3.0</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:invoice_response:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:invoice-message-response:latest</set>
+        <set id="ProfileName">Peppol Invoice Response transaction 3.0</set>
       </if>
     </select>
-  </syntax>    
+  </syntax>
+  
+  <syntax id="ubl2-catalogue">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:poacc:trns:catalogue:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:catalogue:latest</set>
+        <set id="ProfileName">Peppol Catalogue transaction 3.0</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:punch_out:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:punch-out:latest</set>
+        <set id="ProfileName">Peppol Punch Out transaction 3.0</set>
+      </if>
+    </select>
+  </syntax>
   
   <syntax id="ubl2-creditnote">
     <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.cen.en16931:ubl-creditnote:latest</set>
+        <set id="ProfileName">EN 16931 UBL CreditNote</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote:latest</set>
@@ -203,6 +233,11 @@
   
   <syntax id="ubl2-invoice">
     <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.cen.en16931:ubl:latest</set>
+        <set id="ProfileName">EN 16931 UBL Invoice</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:invoice:latest</set>
@@ -292,6 +327,26 @@
     </select>
   </syntax>
   
+  <syntax id="ubl2-ordercancellation">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:poacc:trns:order_cancellation:3">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">eu.peppol.bis3:order-cancellation:latest</set>
+        <set id="ProfileName">Peppol Order Cancellation transaction V3</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-orderchange">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:poacc:trns:order_change:3">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">eu.peppol.bis3:order-change:latest</set>
+        <set id="ProfileName">Peppol Order Change transaction V3</set>
+      </if>
+    </select>
+  </syntax>
+  
   <syntax id="ubl2-orderresponse">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3:restrictive:urn:www.agid.gov.it:trns:risposta_ordine:3.0">
@@ -303,6 +358,16 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:order-response:latest</set>
         <set id="ProfileName">Peppol Order Response transaction V3</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:order_response_advanced:3">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">eu.peppol.bis3:order-response-advanced:latest</set>
+        <set id="ProfileName">Peppol Order Response Advanced</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:order_agreement:3">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3:order-agreement:latest</set>
+        <set id="ProfileName">Peppol Order Agreement transaction 3.0</set>
       </if>
     </select>
   </syntax>

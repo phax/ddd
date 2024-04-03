@@ -52,15 +52,18 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
-    assertEquals (9, aMap.size ());
+    assertEquals (12, aMap.size ());
     assertTrue (aMap.containsKey ("cii-d16b"));
     assertTrue (aMap.containsKey ("peppol-eusr"));
     assertTrue (aMap.containsKey ("peppol-tsr"));
     assertTrue (aMap.containsKey ("ubl2-applicationresponse"));
+    assertTrue (aMap.containsKey ("ubl2-catalogue"));
     assertTrue (aMap.containsKey ("ubl2-creditnote"));
     assertTrue (aMap.containsKey ("ubl2-despatchadvice"));
     assertTrue (aMap.containsKey ("ubl2-invoice"));
     assertTrue (aMap.containsKey ("ubl2-order"));
+    assertTrue (aMap.containsKey ("ubl2-ordercancellation"));
+    assertTrue (aMap.containsKey ("ubl2-orderchange"));
     assertTrue (aMap.containsKey ("ubl2-orderresponse"));
   }
 
@@ -77,9 +80,8 @@ public final class DDDSyntaxListTest
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
 
       // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" +
-                                                  aSyntaxEntry.getKey () +
-                                                  "/good").withFilter (IFileFilter.filenameEndsWith (".xml")))
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
+                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
         nFilesRead++;

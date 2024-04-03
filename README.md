@@ -29,10 +29,13 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
+* UBL 2.x Catalogue (ID `ubl2-catalogue`) - added in v0.2.2
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`) - added in v0.1.1
 * UBL 2.x Invoice (ID `ubl2-invoice`)
 * UBL 2.x Order (ID `ubl2-order`) - added in v0.1.1
+* UBL 2.x Order Cancellation (ID `ubl2-ordercancellation`) - added in v0.2.2
+* UBL 2.x Order Change (ID `ubl2-orderchange`) - added in v0.2.2
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
@@ -82,6 +85,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.2.2 - 2024-04-03
+    * Extended syntax list
 * v0.2.1 - 2024-02-06
     * Fixed a typo in the Customization of the Peppol BIS Despatch Advice
 * v0.2.0 - 2024-01-18

@@ -294,6 +294,7 @@ public class DocumentDetails
     ret.add ("sender", m_aSenderID == null ? null : m_aSenderID.getURIEncoded ());
     ret.add ("receiver", m_aReceiverID == null ? null : m_aReceiverID.getURIEncoded ());
     ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
+    ret.add ("customizationID", m_sCustomizationID);
     ret.add ("process", m_aProcessID == null ? null : m_aProcessID.getURIEncoded ());
     ret.add ("bdid", m_sBusinessDocumentID);
     ret.add ("senderName", m_sSenderName);
@@ -311,6 +312,7 @@ public class DocumentDetails
     return new ToStringGenerator (null).append ("SenderID", m_aSenderID)
                                        .append ("ReceiverID", m_aReceiverID)
                                        .append ("DocTypeID", m_aDocTypeID)
+                                       .append ("CustomizationID", m_sCustomizationID)
                                        .append ("ProcessID", m_aProcessID)
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)

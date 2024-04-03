@@ -85,9 +85,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-* v0.2.2 - 2024-04-03
+* v0.2.2 - work in progress
     * Extended syntax list
-    * Added Customization ID into `DocumentDetails`
+    * Added Customization ID and Syntax Version into `DocumentDetails`
 * v0.2.1 - 2024-02-06
     * Fixed a typo in the Customization of the Peppol BIS Despatch Advice
 * v0.2.0 - 2024-01-18

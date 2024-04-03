@@ -39,6 +39,7 @@ public class DocumentDetails
   private final IParticipantIdentifier m_aSenderID;
   private final IParticipantIdentifier m_aReceiverID;
   private final IDocumentTypeIdentifier m_aDocTypeID;
+  private final String m_sCustomizationID;
   private final IProcessIdentifier m_aProcessID;
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
@@ -48,9 +49,39 @@ public class DocumentDetails
   private final String m_sVESID;
   private final String m_sProfileName;
 
+  /**
+   * Internal constructor. All fields are optional. Don't use this ctor
+   * directly, use {@link #builder()} instead.
+   *
+   * @param aSenderID
+   *        Sender ID.
+   * @param aReceiverID
+   *        Receiver ID.
+   * @param aDocTypeID
+   *        Document Type ID.
+   * @param sCustomizationID
+   *        Customization ID from the Document Type ID.
+   * @param aProcessID
+   *        Process ID.
+   * @param sBusinessDocumentID
+   *        Business document ID
+   * @param sSenderName
+   *        Sender name
+   * @param sSenderCountryCode
+   *        Sender country code
+   * @param sReceiverName
+   *        Receiver name
+   * @param sReceiverCountryCode
+   *        Receiver country code
+   * @param sVESID
+   *        VESID to use
+   * @param sProfileName
+   *        Profile filename
+   */
   protected DocumentDetails (@Nullable final IParticipantIdentifier aSenderID,
                              @Nullable final IParticipantIdentifier aReceiverID,
                              @Nullable final IDocumentTypeIdentifier aDocTypeID,
+                             @Nullable final String sCustomizationID,
                              @Nullable final IProcessIdentifier aProcessID,
                              @Nullable final String sBusinessDocumentID,
                              @Nullable final String sSenderName,
@@ -63,6 +94,7 @@ public class DocumentDetails
     m_aSenderID = aSenderID;
     m_aReceiverID = aReceiverID;
     m_aDocTypeID = aDocTypeID;
+    m_sCustomizationID = sCustomizationID;
     m_aProcessID = aProcessID;
     m_sBusinessDocumentID = sBusinessDocumentID;
     m_sSenderName = sSenderName;
@@ -113,6 +145,22 @@ public class DocumentDetails
   public final IDocumentTypeIdentifier getDocumentTypeID ()
   {
     return m_aDocTypeID;
+  }
+
+  public final boolean hasCustomizationID ()
+  {
+    return StringHelper.hasText (m_sCustomizationID);
+  }
+
+  /**
+   * @return The customization ID contained in the Document Type ID. May be
+   *         <code>null</code>.
+   * @since 0.2.2
+   */
+  @Nullable
+  public final String getCustomizationID ()
+  {
+    return m_sCustomizationID;
   }
 
   public final boolean hasProcessID ()
@@ -306,6 +354,7 @@ public class DocumentDetails
     private IParticipantIdentifier m_aSenderID;
     private IParticipantIdentifier m_aReceiverID;
     private IDocumentTypeIdentifier m_aDocTypeID;
+    private String m_sCustomizationID;
     private IProcessIdentifier m_aProcessID;
     private String m_sBusinessDocumentID;
     private String m_sSenderName;
@@ -334,6 +383,7 @@ public class DocumentDetails
                                        .documentTypeID (aSource.getDocumentTypeID ())
                                        .processID (aSource.getProcessID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
+                                       .customizationID (aSource.getCustomizationID ())
                                        .senderName (aSource.getSenderName ())
                                        .senderCountryCode (aSource.getSenderCountryCode ())
                                        .receiverName (aSource.getReceiverName ())
@@ -360,6 +410,13 @@ public class DocumentDetails
     public final Builder documentTypeID (@Nullable final IDocumentTypeIdentifier a)
     {
       m_aDocTypeID = a;
+      return this;
+    }
+
+    @Nonnull
+    public final Builder customizationID (@Nullable final String s)
+    {
+      m_sCustomizationID = s;
       return this;
     }
 
@@ -426,6 +483,7 @@ public class DocumentDetails
       return new DocumentDetails (m_aSenderID,
                                   m_aReceiverID,
                                   m_aDocTypeID,
+                                  m_sCustomizationID,
                                   m_aProcessID,
                                   m_sBusinessDocumentID,
                                   m_sSenderName,

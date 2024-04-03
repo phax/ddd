@@ -290,12 +290,12 @@ public final class DocumentDetailsDeterminator
     final String sCustomizationID = aSyntax.getValue (EDDDSourceField.CUSTOMIZATION_ID, aRootElement, aErrorList);
     // optional
     String sProcessID = aSyntax.getValue (EDDDSourceField.PROCESS_ID, aRootElement, aErrorList);
-    final String sSenderScheme = aSyntax.getValue (EDDDSourceField.SENDER_ID_SCHEME, aRootElement, aErrorList);
-    final String sSenderValue = aSyntax.getValue (EDDDSourceField.SENDER_ID_VALUE, aRootElement, aErrorList);
-    IParticipantIdentifier aSenderID = _createPID (sSenderScheme, sSenderValue);
-    final String sReceiverScheme = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
-    final String sReceiverValue = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
-    IParticipantIdentifier aReceiverID = _createPID (sReceiverScheme, sReceiverValue);
+    final String sSenderIDScheme = aSyntax.getValue (EDDDSourceField.SENDER_ID_SCHEME, aRootElement, aErrorList);
+    final String sSenderIDValue = aSyntax.getValue (EDDDSourceField.SENDER_ID_VALUE, aRootElement, aErrorList);
+    IParticipantIdentifier aSenderID = _createPID (sSenderIDScheme, sSenderIDValue);
+    final String sReceiverIDScheme = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
+    final String sReceiverIDValue = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
+    IParticipantIdentifier aReceiverID = _createPID (sReceiverIDScheme, sReceiverIDValue);
     final String sBusinessDocumentID = aSyntax.getValue (EDDDSourceField.BUSINESS_DOCUMENT_ID,
                                                          aRootElement,
                                                          aErrorList);
@@ -337,17 +337,17 @@ public final class DocumentDetailsDeterminator
         case BUSINESS_DOCUMENT_ID:
           return sBusinessDocumentID;
         case SENDER_ID_SCHEME:
-          return sSenderScheme;
+          return sSenderIDScheme;
         case SENDER_ID_VALUE:
-          return sSenderValue;
+          return sSenderIDValue;
         case SENDER_NAME:
           return sSenderName;
         case SENDER_COUNTRY_CODE:
           return sSenderCountryCode;
         case RECEIVER_ID_SCHEME:
-          return sReceiverScheme;
+          return sReceiverIDScheme;
         case RECEIVER_ID_VALUE:
-          return sReceiverValue;
+          return sReceiverIDValue;
         case RECEIVER_NAME:
           return sReceiverName;
         case RECEIVER_COUNTRY_CODE:
@@ -357,6 +357,7 @@ public final class DocumentDetailsDeterminator
       }
     };
 
+    // Target value setter
     String sProfileName = null;
     final ICommonsMap <EDDDDeterminedField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
     for (final Map.Entry <EDDDDeterminedField, String> aEntry : aMatches.entrySet ())
@@ -402,16 +403,19 @@ public final class DocumentDetailsDeterminator
       aProcessID = null;
 
     // All elements are optional
-    return new DocumentDetails (aSenderID,
-                                aReceiverID,
-                                aDocTypeID,
-                                aProcessID,
-                                sBusinessDocumentID,
-                                sSenderName,
-                                sSenderCountryCode,
-                                sReceiverName,
-                                sReceiverCountryCode,
-                                sVESID,
-                                sProfileName);
+    return DocumentDetails.builder ()
+                          .senderID (aSenderID)
+                          .receiverID (aReceiverID)
+                          .documentTypeID (aDocTypeID)
+                          .customizationID (sCustomizationID)
+                          .processID (aProcessID)
+                          .businessDocumentID (sBusinessDocumentID)
+                          .senderName (sSenderName)
+                          .senderCountryCode (sSenderCountryCode)
+                          .receiverName (sReceiverName)
+                          .receiverCountryCode (sReceiverCountryCode)
+                          .vesid (sVESID)
+                          .profileName (sProfileName)
+                          .build ();
   }
 }

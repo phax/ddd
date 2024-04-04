@@ -25,8 +25,11 @@ import javax.annotation.concurrent.Immutable;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
+import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.state.ESuccess;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.xml.microdom.IMicroElement;
@@ -41,7 +44,7 @@ import com.helger.xml.microdom.IMicroElement;
 public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
-  private final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> m_aSelectors;
+  private final ICommonsMap <EDDDSourceField, VPSelect> m_aSelects;
 
   /**
    * Constructor
@@ -49,17 +52,17 @@ public class DDDValueProviderPerSyntax
    * @param sSyntaxID
    *        The syntax this object works on. May neither be <code>null</code>
    *        nor empty.
-   * @param aSelectors
+   * @param aSelects
    *        Map from (SelectorField) to (Map from (SelectorValue) to (Map from
    *        (TargetField) to (TargetValue)))
    */
   public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
-                                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aSelectors)
+                                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
   {
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
-    ValueEnforcer.notEmpty (aSelectors, "Selectors");
+    ValueEnforcer.notEmpty (aSelects, "Selectors");
     m_sSyntaxID = sSyntaxID;
-    m_aSelectors = aSelectors;
+    m_aSelects = aSelects;
   }
 
   @Nonnull
@@ -72,71 +75,122 @@ public class DDDValueProviderPerSyntax
   @Nonnull
   @Nonempty
   @ReturnsMutableCopy
-  public final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> getAllSelectors ()
+  public final ICommonsMap <EDDDSourceField, VPSelect> getAllSelectors ()
   {
     // Deep clone
-    final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> ret = new CommonsHashMap <> ();
-    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> e : m_aSelectors.entrySet ())
-    {
-      final ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>> ret2 = new CommonsHashMap <> ();
-      for (final Map.Entry <String, ICommonsMap <EDDDDeterminedField, String>> e2 : e.getValue ().entrySet ())
-        ret2.put (e2.getKey (), e2.getValue ().getClone ());
-      ret.put (e.getKey (), ret2);
-    }
+    final ICommonsMap <EDDDSourceField, VPSelect> ret = new CommonsHashMap <> ();
+    for (final Map.Entry <EDDDSourceField, VPSelect> e : m_aSelects.entrySet ())
+      ret.put (e.getKey (), e.getValue ().getClone ());
     return ret;
   }
 
   public interface ISelectorCallback
   {
-    void accept (@Nonnull EDDDSourceField eSourceField,
-                 @Nonnull String sSourceValue,
+    /**
+     * Selector callback
+     *
+     * @param aSourceValues
+     *        List of all source values used for selection. Never
+     *        <code>null</code> nor empty.
+     * @param eDeterminedField
+     *        The determined field. Never <code>null</code>.
+     * @param sDeterminedValue
+     *        The determined values. Never <code>null</code>.
+     */
+    void accept (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
                  @Nonnull EDDDDeterminedField eDeterminedField,
                  @Nonnull String sDeterminedValue);
+  }
+
+  public static void _forEachSelectorRecursive (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
+                                                @Nonnull final ICommonsList <VPSourceValue> aSourceValues,
+                                                @Nonnull final ISelectorCallback aConsumer)
+  {
+    for (final Map.Entry <EDDDSourceField, VPSelect> e : aSelects.entrySet ())
+    {
+      final EDDDSourceField eSourceField = e.getKey ();
+      for (final Map.Entry <String, VPIf> e2 : e.getValue ())
+      {
+        final VPSourceValue aSourceValue = new VPSourceValue (eSourceField, e2.getKey ());
+        aSourceValues.add (aSourceValue);
+
+        final VPIf aIf = e2.getValue ();
+
+        if (aIf.hasDeterminedValues ())
+        {
+          for (final Map.Entry <EDDDDeterminedField, String> e3 : aIf.determinedValues ())
+          {
+            final EDDDDeterminedField eDeterminedField = e3.getKey ();
+            final String sDeterminedValue = e3.getValue ();
+            aConsumer.accept (aSourceValues, eDeterminedField, sDeterminedValue);
+          }
+        }
+        else
+        {
+          // Nested select - call recursively
+          _forEachSelectorRecursive (aIf.nestedSelects (), aSourceValues, aConsumer);
+        }
+
+        // Remove from state list
+        aSourceValues.removeLastOrNull ();
+      }
+    }
   }
 
   public final void forEachSelector (@Nonnull final ISelectorCallback aConsumer)
   {
     ValueEnforcer.notNull (aConsumer, "Consumer");
 
-    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> e : m_aSelectors.entrySet ())
+    // List for keeping state
+    final ICommonsList <VPSourceValue> aSourceValues = new CommonsArrayList <> ();
+    _forEachSelectorRecursive (m_aSelects, aSourceValues, aConsumer);
+  }
+
+  @Nonnull
+  private static ESuccess _getAllDeducedValuesRecursive (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
+                                                         @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
+                                                         @Nonnull final VPDeterminedValues aTargetValues)
+  {
+    for (final Map.Entry <EDDDSourceField, VPSelect> aEntry : aSelects.entrySet ())
     {
-      final EDDDSourceField eSourceField = e.getKey ();
-      for (final Map.Entry <String, ICommonsMap <EDDDDeterminedField, String>> e2 : e.getValue ().entrySet ())
+      final EDDDSourceField eSourceField = aEntry.getKey ();
+      final VPSelect aSelect = aEntry.getValue ();
+
+      // Get the source value from the document
+      final String sSourceValue = aSourceProvider.apply (eSourceField);
+      if (sSourceValue != null)
       {
-        final String sSourceValue = e2.getKey ();
-        for (final Map.Entry <EDDDDeterminedField, String> e3 : e2.getValue ().entrySet ())
+        // Find all new values, based on source value (e.g. CustomizationID)
+        final VPIf aIf = aSelect.getIf (sSourceValue);
+        if (aIf != null)
         {
-          final EDDDDeterminedField eDeterminedField = e3.getKey ();
-          final String sDeterminedValue = e3.getValue ();
-          aConsumer.accept (eSourceField, sSourceValue, eDeterminedField, sDeterminedValue);
+          // Is it the last condition
+          if (aIf.hasDeterminedValues ())
+          {
+            aTargetValues.putAll (aIf.determinedValues ());
+            return ESuccess.SUCCESS;
+          }
+
+          // Nested selects instead
+          if (_getAllDeducedValuesRecursive (aSourceProvider, aIf.nestedSelects (), aTargetValues).isSuccess ())
+          {
+            // We found something in the nested value
+            return ESuccess.SUCCESS;
+          }
         }
       }
     }
+    return ESuccess.FAILURE;
   }
 
   @Nonnull
   @ReturnsMutableCopy
-  public ICommonsMap <EDDDDeterminedField, String> getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)
+  public VPDeterminedValues getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)
   {
     ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
 
-    final ICommonsMap <EDDDDeterminedField, String> ret = new CommonsHashMap <> ();
-    for (final Map.Entry <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aEntry : m_aSelectors.entrySet ())
-    {
-      // Get the source value
-      final EDDDSourceField eSelector = aEntry.getKey ();
-      final String sSourceValue = aSourceProvider.apply (eSelector);
-      if (sSourceValue != null)
-      {
-        // Find all new values, based on source value (e.g. CustomizationID)
-        final ICommonsMap <EDDDDeterminedField, String> aSetters = aEntry.getValue ().get (sSourceValue);
-        if (aSetters != null)
-        {
-          ret.putAll (aSetters);
-          break;
-        }
-      }
-    }
+    final VPDeterminedValues ret = new VPDeterminedValues ();
+    _getAllDeducedValuesRecursive (aSourceProvider, m_aSelects, ret);
     return ret;
   }
 
@@ -144,8 +198,101 @@ public class DDDValueProviderPerSyntax
   public String toString ()
   {
     return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
-                                       .append ("Selectors", m_aSelectors)
+                                       .append ("Selectors", m_aSelects)
                                        .getToString ();
+  }
+
+  private static void _readSet (@Nonnull final EDDDSourceField eOuterSelector,
+                                @Nonnull final IMicroElement eSet,
+                                @Nonnull final VPDeterminedValues aSetters)
+  {
+    final String sSetterID = eSet.getAttributeValue ("id");
+    final EDDDDeterminedField eSetter = EDDDDeterminedField.getFromIDOrNull (sSetterID);
+    if (eSetter == null)
+      throw new IllegalStateException ("The selector field '" +
+                                       eOuterSelector.getID () +
+                                       "' contains the unknown field '" +
+                                       sSetterID +
+                                       "'. Valid values are: " +
+                                       StringHelper.imploder ()
+                                                   .source (EDDDDeterminedField.values (), x -> "'" + x.getID () + "'")
+                                                   .separator (", ")
+                                                   .build ());
+    if (eSetter.getSourceField () == eOuterSelector)
+      throw new IllegalStateException ("The selector field '" +
+                                       eOuterSelector.getID () +
+                                       "' cannot be used as a setter field too");
+
+    if (aSetters.containsKey (eSetter))
+      throw new IllegalStateException ("The selector with ID '" +
+                                       eOuterSelector.getID () +
+                                       "' already contains a setter for '" +
+                                       sSetterID +
+                                       "'");
+    aSetters.put (eSetter, eSet.getTextContentTrimmed ());
+  }
+
+  @Nonnull
+  private static VPIf _readIf (@Nonnull final EDDDSourceField eOuterSelector, @Nonnull final IMicroElement eIf)
+  {
+    final String sConditionValue = eIf.getAttributeValue ("value");
+    if (StringHelper.hasNoText (sConditionValue))
+      throw new IllegalStateException ("The selector '" +
+                                       eOuterSelector.getID () +
+                                       "' contains a condition with an empty value");
+
+    // Read all setters
+    final VPIf aIf = new VPIf (sConditionValue);
+    for (final IMicroElement eSet : eIf.getAllChildElements ("set"))
+      _readSet (eOuterSelector, eSet, aIf.determinedValues ());
+
+    // Read additional selectors
+    for (final IMicroElement eSelect : eIf.getAllChildElements ("select"))
+    {
+      final VPSelect aSelect = _readSelect (eSelect);
+      aIf.addNestedSelect (aSelect);
+    }
+
+    if (aIf.hasDeterminedValues () && aIf.hasNestedSelects ())
+      throw new IllegalStateException ("The selector '" +
+                                       eOuterSelector.getID () +
+                                       "' contains a condition with an values and nested selects. This is not allowed");
+
+    return aIf;
+  }
+
+  @Nonnull
+  private static VPSelect _readSelect (@Nonnull final IMicroElement eSelect)
+  {
+    // Selector field
+    final String sSelectorID = eSelect.getAttributeValue ("id");
+    final EDDDSourceField eSelector = EDDDSourceField.getFromIDOrNull (sSelectorID);
+    if (eSelector == null)
+      throw new IllegalStateException ("The selector field '" +
+                                       sSelectorID +
+                                       "' is unknown. Valid values are: " +
+                                       StringHelper.imploder ()
+                                                   .source (EDDDSourceField.values (), x -> "'" + x.getID () + "'")
+                                                   .separator (", ")
+                                                   .build ());
+
+    final VPSelect aSelect = new VPSelect (eSelector);
+
+    // Read all "if"s
+    for (final IMicroElement eIf : eSelect.getAllChildElements ("if"))
+    {
+      final VPIf aIf = _readIf (eSelector, eIf);
+      final String sConditionValue = aIf.getConditionValue ();
+      if (aSelect.containsIf (sConditionValue))
+        throw new IllegalStateException ("The selector '" +
+                                         eSelector.getID () +
+                                         "' already has a condition with value '" +
+                                         sConditionValue +
+                                         "'");
+      aSelect.addIf (aIf);
+    }
+
+    return aSelect;
   }
 
   @Nonnull
@@ -155,72 +302,16 @@ public class DDDValueProviderPerSyntax
     if (StringHelper.hasNoText (sSyntaxID))
       throw new IllegalStateException ("Failed to read a syntax ID");
 
-    final ICommonsMap <EDDDSourceField, ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>>> aMap = new CommonsHashMap <> ();
+    final ICommonsMap <EDDDSourceField, VPSelect> aSelects = new CommonsHashMap <> ();
     for (final IMicroElement eSelect : eVesid.getAllChildElements ("select"))
     {
-      // Selector field
-      final String sSelectorID = eSelect.getAttributeValue ("id");
-      final EDDDSourceField eSelector = EDDDSourceField.getFromIDOrNull (sSelectorID);
-      if (eSelector == null)
-        throw new IllegalStateException ("The selector field '" +
-                                         sSelectorID +
-                                         "' is unknown. Valid values are: " +
-                                         StringHelper.imploder ()
-                                                     .source (EDDDSourceField.values (), x -> "'" + x.getID () + "'")
-                                                     .separator (", ")
-                                                     .build ());
-
-      if (aMap.containsKey (eSelector))
-        throw new IllegalStateException ("The selector with ID '" + sSelectorID + "' is already contained");
-
-      // Read all "if"s
-      final ICommonsMap <String, ICommonsMap <EDDDDeterminedField, String>> aSelectors = new CommonsHashMap <> ();
-      for (final IMicroElement eIf : eSelect.getAllChildElements ("if"))
-      {
-        final String sConditionValue = eIf.getAttributeValue ("value");
-
-        if (aSelectors.containsKey (sConditionValue))
-          throw new IllegalStateException ("The selector '" +
-                                           sSelectorID +
-                                           "' already has a condition with value '" +
-                                           sConditionValue +
-                                           "'");
-
-        // Read all setters
-        final ICommonsMap <EDDDDeterminedField, String> aSetters = new CommonsHashMap <> ();
-        for (final IMicroElement eSet : eIf.getAllChildElements ("set"))
-        {
-          final String sSetterID = eSet.getAttributeValue ("id");
-          final EDDDDeterminedField eSetter = EDDDDeterminedField.getFromIDOrNull (sSetterID);
-          if (eSetter == null)
-            throw new IllegalStateException ("The selector field '" +
-                                             sSelectorID +
-                                             "' contains the unknown field '" +
-                                             sSetterID +
-                                             "'. Valid values are: " +
-                                             StringHelper.imploder ()
-                                                         .source (EDDDDeterminedField.values (),
-                                                                  x -> "'" + x.getID () + "'")
-                                                         .separator (", ")
-                                                         .build ());
-          if (eSetter.getSourceField () == eSelector)
-            throw new IllegalStateException ("The selector field '" +
-                                             sSelectorID +
-                                             "' cannot be used as a setter field too");
-
-          if (aSetters.containsKey (eSetter))
-            throw new IllegalStateException ("The selector with ID '" +
-                                             sSelectorID +
-                                             "' already contains a setter for '" +
-                                             sSetterID +
-                                             "'");
-          aSetters.put (eSetter, eSet.getTextContentTrimmed ());
-        }
-        aSelectors.put (sConditionValue, aSetters);
-      }
-      aMap.put (eSelector, aSelectors);
+      final VPSelect aSelect = _readSelect (eSelect);
+      final EDDDSourceField eSelector = aSelect.getSourceField ();
+      if (aSelects.containsKey (eSelector))
+        throw new IllegalStateException ("The selector with ID '" + eSelector.getID () + "' is already contained");
+      aSelects.put (eSelector, aSelect);
     }
 
-    return new DDDValueProviderPerSyntax (sSyntaxID, aMap);
+    return new DDDValueProviderPerSyntax (sSyntaxID, aSelects);
   }
 }

@@ -30,13 +30,13 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.error.list.ErrorList;
 import com.helger.commons.string.StringHelper;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.DDDValueProviderPerSyntax;
+import com.helger.ddd.model.VPDeterminedValues;
 import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
 import com.helger.peppolid.IDocumentTypeIdentifier;
@@ -359,8 +359,8 @@ public final class DocumentDetailsDeterminator
 
     // Target value setter
     String sProfileName = null;
-    final ICommonsMap <EDDDDeterminedField, String> aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
-    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aMatches.entrySet ())
+    final VPDeterminedValues aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
+    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aMatches)
     {
       final String sNewValue = aEntry.getValue ();
       switch (aEntry.getKey ())

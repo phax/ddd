@@ -350,20 +350,19 @@
         <set id="ProfileName">Peppol Order transaction V3</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
-        <set id="SyntaxVersion">2.2</set>
-        <set id="VESID">no.ehf.g3:advanced-order-initiation:latest</set>
-        <set id="ProfileName">EHF Advanced Order Initiation V3</set>
-      </if>
-      <!-- 
-      <if value="urn:fdc:peppol.eu:poacc:trns:order:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
         <select id="ProcessID">
-        ...
+          <if value="urn:fdc:anskaffelser.no:2019:ehf:postaward:g3:02:1.0">
+            <set id="SyntaxVersion">2.2</set>
+            <set id="VESID">no.ehf.g3:order:latest</set>
+            <set id="ProfileName">EHF Order V3</set>
+          </if>
+          <if value="urn:fdc:anskaffelser.no:2019:ehf:postaward:g3:09:1.0">
+            <set id="SyntaxVersion">2.2</set>
+            <set id="VESID">no.ehf.g3:advanced-order-initiation:latest</set>
+            <set id="ProfileName">EHF Advanced Order Initiation V3</set>
+          </if>
         </select>
-        <set id="SyntaxVersion">2.2</set>
-        <set id="VESID">no.ehf.g3:order:latest</set>
-        <set id="ProfileName">EHF Order V3</set>
       </if>
-       -->
     </select>
   </syntax>
   

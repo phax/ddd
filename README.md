@@ -88,6 +88,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 * v0.2.2 - work in progress
     * Extended syntax list
     * Added Customization ID and Syntax Version into `DocumentDetails`
+    * Added detection of formats based on multiple conditions
 * v0.2.1 - 2024-02-06
     * Fixed a typo in the Customization of the Peppol BIS Despatch Advice
 * v0.2.0 - 2024-01-18

@@ -20,8 +20,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
@@ -34,6 +35,28 @@ import com.helger.commons.collection.impl.ICommonsMap;
  */
 public final class DDDValueProviderListTest
 {
+  private static void _recursiveTest (@Nonnull final String sSyntaxID,
+                                      @Nonnull final Map <EDDDSourceField, VPSelect> aSelects)
+  {
+    for (final Map.Entry <EDDDSourceField, VPSelect> e1 : aSelects.entrySet ())
+      for (final Map.Entry <String, VPIf> e2 : e1.getValue ())
+      {
+        final VPIf aIf = e2.getValue ();
+        if (aIf.determinedValues ().isNotEmpty ())
+        {
+          // Make sure, for each value providers at least the VESID is mapped
+          final String sVESID = aIf.determinedValues ().get (EDDDDeterminedField.VESID);
+          assertNotNull ("VESID missing for " + sSyntaxID + " - " + e1.getKey (), sVESID);
+        }
+        else
+        {
+          // Nested selects
+          assertTrue (aIf.hasNestedSelects ());
+          _recursiveTest (sSyntaxID, aIf.getAllNestedSelects ());
+        }
+      }
+  }
+
   @Test
   public void testBasic ()
   {
@@ -57,18 +80,7 @@ public final class DDDValueProviderListTest
     assertNotNull (aMap.get ("ubl2-orderchange"));
     assertNotNull (aMap.get ("ubl2-orderresponse"));
 
-    final Set <String> aAllVESIDs = new HashSet <> ();
     for (final DDDValueProviderPerSyntax aVPS : aMap.values ())
-      for (final var e1 : aVPS.getAllSelectors ().entrySet ())
-        for (final var e2 : e1.getValue ().entrySet ())
-        {
-          // Make sure, for each value providers at least the VESID is mapped
-          final String sVESID = e2.getValue ().get (EDDDDeterminedField.VESID);
-          assertNotNull ("VESID missing for " + aVPS.getSyntaxID () + " - " + e1.getKey (), sVESID);
-
-          // E.g. true for XRechnung UBL CreditNote 2.2
-          if (false)
-            assertTrue ("VESID '" + sVESID + "' is contained more then once", aAllVESIDs.add (sVESID));
-        }
+      _recursiveTest (aVPS.getSyntaxID (), aVPS.getAllSelectors ());
   }
 }

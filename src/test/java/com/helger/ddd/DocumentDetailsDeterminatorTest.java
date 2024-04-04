@@ -18,6 +18,7 @@ package com.helger.ddd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -35,7 +36,7 @@ import com.helger.xml.serialize.read.DOMReader;
 public final class DocumentDetailsDeterminatorTest
 {
   @Test
-  public void testDiscovery ()
+  public void testDiscoveryInvoice ()
   {
     // The main determinator
     final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
@@ -69,5 +70,52 @@ public final class DocumentDetailsDeterminatorTest
     assertEquals ("SE", aDD.getReceiverCountryCode ());
     assertEquals ("eu.peppol.bis3:invoice:latest", aDD.getVESID ());
     assertEquals ("Peppol BIS Billing UBL Invoice V3", aDD.getProfileName ());
+  }
+
+  @Test
+  public void testDiscoveryMultipleConditions ()
+  {
+    // The main determinator
+    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
+                                                                              DDDValueProviderList.getDefaultValueProviderList ());
+
+    {
+      // Read the document to be identified
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Order_Example-ehf.xml"));
+      assertNotNull (aDoc);
+
+      // Main determination
+      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertEquals ("no.ehf.g3:order:latest", aDD.getVESID ());
+      assertEquals ("EHF Order V3", aDD.getProfileName ());
+    }
+
+    {
+      // Read the document to be identified
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Advanced_Order_Example-ehf.xml"));
+      assertNotNull (aDoc);
+
+      // Main determination
+      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertEquals ("no.ehf.g3:advanced-order-initiation:latest", aDD.getVESID ());
+      assertEquals ("EHF Advanced Order Initiation V3", aDD.getProfileName ());
+    }
+
+    {
+      // Read the document to be identified
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Order_Example-ehf-unknownProcessID.xml"));
+      assertNotNull (aDoc);
+
+      // Main determination
+      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertNull (aDD.getVESID ());
+      assertNull (aDD.getProfileName ());
+    }
   }
 }

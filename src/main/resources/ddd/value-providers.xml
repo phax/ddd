@@ -143,6 +143,11 @@
         <set id="VESID">no.ehf.g3:catalogue:latest</set>
         <set id="ProfileName">EHF Catalogue V3</set>
       </if>
+      <if value="urn:fdc:peppol.eu:poacc:trns:punch_out:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
+        <set id="SyntaxVersion">2.2</set>
+        <set id="VESID">no.ehf.g3:punch-out:latest</set>
+        <set id="ProfileName">EHF Punch Out V3</set>
+      </if>
     </select>
   </syntax>
   
@@ -333,6 +338,16 @@
         <set id="VESID">no.ehf.g3:forward-billing-invoice:latest</set>
         <set id="ProfileName">EHF Forward Billing Invoice V3</set>
       </if>
+      <if value="urn:fdc:anskaffelser.no:2019:ehf:spec:payment-request:3.0">
+        <set id="SyntaxVersion">2.2</set>
+        <set id="VESID">no.ehf.g3:payment-request:latest</set>
+        <set id="ProfileName">EHF Payment Request V3</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0#conformant#urn:fdc:anskaffelser.no:2019:ehf:reminder:3.0">
+        <set id="SyntaxVersion">2.2</set>
+        <set id="VESID">no.ehf.g3:reminder:latest</set>
+        <set id="ProfileName">EHF Reminder V3</set>
+      </if>
     </select>
   </syntax>
   
@@ -419,10 +434,19 @@
         <set id="ProfileName">Peppol Order Agreement transaction 3.0</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
-        <set id="SyntaxVersion">2.2</set>
-        <set id="VESID">no.ehf.g3:advanced-order-response:latest</set>
-        <set id="ProfileName">EHF Advanced Order Response V3</set>
-      </if>
+        <select id="ProcessID">
+          <if value="urn:fdc:anskaffelser.no:2019:ehf:postaward:g3:02:1.0">
+            <set id="SyntaxVersion">2.2</set>
+            <set id="VESID">no.ehf.g3:order-response:latest</set>
+            <set id="ProfileName">EHF Order Response V3</set>
+          </if>
+          <if value="urn:fdc:anskaffelser.no:2019:ehf:postaward:g3:09:1.0">
+            <set id="SyntaxVersion">2.2</set>
+            <set id="VESID">no.ehf.g3:advanced-order-response:latest</set>
+            <set id="ProfileName">EHF Advanced Order Response V3</set>
+          </if>
+        </select>
+      </if>    
       <if value="urn:fdc:peppol.eu:poacc:trns:order_agreement:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:order-agreement:latest</set>

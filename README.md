@@ -43,6 +43,8 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 * UBL 2.x Order Response Simple (ID `ubl2-orderresponsesimple`) - added in v0.2.2
 * UBL 2.x Reminder (ID `ubl2-reminder`) - added in v0.2.2
+* UBL 2.x Statement (ID `ubl2-statement`) - added in v0.2.2
+* UBL 2.x Utility Statement (ID `ubl2-utilitystatement`) - added in v0.2.2
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently (in enum `EDDDDeterminedField`):

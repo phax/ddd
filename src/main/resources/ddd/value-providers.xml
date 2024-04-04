@@ -554,4 +554,24 @@
       </if>
     </select>
   </syntax>
+
+  <syntax id="ubl2-statement">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:statement:latest</set>
+        <set id="ProfileName">OIOUBL Statement</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ubl2-utilitystatement">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:utility-statement:latest</set>
+        <set id="ProfileName">OIOUBL Utility Statement</set>
+      </if>
+    </select>
+  </syntax>
 </root>

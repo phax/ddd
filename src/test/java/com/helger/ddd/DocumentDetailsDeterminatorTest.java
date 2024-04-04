@@ -19,13 +19,24 @@ package com.helger.ddd;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.util.Map;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.helger.commons.error.list.ErrorList;
+import com.helger.commons.io.file.FileSystemIterator;
+import com.helger.commons.io.file.IFileFilter;
 import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
+import com.helger.ddd.model.EDDDSourceField;
 import com.helger.xml.serialize.read.DOMReader;
 
 /**
@@ -35,19 +46,20 @@ import com.helger.xml.serialize.read.DOMReader;
  */
 public final class DocumentDetailsDeterminatorTest
 {
+  // The main determinator
+  private static final DocumentDetailsDeterminator DDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
+                                                                                          DDDValueProviderList.getDefaultValueProviderList ());
+  private static final Logger LOGGER = LoggerFactory.getLogger (DocumentDetailsDeterminatorTest.class);
+
   @Test
   public void testDiscoveryInvoice ()
   {
-    // The main determinator
-    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
-                                                                              DDDValueProviderList.getDefaultValueProviderList ());
-
     // Read the document to be identified
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/base-example.xml"));
     assertNotNull (aDoc);
 
     // Main determination
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
     assertNotNull (aDD);
 
     assertNotNull (aDD.getSenderID ());
@@ -75,17 +87,13 @@ public final class DocumentDetailsDeterminatorTest
   @Test
   public void testDiscoveryMultipleConditions ()
   {
-    // The main determinator
-    final DocumentDetailsDeterminator aDDD = new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
-                                                                              DDDValueProviderList.getDefaultValueProviderList ());
-
     {
       // Read the document to be identified
       final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Order_Example-ehf.xml"));
       assertNotNull (aDoc);
 
       // Main determination
-      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
       assertNotNull (aDD);
 
       assertEquals ("no.ehf.g3:order:latest", aDD.getVESID ());
@@ -98,7 +106,7 @@ public final class DocumentDetailsDeterminatorTest
       assertNotNull (aDoc);
 
       // Main determination
-      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
       assertNotNull (aDD);
 
       assertEquals ("no.ehf.g3:advanced-order-initiation:latest", aDD.getVESID ());
@@ -107,15 +115,59 @@ public final class DocumentDetailsDeterminatorTest
 
     {
       // Read the document to be identified
-      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Order_Example-ehf-unknownProcessID.xml"));
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/unknown/Order_Example-ehf-unknownProcessID.xml"));
       assertNotNull (aDoc);
 
       // Main determination
-      final DocumentDetails aDD = aDDD.findDocumentDetails (aDoc.getDocumentElement ());
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
       assertNotNull (aDD);
 
       assertNull (aDD.getVESID ());
       assertNull (aDD.getProfileName ());
     }
+  }
+
+  @Test
+  public void testReadAllTestfiles ()
+  {
+    final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();
+
+    int nFilesRead = 0;
+
+    // For all syntaxes
+    for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
+    {
+      final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
+
+      // Search for positive cases for the current syntax
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
+                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
+      {
+        LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
+        nFilesRead++;
+
+        // Read as XML
+        final Document aDoc = DOMReader.readXMLDOM (f);
+        assertNotNull (aDoc);
+
+        // Test all getters
+        final ErrorList aErrorList = new ErrorList ();
+        for (final EDDDSourceField eGetter : EDDDSourceField.values ())
+        {
+          final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
+          if (eGetter.isSyntaxDefinitionMandatory ())
+            assertNotNull ("Getter " + eGetter + " failed on " + f + "\n" + aErrorList.getAllErrors (), sValue);
+
+          if (false)
+            LOGGER.info ("  " + eGetter + " --> " + sValue);
+        }
+
+        final DocumentDetails aDetails = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+        assertNotNull (aDetails);
+        assertNotNull (aDetails.getVESID ());
+      }
+    }
+
+    assertTrue ("At least the testfiles must have been read", nFilesRead >= 3);
   }
 }

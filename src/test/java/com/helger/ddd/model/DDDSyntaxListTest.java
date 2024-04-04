@@ -20,19 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.util.Map;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import com.helger.commons.collection.impl.ICommonsMap;
-import com.helger.commons.error.list.ErrorList;
-import com.helger.commons.io.file.FileSystemIterator;
-import com.helger.commons.io.file.IFileFilter;
-import com.helger.xml.serialize.read.DOMReader;
 
 /**
  * Test class for class {@link DDDSyntaxList}
@@ -52,7 +44,7 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
-    assertEquals (18, aMap.size ());
+    assertEquals (20, aMap.size ());
     assertTrue (aMap.containsKey ("cii-d16b"));
     assertTrue (aMap.containsKey ("peppol-eusr"));
     assertTrue (aMap.containsKey ("peppol-tsr"));
@@ -70,45 +62,7 @@ public final class DDDSyntaxListTest
     assertTrue (aMap.containsKey ("ubl2-orderchange"));
     assertTrue (aMap.containsKey ("ubl2-orderresponse"));
     assertTrue (aMap.containsKey ("ubl2-orderresponsesimple"));
-  }
-
-  @Test
-  public void testAllTestfile ()
-  {
-    final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();
-
-    int nFilesRead = 0;
-
-    // For all syntaxes
-    for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
-    {
-      final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
-
-      // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
-                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
-      {
-        LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
-        nFilesRead++;
-
-        // Read as XML
-        final Document aDoc = DOMReader.readXMLDOM (f);
-        assertNotNull (aDoc);
-
-        // Test all getters
-        final ErrorList aErrorList = new ErrorList ();
-        for (final EDDDSourceField eGetter : EDDDSourceField.values ())
-        {
-          final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
-          if (eGetter.isSyntaxDefinitionMandatory ())
-            assertNotNull ("Getter " + eGetter + " failed on " + f + "\n" + aErrorList.getAllErrors (), sValue);
-
-          if (false)
-            LOGGER.info ("  " + eGetter + " --> " + sValue);
-        }
-      }
-    }
-
-    assertTrue ("At least the testfiles must have been read", nFilesRead >= 3);
+    assertTrue (aMap.containsKey ("ubl2-statement"));
+    assertTrue (aMap.containsKey ("ubl2-utilitystatement"));
   }
 }

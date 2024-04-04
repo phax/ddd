@@ -21,8 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.helger.commons.collection.impl.ICommonsMap;
 
@@ -33,8 +31,6 @@ import com.helger.commons.collection.impl.ICommonsMap;
  */
 public final class DDDSyntaxListTest
 {
-  private static final Logger LOGGER = LoggerFactory.getLogger (DDDSyntaxListTest.class);
-
   @Test
   public void testDefault ()
   {

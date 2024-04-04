@@ -30,6 +30,10 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
 * UBL 2.x Catalogue (ID `ubl2-catalogue`) - added in v0.2.2
+* UBL 2.x Catalogue Deletion (ID `ubl2-cataloguedeletion`) - added in v0.2.2
+* UBL 2.x Catalogue Item Specification Update (ID `ubl2-catalogueitemspecificationupdate`) - added in v0.2.2
+* UBL 2.x Catalogue Pricing Update (ID `ubl2-cataloguepricingupdate`) - added in v0.2.2
+* UBL 2.x Catalogue Request (ID `ubl2-cataloguerequest`) - added in v0.2.2
 * UBL 2.x Credit Note (ID `ubl2-creditnote`)
 * UBL 2.x Despatch Advice (ID `ubl2-despatchadvice`) - added in v0.1.1
 * UBL 2.x Invoice (ID `ubl2-invoice`)
@@ -37,6 +41,8 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Order Cancellation (ID `ubl2-ordercancellation`) - added in v0.2.2
 * UBL 2.x Order Change (ID `ubl2-orderchange`) - added in v0.2.2
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
+* UBL 2.x Order Response Simple (ID `ubl2-orderresponsesimple`) - added in v0.2.2
+* UBL 2.x Reminder (ID `ubl2-reminder`) - added in v0.2.2
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently (in enum `EDDDDeterminedField`):

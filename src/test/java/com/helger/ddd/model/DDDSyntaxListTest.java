@@ -52,12 +52,16 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
-    assertEquals (12, aMap.size ());
+    assertEquals (18, aMap.size ());
     assertTrue (aMap.containsKey ("cii-d16b"));
     assertTrue (aMap.containsKey ("peppol-eusr"));
     assertTrue (aMap.containsKey ("peppol-tsr"));
     assertTrue (aMap.containsKey ("ubl2-applicationresponse"));
     assertTrue (aMap.containsKey ("ubl2-catalogue"));
+    assertTrue (aMap.containsKey ("ubl2-cataloguedeletion"));
+    assertTrue (aMap.containsKey ("ubl2-catalogueitemspecificationupdate"));
+    assertTrue (aMap.containsKey ("ubl2-cataloguepricingupdate"));
+    assertTrue (aMap.containsKey ("ubl2-cataloguerequest"));
     assertTrue (aMap.containsKey ("ubl2-creditnote"));
     assertTrue (aMap.containsKey ("ubl2-despatchadvice"));
     assertTrue (aMap.containsKey ("ubl2-invoice"));
@@ -65,6 +69,7 @@ public final class DDDSyntaxListTest
     assertTrue (aMap.containsKey ("ubl2-ordercancellation"));
     assertTrue (aMap.containsKey ("ubl2-orderchange"));
     assertTrue (aMap.containsKey ("ubl2-orderresponse"));
+    assertTrue (aMap.containsKey ("ubl2-orderresponsesimple"));
   }
 
   @Test

@@ -123,6 +123,11 @@
         <set id="VESID">no.ehf.g3:catalogue-response:latest</set>
         <set id="ProfileName">EHF Catalogue Response V3</set>
       </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:application-response:latest</set>
+        <set id="ProfileName">OIOUBL Application Response</set>
+      </if>
     </select>
   </syntax>
   
@@ -147,6 +152,51 @@
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:punch-out:latest</set>
         <set id="ProfileName">EHF Punch Out V3</set>
+      </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:catalogue-deletion:latest</set>
+        <set id="ProfileName">OIOUBL Catalogue</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-cataloguedeletion">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:catalogue:latest</set>
+        <set id="ProfileName">OIOUBL Catalogue Deletion</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-catalogueitemspecificationupdate">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:catalogue-item-specification-update:latest</set>
+        <set id="ProfileName">OIOUBL Catalogue Item Specification Update</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-cataloguepricingupdate">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:catalogue-pricing-update:latest</set>
+        <set id="ProfileName">OIOUBL Catalogue Pricing Update</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-cataloguerequest">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:catalogue-request:latest</set>
+        <set id="ProfileName">OIOUBL Catalogue Request</set>
       </if>
     </select>
   </syntax>
@@ -232,6 +282,11 @@
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:forward-billing-creditnote:latest</set>
         <set id="ProfileName">EHF Forward Billing Credit Note V3</set>
+      </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:credit-note:latest</set>
+        <set id="ProfileName">OIOUBL Credit Note</set>
       </if>
     </select>
   </syntax>
@@ -348,6 +403,11 @@
         <set id="VESID">no.ehf.g3:reminder:latest</set>
         <set id="ProfileName">EHF Reminder V3</set>
       </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:invoice:latest</set>
+        <set id="ProfileName">OIOUBL Invoice</set>
+      </if>
     </select>
   </syntax>
   
@@ -378,6 +438,11 @@
           </if>
         </select>
       </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:order:latest</set>
+        <set id="ProfileName">OIOUBL Order</set>
+      </if>
     </select>
   </syntax>
   
@@ -393,6 +458,11 @@
         <set id="VESID">no.ehf.g3:advanced-order-cancellation:latest</set>
         <set id="ProfileName">EHF Advanced Order Cancellation V3</set>
       </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:order-cancellation:latest</set>
+        <set id="ProfileName">OIOUBL Order Cancellation</set>
+      </if>
     </select>
   </syntax>
   
@@ -407,6 +477,11 @@
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:advanced-order-change:latest</set>
         <set id="ProfileName">EHF Advanced Order Change V3</set>
+      </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:order-change:latest</set>
+        <set id="ProfileName">OIOUBL Order Change</set>
       </if>
     </select>
   </syntax>
@@ -451,6 +526,31 @@
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:order-agreement:latest</set>
         <set id="ProfileName">EHF Order Agreement V3</set>
+      </if>
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:order-response:latest</set>
+        <set id="ProfileName">OIOUBL Order Response</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ubl2-orderresponsesimple">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:order-response-simple:latest</set>
+        <set id="ProfileName">OIOUBL Order Response Simple</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ubl2-reminder">
+    <select id="CustomizationID">
+      <if value="OIOUBL-2.1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">dk.oioubl:reminder:latest</set>
+        <set id="ProfileName">OIOUBL Reminder</set>
       </if>
     </select>
   </syntax>

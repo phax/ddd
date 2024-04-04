@@ -17,7 +17,7 @@
     limitations under the License.
 
 -->
-<syntaxes lastmod="2024-04-03">
+<syntaxes lastmod="2024-04-04">
   <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>
@@ -115,6 +115,158 @@
 
   <syntax id="ubl2-catalogue" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2" root="Catalogue">
     <name>UBL 2.x Catalogue</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ubl2-cataloguedeletion" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CatalogueDeletion-2" root="CatalogueDeletion">
+    <name>UBL 2.x Catalogue Deletion</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ubl2-catalogueitemspecificationupdate" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CatalogueItemSpecificationUpdate-2" root="CatalogueItemSpecificationUpdate">
+    <name>UBL 2.x Catalogue Item Specification Update</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ubl2-cataloguepricingupdate" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CataloguePricingUpdate-2" root="CataloguePricingUpdate">
+    <name>UBL 2.x Catalogue Pricing Update</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='ProviderParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ubl2-cataloguerequest" nsuri="urn:oasis:names:specification:ubl:schema:xsd:CatalogueRequest-2" root="CatalogueRequest">
+    <name>UBL 2.x Catalogue Request</name>
     <!-- no version, because it can be 2.* -->
     <get id="CustomizationID">
       <xpath>*[local-name()='CustomizationID']/text()</xpath>
@@ -414,6 +566,82 @@
     </get>
     <get id="ReceiverCountryCode">
       <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+  
+  <syntax id="ubl2-orderresponsesimple" nsuri="urn:oasis:names:specification:ubl:schema:xsd:OrderResponseSimple-2" root="OrderResponseSimple">
+    <name>UBL 2.x Order Response Simple</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='SellerSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='BuyerCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+  </syntax>
+  
+  <syntax id="ubl2-reminder" nsuri="urn:oasis:names:specification:ubl:schema:xsd:Reminder-2" root="Reminder">
+    <name>UBL 2.x Reminder</name>
+    <!-- no version, because it can be 2.* -->
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='AccountingSupplierParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='EndpointID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PartyName']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='AccountingCustomerParty']/*[local-name()='Party']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
 </syntaxes>

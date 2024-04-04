@@ -66,19 +66,7 @@ public final class DDDValueProviderListTest
     assertNotNull (aList.getLastModification ());
 
     final ICommonsMap <String, DDDValueProviderPerSyntax> aMap = aList.getAllValueProvidersPerSyntaxes ();
-    assertEquals (12, aMap.size ());
-    assertNotNull (aMap.get ("cii-d16b"));
-    assertNotNull (aMap.get ("peppol-eusr"));
-    assertNotNull (aMap.get ("peppol-tsr"));
-    assertNotNull (aMap.get ("ubl2-applicationresponse"));
-    assertNotNull (aMap.get ("ubl2-catalogue"));
-    assertNotNull (aMap.get ("ubl2-creditnote"));
-    assertNotNull (aMap.get ("ubl2-despatchadvice"));
-    assertNotNull (aMap.get ("ubl2-invoice"));
-    assertNotNull (aMap.get ("ubl2-order"));
-    assertNotNull (aMap.get ("ubl2-ordercancellation"));
-    assertNotNull (aMap.get ("ubl2-orderchange"));
-    assertNotNull (aMap.get ("ubl2-orderresponse"));
+    assertEquals (DDDSyntaxList.getDefaultSyntaxList ().getAllSyntaxes ().size (), aMap.size ());
 
     for (final DDDValueProviderPerSyntax aVPS : aMap.values ())
       _recursiveTest (aVPS.getSyntaxID (), aVPS.getAllSelectors ());

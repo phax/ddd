@@ -23,8 +23,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.CommonsTreeMap;
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.lang.ICloneable;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -38,14 +39,14 @@ import com.helger.commons.string.ToStringGenerator;
 public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <String, VPIf>>
 {
   private final EDDDSourceField m_eSourceField;
-  private final ICommonsMap <String, VPIf> m_aIfs;
+  private final ICommonsSortedMap <String, VPIf> m_aIfs;
 
   public VPSelect (@Nonnull final EDDDSourceField eSourceField)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
 
     m_eSourceField = eSourceField;
-    m_aIfs = new CommonsHashMap <> ();
+    m_aIfs = new CommonsTreeMap <> ();
   }
 
   private VPSelect (@Nonnull final EDDDSourceField eSourceField, @Nonnull final ICommonsMap <String, VPIf> aIfs)
@@ -54,7 +55,7 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
 
     m_eSourceField = eSourceField;
     // Deep clone
-    m_aIfs = new CommonsHashMap <> (aIfs.size ());
+    m_aIfs = new CommonsTreeMap <> ();
     for (final Map.Entry <String, VPIf> e : aIfs.entrySet ())
       m_aIfs.put (e.getKey (), e.getValue ().getClone ());
   }

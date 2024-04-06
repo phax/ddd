@@ -24,8 +24,9 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.CommonsTreeMap;
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.lang.ICloneable;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -39,7 +40,7 @@ public final class VPIf implements ICloneable <VPIf>
 {
   private final String m_sConditionValue;
   private final VPDeterminedValues m_aDeterminedValues;
-  private final ICommonsMap <EDDDSourceField, VPSelect> m_aNestedSelects;
+  private final ICommonsSortedMap <EDDDSourceField, VPSelect> m_aNestedSelects;
 
   public VPIf (@Nonnull @Nonempty final String sConditionValue)
   {
@@ -47,7 +48,7 @@ public final class VPIf implements ICloneable <VPIf>
 
     m_sConditionValue = sConditionValue;
     m_aDeterminedValues = new VPDeterminedValues ();
-    m_aNestedSelects = new CommonsHashMap <> ();
+    m_aNestedSelects = new CommonsTreeMap <> ();
   }
 
   private VPIf (@Nonnull @Nonempty final String sConditionValue,
@@ -56,7 +57,7 @@ public final class VPIf implements ICloneable <VPIf>
   {
     m_sConditionValue = sConditionValue;
     m_aDeterminedValues = aDeterminedValues.getClone ();
-    m_aNestedSelects = new CommonsHashMap <> (aSelects.size ());
+    m_aNestedSelects = new CommonsTreeMap <> ();
     for (final Map.Entry <EDDDSourceField, VPSelect> e : aSelects.entrySet ())
       m_aNestedSelects.put (e.getKey (), e.getValue ().getClone ());
   }

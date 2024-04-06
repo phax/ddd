@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
-import com.helger.commons.collection.impl.CommonsHashMap;
-import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.CommonsTreeMap;
+import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.lang.ICloneable;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -36,16 +36,18 @@ import com.helger.commons.string.ToStringGenerator;
  * @since 0.2.2
  */
 @NotThreadSafe
-public final class VPDeterminedValues implements ICloneable <VPDeterminedValues>, Iterable <Map.Entry <EDDDDeterminedField, String>>
+public final class VPDeterminedValues implements
+                                      ICloneable <VPDeterminedValues>,
+                                      Iterable <Map.Entry <EDDDDeterminedField, String>>
 {
-  private final ICommonsMap <EDDDDeterminedField, String> m_aMap;
+  private final ICommonsSortedMap <EDDDDeterminedField, String> m_aMap;
 
   public VPDeterminedValues ()
   {
-    m_aMap = new CommonsHashMap <> ();
+    m_aMap = new CommonsTreeMap <> ();
   }
 
-  private VPDeterminedValues (@Nonnull final ICommonsMap <EDDDDeterminedField, String> aMap)
+  private VPDeterminedValues (@Nonnull final ICommonsSortedMap <EDDDDeterminedField, String> aMap)
   {
     m_aMap = aMap.getClone ();
   }

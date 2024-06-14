@@ -170,4 +170,30 @@ public final class DocumentDetailsDeterminatorTest
 
     assertTrue ("At least the testfiles must have been read", nFilesRead >= 3);
   }
+
+  @Test
+  public void testAllBadCases ()
+  {
+    final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();
+
+    // For all syntaxes
+    for (final Map.Entry <String, DDDSyntax> aSyntaxEntry : aSL.getAllSyntaxes ().entrySet ())
+    {
+      final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
+
+      // Search for positive cases for the current syntax
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/bad")
+                                                                                                                   .withFilter (IFileFilter.filenameEndsWith (".xml")))
+      {
+        LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
+
+        // Read as XML
+        final Document aDoc = DOMReader.readXMLDOM (f);
+        assertNotNull (aDoc);
+
+        final DocumentDetails aDetails = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+        assertNull (aDetails);
+      }
+    }
+  }
 }

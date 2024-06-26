@@ -28,7 +28,9 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.CommonsTreeMap;
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 import com.helger.commons.string.ToStringGenerator;
@@ -102,6 +104,18 @@ public class DDDValueProviderList
                                        .getToString ();
   }
 
+  /**
+   * @return The value provider list from the default file. Never
+   *         <code>null</code>.
+   * @see #readFromXML(IReadableResource)
+   * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
+   */
+  @Nonnull
+  public static DDDValueProviderList getDefaultValueProviderList ()
+  {
+    return SingletonHolder.INSTANCE;
+  }
+
   @Nonnull
   public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
   {
@@ -131,15 +145,169 @@ public class DDDValueProviderList
     return new DDDValueProviderList (aLastMod, aSyntaxes);
   }
 
-  /**
-   * @return The value provider list from the default file. Never
-   *         <code>null</code>.
-   * @see #readFromXML(IReadableResource)
-   * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
-   */
   @Nonnull
-  public static DDDValueProviderList getDefaultValueProviderList ()
+  @ReturnsMutableCopy
+  private static ICommonsMap <EDDDSourceField, VPSelect> _recursiveMergeSelects (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects1,
+                                                                                 @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects2)
   {
-    return SingletonHolder.INSTANCE;
+    final ICommonsMap <EDDDSourceField, VPSelect> aMergedSelects = new CommonsHashMap <> ();
+    for (final var aEntrySourceField : aSelects1.entrySet ())
+    {
+      final EDDDSourceField eSourceField = aEntrySourceField.getKey ();
+
+      final VPSelect aSelect1 = aEntrySourceField.getValue ();
+      final VPSelect aSelect2 = aSelects2.get (eSourceField);
+      if (aSelect2 == null)
+      {
+        // Source field only present in VPL1 source field
+        aMergedSelects.put (eSourceField, aSelect1);
+      }
+      else
+      {
+        // Source field present in VPL1 and VPL2
+        final ICommonsSortedMap <String, VPIf> aIfs1 = aSelect1.getAllIfs ();
+        final ICommonsSortedMap <String, VPIf> aIfs2 = aSelect2.getAllIfs ();
+
+        final ICommonsSortedMap <String, VPIf> aMergedIfs = new CommonsTreeMap <> ();
+        for (final var aEntryIf : aIfs1.entrySet ())
+        {
+          final String sConditionValue = aEntryIf.getKey ();
+
+          final VPIf aIf1 = aEntryIf.getValue ();
+          final VPIf aIf2 = aIfs2.get (sConditionValue);
+
+          if (aIf2 == null)
+          {
+            // If only contained in VPL1
+            aMergedIfs.put (sConditionValue, aIf1);
+          }
+          else
+          {
+            final VPIf aMergedIf = new VPIf (sConditionValue);
+
+            // If contained in VPL1 and VPL2
+            if (aIf1.hasDeterminedValues ())
+            {
+              if (aIf2.hasDeterminedValues ())
+              {
+                for (final var aEntryValue : aIf1.determinedValues ())
+                {
+                  final EDDDDeterminedField eDeterminedField = aEntryValue.getKey ();
+                  final String sDeterminedValue1 = aEntryValue.getValue ();
+                  final String sDeterminedValue2 = aIf2.determinedValues ().get (eDeterminedField);
+                  if (sDeterminedValue2 == null)
+                  {
+                    // Only contained in VPL1
+                    aMergedIf.determinedValues ().put (eDeterminedField, sDeterminedValue1);
+                  }
+                  else
+                  {
+                    if (sDeterminedValue1.equals (sDeterminedValue2))
+                    {
+                      LOGGER.info ("Merged <If>-values '" + sDeterminedValue1 + "' are identical.");
+                      aMergedIf.determinedValues ().put (eDeterminedField, sDeterminedValue1);
+                    }
+                    else
+                    {
+                      // In the future we might provide a parameter that allows
+                      // for overwriting old values. Currently this is not
+                      // foreseen
+                      throw new IllegalStateException ("Cannot merge two <Ifs> for because determined field " +
+                                                       eDeterminedField +
+                                                       " has 2 different values ('" +
+                                                       sDeterminedValue1 +
+                                                       "' vs. '" +
+                                                       sDeterminedValue2 +
+                                                       "')");
+                    }
+                  }
+                }
+
+                // Add all values only contained in If2
+                for (final var aEntryValue : aIf2.determinedValues ())
+                  if (!aIf1.determinedValues ().containsKey (aEntryValue.getKey ()))
+                    aMergedIf.determinedValues ().put (aEntryValue.getKey (), aEntryValue.getValue ());
+              }
+              else
+                throw new IllegalStateException ("Cannot merge two <Ifs> where one has a value and the other one has nested selects");
+            }
+            else
+            {
+              if (aIf2.hasDeterminedValues ())
+              {
+                throw new IllegalStateException ("Cannot merge two <Ifs> where one has nested selects and the other one has a value");
+              }
+
+              // Recursive call
+              final var aMergedNestedSelects = _recursiveMergeSelects (aIf1.nestedSelects (), aIf2.nestedSelects ());
+              for (final var aMergedNestedSelect : aMergedNestedSelects.values ())
+                aMergedIf.addNestedSelect (aMergedNestedSelect);
+            }
+
+            aMergedIfs.put (sConditionValue, aMergedIf);
+          }
+        }
+
+        // add all if only contained in VPL2
+        for (final var aEntryIf : aIfs2.entrySet ())
+          if (!aIfs1.containsKey (aEntryIf.getKey ()))
+            aMergedIfs.put (aEntryIf.getKey (), aEntryIf.getValue ());
+
+        aMergedSelects.put (eSourceField, new VPSelect (eSourceField, aMergedIfs));
+      }
+    }
+
+    // add all source fields only contained in VPL2
+    for (final var aEntrySourceField : aSelects2.entrySet ())
+      if (!aSelects1.containsKey (aEntrySourceField.getKey ()))
+        aMergedSelects.put (aEntrySourceField.getKey (), aEntrySourceField.getValue ());
+
+    return aMergedSelects;
+  }
+
+  @Nonnull
+  public static DDDValueProviderList createMergedValueProviderList (@Nonnull final DDDValueProviderList aVPL1,
+                                                                    @Nonnull final DDDValueProviderList aVPL2)
+  {
+    ValueEnforcer.notNull (aVPL1, "ValueProviderList1");
+    ValueEnforcer.notNull (aVPL2, "ValueProviderList2");
+
+    // find latest last modification
+    final LocalDate aLastMod = aVPL1.getLastModification ().isAfter (aVPL2.getLastModification ()) ? aVPL1
+                                                                                                          .getLastModification ()
+                                                                                                   : aVPL2.getLastModification ();
+
+    // Merge on syntax level
+    final ICommonsMap <String, DDDValueProviderPerSyntax> aMergedVPsPerSyntax = new CommonsHashMap <> ();
+    for (final var aEntrySyntax : aVPL1.m_aVPPerSyntaxes.entrySet ())
+    {
+      final String sSyntaxKey = aEntrySyntax.getKey ();
+
+      final DDDValueProviderPerSyntax aVPPS1 = aEntrySyntax.getValue ();
+      final DDDValueProviderPerSyntax aVPPS2 = aVPL2.m_aVPPerSyntaxes.get (sSyntaxKey);
+      if (aVPPS2 == null)
+      {
+        // Syntax only present in VPL1
+        aMergedVPsPerSyntax.put (sSyntaxKey, aVPPS1);
+      }
+      else
+      {
+        // Syntax present in VPL1 and VPL2
+        // Merge by source field (e.g. "Customization ID")
+        final ICommonsMap <EDDDSourceField, VPSelect> aSelects1 = aVPPS1.selects ();
+        final ICommonsMap <EDDDSourceField, VPSelect> aSelects2 = aVPPS2.selects ();
+
+        final ICommonsMap <EDDDSourceField, VPSelect> aMergedSelects = _recursiveMergeSelects (aSelects1, aSelects2);
+
+        aMergedVPsPerSyntax.put (sSyntaxKey, new DDDValueProviderPerSyntax (sSyntaxKey, aMergedSelects));
+      }
+    }
+
+    // add all syntaxes only contained in VPL2
+    for (final var aEntrySyntax : aVPL2.m_aVPPerSyntaxes.entrySet ())
+      if (!aVPL1.m_aVPPerSyntaxes.containsKey (aEntrySyntax.getKey ()))
+        aMergedVPsPerSyntax.put (aEntrySyntax.getKey (), aEntrySyntax.getValue ());
+
+    return new DDDValueProviderList (aLastMod, aMergedVPsPerSyntax);
   }
 }

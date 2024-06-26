@@ -19,12 +19,13 @@ package com.helger.ddd.model;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.commons.collection.impl.CommonsTreeMap;
-import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.lang.ICloneable;
 import com.helger.commons.string.ToStringGenerator;
@@ -49,15 +50,25 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
     m_aIfs = new CommonsTreeMap <> ();
   }
 
-  private VPSelect (@Nonnull final EDDDSourceField eSourceField, @Nonnull final ICommonsMap <String, VPIf> aIfs)
+  public VPSelect (@Nonnull final EDDDSourceField eSourceField, @Nonnull final ICommonsSortedMap <String, VPIf> aIfs)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
+    ValueEnforcer.notNull (aIfs, "Ifs");
 
     m_eSourceField = eSourceField;
-    // Deep clone
-    m_aIfs = new CommonsTreeMap <> ();
-    for (final Map.Entry <String, VPIf> e : aIfs.entrySet ())
-      m_aIfs.put (e.getKey (), e.getValue ().getClone ());
+    m_aIfs = aIfs.getClone ();
+  }
+
+  // Cloning constructor
+  private VPSelect (@Nonnull final EDDDSourceField eSourceField,
+                    @Nonnull final ICommonsSortedMap <String, VPIf> aIfs,
+                    final boolean bClone)
+  {
+    ValueEnforcer.notNull (eSourceField, "SourceField");
+    ValueEnforcer.notNull (aIfs, "Ifs");
+
+    m_eSourceField = eSourceField;
+    m_aIfs = bClone ? aIfs.getClone () : aIfs;
   }
 
   @Nonnull
@@ -77,6 +88,19 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
     return m_aIfs.get (sConditionValue);
   }
 
+  @Nonnegative
+  public int getIfCount ()
+  {
+    return m_aIfs.size ();
+  }
+
+  @Nonnull
+  @ReturnsMutableCopy
+  public ICommonsSortedMap <String, VPIf> getAllIfs ()
+  {
+    return m_aIfs.getClone ();
+  }
+
   @Nonnull
   public Iterator <Map.Entry <String, VPIf>> iterator ()
   {
@@ -93,7 +117,13 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
   @Nonnull
   public VPSelect getClone ()
   {
-    return new VPSelect (m_eSourceField, m_aIfs);
+    // Clone here
+    final ICommonsSortedMap <String, VPIf> aIfs = new CommonsTreeMap <> ();
+    for (final var e : m_aIfs.entrySet ())
+      aIfs.put (e.getKey (), e.getValue ().getClone ());
+
+    // Already cloned
+    return new VPSelect (m_eSourceField, aIfs, false);
   }
 
   @Override

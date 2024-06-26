@@ -27,6 +27,8 @@ import javax.annotation.Nonnull;
 import org.junit.Test;
 
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.ICommonsSortedMap;
+import com.helger.commons.io.resource.ClassPathResource;
 
 /**
  * Test class for class {@link DDDValueProviderList}.
@@ -70,5 +72,89 @@ public final class DDDValueProviderListTest
 
     for (final DDDValueProviderPerSyntax aVPS : aMap.values ())
       _recursiveTest (aVPS.getSyntaxID (), aVPS.getAllSelectors ());
+  }
+
+  @Test
+  public void testMerging ()
+  {
+    final DDDValueProviderList aList1 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp1.xml"));
+    assertNotNull (aList1);
+    assertEquals (1, aList1.getAllValueProvidersPerSyntaxes ().size ());
+    assertEquals (1,
+                  aList1.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
+
+    final DDDValueProviderList aList2 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp2.xml"));
+    assertNotNull (aList2);
+    assertEquals (1, aList2.getAllValueProvidersPerSyntaxes ().size ());
+    assertEquals (1,
+                  aList2.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
+
+    final DDDValueProviderList aList3 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp3.xml"));
+    assertNotNull (aList3);
+    assertEquals (1, aList3.getAllValueProvidersPerSyntaxes ().size ());
+    assertEquals (1,
+                  aList3.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
+
+    final DDDValueProviderList aList4 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp4.xml"));
+    assertNotNull (aList4);
+    assertEquals (1, aList4.getAllValueProvidersPerSyntaxes ().size ());
+    assertEquals (1,
+                  aList4.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
+
+    {
+      final DDDValueProviderList aList12 = DDDValueProviderList.createMergedValueProviderList (aList1, aList2);
+      final ICommonsMap <String, DDDValueProviderPerSyntax> aVPSs = aList12.getAllValueProvidersPerSyntaxes ();
+      assertEquals (1, aVPSs.size ());
+      final DDDValueProviderPerSyntax aVPS = aVPSs.getFirstValue ();
+      final ICommonsMap <EDDDSourceField, VPSelect> aSelectors = aVPS.getAllSelectors ();
+      assertEquals (1, aSelectors.size ());
+      assertEquals (EDDDSourceField.CUSTOMIZATION_ID, aSelectors.getFirstKey ());
+      final VPSelect aSelect = aSelectors.getFirstValue ();
+      assertEquals (2, aSelect.getIfCount ());
+      final ICommonsSortedMap <String, VPIf> aAllIfs = aSelect.getAllIfs ();
+      assertTrue (aAllIfs.containsKey ("C1"));
+      assertTrue (aAllIfs.containsKey ("C2"));
+      assertEquals (1, aAllIfs.get ("C1").nestedSelects ().size ());
+      assertEquals (1, aAllIfs.get ("C2").nestedSelects ().size ());
+    }
+
+    {
+      final DDDValueProviderList aList13 = DDDValueProviderList.createMergedValueProviderList (aList1, aList3);
+      final ICommonsMap <String, DDDValueProviderPerSyntax> aVPSs = aList13.getAllValueProvidersPerSyntaxes ();
+      assertEquals (1, aVPSs.size ());
+      final DDDValueProviderPerSyntax aVPS = aVPSs.getFirstValue ();
+      final ICommonsMap <EDDDSourceField, VPSelect> aSelectors = aVPS.getAllSelectors ();
+      assertEquals (1, aSelectors.size ());
+      assertEquals (EDDDSourceField.CUSTOMIZATION_ID, aSelectors.getFirstKey ());
+      final VPSelect aSelect = aSelectors.getFirstValue ();
+      assertEquals (1, aSelect.getIfCount ());
+      final ICommonsSortedMap <String, VPIf> aAllIfs = aSelect.getAllIfs ();
+      assertTrue (aAllIfs.containsKey ("C1"));
+      final VPIf aIf = aAllIfs.get ("C1");
+      assertNotNull (aIf);
+      assertTrue (aIf.hasNestedSelects ());
+      assertEquals (1, aIf.nestedSelects ().size ());
+      final VPSelect aNestedSelect = aIf.nestedSelects ().getFirstValue ();
+      assertNotNull (aNestedSelect);
+      assertEquals (4, aNestedSelect.getIfCount ());
+      assertNotNull (aNestedSelect.getIf ("P1"));
+      assertNotNull (aNestedSelect.getIf ("P2"));
+      assertNotNull (aNestedSelect.getIf ("P3"));
+      assertNotNull (aNestedSelect.getIf ("P4"));
+    }
+
+    {
+      final DDDValueProviderList aList14 = DDDValueProviderList.createMergedValueProviderList (aList1, aList4);
+      final ICommonsMap <String, DDDValueProviderPerSyntax> aVPSs = aList14.getAllValueProvidersPerSyntaxes ();
+      assertEquals (1, aVPSs.size ());
+      final DDDValueProviderPerSyntax aVPS = aVPSs.getFirstValue ();
+      final ICommonsMap <EDDDSourceField, VPSelect> aSelectors = aVPS.getAllSelectors ();
+      assertEquals (2, aSelectors.size ());
+      assertTrue (aSelectors.containsKey (EDDDSourceField.CUSTOMIZATION_ID));
+      assertTrue (aSelectors.containsKey (EDDDSourceField.PROCESS_ID));
+
+      assertEquals (1, aSelectors.get (EDDDSourceField.CUSTOMIZATION_ID).getIfCount ());
+      assertEquals (2, aSelectors.get (EDDDSourceField.PROCESS_ID).getIfCount ());
+    }
   }
 }

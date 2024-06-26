@@ -39,6 +39,8 @@ import com.helger.commons.string.ToStringGenerator;
 public final class VPIf implements ICloneable <VPIf>
 {
   private final String m_sConditionValue;
+
+  // The following 2 fields are mutually exclusive
   private final VPDeterminedValues m_aDeterminedValues;
   private final ICommonsSortedMap <EDDDSourceField, VPSelect> m_aNestedSelects;
 

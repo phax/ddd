@@ -20,11 +20,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.ReturnsMutableCopy;
+import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.ICommonsList;
@@ -40,7 +41,7 @@ import com.helger.xml.microdom.IMicroElement;
  *
  * @author Philip Helger
  */
-@Immutable
+@NotThreadSafe
 public class DDDValueProviderPerSyntax
 {
   private final String m_sSyntaxID;
@@ -70,6 +71,14 @@ public class DDDValueProviderPerSyntax
   public final String getSyntaxID ()
   {
     return m_sSyntaxID;
+  }
+
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableObject
+  ICommonsMap <EDDDSourceField, VPSelect> selects ()
+  {
+    return m_aSelects;
   }
 
   @Nonnull

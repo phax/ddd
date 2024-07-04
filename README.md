@@ -3,14 +3,14 @@
 [![javadoc](https://javadoc.io/badge2/com.helger/ddd/javadoc.svg)](https://javadoc.io/doc/com.helger/ddd)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.helger/ddd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.helger/ddd) 
 
-Document Details Determinator - determine VESIDs from payload to use with https://github.com/phax/phive and https://github.com/phax/phive-rules
+Document Details Determinator - determine [VESID](https://github.com/phax/ph-diver)s from payload to use with https://github.com/phax/phive and https://github.com/phax/phive-rules
 
 This project helps to determine the VESID from arbitrary payloads.
 Currently only XML payloads are supported.
 
 # Concept
 
-A set of relevant fields for business documents is defined. Currently these are (enum `EDDDSourceField`):
+A set of relevant fields for business documents is defined. Currently these are (see enum `EDDDSourceField`):
 * Customization ID
 * Process ID
 * Business Document ID
@@ -21,7 +21,7 @@ A set of relevant fields for business documents is defined. Currently these are 
 * Receiver Name
 * Receiver Country Code - added in v0.1.4
 
-These fields are to be determined differently depending on a specific syntax (class `DDDSyntax`).
+These fields are to be determined differently depending on a specific syntax (see class `DDDSyntax`).
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):

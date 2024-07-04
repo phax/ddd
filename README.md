@@ -94,7 +94,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 # News and noteworthy
 
 * v0.3.1 - 2024-07-04
-    * Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList` 
+    * Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList`
 * v0.3.0 - 2024-04-06
     * Extended syntax list
     * Added Customization ID and Syntax Version into `DocumentDetails`

@@ -66,7 +66,7 @@ public enum EDDDSourceField implements IHasID <String>
   /**
    * @return <code>true</code> if this field needs to be present in all syntax
    *         definitions. If this field is mandatory, it doesn't mean that the
-   *         field needs to be present in all instances-
+   *         field needs to be present in all instances.
    */
   public boolean isSyntaxDefinitionMandatory ()
   {

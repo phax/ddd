@@ -258,7 +258,7 @@ public class DDDValueProviderPerSyntax
     // Read additional selectors
     for (final IMicroElement eSelect : eIf.getAllChildElements ("select"))
     {
-      final VPSelect aSelect = _readSelect (eSelect);
+      final VPSelect aSelect = _readSelectFromXML (eSelect);
       aIf.addNestedSelect (aSelect);
     }
 
@@ -271,7 +271,7 @@ public class DDDValueProviderPerSyntax
   }
 
   @Nonnull
-  private static VPSelect _readSelect (@Nonnull final IMicroElement eSelect)
+  private static VPSelect _readSelectFromXML (@Nonnull final IMicroElement eSelect)
   {
     // Selector field
     final String sSelectorID = eSelect.getAttributeValue ("id");
@@ -304,17 +304,30 @@ public class DDDValueProviderPerSyntax
     return aSelect;
   }
 
+  /**
+   * Create a new {@link DDDValueProviderPerSyntax} by reading it from the
+   * provided XML element.
+   *
+   * @param eSyntax
+   *        The XML element to parse. May not be <code>null</code>.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
+   *         the read data.
+   * @see DDDValueProviderPerSyntax#readFromXML(IMicroElement)
+   */
   @Nonnull
-  public static DDDValueProviderPerSyntax readFromXML (@Nonnull final IMicroElement eVesid)
+  public static DDDValueProviderPerSyntax readFromXML (@Nonnull final IMicroElement eSyntax)
   {
-    final String sSyntaxID = eVesid.getAttributeValue ("id");
+    ValueEnforcer.notNull (eSyntax, "Syntax");
+
+    final String sSyntaxID = eSyntax.getAttributeValue ("id");
     if (StringHelper.hasNoText (sSyntaxID))
       throw new IllegalStateException ("Failed to read a syntax ID");
 
+    // Read all selects
     final ICommonsMap <EDDDSourceField, VPSelect> aSelects = new CommonsHashMap <> ();
-    for (final IMicroElement eSelect : eVesid.getAllChildElements ("select"))
+    for (final IMicroElement eSelect : eSyntax.getAllChildElements ("select"))
     {
-      final VPSelect aSelect = _readSelect (eSelect);
+      final VPSelect aSelect = _readSelectFromXML (eSelect);
       final EDDDSourceField eSelector = aSelect.getSourceField ();
       if (aSelects.containsKey (eSelector))
         throw new IllegalStateException ("The selector with ID '" + eSelector.getID () + "' is already contained");

@@ -116,6 +116,18 @@ public class DDDValueProviderList
     return SingletonHolder.INSTANCE;
   }
 
+  /**
+   * Create a new {@link DDDValueProviderList} by reading it from the provided
+   * readable resource.
+   *
+   * @param aRes
+   *        The XML resource to read from. May not be <code>null</code>.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
+   *         the read data.
+   * @throws IllegalArgumentException
+   *         If the XML has the wrong layout
+   * @see DDDValueProviderPerSyntax#readFromXML(IMicroElement)
+   */
   @Nonnull
   public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
   {
@@ -125,12 +137,14 @@ public class DDDValueProviderList
 
     final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
     if (aDoc == null)
-      throw new IllegalArgumentException ("Failed to read DDD syntax list");
+      throw new IllegalArgumentException ("Failed to read DDD syntax list as XML");
 
+    // Last modification
     final LocalDate aLastMod = aDoc.getDocumentElement ().getAttributeValueWithConversion ("lastmod", LocalDate.class);
     if (aLastMod == null)
       throw new IllegalArgumentException ("The DDD syntax list is missing a valid 'lastmod' attribute");
 
+    // Read all syntaxes
     final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes = new CommonsHashMap <> ();
     for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
     {
@@ -265,6 +279,24 @@ public class DDDValueProviderList
     return aMergedSelects;
   }
 
+  /**
+   * Merge the two provided {@link DDDValueProviderList} objects to a new one.
+   * This is a real recursive merge on all layers. So either new syntaxes might
+   * be added as well as existing syntaxes might be extended. However, and
+   * overwrite of existing data is not possible and will lead to an exception.
+   *
+   * @param aVPL1
+   *        The first {@link DDDValueProviderList} to merge. Must not be
+   *        <code>null</code>.
+   * @param aVPL2
+   *        The second {@link DDDValueProviderList} to merge. Must not be
+   *        <code>null</code>.
+   * @return The merged {@link DDDValueProviderList} containing the data of both
+   *         source objects and never <code>null</code>.
+   * @throws IllegalStateException
+   *         If the two objects cannot be merged.
+   * @since 0.3.1
+   */
   @Nonnull
   public static DDDValueProviderList createMergedValueProviderList (@Nonnull final DDDValueProviderList aVPL1,
                                                                     @Nonnull final DDDValueProviderList aVPL2)

@@ -59,6 +59,18 @@ public class DDDGetterXPath implements IDDDGetter
     }
   }
 
+  /**
+   * @return The XPath expression as a String as provided in the constructor.
+   *         Neither <code>null</code> nor empty.
+   * @since 0.3.1
+   */
+  @Nonnull
+  @Nonempty
+  public final String getXPath ()
+  {
+    return m_sXPath;
+  }
+
   @Nullable
   public String getValue (@Nonnull final Node aSourceNode, @Nonnull final IErrorList aErrorList)
   {

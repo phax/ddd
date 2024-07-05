@@ -36,9 +36,9 @@ import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.DDDValueProviderPerSyntax;
-import com.helger.ddd.model.VPDeterminedValues;
 import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
+import com.helger.ddd.model.VPDeterminedValues;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
@@ -404,6 +404,7 @@ public final class DocumentDetailsDeterminator
 
     // All elements are optional
     return DocumentDetails.builder ()
+                          .syntaxID (aSyntax.getID ())
                           .senderID (aSenderID)
                           .receiverID (aReceiverID)
                           .documentTypeID (aDocTypeID)

@@ -38,6 +38,7 @@ import com.helger.peppolid.IProcessIdentifier;
 @Immutable
 public class DocumentDetails
 {
+  private final String m_sSyntaxID;
   private final IParticipantIdentifier m_aSenderID;
   private final IParticipantIdentifier m_aReceiverID;
   private final IDocumentTypeIdentifier m_aDocTypeID;
@@ -56,6 +57,8 @@ public class DocumentDetails
    * Internal constructor. All fields are optional. Don't use this ctor
    * directly, use {@link #builder()} instead.
    *
+   * @param sSyntaxID
+   *        DDD syntax ID. Added in 0.3.2.
    * @param aSenderID
    *        Sender ID.
    * @param aReceiverID
@@ -83,7 +86,8 @@ public class DocumentDetails
    * @param sProfileName
    *        Profile filename
    */
-  protected DocumentDetails (@Nullable final IParticipantIdentifier aSenderID,
+  protected DocumentDetails (@Nullable final String sSyntaxID,
+                             @Nullable final IParticipantIdentifier aSenderID,
                              @Nullable final IParticipantIdentifier aReceiverID,
                              @Nullable final IDocumentTypeIdentifier aDocTypeID,
                              @Nullable final String sCustomizationID,
@@ -97,6 +101,7 @@ public class DocumentDetails
                              @Nullable final String sVESID,
                              @Nullable final String sProfileName)
   {
+    m_sSyntaxID = sSyntaxID;
     m_aSenderID = aSenderID;
     m_aReceiverID = aReceiverID;
     m_aDocTypeID = aDocTypeID;
@@ -110,6 +115,17 @@ public class DocumentDetails
     m_sReceiverCountryCode = sReceiverCountryCode;
     m_sVESID = sVESID;
     m_sProfileName = sProfileName;
+  }
+
+  public final boolean hasSyntaxID ()
+  {
+    return StringHelper.hasText (m_sSyntaxID);
+  }
+
+  @Nullable
+  public final String getSyntaxID ()
+  {
+    return m_sSyntaxID;
   }
 
   public final boolean hasSenderID ()
@@ -314,6 +330,7 @@ public class DocumentDetails
   public final IJsonObject getAsJson ()
   {
     final IJsonObject ret = new JsonObject ();
+    ret.add ("syntaxID", m_sSyntaxID);
     ret.add ("sender", m_aSenderID == null ? null : m_aSenderID.getURIEncoded ());
     ret.add ("receiver", m_aReceiverID == null ? null : m_aReceiverID.getURIEncoded ());
     ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
@@ -333,7 +350,8 @@ public class DocumentDetails
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (null).append ("SenderID", m_aSenderID)
+    return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
+                                       .append ("SenderID", m_aSenderID)
                                        .append ("ReceiverID", m_aReceiverID)
                                        .append ("DocTypeID", m_aDocTypeID)
                                        .append ("CustomizationID", m_sCustomizationID)
@@ -378,6 +396,7 @@ public class DocumentDetails
    */
   public static class Builder implements IBuilder <DocumentDetails>
   {
+    private String m_sSyntaxID;
     private IParticipantIdentifier m_aSenderID;
     private IParticipantIdentifier m_aReceiverID;
     private IDocumentTypeIdentifier m_aDocTypeID;
@@ -407,7 +426,8 @@ public class DocumentDetails
     public Builder (@Nonnull final DocumentDetails aSource)
     {
       ValueEnforcer.notNull (aSource, "Source");
-      senderID (aSource.getSenderID ()).receiverID (aSource.getReceiverID ())
+      syntaxID (aSource.getSyntaxID ()).senderID (aSource.getSenderID ())
+                                       .receiverID (aSource.getReceiverID ())
                                        .documentTypeID (aSource.getDocumentTypeID ())
                                        .processID (aSource.getProcessID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
@@ -419,6 +439,13 @@ public class DocumentDetails
                                        .receiverCountryCode (aSource.getReceiverCountryCode ())
                                        .vesid (aSource.getVESID ())
                                        .profileName (aSource.getProfileName ());
+    }
+
+    @Nonnull
+    public final Builder syntaxID (@Nullable final String s)
+    {
+      m_sSyntaxID = s;
+      return this;
     }
 
     @Nonnull
@@ -516,7 +543,8 @@ public class DocumentDetails
     public DocumentDetails build ()
     {
       // All fields are optional
-      return new DocumentDetails (m_aSenderID,
+      return new DocumentDetails (m_sSyntaxID,
+                                  m_aSenderID,
                                   m_aReceiverID,
                                   m_aDocTypeID,
                                   m_sCustomizationID,

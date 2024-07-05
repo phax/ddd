@@ -62,6 +62,9 @@ public final class DocumentDetailsDeterminatorTest
     final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
     assertNotNull (aDD);
 
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
+
     assertNotNull (aDD.getSenderID ());
     assertEquals ("0088:9482348239847239874", aDD.getSenderID ().getValue ());
 

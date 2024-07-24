@@ -26,6 +26,7 @@ Each syntax is uniquely determined by the combination of the XML root element na
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
+* fatturaPA 1.2 (ID `fatturapa-12`) - added in v0.3.2
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
@@ -93,8 +94,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-* v0.3.2 - work in progress
+* v0.3.2 - 2024-07-24
     * Added "syntax ID" to `DocumentDetails`
+    * Added fatturaPA support.
 * v0.3.1 - 2024-07-04
     * Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList`
 * v0.3.0 - 2024-04-06

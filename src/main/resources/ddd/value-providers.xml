@@ -83,6 +83,19 @@
     </select>
   </syntax>
   
+  <syntax id="fatturapa-12">
+    <select id="CustomizationID">
+      <if value="FPA12">
+        <set id="VESID">it.fatturapa:invoice:1.2.2</set>
+        <set id="ProfileName">fatturaPA 1.2</set>
+      </if>
+      <if value="FPR12">
+        <set id="VESID">it.fatturapa:invoice:1.2.2</set>
+        <set id="ProfileName">fatturaPA 1.2</set>
+      </if>
+    </select>
+  </syntax>
+  
   <syntax id="peppol-eusr">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:edec:trns:end-user-statistics-report:1.1">

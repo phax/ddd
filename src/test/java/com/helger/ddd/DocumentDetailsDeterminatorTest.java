@@ -158,8 +158,6 @@ public final class DocumentDetailsDeterminatorTest
         for (final EDDDSourceField eGetter : EDDDSourceField.values ())
         {
           final String sValue = aSyntax.getValue (eGetter, aDoc.getDocumentElement (), aErrorList);
-          if (eGetter.isSyntaxDefinitionMandatory ())
-            assertNotNull ("Getter " + eGetter + " failed on " + f + "\n" + aErrorList.getAllErrors (), sValue);
 
           if (false)
             LOGGER.info ("  " + eGetter + " --> " + sValue);

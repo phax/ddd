@@ -52,6 +52,17 @@
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
     </get>
   </syntax>
+  
+  <syntax id="fatturapa-12" nsuri="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" root="FatturaElettronica">
+    <name>fatturaPA</name>
+    <version>1.2</version>
+    <get id="CustomizationID">
+      <xpath>@versione</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='FatturaElettronicaBody']/*[local-name()='DatiGenerali']/*[local-name()='DatiGeneraliDocumento']/*[local-name()='Numero']/text()</xpath>
+    </get>
+  </syntax>
 
   <syntax id="peppol-eusr" nsuri="urn:fdc:peppol:end-user-statistics-report:1.1" root="EndUserStatisticsReport">
     <name>Peppol End User Statistics Report</name>

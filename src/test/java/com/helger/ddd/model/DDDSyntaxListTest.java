@@ -40,8 +40,9 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
-    assertEquals (20, aMap.size ());
+    assertEquals (21, aMap.size ());
     assertTrue (aMap.containsKey ("cii-d16b"));
+    assertTrue (aMap.containsKey ("fatturapa-12"));
     assertTrue (aMap.containsKey ("peppol-eusr"));
     assertTrue (aMap.containsKey ("peppol-tsr"));
     assertTrue (aMap.containsKey ("ubl2-applicationresponse"));

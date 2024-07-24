@@ -219,67 +219,82 @@
       <if value="urn:cen.eu:en16931:2017">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.cen.en16931:ubl-creditnote:latest</set>
-        <set id="ProfileName">EN 16931 UBL CreditNote</set>
+        <set id="ProfileName">EN 16931 UBL Credit Note</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote:latest</set>
-        <set id="ProfileName">Peppol BIS Billing UBL CreditNote V3</set>
+        <set id="ProfileName">Peppol BIS Billing UBL Credit Note V3</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@aunz-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.aunz:creditnote:latest</set>
+        <set id="ProfileName">Peppol PINT A-NZ Credit Note</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@my-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.my:creditnote:latest</set>
+        <set id="ProfileName">Peppol PINT Malaysia Credit Note</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@my-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest</set>
+        <set id="ProfileName">Peppol PINT Malaysia Credit Note Self-Billing</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:1.2.2</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 1.2</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 1.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.0.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.0</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0#conformant#urn:xoev-de:kosit:extension:xrechnung_2.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.0.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.0 Extension</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.0 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.1.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.1</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.1</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.1#conformant#urn:xoev-de:kosit:extension:xrechnung_2.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.1.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.1 Extension</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.1 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.2</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.2</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.2</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2#conformant#urn:xoev-de:kosit:extension:xrechnung_2.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.2</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.2 Extension</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.2 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.3.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.3</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.3</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3#conformant#urn:xoev-de:kosit:extension:xrechnung_2.3">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:2.3.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 2.3 Extension</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 2.3 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:3.0.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 3.0</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0#conformant#urn:xeinkauf.de:kosit:extension:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:3.0.1</set>
-        <set id="ProfileName">XRechnung UBL CreditNote 3.0 Extension</set>
+        <set id="ProfileName">XRechnung UBL Credit Note 3.0 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
         <set id="SyntaxVersion">2.1</set>
@@ -289,7 +304,7 @@
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:nen.nl:nlcius:v1.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.simplerinvoicing:creditnote:latest</set>
-        <set id="ProfileName">SI-UBL 2.0 CreditNote</set>
+        <set id="ProfileName">SI-UBL 2.0 Credit Note</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0#conformant#urn:fdc:anskaffelser.no:2019:ehf:forward-billing:3.0">
         <set id="SyntaxVersion">2.2</set>
@@ -335,6 +350,21 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:invoice:latest</set>
         <set id="ProfileName">Peppol BIS Billing UBL Invoice V3</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@aunz-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.aunz:invoice:latest</set>
+        <set id="ProfileName">Peppol PINT A-NZ Invoice</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@my-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.my:invoice:latest</set>
+        <set id="ProfileName">Peppol PINT Malaysia Invoice</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@my-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest</set>
+        <set id="ProfileName">Peppol PINT Malaysia Invoice Self-Billing</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
         <set id="SyntaxVersion">2.1</set>

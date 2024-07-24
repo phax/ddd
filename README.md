@@ -98,6 +98,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
     * Added "syntax ID" to `DocumentDetails`
     * Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk
     * Added support for Peppol PINT A-NZ
+    * Added support for Peppol PINT Japan
     * Added support for Peppol PINT Malaysia
 * v0.3.1 - 2024-07-04
     * Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList`

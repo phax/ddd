@@ -251,6 +251,11 @@
         <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest</set>
         <set id="ProfileName">Peppol PINT Malaysia Credit Note Self-Billing</set>
       </if>
+      <if value="urn:peppol:pint:billing-1@sg-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.sg:creditnote:latest</set>
+        <set id="ProfileName">Peppol PINT Singapore Credit Note</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">de.xrechnung:ubl-creditnote:1.2.2</set>
@@ -385,6 +390,11 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest</set>
         <set id="ProfileName">Peppol PINT Malaysia Invoice Self-Billing</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@sg-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.sg:invoice:latest</set>
+        <set id="ProfileName">Peppol PINT Singapore Invoice</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
         <set id="SyntaxVersion">2.1</set>

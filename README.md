@@ -8,6 +8,8 @@ Document Details Determinator - determine [VESID](https://github.com/phax/ph-div
 This project helps to determine the VESID from arbitrary payloads.
 Currently only XML payloads are supported.
 
+This project is part of my Peppol solution stack. See https://github.com/phax/peppol for other components and libraries in that area.
+
 # Concept
 
 A set of relevant fields for business documents is defined. Currently these are (see enum `EDDDSourceField`):

@@ -83,6 +83,28 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
+   * @return The syntax list provided in the constructor. Never
+   *         <code>null</code>.
+   * @since 0.3.3
+   */
+  @Nonnull
+  public DDDSyntaxList getSyntaxList ()
+  {
+    return m_aSyntaxList;
+  }
+
+  /**
+   * @return The value provider list provided in the constructor. Never
+   *         <code>null</code>.
+   * @since 0.3.3
+   */
+  @Nonnull
+  public DDDValueProviderList getValueProviderList ()
+  {
+    return m_aValueProviderList;
+  }
+
+  /**
    * @return The Identifier Factory used internally to created structured IDs.
    *         Never <code>null</code>.
    */

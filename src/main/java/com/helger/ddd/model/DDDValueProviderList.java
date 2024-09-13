@@ -34,9 +34,9 @@ import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xml.microdom.IMicroDocument;
-import com.helger.xml.microdom.IMicroElement;
-import com.helger.xml.microdom.serialize.MicroReader;
+import com.helger.ddd.model.jaxb.ValueProviderListMarshaller;
+import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
+import com.helger.ddd.model.jaxb.vp1.ValueProvidersType;
 
 /**
  * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The
@@ -126,7 +126,7 @@ public class DDDValueProviderList
    *         the read data.
    * @throws IllegalArgumentException
    *         If the XML has the wrong layout
-   * @see DDDValueProviderPerSyntax#readFromXML(IMicroElement)
+   * @see #createFromJaxb(ValueProvidersType)
    */
   @Nonnull
   public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
@@ -135,20 +135,35 @@ public class DDDValueProviderList
 
     LOGGER.info ("Reading DDDValueProviderList from '" + aRes.getPath () + "'");
 
-    final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
-    if (aDoc == null)
+    final ValueProvidersType aJaxbVps = new ValueProviderListMarshaller ().read (aRes);
+    if (aJaxbVps == null)
       throw new IllegalArgumentException ("Failed to read DDD syntax list as XML");
 
+    return createFromJaxb (aJaxbVps);
+  }
+
+  /**
+   * Create a new {@link DDDValueProviderList} by reading it from the provided
+   * readable resource.
+   *
+   * @param aJaxbVps
+   *        The JAXB object to read. May not be <code>null</code>.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
+   *         the read data.
+   * @see DDDValueProviderPerSyntax#createFromJaxb(VPSyntaxType)
+   */
+  @Nonnull
+  public static DDDValueProviderList createFromJaxb (@Nonnull final ValueProvidersType aJaxbVps)
+  {
+    ValueEnforcer.notNull (aJaxbVps, "JaxbVps");
     // Last modification
-    final LocalDate aLastMod = aDoc.getDocumentElement ().getAttributeValueWithConversion ("lastmod", LocalDate.class);
-    if (aLastMod == null)
-      throw new IllegalArgumentException ("The DDD syntax list is missing a valid 'lastmod' attribute");
+    final LocalDate aLastMod = aJaxbVps.getLastmod ().toLocalDate ();
 
     // Read all syntaxes
     final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes = new CommonsHashMap <> ();
-    for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
+    for (final VPSyntaxType aJaxbSyntax : aJaxbVps.getSyntax ())
     {
-      final DDDValueProviderPerSyntax aVesidPerSyntax = DDDValueProviderPerSyntax.readFromXML (eSyntax);
+      final DDDValueProviderPerSyntax aVesidPerSyntax = DDDValueProviderPerSyntax.createFromJaxb (aJaxbSyntax);
       if (aSyntaxes.containsKey (aVesidPerSyntax.getSyntaxID ()))
         throw new IllegalStateException ("Another DDD syntax with ID '" +
                                          aVesidPerSyntax.getSyntaxID () +
@@ -305,9 +320,9 @@ public class DDDValueProviderList
     ValueEnforcer.notNull (aVPL2, "ValueProviderList2");
 
     // find latest last modification
-    final LocalDate aLastMod = aVPL1.getLastModification ().isAfter (aVPL2.getLastModification ()) ? aVPL1
-                                                                                                          .getLastModification ()
-                                                                                                   : aVPL2.getLastModification ();
+    final LocalDate aLastMod = aVPL1.getLastModification ()
+                                    .isAfter (aVPL2.getLastModification ()) ? aVPL1.getLastModification ()
+                                                                            : aVPL2.getLastModification ();
 
     // Merge on syntax level
     final ICommonsMap <String, DDDValueProviderPerSyntax> aMergedVPsPerSyntax = new CommonsHashMap <> ();

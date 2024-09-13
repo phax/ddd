@@ -33,7 +33,10 @@ import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.state.ESuccess;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xml.microdom.IMicroElement;
+import com.helger.ddd.model.jaxb.vp1.VPIfType;
+import com.helger.ddd.model.jaxb.vp1.VPSelectType;
+import com.helger.ddd.model.jaxb.vp1.VPSetType;
+import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
 
 /**
  * This class contains the logic to identify missing fields based on existing
@@ -211,11 +214,11 @@ public class DDDValueProviderPerSyntax
                                        .getToString ();
   }
 
-  private static void _readSet (@Nonnull final EDDDSourceField eOuterSelector,
-                                @Nonnull final IMicroElement eSet,
-                                @Nonnull final VPDeterminedValues aSetters)
+  private static void _addSetFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
+                                       @Nonnull final VPSetType aJaxbSet,
+                                       @Nonnull final VPDeterminedValues aSetters)
   {
-    final String sSetterID = eSet.getAttributeValue ("id");
+    final String sSetterID = aJaxbSet.getId ();
     final EDDDDeterminedField eSetter = EDDDDeterminedField.getFromIDOrNull (sSetterID);
     if (eSetter == null)
       throw new IllegalStateException ("The selector field '" +
@@ -238,13 +241,13 @@ public class DDDValueProviderPerSyntax
                                        "' already contains a setter for '" +
                                        sSetterID +
                                        "'");
-    aSetters.put (eSetter, eSet.getTextContentTrimmed ());
+    aSetters.put (eSetter, aJaxbSet.getValue ().trim ());
   }
 
   @Nonnull
-  private static VPIf _readIf (@Nonnull final EDDDSourceField eOuterSelector, @Nonnull final IMicroElement eIf)
+  private static VPIf _createIfFromJaxb (@Nonnull final EDDDSourceField eOuterSelector, @Nonnull final VPIfType aJaxbIf)
   {
-    final String sConditionValue = eIf.getAttributeValue ("value");
+    final String sConditionValue = aJaxbIf.getValue ();
     if (StringHelper.hasNoText (sConditionValue))
       throw new IllegalStateException ("The selector '" +
                                        eOuterSelector.getID () +
@@ -252,13 +255,13 @@ public class DDDValueProviderPerSyntax
 
     // Read all setters
     final VPIf aIf = new VPIf (sConditionValue);
-    for (final IMicroElement eSet : eIf.getAllChildElements ("set"))
-      _readSet (eOuterSelector, eSet, aIf.determinedValues ());
+    for (final VPSetType aJaxbSet : aJaxbIf.getSet ())
+      _addSetFromJaxb (eOuterSelector, aJaxbSet, aIf.determinedValues ());
 
     // Read additional selectors
-    for (final IMicroElement eSelect : eIf.getAllChildElements ("select"))
+    for (final VPSelectType aJaxbSelect : aJaxbIf.getSelect ())
     {
-      final VPSelect aSelect = _readSelectFromXML (eSelect);
+      final VPSelect aSelect = _createSelectFromJaxb (aJaxbSelect);
       aIf.addNestedSelect (aSelect);
     }
 
@@ -271,10 +274,10 @@ public class DDDValueProviderPerSyntax
   }
 
   @Nonnull
-  private static VPSelect _readSelectFromXML (@Nonnull final IMicroElement eSelect)
+  private static VPSelect _createSelectFromJaxb (@Nonnull final VPSelectType aJaxbSelect)
   {
     // Selector field
-    final String sSelectorID = eSelect.getAttributeValue ("id");
+    final String sSelectorID = aJaxbSelect.getId ();
     final EDDDSourceField eSelector = EDDDSourceField.getFromIDOrNull (sSelectorID);
     if (eSelector == null)
       throw new IllegalStateException ("The selector field '" +
@@ -288,9 +291,9 @@ public class DDDValueProviderPerSyntax
     final VPSelect aSelect = new VPSelect (eSelector);
 
     // Read all "if"s
-    for (final IMicroElement eIf : eSelect.getAllChildElements ("if"))
+    for (final VPIfType aJaxbIf : aJaxbSelect.getIf ())
     {
-      final VPIf aIf = _readIf (eSelector, eIf);
+      final VPIf aIf = _createIfFromJaxb (eSelector, aJaxbIf);
       final String sConditionValue = aIf.getConditionValue ();
       if (aSelect.containsIf (sConditionValue))
         throw new IllegalStateException ("The selector '" +
@@ -306,28 +309,25 @@ public class DDDValueProviderPerSyntax
 
   /**
    * Create a new {@link DDDValueProviderPerSyntax} by reading it from the
-   * provided XML element.
+   * provided JAXB object.
    *
-   * @param eSyntax
-   *        The XML element to parse. May not be <code>null</code>.
+   * @param aJaxbSyntax
+   *        The XML object to parse. May not be <code>null</code>.
    * @return The non-<code>null</code> {@link DDDValueProviderList} contained
    *         the read data.
-   * @see DDDValueProviderPerSyntax#readFromXML(IMicroElement)
    */
   @Nonnull
-  public static DDDValueProviderPerSyntax readFromXML (@Nonnull final IMicroElement eSyntax)
+  public static DDDValueProviderPerSyntax createFromJaxb (@Nonnull final VPSyntaxType aJaxbSyntax)
   {
-    ValueEnforcer.notNull (eSyntax, "Syntax");
+    ValueEnforcer.notNull (aJaxbSyntax, "Syntax");
 
-    final String sSyntaxID = eSyntax.getAttributeValue ("id");
-    if (StringHelper.hasNoText (sSyntaxID))
-      throw new IllegalStateException ("Failed to read a syntax ID");
+    final String sSyntaxID = aJaxbSyntax.getId ();
 
     // Read all selects
     final ICommonsMap <EDDDSourceField, VPSelect> aSelects = new CommonsHashMap <> ();
-    for (final IMicroElement eSelect : eSyntax.getAllChildElements ("select"))
+    for (final VPSelectType aJaxbSelect : aJaxbSyntax.getSelect ())
     {
-      final VPSelect aSelect = _readSelectFromXML (eSelect);
+      final VPSelect aSelect = _createSelectFromJaxb (aJaxbSelect);
       final EDDDSourceField eSelector = aSelect.getSourceField ();
       if (aSelects.containsKey (eSelector))
         throw new IllegalStateException ("The selector with ID '" + eSelector.getID () + "' is already contained");

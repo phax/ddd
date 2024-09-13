@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<root lastmod="2024-06-26">
+<vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
+     lastmod="2024-06-26">
   <syntax id="ubl2-applicationresponse">
     <select id="CustomizationID">
       <if value="C2">
@@ -32,4 +33,4 @@
       </if>
     </select>
   </syntax>
-</root>
+</vps>

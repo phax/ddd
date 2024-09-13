@@ -170,8 +170,6 @@ public class DDDSyntaxList
    * @param aJaxbSyntaxes
    *        The JAXB object to read. Must not be <code>null</code>.
    * @return The created {@link DDDSyntaxList} and never <code>null</code>.
-   * @throws IllegalArgumentException
-   *         If the XML does not match the required layout
    * @throws IllegalStateException
    *         If the XML is inconsistent
    */

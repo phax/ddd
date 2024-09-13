@@ -49,8 +49,10 @@ Version: 2024-09-13
   </xs:complexType>
 
   <xs:complexType name="VPIfType">
-    <xs:sequence>
-    </xs:sequence>
+    <xs:choice>
+      <xs:element name="set" type="VPSetType" maxOccurs="unbounded" />
+      <xs:element name="select" type="VPSelectType" maxOccurs="unbounded" />
+    </xs:choice>
     <xs:attribute name="value" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>The value to compare to, to make the condition true</xs:documentation>

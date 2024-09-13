@@ -78,6 +78,14 @@ public class DDDValueProviderPerSyntax
 
   @Nonnull
   @Nonempty
+  @ReturnsMutableCopy
+  public ICommonsMap <EDDDSourceField, VPSelect> getAllSelects ()
+  {
+    return m_aSelects.getClone ();
+  }
+
+  @Nonnull
+  @Nonempty
   @ReturnsMutableObject
   ICommonsMap <EDDDSourceField, VPSelect> selects ()
   {

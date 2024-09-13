@@ -304,12 +304,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-creditnote:3.0.1</set>
+        <set id="VESID">de.xrechnung:ubl-creditnote:3.0.2</set>
         <set id="ProfileName">XRechnung UBL Credit Note 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0#conformant#urn:xeinkauf.de:kosit:extension:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-creditnote:3.0.1</set>
+        <set id="VESID">de.xrechnung:ubl-creditnote:3.0.2</set>
         <set id="ProfileName">XRechnung UBL Credit Note 3.0 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">
@@ -454,12 +454,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-invoice:3.0.1</set>
+        <set id="VESID">de.xrechnung:ubl-invoice:3.0.2</set>
         <set id="ProfileName">XRechnung UBL Invoice 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0#conformant#urn:xeinkauf.de:kosit:extension:xrechnung_3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">de.xrechnung:ubl-invoice:3.0.1</set>
+        <set id="VESID">de.xrechnung:ubl-invoice:3.0.2</set>
         <set id="ProfileName">XRechnung UBL Invoice 3.0 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:UBL.BE:1.0.0.20180214">

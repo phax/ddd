@@ -118,15 +118,38 @@ Each syntax has the following properties:
 | Receiver Name         | `ReceiverName`        |
 | Receiver Country Code | `ReceiverCountryCode` |
 
+The XML Schema for syntax list can be found at https://github.com/phax/ddd/tree/main/src/main/resources/schemas
+
 ## Adding custom syntaxes
 
 The default syntax list is included inside DDD.
 It can be accessed via `DDDSyntaxList.getDefaultSyntaxList ()`.
 
 To add new syntaxes, you need to provide your own rule file, and read it via `DDDSyntaxList.readFromXML`.
-Afterwards the default list and the newly read syntax list can be merged via `DDDSyntaxList createMergedSyntaxList`.
+Afterwards, the default list and the newly read syntax list can be merged via `DDDSyntaxList.createMergedSyntaxList`.
 
 Please note that when merging syntax lists, each syntax must be unique. There is no overwriting, just adding of syntaxes.
+
+# Value Providers
+
+The DDD Value Providers determines the specific "profile" or "subsets" of a syntax, based on one or more specific values.
+
+E.g. for the syntax "UBL 2.x Invoice", if the `CustomizationID` has the value `urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0` than
+  it is an "XRechnung UBL Invoice 3.0" which uses syntax version `2.1` and the VESID for validation is `de.xrechnung:ubl-invoice:3.0.2`.
+
+The XML Schema for value provider list can be found at https://github.com/phax/ddd/tree/main/src/main/resources/schemas
+
+## Adding custom value providers
+
+The default syntax list is included inside DDD.
+It can be accessed via `DDDValueProviderList.getDefaultValueProviderList ()`.
+
+To add new value providers, you need to provide your own rule file, and read it via `DDDValueProviderList.readFromXML`.
+Afterwards, the default list and the newly read value provider list can be merged via `DDDValueProviderList.createMergedValueProviderList`.
+
+Please note that when merging value provider lists, the lists are woven into each other. 
+  However, specific profiles existing in one list cannot be overwritten by the other list.
+  The lists can only extend each other.
 
 # Maven usage
 

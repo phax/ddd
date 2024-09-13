@@ -204,7 +204,10 @@
             <Automatic-Module-Name>com.helger.ddd</Automatic-Module-Name>
             <Export-Package>
               com.helger.ddd,
-              com.helger.ddd.model
+              com.helger.ddd.model,
+              com.helger.ddd.model.jaxb,
+              com.helger.ddd.model.jaxb.syntax1,
+              com.helger.ddd.model.jaxb.vp1
             </Export-Package>
             <Import-Package>!javax.annotation.*,*</Import-Package>
             <!-- The latter one has precedence -->

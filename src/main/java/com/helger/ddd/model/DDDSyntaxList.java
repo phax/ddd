@@ -34,8 +34,8 @@ import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.ddd.model.jaxb.SyntaxListMarshaller;
-import com.helger.ddd.model.jaxb.syntaxes1.SyntaxType;
-import com.helger.ddd.model.jaxb.syntaxes1.SyntaxesType;
+import com.helger.ddd.model.jaxb.syntax1.SyntaxType;
+import com.helger.ddd.model.jaxb.syntax1.SyntaxesType;
 
 /**
  * This class manages a set of {@link DDDSyntax} objects

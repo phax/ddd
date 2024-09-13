@@ -36,8 +36,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.name.IHasName;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.ddd.model.jaxb.syntaxes1.GetType;
-import com.helger.ddd.model.jaxb.syntaxes1.SyntaxType;
+import com.helger.ddd.model.jaxb.syntax1.GetType;
+import com.helger.ddd.model.jaxb.syntax1.SyntaxType;
 
 /**
  * Defines a single supported syntax model

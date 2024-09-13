@@ -2,15 +2,15 @@ package com.helger.ddd.model.jaxb;
 
 import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.ddd.model.jaxb.syntaxes1.ObjectFactory;
-import com.helger.ddd.model.jaxb.syntaxes1.SyntaxesType;
+import com.helger.ddd.model.jaxb.syntax1.ObjectFactory;
+import com.helger.ddd.model.jaxb.syntax1.SyntaxesType;
 import com.helger.jaxb.GenericJAXBMarshaller;
 
 /**
  * JAXB marshaller for DDD syntaxes list.
  *
  * @author Philip Helger
- * @since 0.3.4
+ * @since 0.4.0
  */
 public class SyntaxListMarshaller extends GenericJAXBMarshaller <SyntaxesType>
 {

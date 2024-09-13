@@ -18,65 +18,73 @@
 
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-           xmlns="urn:com:helger:ddd:syntaxes:v1.0" 
-           targetNamespace="urn:com:helger:ddd:syntaxes:v1.0"
+           xmlns="urn:com:helger:ddd:value-providers:v1.0" 
+           targetNamespace="urn:com:helger:ddd:value-providers:v1.0"
            elementFormDefault="qualified"
            attributeFormDefault="unqualified"
            version="1.0">
   <xs:annotation>
     <xs:documentation>
-This XML Schema is used to describe the DDD syntax list
+This XML Schema is used to describe the DDD value provider list
 
 Version: 2024-09-13
     </xs:documentation>
   </xs:annotation>
 
-  <xs:complexType name="GetType">
-    <xs:sequence>
-      <xs:choice>
-        <!-- Currently only XPath is supported -->
-        <xs:element name="xpath" type="xs:string">
+  <xs:complexType name="VPSetType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The main value is value to set.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
           <xs:annotation>
-            <xs:documentation>The XPath expression to use to query this field in this syntax</xs:documentation>
+            <xs:documentation>The destination field ID to set</xs:documentation>
           </xs:annotation>
-        </xs:element>
-      </xs:choice>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="VPIfType">
+    <xs:sequence>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:string" use="required">
+    <xs:attribute name="value" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The ID of the field to get</xs:documentation>
+        <xs:documentation>The value to compare to, to make the condition true</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="SyntaxType">
+  <xs:complexType name="VPSelectType">
     <xs:sequence>
-      <xs:element name="name" type="xs:string" />
-      <xs:element name="version" type="xs:string" minOccurs="0"/>
-      <xs:element name="get" type="GetType" maxOccurs="unbounded" />
+      <xs:element name="if" type="VPIfType" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="id" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The syntax ID</xs:documentation>
+        <xs:documentation>The source field to use for selection</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="nsuri" type="xs:string" use="required">
+  </xs:complexType>
+
+  <xs:complexType name="VPSyntaxType">
+    <xs:sequence>
+      <xs:element name="select" type="VPSelectType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
       <xs:annotation>
-        <xs:documentation>The root element namespace URI of that syntax</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="root" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation>The root element local name of that syntax</xs:documentation>
+        <xs:documentation>The referenced syntax ID</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
   
-  <xs:complexType name="SyntaxesType">
+  <xs:complexType name="ValueProvidersType">
     <xs:sequence>
-      <xs:element name="syntax" type="SyntaxType" maxOccurs="unbounded">
+      <xs:element name="syntax" type="VPSyntaxType" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>List of syntaxes</xs:documentation>
+          <xs:documentation>Reference to an existing syntax</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -87,10 +95,10 @@ Version: 2024-09-13
     </xs:attribute>
   </xs:complexType>
 
-  <xs:element name="syntaxes" type="SyntaxesType">
+  <xs:element name="vps" type="ValueProvidersType">
     <xs:annotation>
       <xs:documentation>
-        The root element of the syntaxes list.
+        The root element of the value provider list.
       </xs:documentation>
     </xs:annotation>
   </xs:element>

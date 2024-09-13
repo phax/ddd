@@ -145,6 +145,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 * v0.4.0 - 2024-09-13
     * Added support for Peppol PINT A-NZ BIS (billing and self-billing)
     * Fixed typo in VESID of "Peppol PINT Japan Credit Note"
+    * Added XML Schemas for syntax list and value providers - therefore requiring JAXB as a dependency
 * v0.3.2 - 2024-07-29
     * Added "syntax ID" to `DocumentDetails`
     * Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk

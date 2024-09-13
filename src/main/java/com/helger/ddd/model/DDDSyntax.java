@@ -17,7 +17,6 @@
 package com.helger.ddd.model;
 
 import java.util.Map;
-import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +36,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.name.IHasName;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xml.microdom.IMicroElement;
+import com.helger.ddd.model.jaxb.syntaxes1.GetType;
+import com.helger.ddd.model.jaxb.syntaxes1.SyntaxType;
 
 /**
  * Defines a single supported syntax model
@@ -178,64 +178,37 @@ public class DDDSyntax implements IHasID <String>, IHasName
   }
 
   @Nonnull
-  public static DDDSyntax readFromXML (@Nonnull final IMicroElement eSyntax,
-                                       @Nonnull final Function <String, ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>>> aExternalGettersProvider)
+  public static DDDSyntax createFromJaxb (@Nonnull final SyntaxType aSyntax)
   {
-    final String sSyntaxID = eSyntax.getAttributeValue ("id");
+    final String sSyntaxID = aSyntax.getId ();
     final String sLogPrefix = "Syntax with ID '" + sSyntaxID + "': ";
 
     // Name
-    final IMicroElement eName = eSyntax.getFirstChildElement ("name");
-    if (eName == null)
-      throw new IllegalArgumentException (sLogPrefix + "Element 'name' is missing");
+    final String sName = aSyntax.getName ().trim ();
+    if (StringHelper.hasNoText (sName))
+      throw new IllegalArgumentException (sLogPrefix + "Element 'name' may not be empty");
 
     // Version (optional)
-    final IMicroElement eVersion = eSyntax.getFirstChildElement ("version");
+    final String sVersion = aSyntax.getVersion ();
 
     // Getters
-    final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters;
-    final IMicroElement eGettersLike = eSyntax.getFirstChildElement ("getters-like");
-    if (eGettersLike != null)
+    final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters = new CommonsHashMap <> ();
+    for (final GetType aGet : aSyntax.getGet ())
     {
-      // Reuse other getters
-      aGetters = aExternalGettersProvider.apply (eGettersLike.getTextContentTrimmed ());
-      if (aGetters == null)
-        throw new IllegalArgumentException (sLogPrefix +
-                                            "The content of the element 'getters-like' is not a valid syntax ID");
-    }
-    else
-    {
-      aGetters = new CommonsHashMap <> ();
-      for (final IMicroElement eGet : eSyntax.getAllChildElements ("get"))
-      {
-        // Check type
-        final String sFieldID = eGet.getAttributeValue ("id");
-        final EDDDSourceField eGetter = EDDDSourceField.getFromIDOrNull (sFieldID);
-        if (eGetter == null)
-          throw new IllegalArgumentException (sLogPrefix + "The getter ID field '" + sFieldID + "' is invalid");
+      // Resolve source field
+      final String sFieldID = aGet.getId ();
+      final EDDDSourceField eGetter = EDDDSourceField.getFromIDOrNull (sFieldID);
+      if (eGetter == null)
+        throw new IllegalArgumentException (sLogPrefix + "The getter ID field '" + sFieldID + "' is invalid");
 
-        final ICommonsList <IDDDGetter> aGetterList = new CommonsArrayList <> ();
-        for (final IMicroElement eChild : eGet.getAllChildElements ())
-        {
-          final String sTagName = eChild.getTagName ();
-          switch (sTagName)
-          {
-            case "xpath":
-              aGetterList.add (new DDDGetterXPath (eChild.getTextContentTrimmed ()));
-              break;
-            default:
-              throw new IllegalArgumentException (sLogPrefix +
-                                                  "The getter '" +
-                                                  sFieldID +
-                                                  "' uses the unsupported type '" +
-                                                  sTagName +
-                                                  "'");
-          }
-        }
-        if (aGetterList.isEmpty ())
-          throw new IllegalArgumentException (sLogPrefix + "The getter '" + sFieldID + "' contains no actual getter");
-        aGetters.put (eGetter, aGetterList);
-      }
+      // Build XPath getters
+      final ICommonsList <IDDDGetter> aGetterList = new CommonsArrayList <> ();
+      if (aGet.getXpath () != null)
+        aGetterList.add (new DDDGetterXPath (aGet.getXpath ()));
+      if (aGetterList.isEmpty ())
+        throw new IllegalArgumentException (sLogPrefix + "The getter '" + sFieldID + "' contains no actual getter");
+
+      aGetters.put (eGetter, aGetterList);
     }
 
     // Check if all mandatory getters are present
@@ -248,10 +221,10 @@ public class DDDSyntax implements IHasID <String>, IHasName
                                               "' is missing");
 
     return new DDDSyntax (sSyntaxID,
-                          eSyntax.getAttributeValue ("nsuri"),
-                          eSyntax.getAttributeValue ("root"),
-                          eName.getTextContentTrimmed (),
-                          eVersion == null ? null : eVersion.getTextContentTrimmed (),
+                          aSyntax.getNsuri ().trim (),
+                          aSyntax.getRoot ().trim (),
+                          sName,
+                          sVersion == null ? null : sVersion.trim (),
                           aGetters);
   }
 }

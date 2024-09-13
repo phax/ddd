@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2023-2024 Philip Helger & ecosio
+    philip[at]helger[dot]com
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns="urn:com:helger:ddd:syntaxes:v1.0" 
+           targetNamespace="urn:com:helger:ddd:syntaxes:v1.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="1.0">
+  <xs:annotation>
+    <xs:documentation>
+This XML Schema is used to describe the DDD syntax list
+
+Version: 2024-09-13
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:complexType name="GetType">
+    <xs:sequence>
+      <xs:choice>
+        <!-- Currently only XPath is supported -->
+        <xs:element name="xpath" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>The XPath expression to use to query this field in this syntax</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>The ID of the field to get</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="SyntaxType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="version" type="xs:string" minOccurs="0"/>
+      <xs:element name="get" type="GetType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>The syntax ID</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="nsuri" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>The root element namespace URI of that syntax</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="root" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>The root element local name of that syntax</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  
+  <xs:complexType name="SyntaxesType">
+    <xs:sequence>
+      <xs:element name="syntax" type="SyntaxType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="lastmod" type="xs:date" use="required">
+      <xs:annotation>
+        <xs:documentation>The date when the artifact was last modified</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:element name="syntaxes" type="SyntaxesType">
+    <xs:annotation>
+      <xs:documentation>
+        The root element of the syntaxes list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

@@ -33,9 +33,9 @@ import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.resource.IReadableResource;
 import com.helger.commons.string.ToStringGenerator;
-import com.helger.xml.microdom.IMicroDocument;
-import com.helger.xml.microdom.IMicroElement;
-import com.helger.xml.microdom.serialize.MicroReader;
+import com.helger.ddd.model.jaxb.SyntaxListMarshaller;
+import com.helger.ddd.model.jaxb.syntaxes1.SyntaxType;
+import com.helger.ddd.model.jaxb.syntaxes1.SyntaxesType;
 
 /**
  * This class manages a set of {@link DDDSyntax} objects
@@ -155,22 +155,37 @@ public class DDDSyntaxList
 
     LOGGER.info ("Reading DDDSyntaxList from '" + aRes.getPath () + "'");
 
-    final IMicroDocument aDoc = MicroReader.readMicroXML (aRes);
-    if (aDoc == null)
+    final SyntaxesType aJaxbSyntaxes = new SyntaxListMarshaller ().read (aRes);
+    if (aJaxbSyntaxes == null)
       throw new IllegalArgumentException ("Failed to read DDD syntax list");
 
-    final LocalDate aLastMod = aDoc.getDocumentElement ().getAttributeValueWithConversion ("lastmod", LocalDate.class);
-    if (aLastMod == null)
-      throw new IllegalArgumentException ("The DDD syntax list is missing a valid 'lastmod' attribute");
+    return createFromJaxb (aJaxbSyntaxes);
+  }
+
+  /**
+   * Create a new {@link DDDSyntaxList} object from the internal Jaxb
+   * representation. This is primarily used to read the
+   * {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
+   *
+   * @param aJaxbSyntaxes
+   *        The JAXB object to read. Must not be <code>null</code>.
+   * @return The created {@link DDDSyntaxList} and never <code>null</code>.
+   * @throws IllegalArgumentException
+   *         If the XML does not match the required layout
+   * @throws IllegalStateException
+   *         If the XML is inconsistent
+   */
+  @Nonnull
+  public static DDDSyntaxList createFromJaxb (@Nonnull final SyntaxesType aJaxbSyntaxes)
+  {
+    ValueEnforcer.notNull (aJaxbSyntaxes, "JaxbSyntaxes");
+
+    final LocalDate aLastMod = aJaxbSyntaxes.getLastmod ().toLocalDate ();
 
     final ICommonsMap <String, DDDSyntax> aSyntaxes = new CommonsHashMap <> ();
-    for (final IMicroElement eSyntax : aDoc.getDocumentElement ().getAllChildElements ("syntax"))
+    for (final SyntaxType aJaxbSyntax : aJaxbSyntaxes.getSyntax ())
     {
-      final DDDSyntax aSyntax = DDDSyntax.readFromXML (eSyntax, syntaxID -> {
-        // Resolve previously known syntaxes
-        final DDDSyntax aResolvedSyntax = aSyntaxes.get (syntaxID);
-        return aResolvedSyntax == null ? null : aResolvedSyntax.getAllGetters ();
-      });
+      final DDDSyntax aSyntax = DDDSyntax.createFromJaxb (aJaxbSyntax);
       if (aSyntaxes.containsKey (aSyntax.getID ()))
         throw new IllegalStateException ("Another DDD syntax with ID '" + aSyntax.getID () + "' is already contained");
 
@@ -211,9 +226,9 @@ public class DDDSyntaxList
     ValueEnforcer.notNull (aSL2, "SyntaxList2");
 
     // find latest last modification
-    final LocalDate aLastMod = aSL1.getLastModification ().isAfter (aSL2.getLastModification ()) ? aSL1
-                                                                                                      .getLastModification ()
-                                                                                                : aSL2.getLastModification ();
+    final LocalDate aLastMod = aSL1.getLastModification ()
+                                   .isAfter (aSL2.getLastModification ()) ? aSL1.getLastModification ()
+                                                                          : aSL2.getLastModification ();
 
     final ICommonsMap <String, DDDSyntax> aMergedMap = new CommonsHashMap <> ();
     for (final Map.Entry <String, DDDSyntax> aEntry1 : aSL1.m_aSyntaxes.entrySet ())

@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<syntaxes lastmod="2024-04-04">
+<syntaxes xmlns="urn:com:helger:ddd:syntaxes:v1.0"
+          lastmod="2024-04-04">
   <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>

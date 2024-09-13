@@ -25,7 +25,7 @@
     <version>2.0.6</version>
   </parent>
   <artifactId>ddd</artifactId>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>ddd</name>
   <description>Document Details Determinator library</description>
@@ -60,6 +60,13 @@
       <url>http://www.helger.com</url>
     </developer>
   </developers>
+  
+  <properties>
+    <jaxb-plugin.group>org.jvnet.jaxb</jaxb-plugin.group>
+    <jaxb-plugin.artifact>jaxb-maven-plugin</jaxb-plugin.artifact>
+    <jaxb-plugin.version>4.0.8</jaxb-plugin.version>
+    <ph-jaxb-plugin.version>4.0.3</ph-jaxb-plugin.version>
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -94,6 +101,14 @@
       <artifactId>ph-json</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.helger.commons</groupId>
+      <artifactId>ph-jaxb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.commons</groupId>
+      <artifactId>ph-jaxb-adapter</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.helger.peppol</groupId>
       <artifactId>peppol-id</artifactId>
     </dependency>
@@ -106,6 +121,11 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -130,6 +150,51 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>${jaxb-plugin.group}</groupId>
+        <artifactId>${jaxb-plugin.artifact}</artifactId>
+        <version>${jaxb-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <id>ves</id>
+            <configuration>
+              <schemaDirectory>${basedir}/src/main/resources/schemas</schemaDirectory>
+              <bindingIncludes>
+                <bindingInclude>bindings.xjb</bindingInclude>
+              </bindingIncludes>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <bindingDirectory>${basedir}/src/main/jaxb</bindingDirectory>
+          <extension>true</extension>
+          <strict>false</strict>
+          <args>
+            <arg>-no-header</arg>
+            <arg>-quiet</arg>
+            <arg>-Xph-default-locale</arg>
+            <arg>en_US</arg>
+            <arg>-Xph-annotate</arg>
+            <arg>-Xph-fields-private</arg>
+            <arg>-Xph-code-quality</arg>
+            <arg>-Xph-equalshashcode</arg>
+            <arg>-Xph-tostring</arg>
+            <arg>-Xph-list-extension</arg>
+            <arg>-Xph-csu</arg>
+            <arg>-Xph-cloneable2</arg>
+          </args>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.helger</groupId>
+            <artifactId>ph-jaxb-plugin</artifactId>
+            <version>${ph-jaxb-plugin.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>

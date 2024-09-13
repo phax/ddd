@@ -82,6 +82,52 @@ final DocumentDetails aDD = aDDD.findDocumentDetails (aRootElement);
 The variable `aRootElement` indicates a `org.w3c.dom.Element` node representing the document to be determined.
 The resulting details are in the object `aDD` of type `DocumentDetails`.
 
+# Syntaxes
+
+DDD is about determining XML document types, so the determination of the overall syntax is based on the
+  root element namespace URI and local element name.
+  
+So e.g. for the following file snippet
+```xml
+<Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+    xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+  <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0</cbc:CustomizationID>
+  ...    
+</Invoice>
+```
+
+The root element namespace URI is `urn:oasis:names:specification:ubl:schema:xsd:Invoice-2` and the local element name is `Invoice`.
+
+Each syntax has the following properties:
+* an internal identifier (e.g. `ubl2-invoice` for the UBL 2.1 Invoice)
+* a display name for the syntax (e.g. `UBL 2.x Invoice`)  
+* a set of XPath expressions to determine the generic document details fields. Not each syntax of course needs to support all the fields. Supported fields are:
+
+| Field                 | ID                    |
+| --------------------- | --------------------- |
+| Customization ID      | `CustomizationID`     |
+| Process ID            | `ProcessID`           |
+| Business Document ID  | `BusinessDocumentID`  |
+| Sender ID Scheme      | `SenderIDScheme`      |
+| Sender ID Value       | `SenderIDValue`       |
+| Sender Name           | `SenderName`          |
+| Sender Country Code   | `SenderCountryCode`   |
+| Receiver ID Scheme    | `ReceiverIDScheme`    |
+| Receiver ID Value     | `ReceiverIDValue`     |
+| Receiver Name         | `ReceiverName`        |
+| Receiver Country Code | `ReceiverCountryCode` |
+
+## Adding custom syntaxes
+
+The default syntax list is included inside DDD.
+It can be accessed via `DDDSyntaxList.getDefaultSyntaxList ()`.
+
+To add new syntaxes, you need to provide your own rule file, and read it via `DDDSyntaxList.readFromXML`.
+Afterwards the default list and the newly read syntax list can be merged via `DDDSyntaxList createMergedSyntaxList`.
+
+Please note that when merging syntax lists, each syntax must be unique. There is no overwriting, just adding of syntaxes.
+
 # Maven usage
 
 Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with the latest version:
@@ -96,8 +142,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-* v0.3.3 - work in progress
+* v0.4.0 - 2024-09-13
     * Added support for Peppol PINT A-NZ BIS (billing and self-billing)
+    * Fixed typo in VESID of "Peppol PINT Japan Credit Note"
 * v0.3.2 - 2024-07-29
     * Added "syntax ID" to `DocumentDetails`
     * Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk

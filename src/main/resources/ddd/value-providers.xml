@@ -238,7 +238,7 @@
       </if>
       <if value="urn:peppol:pint:billing-1@jp-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.jp:creditnote:latest</set>
+        <set id="VESID">org.peppol.pint.jp:credit-note:latest</set>
         <set id="ProfileName">Peppol PINT Japan Credit Note</set>
       </if>
       <if value="urn:peppol:pint:billing-1@my-1">

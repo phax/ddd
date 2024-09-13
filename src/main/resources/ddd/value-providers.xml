@@ -331,6 +331,16 @@
         <set id="VESID">dk.oioubl:credit-note:latest</set>
         <set id="ProfileName">OIOUBL Credit Note</set>
       </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:billing:international:aunz:3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote:latest</set>
+        <set id="ProfileName">A-NZ Peppol BIS3 Credit Note</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote-self-billing:latest</set>
+        <set id="ProfileName">A-NZ Peppol BIS3 Credit Note Self-Billing</set>
+      </if>
     </select>
   </syntax>
   
@@ -480,6 +490,16 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">dk.oioubl:invoice:latest</set>
         <set id="ProfileName">OIOUBL Invoice</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:billing:international:aunz:3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice:latest</set>
+        <set id="ProfileName">A-NZ Peppol BIS3 Invoice</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice-self-billing:latest</set>
+        <set id="ProfileName">A-NZ Peppol BIS3 Invoice Self-Billing</set>
       </if>
     </select>
   </syntax>

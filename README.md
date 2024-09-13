@@ -96,6 +96,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.3.3 - work in progress
+    * Added support for Peppol PINT A-NZ BIS (billing and self-billing)
 * v0.3.2 - 2024-07-29
     * Added "syntax ID" to `DocumentDetails`
     * Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk

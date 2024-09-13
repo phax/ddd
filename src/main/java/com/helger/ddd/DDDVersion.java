@@ -45,7 +45,7 @@ public final class DDDVersion
     final NonBlockingProperties aVersionProps = new NonBlockingProperties ();
     try
     {
-      aVersionProps.load (ClassPathResource.getInputStream (DDD_VERSION_FILENAME));
+      aVersionProps.load (ClassPathResource.getInputStream (DDD_VERSION_FILENAME, DDDVersion.class.getClassLoader ()));
     }
     catch (final IOException ex)
     {

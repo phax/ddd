@@ -16,18 +16,16 @@
  */
 package com.helger.ddd;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.exception.InitializationException;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.lang.NonBlockingProperties;
+import com.helger.commons.lang.PropertiesHelper;
 
 /**
- * DDD constants
+ * DDD version constants
  *
  * @author Philip Helger
  */
@@ -42,18 +40,15 @@ public final class DDDVersion
   static
   {
     // Read version number
-    final NonBlockingProperties aVersionProps = new NonBlockingProperties ();
-    try
-    {
-      aVersionProps.load (ClassPathResource.getInputStream (DDD_VERSION_FILENAME, DDDVersion.class.getClassLoader ()));
-    }
-    catch (final IOException ex)
-    {
-      throw new UncheckedIOException (ex);
-    }
+    final NonBlockingProperties aVersionProps = PropertiesHelper.loadProperties (ClassPathResource.getInputStream (DDD_VERSION_FILENAME,
+                                                                                                                   DDDVersion.class.getClassLoader ()));
+    if (aVersionProps == null)
+      throw new InitializationException ("Failed to read DDD version properties");
+
     VERSION_NUMBER = aVersionProps.get ("version");
     if (VERSION_NUMBER == null)
       throw new InitializationException ("Error determining DDD version number!");
+
     TIMESTAMP = aVersionProps.get ("timestamp");
     if (TIMESTAMP == null)
       throw new InitializationException ("Error determining DDD build timestamp!");

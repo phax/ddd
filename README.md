@@ -165,6 +165,10 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.4.1 - work in progress
+    * Fixed XRechnung 3.x CII VESID to use `3.0.2` instead of `3.0.1`
+    * Added support for plain EN 16931 CII detection
+    * Switched the pseudo version of all Peppol VESIDs from `latest` to `latest-active`
 * v0.4.0 - 2024-09-13
     * Added support for Peppol PINT A-NZ BIS (billing and self-billing)
     * Fixed typo in VESID of "Peppol PINT Japan Credit Note"

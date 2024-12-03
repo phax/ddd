@@ -21,7 +21,13 @@
      lastmod="2024-09-13">
   <syntax id="cii-d16b">
     <select id="CustomizationID">
+      <if value="urn:cen.eu:en16931:2017">
+        <set id="VESID">eu.cen.en16931:cii:latest</set>
+        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProfileName">EN 16931 CII</set>
+      </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
+        <!-- No specific Peppol CII rules atm -->
         <set id="VESID">eu.cen.en16931:cii:latest</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">Peppol BIS Billing CII Invoice V3</set>
@@ -72,12 +78,12 @@
         <set id="ProfileName">XRechnung CII 2.3 Extension</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0">
-        <set id="VESID">de.xrechnung:cii:3.0.1</set>
+        <set id="VESID">de.xrechnung:cii:3.0.2</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">XRechnung CII 3.0</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0#conformant#urn:xeinkauf.de:kosit:extension:xrechnung_3.0">
-        <set id="VESID">de.xrechnung:cii:3.0.1</set>
+        <set id="VESID">de.xrechnung:cii:3.0.2</set>
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">XRechnung CII 3.0 Extension</set>
       </if>
@@ -224,37 +230,37 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:creditnote:latest</set>
+        <set id="VESID">eu.peppol.bis3:creditnote:latest-active</set>
         <set id="ProfileName">Peppol BIS Billing UBL Credit Note V3</set>
       </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.aunz:creditnote:latest</set>
+        <set id="VESID">org.peppol.pint.aunz:creditnote:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Credit Note</set>
       </if>
       <if value="urn:peppol:pint:selfbilling-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.aunz:creditnote-self-billing:latest</set>
+        <set id="VESID">org.peppol.pint.aunz:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Credit Note Self-Billing</set>
       </if>
       <if value="urn:peppol:pint:billing-1@jp-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.jp:credit-note:latest</set>
+        <set id="VESID">org.peppol.pint.jp:credit-note:latest-active</set>
         <set id="ProfileName">Peppol PINT Japan Credit Note</set>
       </if>
       <if value="urn:peppol:pint:billing-1@my-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.my:creditnote:latest</set>
+        <set id="VESID">org.peppol.pint.my:creditnote:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Credit Note</set>
       </if>
       <if value="urn:peppol:pint:selfbilling-1@my-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest</set>
+        <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Credit Note Self-Billing</set>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.sg:creditnote:latest</set>
+        <set id="VESID">org.peppol.pint.sg:creditnote:latest-active</set>
         <set id="ProfileName">Peppol PINT Singapore Credit Note</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
@@ -334,12 +340,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:billing:international:aunz:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote:latest</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Credit Note</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote-self-billing:latest</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Credit Note Self-Billing</set>
       </if>
     </select>
@@ -354,7 +360,7 @@
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:despatch_advice:3">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:despatch-advice:latest</set>
+        <set id="VESID">eu.peppol.bis3:despatch-advice:latest-active</set>
         <set id="ProfileName">Peppol Despatch Advice transaction V3</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:despatch_advice:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
@@ -374,37 +380,37 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:invoice:latest</set>
+        <set id="VESID">eu.peppol.bis3:invoice:latest-active</set>
         <set id="ProfileName">Peppol BIS Billing UBL Invoice V3</set>
       </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.aunz:invoice:latest</set>
+        <set id="VESID">org.peppol.pint.aunz:invoice:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Invoice</set>
       </if>
       <if value="urn:peppol:pint:selfbilling-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.aunz:invoice-self-billing:latest</set>
+        <set id="VESID">org.peppol.pint.aunz:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Invoice Self-Billing</set>
       </if>
       <if value="urn:peppol:pint:billing-1@jp-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.jp:invoice:latest</set>
+        <set id="VESID">org.peppol.pint.jp:invoice:latest-active</set>
         <set id="ProfileName">Peppol PINT Japan Invoice</set>
       </if>
       <if value="urn:peppol:pint:billing-1@my-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.my:invoice:latest</set>
+        <set id="VESID">org.peppol.pint.my:invoice:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Invoice</set>
       </if>
       <if value="urn:peppol:pint:selfbilling-1@my-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest</set>
+        <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Invoice Self-Billing</set>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">org.peppol.pint.sg:invoice:latest</set>
+        <set id="VESID">org.peppol.pint.sg:invoice:latest-active</set>
         <set id="ProfileName">Peppol PINT Singapore Invoice</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2">
@@ -494,12 +500,12 @@
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:billing:international:aunz:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice:latest</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Invoice</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice-self-billing:latest</set>
+        <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice-self-billing:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Invoice Self-Billing</set>
       </if>
     </select>
@@ -515,7 +521,7 @@
       <!-- Peppol BIS Order -->
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:order:latest</set>
+        <set id="VESID">eu.peppol.bis3:order:latest-active</set>
         <set id="ProfileName">Peppol Order transaction V3</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">
@@ -544,7 +550,7 @@
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:order_cancellation:3">
         <set id="SyntaxVersion">2.3</set>
-        <set id="VESID">eu.peppol.bis3:order-cancellation:latest</set>
+        <set id="VESID">eu.peppol.bis3:order-cancellation:latest-active</set>
         <set id="ProfileName">Peppol Order Cancellation transaction V3</set>
       </if>
       <if value="urn:fdc:anskaffelser.no:2019:ehf:spec:adv-order-cancellation:3.0">
@@ -564,7 +570,7 @@
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:order_change:3">
         <set id="SyntaxVersion">2.3</set>
-        <set id="VESID">eu.peppol.bis3:order-change:latest</set>
+        <set id="VESID">eu.peppol.bis3:order-change:latest-active</set>
         <set id="ProfileName">Peppol Order Change transaction V3</set>
       </if>
       <if value="urn:fdc:anskaffelser.no:2019:ehf:spec:adv-order-change:3.0">
@@ -589,17 +595,17 @@
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:order-response:latest</set>
+        <set id="VESID">eu.peppol.bis3:order-response:latest-active</set>
         <set id="ProfileName">Peppol Order Response transaction V3</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response_advanced:3">
         <set id="SyntaxVersion">2.3</set>
-        <set id="VESID">eu.peppol.bis3:order-response-advanced:latest</set>
+        <set id="VESID">eu.peppol.bis3:order-response-advanced:latest-active</set>
         <set id="ProfileName">Peppol Order Response Advanced</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order_agreement:3">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">eu.peppol.bis3:order-agreement:latest</set>
+        <set id="VESID">eu.peppol.bis3:order-agreement:latest-active</set>
         <set id="ProfileName">Peppol Order Agreement transaction 3.0</set>
       </if>
       <if value="urn:fdc:peppol.eu:poacc:trns:order_response:3:extended:urn:fdc:anskaffelser.no:2019:ehf:spec:3.0">

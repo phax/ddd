@@ -20,10 +20,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Test;
+import org.w3c.dom.Element;
 
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
+import com.helger.xml.XMLFactory;
+import com.helger.xml.microdom.IMicroElement;
+import com.helger.xml.microdom.MicroElement;
+import com.helger.xml.microdom.serialize.MicroWriter;
+import com.helger.xml.serialize.write.XMLWriter;
 
 /**
  * Test class for class {@link DocumentDetails}
@@ -32,24 +40,29 @@ import com.helger.peppolid.factory.SimpleIdentifierFactory;
  */
 public final class DocumentDetailsTest
 {
+  @Nonnull
+  private static DocumentDetails _createDD ()
+  {
+    final IIdentifierFactory aIF = SimpleIdentifierFactory.INSTANCE;
+    return DocumentDetails.builder ()
+                          .senderID (aIF.parseParticipantIdentifier ("a::b"))
+                          .receiverID (aIF.parseParticipantIdentifier ("c::def"))
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier ("bla::fo:o"))
+                          .processID (aIF.parseProcessIdentifier ("pro::cess"))
+                          .businessDocumentID ("id")
+                          .senderName ("sn")
+                          .senderCountryCode ("sc")
+                          .receiverName ("rn")
+                          .receiverCountryCode ("rc")
+                          .vesid ("ves")
+                          .profileName ("pn")
+                          .build ();
+  }
+
   @Test
   public void testBuilderFilled ()
   {
-    final IIdentifierFactory aIF = SimpleIdentifierFactory.INSTANCE;
-
-    final DocumentDetails aDD = DocumentDetails.builder ()
-                                               .senderID (aIF.parseParticipantIdentifier ("a::b"))
-                                               .receiverID (aIF.parseParticipantIdentifier ("c::def"))
-                                               .documentTypeID (aIF.parseDocumentTypeIdentifier ("bla::fo:o"))
-                                               .processID (aIF.parseProcessIdentifier ("pro::cess"))
-                                               .businessDocumentID ("id")
-                                               .senderName ("sn")
-                                               .senderCountryCode ("sc")
-                                               .receiverName ("rn")
-                                               .receiverCountryCode ("rc")
-                                               .vesid ("ves")
-                                               .profileName ("pn")
-                                               .build ();
+    final DocumentDetails aDD = _createDD ();
 
     assertNotNull (aDD.getSenderID ());
     assertEquals ("a", aDD.getSenderID ().getScheme ());
@@ -92,5 +105,114 @@ public final class DocumentDetailsTest
     assertNull (aDD.getReceiverCountryCode ());
     assertNull (aDD.getVESID ());
     assertNull (aDD.getProfileName ());
+  }
+
+  @Test
+  public void testGetAsJson ()
+  {
+    final DocumentDetails aDD = _createDD ();
+    final var aJson = aDD.getAsJson ();
+    assertEquals ("{\"sender\":\"a::b\"," +
+                  "\"receiver\":\"c::def\"," +
+                  "\"doctype\":\"bla::fo:o\"," +
+                  "\"process\":\"pro::cess\"," +
+                  "\"bdid\":\"id\"," +
+                  "\"senderName\":\"sn\"," +
+                  "\"senderCountryCode\":\"sc\"," +
+                  "\"receiverName\":\"rn\"," +
+                  "\"receiverCountryCode\":\"rc\"," +
+                  "\"vesid\":\"ves\"," +
+                  "\"profileName\":\"pn\"}",
+                  aJson.getAsJsonString ());
+  }
+
+  @Test
+  public void testAppendToMicroElement ()
+  {
+    final DocumentDetails aDD = _createDD ();
+    final IMicroElement eRoot = new MicroElement ("root");
+    aDD.appendToMicroElement (eRoot);
+    assertEquals ("<root>\r\n" +
+                  "  <SenderID>a::b</SenderID>\r\n" +
+                  "  <ReceiverID>c::def</ReceiverID>\r\n" +
+                  "  <DocTypeID>bla::fo:o</DocTypeID>\r\n" +
+                  "  <ProcessID>pro::cess</ProcessID>\r\n" +
+                  "  <BusinessDocumentID>id</BusinessDocumentID>\r\n" +
+                  "  <SenderName>sn</SenderName>\r\n" +
+                  "  <SenderCountryCode>sc</SenderCountryCode>\r\n" +
+                  "  <ReceiverName>rn</ReceiverName>\r\n" +
+                  "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
+                  "  <VESID>ves</VESID>\r\n" +
+                  "  <ProfileName>pn</ProfileName>\r\n" +
+                  "</root>\r\n",
+                  MicroWriter.getNodeAsString (eRoot));
+  }
+
+  @Test
+  public void testAppendToMicroElementNS ()
+  {
+    final DocumentDetails aDD = _createDD ();
+    final IMicroElement eRoot = new MicroElement ("urn:helger:test", "root");
+    aDD.appendToMicroElement (eRoot);
+    assertEquals ("<root xmlns=\"urn:helger:test\">\r\n" +
+                  "  <SenderID>a::b</SenderID>\r\n" +
+                  "  <ReceiverID>c::def</ReceiverID>\r\n" +
+                  "  <DocTypeID>bla::fo:o</DocTypeID>\r\n" +
+                  "  <ProcessID>pro::cess</ProcessID>\r\n" +
+                  "  <BusinessDocumentID>id</BusinessDocumentID>\r\n" +
+                  "  <SenderName>sn</SenderName>\r\n" +
+                  "  <SenderCountryCode>sc</SenderCountryCode>\r\n" +
+                  "  <ReceiverName>rn</ReceiverName>\r\n" +
+                  "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
+                  "  <VESID>ves</VESID>\r\n" +
+                  "  <ProfileName>pn</ProfileName>\r\n" +
+                  "</root>\r\n",
+                  MicroWriter.getNodeAsString (eRoot));
+  }
+
+  @Test
+  public void testAppendToDOMElement ()
+  {
+    final DocumentDetails aDD = _createDD ();
+    final var aDoc = XMLFactory.newDocument ();
+    final var eRoot = (Element) aDoc.appendChild (aDoc.createElement ("root"));
+    aDD.appendToDOMElement (eRoot);
+    assertEquals ("<root>\r\n" +
+                  "  <SenderID>a::b</SenderID>\r\n" +
+                  "  <ReceiverID>c::def</ReceiverID>\r\n" +
+                  "  <DocTypeID>bla::fo:o</DocTypeID>\r\n" +
+                  "  <ProcessID>pro::cess</ProcessID>\r\n" +
+                  "  <BusinessDocumentID>id</BusinessDocumentID>\r\n" +
+                  "  <SenderName>sn</SenderName>\r\n" +
+                  "  <SenderCountryCode>sc</SenderCountryCode>\r\n" +
+                  "  <ReceiverName>rn</ReceiverName>\r\n" +
+                  "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
+                  "  <VESID>ves</VESID>\r\n" +
+                  "  <ProfileName>pn</ProfileName>\r\n" +
+                  "</root>\r\n",
+                  XMLWriter.getNodeAsString (eRoot));
+  }
+
+  @Test
+  public void testAppendToDOMElementNS ()
+  {
+    final DocumentDetails aDD = _createDD ();
+    final var aDoc = XMLFactory.newDocument ();
+    final var eRoot = (Element) aDoc.appendChild (aDoc.createElementNS ("urn:helger:test", "root"));
+    aDD.appendToDOMElement (eRoot);
+    assertEquals ("<root xmlns=\"urn:helger:test\">\r\n" +
+                  "  <SenderID>a::b</SenderID>\r\n" +
+                  "  <ReceiverID>c::def</ReceiverID>\r\n" +
+                  "  <DocTypeID>bla::fo:o</DocTypeID>\r\n" +
+                  "  <ProcessID>pro::cess</ProcessID>\r\n" +
+                  "  <BusinessDocumentID>id</BusinessDocumentID>\r\n" +
+                  "  <SenderName>sn</SenderName>\r\n" +
+                  "  <SenderCountryCode>sc</SenderCountryCode>\r\n" +
+                  "  <ReceiverName>rn</ReceiverName>\r\n" +
+                  "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
+                  "  <VESID>ves</VESID>\r\n" +
+                  "  <ProfileName>pn</ProfileName>\r\n" +
+                  "</root>\r\n",
+                  XMLWriter.getNodeAsString (eRoot));
   }
 }

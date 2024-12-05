@@ -16,9 +16,16 @@
  */
 package com.helger.ddd;
 
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.builder.IBuilder;
@@ -29,6 +36,7 @@ import com.helger.json.JsonObject;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
+import com.helger.xml.microdom.IMicroElement;
 
 /**
  * Document details determined from the payload, with all fields optional.
@@ -38,13 +46,28 @@ import com.helger.peppolid.IProcessIdentifier;
 @Immutable
 public class DocumentDetails
 {
+  public static final String XML_SYNTAX_ID = "SyntaxID";
+  public static final String XML_SYNTAX_VERSION = "SyntaxVersion";
+  public static final String XML_SENDER_ID = "SenderID";
+  public static final String XML_RECEIVER_ID = "ReceiverID";
+  public static final String XML_DOC_TYPE_ID = "DocTypeID";
+  public static final String XML_PROCESS_ID = "ProcessID";
+  public static final String XML_CUSTOMIZATION_ID = "CustomizationID";
+  public static final String XML_BUSINESS_DOCUMENT_ID = "BusinessDocumentID";
+  public static final String XML_SENDER_NAME = "SenderName";
+  public static final String XML_SENDER_COUNTRY_CODE = "SenderCountryCode";
+  public static final String XML_RECEIVER_NAME = "ReceiverName";
+  public static final String XML_RECEIVER_COUNTRY_CODE = "ReceiverCountryCode";
+  public static final String XML_VESID = "VESID";
+  public static final String XML_PROFILE_NAME = "ProfileName";
+
   private final String m_sSyntaxID;
+  private final String m_sSyntaxVersion;
   private final IParticipantIdentifier m_aSenderID;
   private final IParticipantIdentifier m_aReceiverID;
   private final IDocumentTypeIdentifier m_aDocTypeID;
-  private final String m_sCustomizationID;
-  private final String m_sSyntaxVersion;
   private final IProcessIdentifier m_aProcessID;
+  private final String m_sCustomizationID;
   private final String m_sBusinessDocumentID;
   private final String m_sSenderName;
   private final String m_sSenderCountryCode;
@@ -55,22 +78,23 @@ public class DocumentDetails
 
   /**
    * Internal constructor. All fields are optional. Don't use this ctor
-   * directly, use {@link #builder()} instead.
+   * directly, use {@link #builder()} instead. <br>
+   * Note: reordered parameters in 0.4.1
    *
    * @param sSyntaxID
    *        DDD syntax ID. Added in 0.3.2.
+   * @param sSyntaxVersion
+   *        Syntax version from the Document Type ID.
    * @param aSenderID
    *        Sender ID.
    * @param aReceiverID
    *        Receiver ID.
    * @param aDocTypeID
    *        Document Type ID.
-   * @param sCustomizationID
-   *        Customization ID from the Document Type ID.
-   * @param sSyntaxVersion
-   *        Syntax version from the Document Type ID.
    * @param aProcessID
    *        Process ID.
+   * @param sCustomizationID
+   *        Customization ID from the Document Type ID.
    * @param sBusinessDocumentID
    *        Business document ID
    * @param sSenderName
@@ -87,12 +111,12 @@ public class DocumentDetails
    *        Profile filename
    */
   protected DocumentDetails (@Nullable final String sSyntaxID,
+                             @Nullable final String sSyntaxVersion,
                              @Nullable final IParticipantIdentifier aSenderID,
                              @Nullable final IParticipantIdentifier aReceiverID,
                              @Nullable final IDocumentTypeIdentifier aDocTypeID,
-                             @Nullable final String sCustomizationID,
-                             @Nullable final String sSyntaxVersion,
                              @Nullable final IProcessIdentifier aProcessID,
+                             @Nullable final String sCustomizationID,
                              @Nullable final String sBusinessDocumentID,
                              @Nullable final String sSenderName,
                              @Nullable final String sSenderCountryCode,
@@ -126,6 +150,22 @@ public class DocumentDetails
   public final String getSyntaxID ()
   {
     return m_sSyntaxID;
+  }
+
+  public final boolean hasSyntaxVersion ()
+  {
+    return StringHelper.hasText (m_sSyntaxVersion);
+  }
+
+  /**
+   * @return The syntax version contained in the Document Type ID. May be
+   *         <code>null</code>.
+   * @since 0.2.2
+   */
+  @Nullable
+  public final String getSyntaxVersion ()
+  {
+    return m_sSyntaxVersion;
   }
 
   public final boolean hasSenderID ()
@@ -170,6 +210,20 @@ public class DocumentDetails
     return m_aDocTypeID;
   }
 
+  public final boolean hasProcessID ()
+  {
+    return m_aProcessID != null;
+  }
+
+  /**
+   * @return The process ID. May be <code>null</code>.
+   */
+  @Nullable
+  public final IProcessIdentifier getProcessID ()
+  {
+    return m_aProcessID;
+  }
+
   public final boolean hasCustomizationID ()
   {
     return StringHelper.hasText (m_sCustomizationID);
@@ -184,36 +238,6 @@ public class DocumentDetails
   public final String getCustomizationID ()
   {
     return m_sCustomizationID;
-  }
-
-  public final boolean hasSyntaxVersion ()
-  {
-    return StringHelper.hasText (m_sSyntaxVersion);
-  }
-
-  /**
-   * @return The syntax version contained in the Document Type ID. May be
-   *         <code>null</code>.
-   * @since 0.2.2
-   */
-  @Nullable
-  public final String getSyntaxVersion ()
-  {
-    return m_sSyntaxVersion;
-  }
-
-  public final boolean hasProcessID ()
-  {
-    return m_aProcessID != null;
-  }
-
-  /**
-   * @return The process ID. May be <code>null</code>.
-   */
-  @Nullable
-  public final IProcessIdentifier getProcessID ()
-  {
-    return m_aProcessID;
   }
 
   /**
@@ -326,37 +350,147 @@ public class DocumentDetails
     return m_sProfileName;
   }
 
+  /**
+   * Convert all document details as a JSON object.
+   *
+   * @return Never <code>null</code>.
+   */
   @Nonnull
   public final IJsonObject getAsJson ()
   {
     final IJsonObject ret = new JsonObject ();
-    ret.add ("syntaxID", m_sSyntaxID);
-    ret.add ("sender", m_aSenderID == null ? null : m_aSenderID.getURIEncoded ());
-    ret.add ("receiver", m_aReceiverID == null ? null : m_aReceiverID.getURIEncoded ());
-    ret.add ("doctype", m_aDocTypeID == null ? null : m_aDocTypeID.getURIEncoded ());
-    ret.add ("customizationID", m_sCustomizationID);
-    ret.add ("syntaxVersion", m_sSyntaxVersion);
-    ret.add ("process", m_aProcessID == null ? null : m_aProcessID.getURIEncoded ());
-    ret.add ("bdid", m_sBusinessDocumentID);
-    ret.add ("senderName", m_sSenderName);
-    ret.add ("senderCountryCode", m_sSenderCountryCode);
-    ret.add ("receiverName", m_sReceiverName);
-    ret.add ("receiverCountryCode", m_sReceiverCountryCode);
-    ret.add ("vesid", m_sVESID);
-    ret.add ("profileName", m_sProfileName);
+    if (hasSyntaxID ())
+      ret.add ("syntaxID", m_sSyntaxID);
+    if (hasSyntaxVersion ())
+      ret.add ("syntaxVersion", m_sSyntaxVersion);
+    if (m_aSenderID != null)
+      ret.add ("sender", m_aSenderID.getURIEncoded ());
+    if (m_aReceiverID != null)
+      ret.add ("receiver", m_aReceiverID.getURIEncoded ());
+    if (m_aDocTypeID != null)
+      ret.add ("doctype", m_aDocTypeID.getURIEncoded ());
+    if (m_aProcessID != null)
+      ret.add ("process", m_aProcessID.getURIEncoded ());
+    if (hasCustomizationID ())
+      ret.add ("customizationID", m_sCustomizationID);
+    if (hasBusinessDocumentID ())
+      ret.add ("bdid", m_sBusinessDocumentID);
+    if (hasSenderName ())
+      ret.add ("senderName", m_sSenderName);
+    if (hasSenderCountryCode ())
+      ret.add ("senderCountryCode", m_sSenderCountryCode);
+    if (hasReceiverName ())
+      ret.add ("receiverName", m_sReceiverName);
+    if (hasReceiverCountryCode ())
+      ret.add ("receiverCountryCode", m_sReceiverCountryCode);
+    if (hasVESID ())
+      ret.add ("vesid", m_sVESID);
+    if (hasProfileName ())
+      ret.add ("profileName", m_sProfileName);
     return ret;
+  }
+
+  /**
+   * Append all document details to an existing IMicroElement.
+   *
+   * @param aTarget
+   *        The micro element to append to. May not be <code>null</code>.
+   * @since 0.4.1
+   */
+  public void appendToMicroElement (@Nonnull final IMicroElement aTarget)
+  {
+    ValueEnforcer.notNull (aTarget, "Target");
+
+    final String sNamespaceURI = aTarget.getNamespaceURI ();
+    if (hasSyntaxID ())
+      aTarget.appendElement (sNamespaceURI, XML_SYNTAX_ID).appendText (m_sSyntaxID);
+    if (hasSyntaxVersion ())
+      aTarget.appendElement (sNamespaceURI, XML_SYNTAX_VERSION).appendText (m_sSyntaxVersion);
+    if (m_aSenderID != null)
+      aTarget.appendElement (sNamespaceURI, XML_SENDER_ID).appendText (m_aSenderID.getURIEncoded ());
+    if (m_aReceiverID != null)
+      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_ID).appendText (m_aReceiverID.getURIEncoded ());
+    if (m_aDocTypeID != null)
+      aTarget.appendElement (sNamespaceURI, XML_DOC_TYPE_ID).appendText (m_aDocTypeID.getURIEncoded ());
+    if (m_aProcessID != null)
+      aTarget.appendElement (sNamespaceURI, XML_PROCESS_ID).appendText (m_aProcessID.getURIEncoded ());
+    if (hasCustomizationID ())
+      aTarget.appendElement (sNamespaceURI, XML_CUSTOMIZATION_ID).appendText (m_sCustomizationID);
+    if (hasBusinessDocumentID ())
+      aTarget.appendElement (sNamespaceURI, XML_BUSINESS_DOCUMENT_ID).appendText (m_sBusinessDocumentID);
+    if (hasSenderName ())
+      aTarget.appendElement (sNamespaceURI, XML_SENDER_NAME).appendText (m_sSenderName);
+    if (hasSenderCountryCode ())
+      aTarget.appendElement (sNamespaceURI, XML_SENDER_COUNTRY_CODE).appendText (m_sSenderCountryCode);
+    if (hasReceiverName ())
+      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_NAME).appendText (m_sReceiverName);
+    if (hasReceiverCountryCode ())
+      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_COUNTRY_CODE).appendText (m_sReceiverCountryCode);
+    if (hasVESID ())
+      aTarget.appendElement (sNamespaceURI, XML_VESID).appendText (m_sVESID);
+    if (hasProfileName ())
+      aTarget.appendElement (sNamespaceURI, XML_PROFILE_NAME).appendText (m_sProfileName);
+  }
+
+  /**
+   * Append all document details to an existing DOM element.
+   *
+   * @param aTarget
+   *        The DOM element to append to. May not be <code>null</code>.
+   * @since 0.4.1
+   */
+  public void appendToDOMElement (@Nonnull final Element aTarget)
+  {
+    ValueEnforcer.notNull (aTarget, "Target");
+
+    final String sNamespaceURI = aTarget.getNamespaceURI ();
+    final Document aDoc = aTarget.getOwnerDocument ();
+    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x) : x -> aDoc
+                                                                                                           .createElementNS (sNamespaceURI,
+                                                                                                                             x);
+    final BiConsumer <String, String> fAppend = (name, val) -> aTarget.appendChild (fCreate.apply (name))
+                                                                      .appendChild (aDoc.createTextNode (val));
+
+    if (hasSyntaxID ())
+      fAppend.accept (XML_SYNTAX_ID, m_sSyntaxID);
+    if (hasSyntaxVersion ())
+      fAppend.accept (XML_SYNTAX_VERSION, m_sSyntaxVersion);
+    if (m_aSenderID != null)
+      fAppend.accept (XML_SENDER_ID, m_aSenderID.getURIEncoded ());
+    if (m_aReceiverID != null)
+      fAppend.accept (XML_RECEIVER_ID, m_aReceiverID.getURIEncoded ());
+    if (m_aDocTypeID != null)
+      fAppend.accept (XML_DOC_TYPE_ID, m_aDocTypeID.getURIEncoded ());
+    if (m_aProcessID != null)
+      fAppend.accept (XML_PROCESS_ID, m_aProcessID.getURIEncoded ());
+    if (hasCustomizationID ())
+      fAppend.accept (XML_CUSTOMIZATION_ID, m_sCustomizationID);
+    if (hasBusinessDocumentID ())
+      fAppend.accept (XML_BUSINESS_DOCUMENT_ID, m_sBusinessDocumentID);
+    if (hasSenderName ())
+      fAppend.accept (XML_SENDER_NAME, m_sSenderName);
+    if (hasSenderCountryCode ())
+      fAppend.accept (XML_SENDER_COUNTRY_CODE, m_sSenderCountryCode);
+    if (hasReceiverName ())
+      fAppend.accept (XML_RECEIVER_NAME, m_sReceiverName);
+    if (hasReceiverCountryCode ())
+      fAppend.accept (XML_RECEIVER_COUNTRY_CODE, m_sReceiverCountryCode);
+    if (hasVESID ())
+      fAppend.accept (XML_VESID, m_sVESID);
+    if (hasProfileName ())
+      fAppend.accept (XML_PROFILE_NAME, m_sProfileName);
   }
 
   @Override
   public String toString ()
   {
     return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
+                                       .append ("SyntaxVersion", m_sSyntaxVersion)
                                        .append ("SenderID", m_aSenderID)
                                        .append ("ReceiverID", m_aReceiverID)
                                        .append ("DocTypeID", m_aDocTypeID)
-                                       .append ("CustomizationID", m_sCustomizationID)
-                                       .append ("SyntaxVersion", m_sSyntaxVersion)
                                        .append ("ProcessID", m_aProcessID)
+                                       .append ("CustomizationID", m_sCustomizationID)
                                        .append ("BusinessDocumentID", m_sBusinessDocumentID)
                                        .append ("SenderName", m_sSenderName)
                                        .append ("SenderCountryCode", m_sSenderCountryCode)
@@ -397,12 +531,12 @@ public class DocumentDetails
   public static class Builder implements IBuilder <DocumentDetails>
   {
     private String m_sSyntaxID;
+    private String m_sSyntaxVersion;
     private IParticipantIdentifier m_aSenderID;
     private IParticipantIdentifier m_aReceiverID;
     private IDocumentTypeIdentifier m_aDocTypeID;
-    private String m_sCustomizationID;
-    private String m_sSyntaxVersion;
     private IProcessIdentifier m_aProcessID;
+    private String m_sCustomizationID;
     private String m_sBusinessDocumentID;
     private String m_sSenderName;
     private String m_sSenderCountryCode;
@@ -426,13 +560,13 @@ public class DocumentDetails
     public Builder (@Nonnull final DocumentDetails aSource)
     {
       ValueEnforcer.notNull (aSource, "Source");
-      syntaxID (aSource.getSyntaxID ()).senderID (aSource.getSenderID ())
+      syntaxID (aSource.getSyntaxID ()).syntaxVersion (aSource.getSyntaxVersion ())
+                                       .senderID (aSource.getSenderID ())
                                        .receiverID (aSource.getReceiverID ())
                                        .documentTypeID (aSource.getDocumentTypeID ())
                                        .processID (aSource.getProcessID ())
                                        .businessDocumentID (aSource.getBusinessDocumentID ())
                                        .customizationID (aSource.getCustomizationID ())
-                                       .syntaxVersion (aSource.getSyntaxVersion ())
                                        .senderName (aSource.getSenderName ())
                                        .senderCountryCode (aSource.getSenderCountryCode ())
                                        .receiverName (aSource.getReceiverName ())
@@ -445,6 +579,13 @@ public class DocumentDetails
     public final Builder syntaxID (@Nullable final String s)
     {
       m_sSyntaxID = s;
+      return this;
+    }
+
+    @Nonnull
+    public final Builder syntaxVersion (@Nullable final String s)
+    {
+      m_sSyntaxVersion = s;
       return this;
     }
 
@@ -470,23 +611,16 @@ public class DocumentDetails
     }
 
     @Nonnull
-    public final Builder customizationID (@Nullable final String s)
-    {
-      m_sCustomizationID = s;
-      return this;
-    }
-
-    @Nonnull
-    public final Builder syntaxVersion (@Nullable final String s)
-    {
-      m_sSyntaxVersion = s;
-      return this;
-    }
-
-    @Nonnull
     public final Builder processID (@Nullable final IProcessIdentifier a)
     {
       m_aProcessID = a;
+      return this;
+    }
+
+    @Nonnull
+    public final Builder customizationID (@Nullable final String s)
+    {
+      m_sCustomizationID = s;
       return this;
     }
 
@@ -544,12 +678,12 @@ public class DocumentDetails
     {
       // All fields are optional
       return new DocumentDetails (m_sSyntaxID,
+                                  m_sSyntaxVersion,
                                   m_aSenderID,
                                   m_aReceiverID,
                                   m_aDocTypeID,
-                                  m_sCustomizationID,
-                                  m_sSyntaxVersion,
                                   m_aProcessID,
+                                  m_sCustomizationID,
                                   m_sBusinessDocumentID,
                                   m_sSenderName,
                                   m_sSenderCountryCode,

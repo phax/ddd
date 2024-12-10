@@ -18,12 +18,12 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2024-09-13">
+     lastmod="2024-12-10">
   <syntax id="cii-d16b">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
         <set id="VESID">eu.cen.en16931:cii:latest</set>
-        <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
+        <set id="ProcessID">urn:fdc:peppol.eu:poacc:en16931:any</set>
         <set id="ProfileName">EN 16931 CII</set>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">

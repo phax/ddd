@@ -165,6 +165,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.4.2 - 2024-12-10
+    * Fixed the process identifier for "EN 16931 CII"
 * v0.4.1 - 2024-12-05
     * Fixed XRechnung 3.x CII VESID to use `3.0.2` instead of `3.0.1`
     * Added support for plain EN 16931 CII detection

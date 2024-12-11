@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
+import com.helger.commons.system.ENewLineMode;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
 import com.helger.xml.XMLFactory;
@@ -32,6 +33,7 @@ import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.MicroElement;
 import com.helger.xml.microdom.serialize.MicroWriter;
 import com.helger.xml.serialize.write.XMLWriter;
+import com.helger.xml.serialize.write.XMLWriterSettings;
 
 /**
  * Test class for class {@link DocumentDetails}
@@ -145,7 +147,7 @@ public final class DocumentDetailsTest
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
                   "</root>\r\n",
-                  MicroWriter.getNodeAsString (eRoot));
+                  MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
 
   @Test
@@ -167,7 +169,7 @@ public final class DocumentDetailsTest
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
                   "</root>\r\n",
-                  MicroWriter.getNodeAsString (eRoot));
+                  MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
 
   @Test
@@ -190,7 +192,7 @@ public final class DocumentDetailsTest
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
                   "</root>\r\n",
-                  XMLWriter.getNodeAsString (eRoot));
+                  XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
 
   @Test
@@ -213,6 +215,6 @@ public final class DocumentDetailsTest
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
                   "</root>\r\n",
-                  XMLWriter.getNodeAsString (eRoot));
+                  XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
 }

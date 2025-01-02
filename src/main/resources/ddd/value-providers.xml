@@ -674,4 +674,18 @@
       </if>
     </select>
   </syntax>
+  
+  <syntax id="zugferd1">
+    <select id="CustomizationID">
+      <if value="urn:ferd:CrossIndustryDocument:invoice:1p0:basic">
+        <set id="ProfileName">ZUGFeRD 1.0 (Basic Profile)</set>
+      </if>
+      <if value="urn:ferd:CrossIndustryDocument:invoice:1p0:comfort">
+        <set id="ProfileName">ZUGFeRD 1.0 (Comfort Profile)</set>
+      </if>
+      <if value="rn:ferd:CrossIndustryDocument:invoice:1p0:extended">
+        <set id="ProfileName">ZUGFeRD 1.0 (Extended Profile)</set>
+      </if>
+    </select>
+  </syntax>    
 </vps>

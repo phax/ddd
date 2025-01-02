@@ -46,9 +46,10 @@ public final class DDDValueProviderListTest
         final VPIf aIf = e2.getValue ();
         if (aIf.determinedValues ().isNotEmpty ())
         {
-          // Make sure, for each value providers at least the VESID is mapped
-          final String sVESID = aIf.determinedValues ().get (EDDDDeterminedField.VESID);
-          assertNotNull ("VESID missing for " + sSyntaxID + " - " + e1.getKey (), sVESID);
+          // Make sure, for each value providers at least the profile name is
+          // mapped
+          final String sProfileName = aIf.determinedValues ().get (EDDDDeterminedField.PROFILE_NAME);
+          assertNotNull ("Profile Name missing for " + sSyntaxID + " - " + e1.getKey (), sProfileName);
         }
         else
         {

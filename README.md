@@ -48,6 +48,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Reminder (ID `ubl2-reminder`) - added in v0.3.0
 * UBL 2.x Statement (ID `ubl2-statement`) - added in v0.3.0
 * UBL 2.x Utility Statement (ID `ubl2-utilitystatement`) - added in v0.3.0
+* ZUGFeRD 1.0 (ID `zugferd1`) - added in v0.4.3
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
 The deducible values are currently (in enum `EDDDDeterminedField`):
@@ -135,7 +136,7 @@ Please note that when merging syntax lists, each syntax must be unique. There is
 The DDD Value Providers determines the specific "profile" or "subsets" of a syntax, based on one or more specific values.
 
 E.g. for the syntax "UBL 2.x Invoice", if the `CustomizationID` has the value `urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0` than
-  it is an "XRechnung UBL Invoice 3.0" which uses syntax version `2.1` and the VESID for validation is `de.xrechnung:ubl-invoice:3.0.2`.
+  it is an "XRechnung UBL Invoice 3.0" which uses syntax version (UBL) `2.1` and the VESID for validation is `de.xrechnung:ubl-invoice:3.0.2`.
 
 The XML Schema for value provider list can be found at https://github.com/phax/ddd/tree/main/src/main/resources/schemas
 
@@ -165,6 +166,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.4.3 - 2025-01-02
+    * Added support for the custom ZUGFeRD 1.0 syntax
 * v0.4.2 - 2024-12-10
     * Fixed the process identifier for "EN 16931 CII"
 * v0.4.1 - 2024-12-05

@@ -732,4 +732,39 @@
       <xpath>*[local-name()='ReceiverParty']/*[local-name()='PostalAddress']/*[local-name()='Country']/*[local-name()='IdentificationCode']/text()</xpath>
     </get>
   </syntax>
+
+  <syntax id="zugferd1" nsuri="urn:ferd:CrossIndustryDocument:invoice:1p0" root="CrossIndustryDocument">
+    <name>ZUGFeRD</name>
+    <version>1.0</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='SpecifiedExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='HeaderExchangedDocument']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='SellerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='URIUniversalCommunication']/*[local-name()='URIID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='SpecifiedSupplyChainTradeTransaction']/*[local-name()='ApplicableSupplyChainTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
+    </get>
+  </syntax>
 </syntaxes>

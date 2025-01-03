@@ -92,7 +92,7 @@
         <set id="VESID">de.zugferd:minimum:latest</set>
         <set id="ProfileName">ZUGFeRD 2.x (Minimum Profile)</set>
       </if>
-      <if value="urnzugferd.de:2p0:basicwl">
+      <if value="urn:zugferd.de:2p0:basicwl">
         <set id="VESID">de.zugferd:basicwl:latest</set>
         <set id="ProfileName">ZUGFeRD 2.x (Basic WL Profile)</set>
       </if>

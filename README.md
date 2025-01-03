@@ -166,6 +166,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.4.4 - 2025-01-xx
+    * Added support for Customization IDs of Factur-X 1.0.x and ZUGFeRD 2.x
 * v0.4.3 - 2025-01-02
     * Added support for the custom ZUGFeRD 1.0 syntax
 * v0.4.2 - 2024-12-10

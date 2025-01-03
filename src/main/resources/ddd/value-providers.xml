@@ -87,6 +87,40 @@
         <set id="ProcessID">urn:fdc:peppol.eu:2017:poacc:billing:01:1.0</set>
         <set id="ProfileName">XRechnung CII 3.0 Extension</set>
       </if>
+      
+      <if value="urn:zugferd.de:2p0:minimum">
+        <set id="VESID">de.zugferd:minimum:latest</set>
+        <set id="ProfileName">ZUGFeRD 2.x (Minimum Profile)</set>
+      </if>
+      <if value="urnzugferd.de:2p0:basicwl">
+        <set id="VESID">de.zugferd:basicwl:latest</set>
+        <set id="ProfileName">ZUGFeRD 2.x (Basic WL Profile)</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:zugferd.de:2p0:basic">
+        <set id="VESID">de.zugferd:basic:latest</set>
+        <set id="ProfileName">ZUGFeRD 2.x (Basic Profile)</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:zugferd.de:2p0:extended">
+        <set id="VESID">de.zugferd:extended:latest</set>
+        <set id="ProfileName">ZUGFeRD 2.x (Extended Profile)</set>
+      </if>
+      
+      <if value="urn:factur-x.eu:1p0:minimum">
+        <set id="VESID">fr.factur-x:minimum:latest</set>
+        <set id="ProfileName">Factur-X 1.0.x (Minimum Profile)</set>
+      </if>
+      <if value="urn:factur-x.eu:1p0:basicwl">
+        <set id="VESID">fr.factur-x:basicwl:latest</set>
+        <set id="ProfileName">Factur-X 1.0.x (Basic WL Profile)</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:factur-x.eu:1p0:basic">
+        <set id="VESID">fr.factur-x:basic:latest</set>
+        <set id="ProfileName">Factur-X 1.0.x (Basic Profile)</set>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn:factur-x.eu:1p0:extended">
+        <set id="VESID">fr.factur-x:extended:latest</set>
+        <set id="ProfileName">Factur-X 1.0.x (Extended Profile)</set>
+      </if>
     </select>
   </syntax>
   

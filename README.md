@@ -166,6 +166,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.4.5 - 2025-01-08
+    * XRechnung Extension VESIDs were updated to match phive-rules 3.2.4
+    * XRechnung UBL CreditNote has no Extension document types
 * v0.4.4 - 2025-01-03
     * Added support for Customization IDs of Factur-X 1.0.x and ZUGFeRD 2.x (requires phive-rules 3.2.3)
 * v0.4.3 - 2025-01-02

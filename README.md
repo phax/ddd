@@ -8,6 +8,8 @@ Document Details Determinator - determine [VESID](https://github.com/phax/ph-div
 This project helps to determine the VESID from arbitrary payloads.
 Currently only XML payloads are supported.
 
+You can test DDD via a web frontend at https://peppol.helger.com/public/locale-en_US/menuitem-tools-ddd
+
 This project is part of my Peppol solution stack. See https://github.com/phax/peppol for other components and libraries in that area.
 
 # Concept

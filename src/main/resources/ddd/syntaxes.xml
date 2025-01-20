@@ -25,6 +25,9 @@
     <get id="CustomizationID">
       <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
     </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='BusinessProcessSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
+    </get>
     <get id="BusinessDocumentID">
       <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
     </get>

@@ -142,6 +142,15 @@ E.g. for the syntax "UBL 2.x Invoice", if the `CustomizationID` has the value `u
 
 The XML Schema for value provider list can be found at https://github.com/phax/ddd/tree/main/src/main/resources/schemas
 
+## Flags
+
+Some determined details have so called `flags` as indicator to generic use cases. 
+Each details can have 0 to unbounded entries.
+They were introduced in DDD v0.5.0.
+
+Example for actually used flags:
+* **`IsEN16931-2017CIUS`** - indicates that a document type is a CIUS to EN 16931:2017
+
 ## Adding custom value providers
 
 The default syntax list is included inside DDD.

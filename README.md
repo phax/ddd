@@ -174,6 +174,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
     * Updated Value Provider XSD from 1.0 to 1.1
     * Extracted classes `DocumentDetailsXMLHelper` and `DocumentDetailsJsonHelper`
     * Moved the public XML element names from `DocumentDetails` to `DocumentDetailsXMLHelper`
+    * Implemented `DocumentDetails.equals` and `hashCode`
 * v0.4.5 - 2025-01-08
     * XRechnung Extension VESIDs were updated to match phive-rules 3.2.4
     * XRechnung UBL CreditNote has no Extension document types

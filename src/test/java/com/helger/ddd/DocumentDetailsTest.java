@@ -156,6 +156,12 @@ public final class DocumentDetailsTest
                   "\"profileName\":\"pn\"," +
                   "\"flags\":[\"f1\",\"f2\"]}",
                   aJson.getAsJsonString ());
+
+    // Convert back to DocumentDetails
+    final DocumentDetails aDD2 = DocumentDetailsJsonHelper.getAsDocumentDetails (aJson,
+                                                                                 SimpleIdentifierFactory.INSTANCE);
+    assertNotNull (aDD2);
+    assertEquals (aDD, aDD2);
   }
 
   @Test

@@ -16,7 +16,7 @@
  */
 package com.helger.ddd;
 
-import java.util.Set;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,6 +30,8 @@ import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.builder.IBuilder;
 import com.helger.commons.collection.impl.CommonsLinkedHashSet;
 import com.helger.commons.collection.impl.ICommonsOrderedSet;
+import com.helger.commons.equals.EqualsHelper;
+import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.json.IJsonObject;
@@ -405,6 +407,52 @@ public class DocumentDetails
   }
 
   @Override
+  public boolean equals (final Object o)
+  {
+    if (o == this)
+      return true;
+    if (!getClass ().equals (o.getClass ()))
+      return false;
+    final DocumentDetails rhs = (DocumentDetails) o;
+    return EqualsHelper.equals (m_sSyntaxID, rhs.m_sSyntaxID) &&
+           EqualsHelper.equals (m_sSyntaxVersion, rhs.m_sSyntaxVersion) &&
+           EqualsHelper.equals (m_aSenderID, rhs.m_aSenderID) &&
+           EqualsHelper.equals (m_aReceiverID, rhs.m_aReceiverID) &&
+           EqualsHelper.equals (m_aDocTypeID, rhs.m_aDocTypeID) &&
+           EqualsHelper.equals (m_aProcessID, rhs.m_aProcessID) &&
+           EqualsHelper.equals (m_sCustomizationID, rhs.m_sCustomizationID) &&
+           EqualsHelper.equals (m_sBusinessDocumentID, rhs.m_sBusinessDocumentID) &&
+           EqualsHelper.equals (m_sSenderName, rhs.m_sSenderName) &&
+           EqualsHelper.equals (m_sSenderCountryCode, rhs.m_sSenderCountryCode) &&
+           EqualsHelper.equals (m_sReceiverName, rhs.m_sReceiverName) &&
+           EqualsHelper.equals (m_sReceiverCountryCode, rhs.m_sReceiverCountryCode) &&
+           EqualsHelper.equals (m_sVESID, rhs.m_sVESID) &&
+           EqualsHelper.equals (m_sProfileName, rhs.m_sProfileName) &&
+           EqualsHelper.equals (m_aFlags, rhs.m_aFlags);
+  }
+
+  @Override
+  public int hashCode ()
+  {
+    return new HashCodeGenerator (this).append (m_sSyntaxID)
+                                       .append (m_sSyntaxVersion)
+                                       .append (m_aSenderID)
+                                       .append (m_aReceiverID)
+                                       .append (m_aDocTypeID)
+                                       .append (m_aProcessID)
+                                       .append (m_sCustomizationID)
+                                       .append (m_sBusinessDocumentID)
+                                       .append (m_sSenderName)
+                                       .append (m_sSenderCountryCode)
+                                       .append (m_sReceiverName)
+                                       .append (m_sReceiverCountryCode)
+                                       .append (m_sVESID)
+                                       .append (m_sProfileName)
+                                       .append (m_aFlags)
+                                       .getHashCode ();
+  }
+
+  @Override
   public String toString ()
   {
     return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
@@ -610,7 +658,7 @@ public class DocumentDetails
     }
 
     @Nonnull
-    public final Builder flags (@Nullable final Set <String> a)
+    public final Builder flags (@Nullable final Collection <String> a)
     {
       if (a == null)
         m_aFlags.clear ();

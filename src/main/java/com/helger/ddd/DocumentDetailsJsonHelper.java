@@ -1,12 +1,18 @@
 package com.helger.ddd;
 
+import java.util.function.Predicate;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.json.IJson;
+import com.helger.json.IJsonArray;
 import com.helger.json.IJsonObject;
 import com.helger.json.JsonArray;
 import com.helger.json.JsonObject;
+import com.helger.peppolid.factory.IIdentifierFactory;
 
 /**
  * Helper class to work with the JSON binding.
@@ -80,5 +86,47 @@ public final class DocumentDetailsJsonHelper
     if (aDD.hasFlags ())
       ret.addJson (JSON_FLAGS, new JsonArray ().addAll (aDD.flags ()));
     return ret;
+  }
+
+  /**
+   * Convert a JSON object back to document details
+   *
+   * @param aObj
+   *        The JSON object to be converted back. May be <code>null</code>
+   * @param aIF
+   *        The identifier factory that should be used to parse the participant,
+   *        document type and process identifiers. May not be <code>null</code>.
+   * @return <code>null</code> if the source object is <code>null</code>.
+   */
+  @Nullable
+  public static DocumentDetails getAsDocumentDetails (@Nullable final IJsonObject aObj,
+                                                      @Nonnull final IIdentifierFactory aIF)
+  {
+    ValueEnforcer.notNull (aIF, "IdentifierFactory");
+
+    if (aObj == null)
+      return null;
+
+    final IJsonArray aFlags = aObj.getAsArray (JSON_FLAGS);
+    return DocumentDetails.builder ()
+                          .syntaxID (aObj.getAsString (JSON_SYNTAX_ID))
+                          .syntaxVersion (aObj.getAsString (JSON_SYNTAX_VERSION))
+                          .senderID (aIF.parseParticipantIdentifier (aObj.getAsString (JSON_SENDER_ID)))
+                          .receiverID (aIF.parseParticipantIdentifier (aObj.getAsString (JSON_RECEIVER_ID)))
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier (aObj.getAsString (JSON_DOCTYPE_ID)))
+                          .processID (aIF.parseProcessIdentifier (aObj.getAsString (JSON_PROCESS_ID)))
+                          .customizationID (aObj.getAsString (JSON_CUSTOMIZATION_ID))
+                          .businessDocumentID (aObj.getAsString (JSON_BUSINESS_DOCUMENT_ID))
+                          .senderName (aObj.getAsString (JSON_SENDER_NAME))
+                          .senderCountryCode (aObj.getAsString (JSON_SENDER_COUNTRY_CODE))
+                          .receiverName (aObj.getAsString (JSON_RECEIVER_NAME))
+                          .receiverCountryCode (aObj.getAsString (JSON_RECEIVER_COUNTRY_CODE))
+                          .vesid (aObj.getAsString (JSON_VESID))
+                          .profileName (aObj.getAsString (JSON_PROFILE_NAME))
+                          .flags (aFlags == null ? null
+                                                 : aFlags.getAll ()
+                                                         .getAllMapped ((Predicate <? super IJson>) IJson::isValue,
+                                                                        x -> x.getAsValue ().getAsString ()))
+                          .build ();
   }
 }

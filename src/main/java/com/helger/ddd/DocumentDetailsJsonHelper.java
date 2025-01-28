@@ -43,7 +43,7 @@ public final class DocumentDetailsJsonHelper
   private static final String JSON_SYNTAX_VERSION = "syntaxVersion";
   private static final String JSON_SENDER_ID = "sender";
   private static final String JSON_RECEIVER_ID = "receiver";
-  private static final String JSON_DOCTYPE_ID = "doctype";
+  private static final String JSON_DOC_TYPE_ID = "doctype";
   private static final String JSON_PROCESS_ID = "process";
   private static final String JSON_CUSTOMIZATION_ID = "customizationID";
   private static final String JSON_BUSINESS_DOCUMENT_ID = "bdid";
@@ -80,7 +80,7 @@ public final class DocumentDetailsJsonHelper
     if (aDD.getReceiverID () != null)
       ret.add (JSON_RECEIVER_ID, aDD.getReceiverID ().getURIEncoded ());
     if (aDD.hasDocumentTypeID ())
-      ret.add (JSON_DOCTYPE_ID, aDD.getDocumentTypeID ().getURIEncoded ());
+      ret.add (JSON_DOC_TYPE_ID, aDD.getDocumentTypeID ().getURIEncoded ());
     if (aDD.hasProcessID ())
       ret.add (JSON_PROCESS_ID, aDD.getProcessID ().getURIEncoded ());
     if (aDD.hasCustomizationID ())
@@ -129,7 +129,7 @@ public final class DocumentDetailsJsonHelper
                           .syntaxVersion (aObj.getAsString (JSON_SYNTAX_VERSION))
                           .senderID (aIF.parseParticipantIdentifier (aObj.getAsString (JSON_SENDER_ID)))
                           .receiverID (aIF.parseParticipantIdentifier (aObj.getAsString (JSON_RECEIVER_ID)))
-                          .documentTypeID (aIF.parseDocumentTypeIdentifier (aObj.getAsString (JSON_DOCTYPE_ID)))
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier (aObj.getAsString (JSON_DOC_TYPE_ID)))
                           .processID (aIF.parseProcessIdentifier (aObj.getAsString (JSON_PROCESS_ID)))
                           .customizationID (aObj.getAsString (JSON_CUSTOMIZATION_ID))
                           .businessDocumentID (aObj.getAsString (JSON_BUSINESS_DOCUMENT_ID))

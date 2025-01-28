@@ -17,9 +17,11 @@
 package com.helger.ddd;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import org.w3c.dom.Document;
@@ -27,7 +29,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.collection.impl.CommonsArrayList;
+import com.helger.commons.collection.impl.ICommonsList;
+import com.helger.peppolid.factory.IIdentifierFactory;
+import com.helger.xml.XMLHelper;
 import com.helger.xml.microdom.IMicroElement;
+import com.helger.xml.microdom.util.MicroHelper;
 
 /**
  * Helper class to work with the XML binding.
@@ -105,6 +112,49 @@ public final class DocumentDetailsXMLHelper
   }
 
   /**
+   * Convert a XML element back to document details
+   *
+   * @param aObj
+   *        The XML element to be converted back. May be <code>null</code>
+   * @param aIF
+   *        The identifier factory that should be used to parse the participant,
+   *        document type and process identifiers. May not be <code>null</code>.
+   * @return <code>null</code> if the source object is <code>null</code>.
+   */
+  @Nullable
+  public static DocumentDetails getAsDocumentDetails (@Nullable final IMicroElement aObj,
+                                                      @Nonnull final IIdentifierFactory aIF)
+  {
+    ValueEnforcer.notNull (aIF, "IdentifierFactory");
+
+    if (aObj == null)
+      return null;
+
+    final ICommonsList <IMicroElement> aFlags = aObj.getAllChildElements (XML_FLAG);
+    return DocumentDetails.builder ()
+                          .syntaxID (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_ID))
+                          .syntaxVersion (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_VERSION))
+                          .senderID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContent (aObj,
+                                                                                                      XML_SENDER_ID)))
+                          .receiverID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContent (aObj,
+                                                                                                        XML_RECEIVER_ID)))
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier (MicroHelper.getChildTextContent (aObj,
+                                                                                                             XML_DOC_TYPE_ID)))
+                          .processID (aIF.parseProcessIdentifier (MicroHelper.getChildTextContent (aObj,
+                                                                                                   XML_PROCESS_ID)))
+                          .customizationID (MicroHelper.getChildTextContent (aObj, XML_CUSTOMIZATION_ID))
+                          .businessDocumentID (MicroHelper.getChildTextContent (aObj, XML_BUSINESS_DOCUMENT_ID))
+                          .senderName (MicroHelper.getChildTextContent (aObj, XML_SENDER_NAME))
+                          .senderCountryCode (MicroHelper.getChildTextContent (aObj, XML_SENDER_COUNTRY_CODE))
+                          .receiverName (MicroHelper.getChildTextContent (aObj, XML_RECEIVER_NAME))
+                          .receiverCountryCode (MicroHelper.getChildTextContent (aObj, XML_RECEIVER_COUNTRY_CODE))
+                          .vesid (MicroHelper.getChildTextContent (aObj, XML_VESID))
+                          .profileName (MicroHelper.getChildTextContent (aObj, XML_PROFILE_NAME))
+                          .flags (aFlags == null ? null : aFlags.getAllMapped (IMicroElement::getTextContentTrimmed))
+                          .build ();
+  }
+
+  /**
    * Append all document details to an existing DOM element.
    *
    * @param aDD
@@ -155,5 +205,49 @@ public final class DocumentDetailsXMLHelper
     if (aDD.hasFlags ())
       for (final String sFlag : aDD.flags ())
         fAppend.accept (XML_FLAG, sFlag);
+  }
+
+  /**
+   * Convert a XML element back to document details
+   *
+   * @param aObj
+   *        The XML element to be converted back. May be <code>null</code>
+   * @param aIF
+   *        The identifier factory that should be used to parse the participant,
+   *        document type and process identifiers. May not be <code>null</code>.
+   * @return <code>null</code> if the source object is <code>null</code>.
+   */
+  @Nullable
+  public static DocumentDetails getAsDocumentDetails (@Nullable final Element aObj,
+                                                      @Nonnull final IIdentifierFactory aIF)
+  {
+    ValueEnforcer.notNull (aIF, "IdentifierFactory");
+
+    if (aObj == null)
+      return null;
+
+    final BiFunction <Node, String, String> fGet = (node, name) -> {
+      final Element e = XMLHelper.getFirstChildElementOfName (node, name);
+      return e == null ? null : e.getTextContent ();
+    };
+
+    final ICommonsList <Element> aFlags = new CommonsArrayList <> (XMLHelper.getChildElementIterator (aObj, XML_FLAG));
+    return DocumentDetails.builder ()
+                          .syntaxID (fGet.apply (aObj, XML_SYNTAX_ID))
+                          .syntaxVersion (fGet.apply (aObj, XML_SYNTAX_VERSION))
+                          .senderID (aIF.parseParticipantIdentifier (fGet.apply (aObj, XML_SENDER_ID)))
+                          .receiverID (aIF.parseParticipantIdentifier (fGet.apply (aObj, XML_RECEIVER_ID)))
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier (fGet.apply (aObj, XML_DOC_TYPE_ID)))
+                          .processID (aIF.parseProcessIdentifier (fGet.apply (aObj, XML_PROCESS_ID)))
+                          .customizationID (fGet.apply (aObj, XML_CUSTOMIZATION_ID))
+                          .businessDocumentID (fGet.apply (aObj, XML_BUSINESS_DOCUMENT_ID))
+                          .senderName (fGet.apply (aObj, XML_SENDER_NAME))
+                          .senderCountryCode (fGet.apply (aObj, XML_SENDER_COUNTRY_CODE))
+                          .receiverName (fGet.apply (aObj, XML_RECEIVER_NAME))
+                          .receiverCountryCode (fGet.apply (aObj, XML_RECEIVER_COUNTRY_CODE))
+                          .vesid (fGet.apply (aObj, XML_VESID))
+                          .profileName (fGet.apply (aObj, XML_PROFILE_NAME))
+                          .flags (aFlags.getAllMapped (Element::getTextContent))
+                          .build ();
   }
 }

@@ -186,6 +186,12 @@ public final class DocumentDetailsTest
                   "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
+
+    // Convert back to DocumentDetails
+    final DocumentDetails aDD2 = DocumentDetailsXMLHelper.getAsDocumentDetails (eRoot,
+                                                                                SimpleIdentifierFactory.INSTANCE);
+    assertNotNull (aDD2);
+    assertEquals (aDD, aDD2);
   }
 
   @Test
@@ -210,6 +216,12 @@ public final class DocumentDetailsTest
                   "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
+
+    // Convert back to DocumentDetails
+    final DocumentDetails aDD2 = DocumentDetailsXMLHelper.getAsDocumentDetails (eRoot,
+                                                                                SimpleIdentifierFactory.INSTANCE);
+    assertNotNull (aDD2);
+    assertEquals (aDD, aDD2);
   }
 
   @Test
@@ -235,6 +247,12 @@ public final class DocumentDetailsTest
                   "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
+
+    // Convert back to DocumentDetails
+    final DocumentDetails aDD2 = DocumentDetailsXMLHelper.getAsDocumentDetails (eRoot,
+                                                                                SimpleIdentifierFactory.INSTANCE);
+    assertNotNull (aDD2);
+    assertEquals (aDD, aDD2);
   }
 
   @Test
@@ -260,5 +278,11 @@ public final class DocumentDetailsTest
                   "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
+
+    // Convert back to DocumentDetails
+    final DocumentDetails aDD2 = DocumentDetailsXMLHelper.getAsDocumentDetails (eRoot,
+                                                                                SimpleIdentifierFactory.INSTANCE);
+    assertNotNull (aDD2);
+    assertEquals (aDD, aDD2);
   }
 }

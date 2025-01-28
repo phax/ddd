@@ -85,6 +85,9 @@ public final class DocumentDetailsDeterminatorTest
     assertEquals ("SE", aDD.getReceiverCountryCode ());
     assertEquals ("eu.peppol.bis3:invoice:latest-active", aDD.getVESID ());
     assertEquals ("Peppol BIS Billing UBL Invoice V3", aDD.getProfileName ());
+    assertTrue (aDD.hasFlags ());
+    assertEquals (1, aDD.flags ().size ());
+    assertTrue (aDD.flags ().contains ("IsEN16931-2017CIUS"));
   }
 
   @Test
@@ -143,8 +146,9 @@ public final class DocumentDetailsDeterminatorTest
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
 
       // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
-                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" +
+                                                  aSyntaxEntry.getKey () +
+                                                  "/good").withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
         nFilesRead++;
@@ -183,8 +187,9 @@ public final class DocumentDetailsDeterminatorTest
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
 
       // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/bad")
-                                                                                                                   .withFilter (IFileFilter.filenameEndsWith (".xml")))
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" +
+                                                  aSyntaxEntry.getKey () +
+                                                  "/bad").withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
 

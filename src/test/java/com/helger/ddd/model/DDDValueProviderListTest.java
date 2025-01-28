@@ -18,8 +18,11 @@ package com.helger.ddd.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -28,7 +31,10 @@ import org.junit.Test;
 
 import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.collection.impl.ICommonsSortedMap;
+import com.helger.commons.io.file.FileSystemRecursiveIterator;
+import com.helger.commons.io.file.IFileFilter;
 import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.io.resource.FileSystemResource;
 
 /**
  * Test class for class {@link DDDValueProviderList}.
@@ -78,29 +84,35 @@ public final class DDDValueProviderListTest
   @Test
   public void testMerging ()
   {
-    final DDDValueProviderList aList1 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp1.xml"));
+    final DDDValueProviderList aList1 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/good/vp1.xml"));
     assertNotNull (aList1);
     assertEquals (1, aList1.getAllValueProvidersPerSyntaxes ().size ());
     assertEquals (1,
                   aList1.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
 
-    final DDDValueProviderList aList2 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp2.xml"));
+    final DDDValueProviderList aList2 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/good/vp2.xml"));
     assertNotNull (aList2);
     assertEquals (1, aList2.getAllValueProvidersPerSyntaxes ().size ());
     assertEquals (1,
                   aList2.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
 
-    final DDDValueProviderList aList3 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp3.xml"));
+    final DDDValueProviderList aList3 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/good/vp3.xml"));
     assertNotNull (aList3);
     assertEquals (1, aList3.getAllValueProvidersPerSyntaxes ().size ());
     assertEquals (1,
                   aList3.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
 
-    final DDDValueProviderList aList4 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/vp4.xml"));
+    final DDDValueProviderList aList4 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/good/vp4.xml"));
     assertNotNull (aList4);
     assertEquals (1, aList4.getAllValueProvidersPerSyntaxes ().size ());
     assertEquals (1,
                   aList4.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
+
+    final DDDValueProviderList aList5 = DDDValueProviderList.readFromXML (new ClassPathResource ("value-provider/good/vp5.xml"));
+    assertNotNull (aList5);
+    assertEquals (1, aList5.getAllValueProvidersPerSyntaxes ().size ());
+    assertEquals (1,
+                  aList5.getAllValueProvidersPerSyntaxes ().values ().iterator ().next ().getAllSelectors ().size ());
 
     {
       final DDDValueProviderList aList12 = DDDValueProviderList.createMergedValueProviderList (aList1, aList2);
@@ -156,6 +168,76 @@ public final class DDDValueProviderListTest
 
       assertEquals (1, aSelectors.get (EDDDSourceField.CUSTOMIZATION_ID).getIfCount ());
       assertEquals (2, aSelectors.get (EDDDSourceField.PROCESS_ID).getIfCount ());
+    }
+
+    {
+      // Merge determined values and flags
+      final DDDValueProviderList aList15 = DDDValueProviderList.createMergedValueProviderList (aList1, aList5);
+
+      final ICommonsMap <String, DDDValueProviderPerSyntax> aVPSs = aList15.getAllValueProvidersPerSyntaxes ();
+      assertEquals (1, aVPSs.size ());
+      final DDDValueProviderPerSyntax aVPS = aVPSs.getFirstValue ();
+
+      final ICommonsMap <EDDDSourceField, VPSelect> aSelectors = aVPS.getAllSelectors ();
+      assertEquals (1, aSelectors.size ());
+      assertEquals (EDDDSourceField.CUSTOMIZATION_ID, aSelectors.getFirstKey ());
+
+      final VPSelect aSelect = aSelectors.getFirstValue ();
+      assertEquals (1, aSelect.getIfCount ());
+
+      final ICommonsSortedMap <String, VPIf> aAllIfs = aSelect.getAllIfs ();
+      assertTrue (aAllIfs.containsKey ("C1"));
+      assertEquals (1, aAllIfs.get ("C1").nestedSelects ().size ());
+
+      final VPSelect aNestedSelect = aAllIfs.get ("C1").nestedSelects ().getFirstValue ();
+      assertSame (EDDDSourceField.PROCESS_ID, aNestedSelect.getSourceField ());
+      assertEquals (2, aNestedSelect.getIfCount ());
+
+      final ICommonsSortedMap <String, VPIf> aAllNestedIfs = aNestedSelect.getAllIfs ();
+      assertTrue (aAllNestedIfs.containsKey ("P1"));
+      assertTrue (aAllNestedIfs.containsKey ("P2"));
+
+      final VPIf aIfP1 = aAllNestedIfs.get ("P1");
+      assertEquals (1, aIfP1.determinedValues ().getCount ());
+      assertTrue (aIfP1.determinedValues ().containsKey (EDDDDeterminedField.PROFILE_NAME));
+      assertEquals (1, aIfP1.determinedFlags ().getCount ());
+      assertTrue (aIfP1.determinedFlags ().contains ("C1-P1"));
+
+      final VPIf aIfP2 = aAllNestedIfs.get ("P2");
+      assertEquals (1, aIfP2.determinedValues ().getCount ());
+      assertTrue (aIfP2.determinedValues ().containsKey (EDDDDeterminedField.PROFILE_NAME));
+      assertEquals (1, aIfP2.determinedFlags ().getCount ());
+      assertTrue (aIfP2.determinedFlags ().contains ("C1-P2"));
+    }
+  }
+
+  @Test
+  public void testReadAllGood ()
+  {
+    for (final File f : new FileSystemRecursiveIterator (new File ("src/test/resources/value-provider/good")).withFilter (IFileFilter.filenameEndsWith (".xml")
+                                                                                                                                     .and (IFileFilter.fileOnly ())))
+    {
+      final DDDValueProviderList aList = DDDValueProviderList.readFromXML (new FileSystemResource (f));
+      assertNotNull (aList);
+    }
+  }
+
+  @Test
+  public void testReadAllBad ()
+  {
+    for (final File f : new FileSystemRecursiveIterator (new File ("src/test/resources/value-provider/bad")).withFilter (IFileFilter.filenameEndsWith (".xml")
+                                                                                                                                    .and (IFileFilter.fileOnly ())))
+    {
+      try
+      {
+        // Returns null
+        DDDValueProviderList.readFromXML (new FileSystemResource (f));
+        fail ("File " + f.getName () + " should fail");
+      }
+      catch (final IllegalArgumentException | IllegalStateException ex)
+      {
+        // Expected
+      }
     }
   }
 }

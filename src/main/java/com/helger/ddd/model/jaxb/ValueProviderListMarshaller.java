@@ -30,7 +30,7 @@ import com.helger.jaxb.GenericJAXBMarshaller;
  */
 public class ValueProviderListMarshaller extends GenericJAXBMarshaller <ValueProvidersType>
 {
-  public static final ClassPathResource XSD = new ClassPathResource ("schemas/ddd-value-providers-1.0.xsd",
+  public static final ClassPathResource XSD = new ClassPathResource ("schemas/ddd-value-providers-1.1.xsd",
                                                                      ValueProviderListMarshaller.class.getClassLoader ());
 
   public ValueProviderListMarshaller ()

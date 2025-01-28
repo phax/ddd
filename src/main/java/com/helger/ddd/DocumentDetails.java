@@ -16,6 +16,7 @@
  */
 package com.helger.ddd;
 
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -28,10 +29,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.ReturnsMutableCopy;
+import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.builder.IBuilder;
+import com.helger.commons.collection.impl.CommonsLinkedHashSet;
+import com.helger.commons.collection.impl.ICommonsOrderedSet;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.json.IJsonObject;
+import com.helger.json.JsonArray;
 import com.helger.json.JsonObject;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
@@ -60,6 +66,7 @@ public class DocumentDetails
   public static final String XML_RECEIVER_COUNTRY_CODE = "ReceiverCountryCode";
   public static final String XML_VESID = "VESID";
   public static final String XML_PROFILE_NAME = "ProfileName";
+  public static final String XML_FLAG = "Flag";
 
   private final String m_sSyntaxID;
   private final String m_sSyntaxVersion;
@@ -75,6 +82,7 @@ public class DocumentDetails
   private final String m_sReceiverCountryCode;
   private final String m_sVESID;
   private final String m_sProfileName;
+  private final ICommonsOrderedSet <String> m_aFlags;
 
   /**
    * Internal constructor. All fields are optional. Don't use this ctor
@@ -109,6 +117,8 @@ public class DocumentDetails
    *        VESID to use
    * @param sProfileName
    *        Profile filename
+   * @param aFlags
+   *        The determined flags. Never <code>null</code> but maybe empty.
    */
   protected DocumentDetails (@Nullable final String sSyntaxID,
                              @Nullable final String sSyntaxVersion,
@@ -123,7 +133,8 @@ public class DocumentDetails
                              @Nullable final String sReceiverName,
                              @Nullable final String sReceiverCountryCode,
                              @Nullable final String sVESID,
-                             @Nullable final String sProfileName)
+                             @Nullable final String sProfileName,
+                             @Nonnull final ICommonsOrderedSet <String> aFlags)
   {
     m_sSyntaxID = sSyntaxID;
     m_aSenderID = aSenderID;
@@ -139,6 +150,7 @@ public class DocumentDetails
     m_sReceiverCountryCode = sReceiverCountryCode;
     m_sVESID = sVESID;
     m_sProfileName = sProfileName;
+    m_aFlags = aFlags.getClone ();
   }
 
   public final boolean hasSyntaxID ()
@@ -350,6 +362,35 @@ public class DocumentDetails
     return m_sProfileName;
   }
 
+  public final boolean hasFlags ()
+  {
+    return m_aFlags.isNotEmpty ();
+  }
+
+  /**
+   * @return A copy of the contained flags. Never <code>null</code> but maybe
+   *         empty.
+   * @since 0.5.0
+   */
+  @Nonnull
+  @ReturnsMutableCopy
+  public final ICommonsOrderedSet <String> getAllFlags ()
+  {
+    return m_aFlags.getClone ();
+  }
+
+  /**
+   * @return A copy of the contained flags. Never <code>null</code> but maybe
+   *         empty.
+   * @since 0.5.0
+   */
+  @Nonnull
+  @ReturnsMutableObject
+  public final ICommonsOrderedSet <String> flags ()
+  {
+    return m_aFlags;
+  }
+
   /**
    * Convert all document details as a JSON object.
    *
@@ -387,6 +428,8 @@ public class DocumentDetails
       ret.add ("vesid", m_sVESID);
     if (hasProfileName ())
       ret.add ("profileName", m_sProfileName);
+    if (hasFlags ())
+      ret.addJson ("flags", new JsonArray ().addAll (m_aFlags));
     return ret;
   }
 
@@ -430,6 +473,9 @@ public class DocumentDetails
       aTarget.appendElement (sNamespaceURI, XML_VESID).appendText (m_sVESID);
     if (hasProfileName ())
       aTarget.appendElement (sNamespaceURI, XML_PROFILE_NAME).appendText (m_sProfileName);
+    if (hasFlags ())
+      for (final String sFlag : m_aFlags)
+        aTarget.appendElement (sNamespaceURI, XML_FLAG).appendText (sFlag);
   }
 
   /**
@@ -445,9 +491,8 @@ public class DocumentDetails
 
     final String sNamespaceURI = aTarget.getNamespaceURI ();
     final Document aDoc = aTarget.getOwnerDocument ();
-    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x) : x -> aDoc
-                                                                                                           .createElementNS (sNamespaceURI,
-                                                                                                                             x);
+    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x)
+                                                                  : x -> aDoc.createElementNS (sNamespaceURI, x);
     final BiConsumer <String, String> fAppend = (name, val) -> aTarget.appendChild (fCreate.apply (name))
                                                                       .appendChild (aDoc.createTextNode (val));
 
@@ -479,6 +524,9 @@ public class DocumentDetails
       fAppend.accept (XML_VESID, m_sVESID);
     if (hasProfileName ())
       fAppend.accept (XML_PROFILE_NAME, m_sProfileName);
+    if (hasFlags ())
+      for (final String sFlag : m_aFlags)
+        fAppend.accept (XML_FLAG, sFlag);
   }
 
   @Override
@@ -498,6 +546,7 @@ public class DocumentDetails
                                        .append ("ReceiverCountryCode", m_sReceiverCountryCode)
                                        .append ("VESID", m_sVESID)
                                        .append ("ProfileName", m_sProfileName)
+                                       .append ("Flags", m_aFlags)
                                        .getToString ();
   }
 
@@ -544,6 +593,7 @@ public class DocumentDetails
     private String m_sReceiverCountryCode;
     private String m_sVESID;
     private String m_sProfileName;
+    private final ICommonsOrderedSet <String> m_aFlags = new CommonsLinkedHashSet <> ();
 
     /**
      * Builder constructor with all fields empty.
@@ -572,7 +622,8 @@ public class DocumentDetails
                                        .receiverName (aSource.getReceiverName ())
                                        .receiverCountryCode (aSource.getReceiverCountryCode ())
                                        .vesid (aSource.getVESID ())
-                                       .profileName (aSource.getProfileName ());
+                                       .profileName (aSource.getProfileName ())
+                                       .flags (aSource.flags ());
     }
 
     @Nonnull
@@ -674,6 +725,16 @@ public class DocumentDetails
     }
 
     @Nonnull
+    public final Builder flags (@Nullable final Set <String> a)
+    {
+      if (a == null)
+        m_aFlags.clear ();
+      else
+        m_aFlags.addAll (a);
+      return this;
+    }
+
+    @Nonnull
     public DocumentDetails build ()
     {
       // All fields are optional
@@ -690,7 +751,8 @@ public class DocumentDetails
                                   m_sReceiverName,
                                   m_sReceiverCountryCode,
                                   m_sVESID,
-                                  m_sProfileName);
+                                  m_sProfileName,
+                                  m_aFlags);
     }
   }
 }

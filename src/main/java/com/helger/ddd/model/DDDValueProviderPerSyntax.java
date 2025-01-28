@@ -107,7 +107,7 @@ public class DDDValueProviderPerSyntax
   public interface ISelectorCallback
   {
     /**
-     * Selector callback
+     * Selector callback for a determined value
      *
      * @param aSourceValues
      *        List of all source values used for selection. Never
@@ -116,15 +116,29 @@ public class DDDValueProviderPerSyntax
      *        The determined field. Never <code>null</code>.
      * @param sDeterminedValue
      *        The determined values. Never <code>null</code>.
+     * @since 0.5.0 the name changed from <code>accept</code> to
+     *        <code>acceptDeterminedValue</code>
      */
-    void accept (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
-                 @Nonnull EDDDDeterminedField eDeterminedField,
-                 @Nonnull String sDeterminedValue);
+    void acceptDeterminedValue (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
+                                @Nonnull EDDDDeterminedField eDeterminedField,
+                                @Nonnull String sDeterminedValue);
+
+    /**
+     * Selector callback for a flag
+     *
+     * @param aSourceValues
+     *        List of all source values used for selection. Never
+     *        <code>null</code> nor empty.
+     * @param sFlag
+     *        The flag value Neither <code>null</code> nor empty.
+     * @since 0.5.0
+     */
+    void acceptFlag (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues, @Nonnull @Nonempty String sFlag);
   }
 
-  public static void _forEachSelectorRecursive (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
-                                                @Nonnull final ICommonsList <VPSourceValue> aSourceValues,
-                                                @Nonnull final ISelectorCallback aConsumer)
+  private static void _forEachSelectorRecursive (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
+                                                 @Nonnull final ICommonsList <VPSourceValue> aSourceValues,
+                                                 @Nonnull final ISelectorCallback aConsumer)
   {
     for (final Map.Entry <EDDDSourceField, VPSelect> e : aSelects.entrySet ())
     {
@@ -136,14 +150,19 @@ public class DDDValueProviderPerSyntax
 
         final VPIf aIf = e2.getValue ();
 
-        if (aIf.hasDeterminedValues ())
+        if (aIf.hasDeterminedValuesOrFlags ())
         {
+          // For all determined values (0-n)
           for (final Map.Entry <EDDDDeterminedField, String> e3 : aIf.determinedValues ())
           {
             final EDDDDeterminedField eDeterminedField = e3.getKey ();
             final String sDeterminedValue = e3.getValue ();
-            aConsumer.accept (aSourceValues, eDeterminedField, sDeterminedValue);
+            aConsumer.acceptDeterminedValue (aSourceValues, eDeterminedField, sDeterminedValue);
           }
+
+          // For all flags (0-n)
+          for (final String sFlag : aIf.determinedFlags ())
+            aConsumer.acceptFlag (aSourceValues, sFlag);
         }
         else
         {
@@ -169,7 +188,8 @@ public class DDDValueProviderPerSyntax
   @Nonnull
   private static ESuccess _getAllDeducedValuesRecursive (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
                                                          @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
-                                                         @Nonnull final VPDeterminedValues aTargetValues)
+                                                         @Nonnull final VPDeterminedValues aTargetDeterminedValues,
+                                                         @Nonnull final VPDeterminedFlags aTargetDeterminedFlags)
   {
     for (final Map.Entry <EDDDSourceField, VPSelect> aEntry : aSelects.entrySet ())
     {
@@ -185,14 +205,18 @@ public class DDDValueProviderPerSyntax
         if (aIf != null)
         {
           // Is it the last condition
-          if (aIf.hasDeterminedValues ())
+          if (aIf.hasDeterminedValuesOrFlags ())
           {
-            aTargetValues.putAll (aIf.determinedValues ());
+            aTargetDeterminedValues.putAll (aIf.determinedValues ());
+            aTargetDeterminedFlags.addAll (aIf.determinedFlags ());
             return ESuccess.SUCCESS;
           }
 
           // Nested selects instead
-          if (_getAllDeducedValuesRecursive (aSourceProvider, aIf.nestedSelects (), aTargetValues).isSuccess ())
+          if (_getAllDeducedValuesRecursive (aSourceProvider,
+                                             aIf.nestedSelects (),
+                                             aTargetDeterminedValues,
+                                             aTargetDeterminedFlags).isSuccess ())
           {
             // We found something in the nested value
             return ESuccess.SUCCESS;
@@ -205,13 +229,23 @@ public class DDDValueProviderPerSyntax
 
   @Nonnull
   @ReturnsMutableCopy
+  @Deprecated (forRemoval = true, since = "0.5.0")
   public VPDeterminedValues getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)
   {
-    ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
-
     final VPDeterminedValues ret = new VPDeterminedValues ();
-    _getAllDeducedValuesRecursive (aSourceProvider, m_aSelects, ret);
+    forAllDeducedValues (aSourceProvider, ret, new VPDeterminedFlags ());
     return ret;
+  }
+
+  public void forAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
+                                   @Nonnull final VPDeterminedValues aDeterminedValues,
+                                   @Nonnull final VPDeterminedFlags aDeterminedFlags)
+  {
+    ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
+    ValueEnforcer.notNull (aDeterminedValues, "DeterminedValues");
+    ValueEnforcer.notNull (aDeterminedFlags, "DeterminedFlags");
+
+    _getAllDeducedValuesRecursive (aSourceProvider, m_aSelects, aDeterminedValues, aDeterminedFlags);
   }
 
   @Override
@@ -224,11 +258,14 @@ public class DDDValueProviderPerSyntax
 
   private static void _addSetFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
                                        @Nonnull final VPSetType aJaxbSet,
-                                       @Nonnull final VPDeterminedValues aSetters)
+                                       @Nonnull final VPDeterminedValues aTargetSetters)
   {
     final String sSetterID = aJaxbSet.getId ();
+
+    // Check if the setter is known. Only specific setters are allowed
     final EDDDDeterminedField eSetter = EDDDDeterminedField.getFromIDOrNull (sSetterID);
     if (eSetter == null)
+    {
       throw new IllegalStateException ("The selector field '" +
                                        eOuterSelector.getID () +
                                        "' contains the unknown field '" +
@@ -238,18 +275,55 @@ public class DDDValueProviderPerSyntax
                                                    .source (EDDDDeterminedField.values (), x -> "'" + x.getID () + "'")
                                                    .separator (", ")
                                                    .build ());
+    }
+
+    // Special case: the selector cannot be identical to the setter. Simply
+    // makes no sense
     if (eSetter.getSourceField () == eOuterSelector)
+    {
       throw new IllegalStateException ("The selector field '" +
                                        eOuterSelector.getID () +
                                        "' cannot be used as a setter field too");
+    }
 
-    if (aSetters.containsKey (eSetter))
+    // And finally make sure, each setter is contained only once per set
+    if (aTargetSetters.containsKey (eSetter))
+    {
       throw new IllegalStateException ("The selector with ID '" +
                                        eOuterSelector.getID () +
                                        "' already contains a setter for '" +
                                        sSetterID +
                                        "'");
-    aSetters.put (eSetter, aJaxbSet.getValue ().trim ());
+    }
+
+    // Store :)
+    aTargetSetters.put (eSetter, aJaxbSet.getValue ().trim ());
+  }
+
+  private static void _addFlagFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
+                                        @Nonnull final String sJaxbFlag,
+                                        @Nonnull final VPDeterminedFlags aTargetFlags)
+  {
+    final String sUnifiedFlag = sJaxbFlag.trim ();
+
+    // Check it is not empty
+    if (StringHelper.hasNoText (sUnifiedFlag))
+    {
+      throw new IllegalStateException ("The selector with ID '" + eOuterSelector.getID () + "' contains an empty flag");
+    }
+
+    // And finally make sure, each setter is contained only once per set
+    if (aTargetFlags.contains (sUnifiedFlag))
+    {
+      throw new IllegalStateException ("The selector with ID '" +
+                                       eOuterSelector.getID () +
+                                       "' already contains the flag '" +
+                                       sUnifiedFlag +
+                                       "'");
+    }
+
+    // Store :)
+    aTargetFlags.add (sUnifiedFlag);
   }
 
   @Nonnull
@@ -259,12 +333,15 @@ public class DDDValueProviderPerSyntax
     if (StringHelper.hasNoText (sConditionValue))
       throw new IllegalStateException ("The selector '" +
                                        eOuterSelector.getID () +
-                                       "' contains a condition with an empty value");
+                                       "' contains a condition with an empty Condition Value");
 
     // Read all setters
     final VPIf aIf = new VPIf (sConditionValue);
     for (final VPSetType aJaxbSet : aJaxbIf.getSet ())
       _addSetFromJaxb (eOuterSelector, aJaxbSet, aIf.determinedValues ());
+
+    for (final String sFlag : aJaxbIf.getFlag ())
+      _addFlagFromJaxb (eOuterSelector, sFlag, aIf.determinedFlags ());
 
     // Read additional selectors
     for (final VPSelectType aJaxbSelect : aJaxbIf.getSelect ())
@@ -273,10 +350,19 @@ public class DDDValueProviderPerSyntax
       aIf.addNestedSelect (aSelect);
     }
 
-    if (aIf.hasDeterminedValues () && aIf.hasNestedSelects ())
+    if (!aIf.hasDeterminedValuesOrFlags () && !aIf.hasNestedSelects ())
+    {
       throw new IllegalStateException ("The selector '" +
                                        eOuterSelector.getID () +
-                                       "' contains a condition with an values and nested selects. This is not allowed");
+                                       "' contains a condition with neither Determined Values, Flags nor Nested Selects. This is not allowed.");
+    }
+
+    if (aIf.hasDeterminedValuesOrFlags () && aIf.hasNestedSelects ())
+    {
+      throw new IllegalStateException ("The selector '" +
+                                       eOuterSelector.getID () +
+                                       "' contains a condition with Determined Values or Flags and Nested Selects. This is not allowed.");
+    }
 
     return aIf;
   }

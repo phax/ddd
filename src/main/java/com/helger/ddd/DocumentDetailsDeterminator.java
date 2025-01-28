@@ -38,6 +38,7 @@ import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.DDDValueProviderPerSyntax;
 import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
+import com.helger.ddd.model.VPDeterminedFlags;
 import com.helger.ddd.model.VPDeterminedValues;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
@@ -380,9 +381,12 @@ public final class DocumentDetailsDeterminator
     };
 
     // Target value setter
+    final VPDeterminedValues aDeterminedMatches = new VPDeterminedValues ();
+    final VPDeterminedFlags aDeterminedFlags = new VPDeterminedFlags ();
+    aValueProvider.forAllDeducedValues (fctFieldProvider, aDeterminedMatches, aDeterminedFlags);
+
     String sProfileName = null;
-    final VPDeterminedValues aMatches = aValueProvider.getAllDeducedValues (fctFieldProvider);
-    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aMatches)
+    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aDeterminedMatches)
     {
       final String sNewValue = aEntry.getValue ();
       switch (aEntry.getKey ())
@@ -440,6 +444,7 @@ public final class DocumentDetailsDeterminator
                           .receiverCountryCode (sReceiverCountryCode)
                           .vesid (sVESID)
                           .profileName (sProfileName)
+                          .flags (aDeterminedFlags.getAsSet ())
                           .build ();
   }
 }

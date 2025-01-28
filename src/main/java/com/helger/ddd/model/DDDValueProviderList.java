@@ -215,10 +215,11 @@ public class DDDValueProviderList
             final VPIf aMergedIf = new VPIf (sConditionValue);
 
             // If contained in VPL1 and VPL2
-            if (aIf1.hasDeterminedValues ())
+            if (aIf1.hasDeterminedValuesOrFlags ())
             {
-              if (aIf2.hasDeterminedValues ())
+              if (aIf2.hasDeterminedValuesOrFlags ())
               {
+                // Merge all determined values
                 for (final var aEntryValue : aIf1.determinedValues ())
                 {
                   final EDDDDeterminedField eDeterminedField = aEntryValue.getKey ();
@@ -241,7 +242,7 @@ public class DDDValueProviderList
                       // In the future we might provide a parameter that allows
                       // for overwriting old values. Currently this is not
                       // foreseen
-                      throw new IllegalStateException ("Cannot merge two <Ifs> for because determined field " +
+                      throw new IllegalStateException ("Cannot merge two <Ifs> for because Determined Value field " +
                                                        eDeterminedField +
                                                        " has 2 different values ('" +
                                                        sDeterminedValue1 +
@@ -252,19 +253,23 @@ public class DDDValueProviderList
                   }
                 }
 
-                // Add all values only contained in If2
+                // Add all determined values only contained in If2
                 for (final var aEntryValue : aIf2.determinedValues ())
                   if (!aIf1.determinedValues ().containsKey (aEntryValue.getKey ()))
                     aMergedIf.determinedValues ().put (aEntryValue.getKey (), aEntryValue.getValue ());
+
+                // Merge all flags
+                aMergedIf.determinedFlags ().addAll (aIf1.determinedFlags ());
+                aMergedIf.determinedFlags ().addAll (aIf2.determinedFlags ());
               }
               else
-                throw new IllegalStateException ("Cannot merge two <Ifs> where one has a value and the other one has nested selects");
+                throw new IllegalStateException ("Cannot merge two <Ifs> where one has Determined Value or Flags and the other one has Nested Selects");
             }
             else
             {
-              if (aIf2.hasDeterminedValues ())
+              if (aIf2.hasDeterminedValuesOrFlags ())
               {
-                throw new IllegalStateException ("Cannot merge two <Ifs> where one has nested selects and the other one has a value");
+                throw new IllegalStateException ("Cannot merge two <Ifs> where one has Nested Selects and the other one has Determined Values or Flags");
               }
 
               // Recursive call

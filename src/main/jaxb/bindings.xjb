@@ -32,7 +32,7 @@
       <package name="com.helger.ddd.model.jaxb.syntax1" />
     </schemaBindings>
   </bindings>
-  <bindings schemaLocation="../resources/schemas/ddd-value-providers-1.0.xsd">
+  <bindings schemaLocation="../resources/schemas/ddd-value-providers-1.1.xsd">
     <schemaBindings>
       <package name="com.helger.ddd.model.jaxb.vp1" />
     </schemaBindings>

@@ -27,7 +27,9 @@
     <xs:documentation>
 This XML Schema is used to describe the DDD value provider list
 
-Version: 2024-09-13
+Version: 2025-01-28
+* 2025-01-28 - added "flag" element to "VPIfType"
+* 2024-09-13 - initial version
     </xs:documentation>
   </xs:annotation>
 
@@ -50,7 +52,10 @@ Version: 2024-09-13
 
   <xs:complexType name="VPIfType">
     <xs:choice>
-      <xs:element name="set" type="VPSetType" maxOccurs="unbounded" />
+      <xs:sequence minOccurs="1">
+        <xs:element name="set" type="VPSetType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="flag" type="xs:Name" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
       <xs:element name="select" type="VPSelectType" maxOccurs="unbounded" />
     </xs:choice>
     <xs:attribute name="value" type="xs:string" use="required">

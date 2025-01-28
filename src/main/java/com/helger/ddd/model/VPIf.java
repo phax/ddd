@@ -42,28 +42,55 @@ public final class VPIf implements ICloneable <VPIf>
 
   // The following 2 fields are mutually exclusive
   private final VPDeterminedValues m_aDeterminedValues;
+  private final VPDeterminedFlags m_aDeterminedFlags;
   private final ICommonsSortedMap <EDDDSourceField, VPSelect> m_aNestedSelects;
 
+  /**
+   * Constructor
+   *
+   * @param sConditionValue
+   *        The condition value to use. May neither be <code>null</code> nor
+   *        empty.
+   */
   public VPIf (@Nonnull @Nonempty final String sConditionValue)
   {
     ValueEnforcer.notEmpty (sConditionValue, "ConditionValue");
 
     m_sConditionValue = sConditionValue;
     m_aDeterminedValues = new VPDeterminedValues ();
+    m_aDeterminedFlags = new VPDeterminedFlags ();
     m_aNestedSelects = new CommonsTreeMap <> ();
   }
 
+  /**
+   * Copy constructor
+   *
+   * @param sConditionValue
+   *        The condition value
+   * @param aDeterminedValues
+   *        The determined values
+   * @param aFlags
+   *        The determined flags
+   * @param aSelects
+   *        The nested selects
+   */
   private VPIf (@Nonnull @Nonempty final String sConditionValue,
                 @Nonnull final VPDeterminedValues aDeterminedValues,
+                @Nonnull final VPDeterminedFlags aFlags,
                 @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
   {
     m_sConditionValue = sConditionValue;
     m_aDeterminedValues = aDeterminedValues.getClone ();
+    m_aDeterminedFlags = aFlags.getClone ();
+    // Deep clone
     m_aNestedSelects = new CommonsTreeMap <> ();
     for (final Map.Entry <EDDDSourceField, VPSelect> e : aSelects.entrySet ())
       m_aNestedSelects.put (e.getKey (), e.getValue ().getClone ());
   }
 
+  /**
+   * @return The condition value as provided in the constructor.
+   */
   @Nonnull
   @Nonempty
   public String getConditionValue ()
@@ -81,6 +108,38 @@ public final class VPIf implements ICloneable <VPIf>
   public VPDeterminedValues determinedValues ()
   {
     return m_aDeterminedValues;
+  }
+
+  /**
+   * @return <code>true</code> if at least one flag is present,
+   *         <code>false</code> if not.
+   * @since 0.5.0
+   */
+  public boolean hasDeterminedFlags ()
+  {
+    return m_aDeterminedFlags.isNotEmpty ();
+  }
+
+  /**
+   * @return A set of specific flag that apply to a specific document type.
+   *         Never <code>null</code>.
+   * @since 0.5.0
+   */
+  @Nonnull
+  @ReturnsMutableObject
+  public VPDeterminedFlags determinedFlags ()
+  {
+    return m_aDeterminedFlags;
+  }
+
+  /**
+   * @return <code>true</code> if either a determined value or a flag is
+   *         present.
+   * @since 0.5.0
+   */
+  public boolean hasDeterminedValuesOrFlags ()
+  {
+    return hasDeterminedValues () || hasDeterminedFlags ();
   }
 
   public boolean hasNestedSelects ()
@@ -106,19 +165,19 @@ public final class VPIf implements ICloneable <VPIf>
   {
     ValueEnforcer.notNull (aSelect, "Select");
 
-    if (hasDeterminedValues ())
-      throw new IllegalStateException ("An If can either have determined values or nested selects but not both");
+    if (hasDeterminedValuesOrFlags ())
+      throw new IllegalStateException ("An If can either have Determined Values and Flags or Nested Selects but not both");
 
     final EDDDSourceField eSelector = aSelect.getSourceField ();
     if (m_aNestedSelects.containsKey (eSelector))
-      throw new IllegalStateException ("The selector with ID '" + eSelector.getID () + "' is already contained");
+      throw new IllegalStateException ("The Selector with ID '" + eSelector.getID () + "' is already contained");
     m_aNestedSelects.put (eSelector, aSelect);
   }
 
   @Nonnull
   public VPIf getClone ()
   {
-    return new VPIf (m_sConditionValue, m_aDeterminedValues, m_aNestedSelects);
+    return new VPIf (m_sConditionValue, m_aDeterminedValues, m_aDeterminedFlags, m_aNestedSelects);
   }
 
   @Override
@@ -126,6 +185,7 @@ public final class VPIf implements ICloneable <VPIf>
   {
     return new ToStringGenerator (null).append ("ConditionValue", m_sConditionValue)
                                        .append ("DeterminedValues", m_aDeterminedValues)
+                                       .append ("DeterminedFlags", m_aDeterminedFlags)
                                        .append ("NestedSelects", m_aNestedSelects)
                                        .getToString ();
   }

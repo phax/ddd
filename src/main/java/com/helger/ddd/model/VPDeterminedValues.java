@@ -20,17 +20,19 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.commons.collection.impl.CommonsTreeMap;
 import com.helger.commons.collection.impl.ICommonsSortedMap;
 import com.helger.commons.lang.ICloneable;
 import com.helger.commons.string.ToStringGenerator;
 
 /**
- * Represents a set of values in the Value Provider scope
+ * Represents a set of Determined Values in the Value Provider scope
  *
  * @author Philip Helger
  * @since 0.2.2
@@ -42,11 +44,20 @@ public final class VPDeterminedValues implements
 {
   private final ICommonsSortedMap <EDDDDeterminedField, String> m_aMap;
 
+  /**
+   * Public no-argument constructor.
+   */
   public VPDeterminedValues ()
   {
     m_aMap = new CommonsTreeMap <> ();
   }
 
+  /**
+   * Private copy constructor for cloning
+   *
+   * @param aMap
+   *        The map to be copied. May not be <code>null</code>.
+   */
   private VPDeterminedValues (@Nonnull final ICommonsSortedMap <EDDDDeterminedField, String> aMap)
   {
     m_aMap = aMap.getClone ();
@@ -54,23 +65,28 @@ public final class VPDeterminedValues implements
 
   public boolean containsKey (@Nonnull final EDDDDeterminedField eField)
   {
+    ValueEnforcer.notNull (eField, "Field");
     return m_aMap.containsKey (eField);
   }
 
   @Nullable
-  public String get (final EDDDDeterminedField eField)
+  public String get (@Nonnull final EDDDDeterminedField eField)
   {
+    ValueEnforcer.notNull (eField, "Field");
     return m_aMap.get (eField);
   }
 
   public void put (@Nonnull final EDDDDeterminedField eField, @Nonnull final String sValue)
   {
+    ValueEnforcer.notNull (eField, "Field");
+    ValueEnforcer.notNull (sValue, "Value");
     m_aMap.put (eField, sValue);
   }
 
-  public void putAll (@Nonnull final VPDeterminedValues aSetters)
+  public void putAll (@Nonnull final VPDeterminedValues aOther)
   {
-    m_aMap.putAll (aSetters.m_aMap);
+    ValueEnforcer.notNull (aOther, "Other");
+    m_aMap.putAll (aOther.m_aMap);
   }
 
   @Nonnull
@@ -82,6 +98,12 @@ public final class VPDeterminedValues implements
   public boolean isNotEmpty ()
   {
     return m_aMap.isNotEmpty ();
+  }
+
+  @Nonnegative
+  public int getCount ()
+  {
+    return m_aMap.size ();
   }
 
   @Nonnull

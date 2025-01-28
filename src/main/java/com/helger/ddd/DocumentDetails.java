@@ -725,6 +725,16 @@ public class DocumentDetails
     }
 
     @Nonnull
+    public final Builder flags (@Nullable final String... a)
+    {
+      if (a == null)
+        m_aFlags.clear ();
+      else
+        m_aFlags.addAll (a);
+      return this;
+    }
+
+    @Nonnull
     public final Builder flags (@Nullable final Set <String> a)
     {
       if (a == null)

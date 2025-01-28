@@ -17,14 +17,17 @@
 package com.helger.ddd;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
 import org.w3c.dom.Element;
 
+import com.helger.commons.collection.impl.CommonsLinkedHashSet;
 import com.helger.commons.system.ENewLineMode;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
@@ -58,6 +61,7 @@ public final class DocumentDetailsTest
                           .receiverCountryCode ("rc")
                           .vesid ("ves")
                           .profileName ("pn")
+                          .flags ("f1", "f2")
                           .build ();
   }
 
@@ -89,6 +93,7 @@ public final class DocumentDetailsTest
     assertEquals ("rc", aDD.getReceiverCountryCode ());
     assertEquals ("ves", aDD.getVESID ());
     assertEquals ("pn", aDD.getProfileName ());
+    assertEquals (new CommonsLinkedHashSet <> ("f1", "f2"), aDD.flags ());
   }
 
   @Test
@@ -96,17 +101,41 @@ public final class DocumentDetailsTest
   {
     final DocumentDetails aDD = DocumentDetails.builder ().build ();
 
+    assertFalse (aDD.hasSenderID ());
     assertNull (aDD.getSenderID ());
+
+    assertFalse (aDD.hasReceiverID ());
     assertNull (aDD.getReceiverID ());
+
+    assertFalse (aDD.hasDocumentTypeID ());
     assertNull (aDD.getDocumentTypeID ());
+
+    assertFalse (aDD.hasProcessID ());
     assertNull (aDD.getProcessID ());
+
+    assertFalse (aDD.hasBusinessDocumentID ());
     assertNull (aDD.getBusinessDocumentID ());
+
+    assertFalse (aDD.hasSenderName ());
     assertNull (aDD.getSenderName ());
+
+    assertFalse (aDD.hasSenderCountryCode ());
     assertNull (aDD.getSenderCountryCode ());
+
+    assertFalse (aDD.hasReceiverName ());
     assertNull (aDD.getReceiverName ());
+
+    assertFalse (aDD.hasReceiverCountryCode ());
     assertNull (aDD.getReceiverCountryCode ());
+
+    assertFalse (aDD.hasVESID ());
     assertNull (aDD.getVESID ());
+
+    assertFalse (aDD.hasProfileName ());
     assertNull (aDD.getProfileName ());
+
+    assertFalse (aDD.hasFlags ());
+    assertTrue (aDD.flags ().isEmpty ());
   }
 
   @Test
@@ -124,7 +153,8 @@ public final class DocumentDetailsTest
                   "\"receiverName\":\"rn\"," +
                   "\"receiverCountryCode\":\"rc\"," +
                   "\"vesid\":\"ves\"," +
-                  "\"profileName\":\"pn\"}",
+                  "\"profileName\":\"pn\"," +
+                  "\"flags\":[\"f1\",\"f2\"]}",
                   aJson.getAsJsonString ());
   }
 
@@ -146,6 +176,8 @@ public final class DocumentDetailsTest
                   "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
+                  "  <Flag>f1</Flag>\r\n" +
+                  "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
@@ -168,6 +200,8 @@ public final class DocumentDetailsTest
                   "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
+                  "  <Flag>f1</Flag>\r\n" +
+                  "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   MicroWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
@@ -191,6 +225,8 @@ public final class DocumentDetailsTest
                   "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
+                  "  <Flag>f1</Flag>\r\n" +
+                  "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }
@@ -214,6 +250,8 @@ public final class DocumentDetailsTest
                   "  <ReceiverCountryCode>rc</ReceiverCountryCode>\r\n" +
                   "  <VESID>ves</VESID>\r\n" +
                   "  <ProfileName>pn</ProfileName>\r\n" +
+                  "  <Flag>f1</Flag>\r\n" +
+                  "  <Flag>f2</Flag>\r\n" +
                   "</root>\r\n",
                   XMLWriter.getNodeAsString (eRoot, new XMLWriterSettings ().setNewLineMode (ENewLineMode.WINDOWS)));
   }

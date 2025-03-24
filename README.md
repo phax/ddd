@@ -177,6 +177,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.5.1 - 2025-03-24
+    * Added support for Peppol BIS Self-Billing
 * v0.5.0 - 2025-01-28
     * Added the mapping of the "ProcessID" field for the `ciid16b` syntax
     * Added a new element `flag` into the Value Provider list to be able to classify document types

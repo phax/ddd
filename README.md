@@ -177,6 +177,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.5.2 - 2025-03-31
+    * Added support for Peppol PINT AE
 * v0.5.1 - 2025-03-24
     * Added support for Peppol BIS Self-Billing
 * v0.5.0 - 2025-01-28

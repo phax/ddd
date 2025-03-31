@@ -284,6 +284,16 @@
         <set id="ProfileName">Peppol BIS Billing UBL Credit Note V3</set>
         <flag>IsEN16931-2017CIUS</flag>
       </if>
+      <if value="urn:peppol:pint:billing-1@ae-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.ae:creditnote:latest-active</set>
+        <set id="ProfileName">Peppol PINT AE Credit Note</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@ae-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.ae:creditnote-self-billing:latest-active</set>
+        <set id="ProfileName">Peppol PINT AE Credit Note Self-Billing</set>
+      </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.aunz:creditnote:latest-active</set>
@@ -457,6 +467,16 @@
         <set id="VESID">eu.peppol.bis3:invoice:latest-active</set>
         <set id="ProfileName">Peppol BIS Billing UBL Invoice V3</set>
         <flag>IsEN16931-2017CIUS</flag>
+      </if>
+      <if value="urn:peppol:pint:billing-1@ae-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.ae:invoice:latest-active</set>
+        <set id="ProfileName">Peppol PINT AE Invoice</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@ae-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.ae:invoice-self-billing:latest-active</set>
+        <set id="ProfileName">Peppol PINT AE Invoice Self-Billing</set>
       </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>

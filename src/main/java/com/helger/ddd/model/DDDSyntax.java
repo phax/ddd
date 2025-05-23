@@ -112,8 +112,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
   }
 
   /**
-   * @return <code>true</code> if a specific syntax version is used,
-   *         <code>false</code> if not.
+   * @return <code>true</code> if a specific syntax version is used, <code>false</code> if not.
    */
   public final boolean hasVersion ()
   {
@@ -158,7 +157,10 @@ public class DDDSyntax implements IHasID <String>, IHasName
       {
         final String ret = aGetter.getValue (aSourceNode, aErrorList);
         if (ret != null)
-          return ret;
+        {
+          // Trim the result to avoid leading/trailing whitespace
+          return ret.trim ();
+        }
       }
     }
 

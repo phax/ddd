@@ -197,6 +197,11 @@
         <set id="VESID">dk.oioubl:application-response:latest</set>
         <set id="ProfileName">OIOUBL Application Response</set>
       </if>
+      <if value="urn:peppol:edec:mls:1.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol:mls:latest</set>
+        <set id="ProfileName">Peppol Message Level Status</set>
+      </if>
     </select>
   </syntax>
   

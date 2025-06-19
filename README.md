@@ -177,6 +177,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+* v0.5.3 - work in progress
+    * Added support for Peppol MLS
 * v0.5.2 - 2025-03-31
     * Added support for Peppol PINT AE
 * v0.5.1 - 2025-03-24

@@ -205,8 +205,8 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
       // Build XPath getters
       final ICommonsList <IDDDGetter> aGetterList = new CommonsArrayList <> ();
-      if (aGet.getXpath () != null)
-        aGetterList.add (new DDDGetterXPath (aGet.getXpath ()));
+      for (String sXPath : aGet.getXpath ())
+        aGetterList.add (new DDDGetterXPath (sXPath.trim ()));
       if (aGetterList.isEmpty ())
         throw new IllegalArgumentException (sLogPrefix + "The getter '" + sFieldID + "' contains no actual getter");
 

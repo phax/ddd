@@ -79,6 +79,45 @@ public final class DocumentDetailsDeterminatorTest
     assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
 
     assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
+    assertEquals ("SupplierOfficialName Ltd", aDD.getSenderName ());
+    assertEquals ("GB", aDD.getSenderCountryCode ());
+    assertEquals ("Buyer Official Name", aDD.getReceiverName ());
+    assertEquals ("SE", aDD.getReceiverCountryCode ());
+    assertEquals ("eu.peppol.bis3:invoice:latest-active", aDD.getVESID ());
+    assertEquals ("Peppol BIS Billing UBL Invoice V3", aDD.getProfileName ());
+    assertTrue (aDD.hasFlags ());
+    assertEquals (1, aDD.flags ().size ());
+    assertTrue (aDD.flags ().contains ("IsEN16931-2017CIUS"));
+  }
+
+  @Test
+  public void testDiscoveryInvoiceFallback ()
+  {
+    // Read the document to be identified
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/base-example-no-registration-name.xml"));
+    assertNotNull (aDoc);
+
+    // Main determination
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("0088:9482348239847239874", aDD.getSenderID ().getValue ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("0002:FR23342", aDD.getReceiverID ().getValue ());
+
+    assertNotNull (aDD.getDocumentTypeID ());
+    assertEquals ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1",
+                  aDD.getDocumentTypeID ().getValue ());
+
+    assertNotNull (aDD.getProcessID ());
+    assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
+
+    assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
     assertEquals ("SupplierTradingName Ltd.", aDD.getSenderName ());
     assertEquals ("GB", aDD.getSenderCountryCode ());
     assertEquals ("BuyerTradingName AS", aDD.getReceiverName ());
@@ -146,9 +185,8 @@ public final class DocumentDetailsDeterminatorTest
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
 
       // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" +
-                                                  aSyntaxEntry.getKey () +
-                                                  "/good").withFilter (IFileFilter.filenameEndsWith (".xml")))
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/good")
+                                                                                                                    .withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
         nFilesRead++;
@@ -187,9 +225,8 @@ public final class DocumentDetailsDeterminatorTest
       final DDDSyntax aSyntax = aSyntaxEntry.getValue ();
 
       // Search for positive cases for the current syntax
-      for (final File f : new FileSystemIterator ("src/test/resources/external/" +
-                                                  aSyntaxEntry.getKey () +
-                                                  "/bad").withFilter (IFileFilter.filenameEndsWith (".xml")))
+      for (final File f : new FileSystemIterator ("src/test/resources/external/" + aSyntaxEntry.getKey () + "/bad")
+                                                                                                                   .withFilter (IFileFilter.filenameEndsWith (".xml")))
       {
         LOGGER.info ("Reading as [" + aSyntax.getID () + "] " + f.toString ());
 

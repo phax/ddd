@@ -30,7 +30,7 @@ import com.helger.jaxb.GenericJAXBMarshaller;
  */
 public class SyntaxListMarshaller extends GenericJAXBMarshaller <SyntaxesType>
 {
-  public static final ClassPathResource XSD = new ClassPathResource ("schemas/ddd-syntaxes-1.0.xsd",
+  public static final ClassPathResource XSD = new ClassPathResource ("schemas/ddd-syntaxes-1.1.xsd",
                                                                      SyntaxListMarshaller.class.getClassLoader ());
 
   public SyntaxListMarshaller ()

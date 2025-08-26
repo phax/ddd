@@ -25,16 +25,16 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Test;
 
-import com.helger.commons.collection.impl.ICommonsMap;
-import com.helger.commons.collection.impl.ICommonsSortedMap;
-import com.helger.commons.io.file.FileSystemRecursiveIterator;
-import com.helger.commons.io.file.IFileFilter;
-import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.io.resource.FileSystemResource;
+import com.helger.collection.commons.ICommonsMap;
+import com.helger.collection.commons.ICommonsSortedMap;
+import com.helger.io.file.FileSystemRecursiveIterator;
+import com.helger.io.file.IFileFilter;
+import com.helger.io.resource.ClassPathResource;
+import com.helger.io.resource.FileSystemResource;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Test class for class {@link DDDValueProviderList}.

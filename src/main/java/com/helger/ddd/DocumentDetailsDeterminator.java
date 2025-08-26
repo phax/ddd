@@ -21,17 +21,14 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.error.list.ErrorList;
-import com.helger.commons.string.StringHelper;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.string.StringHelper;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
@@ -40,6 +37,7 @@ import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
 import com.helger.ddd.model.VPDeterminedFlags;
 import com.helger.ddd.model.VPDeterminedValues;
+import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
@@ -48,6 +46,9 @@ import com.helger.peppolid.factory.SimpleIdentifierFactory;
 import com.helger.peppolid.peppol.PeppolIdentifierHelper;
 import com.helger.peppolid.peppol.doctype.PeppolDocumentTypeIdentifierParts;
 import com.helger.xml.XMLHelper;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Determine the document details from the payload.
@@ -84,8 +85,7 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The syntax list provided in the constructor. Never
-   *         <code>null</code>.
+   * @return The syntax list provided in the constructor. Never <code>null</code>.
    * @since 0.3.3
    */
   @Nonnull
@@ -95,8 +95,7 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The value provider list provided in the constructor. Never
-   *         <code>null</code>.
+   * @return The value provider list provided in the constructor. Never <code>null</code>.
    * @since 0.3.3
    */
   @Nonnull
@@ -106,8 +105,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The Identifier Factory used internally to created structured IDs.
-   *         Never <code>null</code>.
+   * @return The Identifier Factory used internally to created structured IDs. Never
+   *         <code>null</code>.
    */
   @Nonnull
   public IIdentifierFactory getIdentifierFactory ()
@@ -116,8 +115,7 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * Set the Identifier Factory to be used. By default the
-   * {@link SimpleIdentifierFactory} is used.
+   * Set the Identifier Factory to be used. By default the {@link SimpleIdentifierFactory} is used.
    *
    * @param aIF
    *        The Identifier Factory to use. May not be <code>null</code>.
@@ -132,8 +130,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The fallback sending participant ID in case non could be determined
-   *         from the payload. May be <code>null</code>.
+   * @return The fallback sending participant ID in case non could be determined from the payload.
+   *         May be <code>null</code>.
    */
   @Nullable
   public IParticipantIdentifier getFallbackSenderID ()
@@ -149,8 +147,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The fallback receiving participant ID in case non could be
-   *         determined from the payload. May be <code>null</code>.
+   * @return The fallback receiving participant ID in case non could be determined from the payload.
+   *         May be <code>null</code>.
    */
   @Nullable
   public IParticipantIdentifier getFallbackReceiverID ()
@@ -166,8 +164,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The Participant Identifier Scheme to be used. Defaults to the
-   *         Peppol one. May be <code>null</code>.
+   * @return The Participant Identifier Scheme to be used. Defaults to the Peppol one. May be
+   *         <code>null</code>.
    * @since 0.1.3
    */
   @Nullable
@@ -184,8 +182,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The Document Type Identifier Scheme to be used. Defaults to the
-   *         Peppol one. May be <code>null</code>.
+   * @return The Document Type Identifier Scheme to be used. Defaults to the Peppol one. May be
+   *         <code>null</code>.
    */
   @Nullable
   public String getDocTypeIDScheme ()
@@ -201,8 +199,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The Process Identifier Scheme to be used. Defaults to the Peppol
-   *         one. May be <code>null</code>.
+   * @return The Process Identifier Scheme to be used. Defaults to the Peppol one. May be
+   *         <code>null</code>.
    */
   @Nullable
   public String getProcessIDScheme ()
@@ -218,9 +216,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The handler for "information" messages that occurred during
-   *         document detail determination. Default is to log with info level.
-   *         Never <code>null</code>.
+   * @return The handler for "information" messages that occurred during document detail
+   *         determination. Default is to log with info level. Never <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getInfoHdl ()
@@ -237,9 +234,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The handler for "warning" messages that occurred during document
-   *         detail determination. Default is to log with warning level. Never
-   *         <code>null</code>.
+   * @return The handler for "warning" messages that occurred during document detail determination.
+   *         Default is to log with warning level. Never <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getWarnHdl ()
@@ -256,9 +252,8 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The handler for "error" messages that occurred during document
-   *         detail determination. Default is to log with error level. Never
-   *         <code>null</code>.
+   * @return The handler for "error" messages that occurred during document detail determination.
+   *         Default is to log with error level. Never <code>null</code>.
    */
   @Nonnull
   public Consumer <String> getErrorHdl ()
@@ -410,7 +405,7 @@ public final class DocumentDetailsDeterminator
 
     // Assemble Document Type ID
     final IDocumentTypeIdentifier aDocTypeID;
-    if (StringHelper.hasText (sCustomizationID) && StringHelper.hasText (sSyntaxVersion))
+    if (StringHelper.isNotEmpty (sCustomizationID) && StringHelper.isNotEmpty (sSyntaxVersion))
     {
       final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aRootElement.getNamespaceURI (),
                                                                             aRootElement.getLocalName (),
@@ -423,7 +418,7 @@ public final class DocumentDetailsDeterminator
 
     // Assemble Process ID
     final IProcessIdentifier aProcessID;
-    if (StringHelper.hasText (sProcessID))
+    if (StringHelper.isNotEmpty (sProcessID))
       aProcessID = m_aIF.createProcessIdentifier (m_sProcessIDScheme, sProcessID);
     else
       aProcessID = null;

@@ -16,9 +16,6 @@
  */
 package com.helger.ddd.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
@@ -26,11 +23,15 @@ import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.error.SingleError;
-import com.helger.commons.error.list.IErrorList;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.diagnostics.error.SingleError;
+import com.helger.diagnostics.error.list.IErrorList;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Specific implementation of {@link IDDDGetter} based on XPath
@@ -60,8 +61,8 @@ public class DDDGetterXPath implements IDDDGetter
   }
 
   /**
-   * @return The XPath expression as a String as provided in the constructor.
-   *         Neither <code>null</code> nor empty.
+   * @return The XPath expression as a String as provided in the constructor. Neither
+   *         <code>null</code> nor empty.
    * @since 0.3.1
    */
   @Nonnull

@@ -22,13 +22,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Test;
 import org.w3c.dom.Element;
 
-import com.helger.commons.collection.impl.CommonsLinkedHashSet;
-import com.helger.commons.system.ENewLineMode;
+import com.helger.base.system.ENewLineMode;
+import com.helger.collection.commons.CommonsLinkedHashSet;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
 import com.helger.xml.XMLFactory;
@@ -37,6 +35,8 @@ import com.helger.xml.microdom.MicroElement;
 import com.helger.xml.microdom.serialize.MicroWriter;
 import com.helger.xml.serialize.write.XMLWriter;
 import com.helger.xml.serialize.write.XMLWriterSettings;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Test class for class {@link DocumentDetails}

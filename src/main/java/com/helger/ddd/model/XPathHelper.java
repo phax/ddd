@@ -16,12 +16,13 @@
  */
 package com.helger.ddd.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
 import javax.xml.xpath.XPathFactory;
 
-import com.helger.commons.lang.ClassLoaderHelper;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.base.classloader.ClassLoaderHelper;
 import com.helger.xml.EXMLParserFeature;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * XPath helper
@@ -40,8 +41,8 @@ final class XPathHelper
 
   /**
    * Create a new {@link XPathFactory} trying to instantiate Saxon class
-   * <code>net.sf.saxon.xpath.XPathFactoryImpl</code> first. If that fails, the
-   * default XPathFactory is created.
+   * <code>net.sf.saxon.xpath.XPathFactoryImpl</code> first. If that fails, the default XPathFactory
+   * is created.
    *
    * @return A new {@link XPathFactory} and never <code>null</code>.
    * @throws IllegalStateException

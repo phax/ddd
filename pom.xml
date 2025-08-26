@@ -22,10 +22,10 @@
   <parent>
     <groupId>com.helger</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>2.1.4</version>
+    <version>3.0.1</version>
   </parent>
   <artifactId>ddd</artifactId>
-  <version>0.5.4-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>ddd</name>
   <description>Document Details Determinator library</description>
@@ -65,7 +65,7 @@
     <jaxb-plugin.group>org.jvnet.jaxb</jaxb-plugin.group>
     <jaxb-plugin.artifact>jaxb-maven-plugin</jaxb-plugin.artifact>
     <jaxb-plugin.version>4.0.9</jaxb-plugin.version>
-    <ph-jaxb-plugin.version>4.0.3</ph-jaxb-plugin.version>
+    <ph-jaxb-plugin.version>5.0.0</ph-jaxb-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -73,14 +73,14 @@
       <dependency>
         <groupId>com.helger.commons</groupId>
         <artifactId>ph-commons-parent-pom</artifactId>
-        <version>11.2.6</version>
+        <version>12.0.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.helger.peppol</groupId>
         <artifactId>peppol-commons-parent-pom</artifactId>
-        <version>11.0.0</version>
+        <version>12.0.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -88,10 +88,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>com.helger.commons</groupId>
-      <artifactId>ph-commons</artifactId>
-    </dependency>
     <dependency>
       <groupId>com.helger.commons</groupId>
       <artifactId>ph-xml</artifactId>
@@ -126,6 +122,11 @@
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.commons</groupId>
+      <artifactId>ph-unittest-support-ext</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -209,7 +210,7 @@
               com.helger.ddd.model.jaxb.syntax1,
               com.helger.ddd.model.jaxb.vp1
             </Export-Package>
-            <Import-Package>!javax.annotation.*,*</Import-Package>
+            <Import-Package>!jakarta.annotation.*,*</Import-Package>
             <!-- The latter one has precedence -->
             <Include-Resource>{maven-resources},ddd-version.properties=target/classes/ddd-version.properties</Include-Resource>
           </instructions>

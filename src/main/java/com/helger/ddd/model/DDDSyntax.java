@@ -18,26 +18,26 @@ package com.helger.ddd.model;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-
 import org.w3c.dom.Node;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.CommonsHashMap;
-import com.helger.commons.collection.impl.ICommonsList;
-import com.helger.commons.collection.impl.ICommonsMap;
-import com.helger.commons.error.list.IErrorList;
-import com.helger.commons.id.IHasID;
-import com.helger.commons.name.IHasName;
-import com.helger.commons.string.StringHelper;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.annotation.style.ReturnsMutableCopy;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.id.IHasID;
+import com.helger.base.name.IHasName;
+import com.helger.base.string.StringHelper;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.CommonsHashMap;
+import com.helger.collection.commons.ICommonsList;
+import com.helger.collection.commons.ICommonsMap;
 import com.helger.ddd.model.jaxb.syntax1.GetType;
 import com.helger.ddd.model.jaxb.syntax1.SyntaxType;
+import com.helger.diagnostics.error.list.IErrorList;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Defines a single supported syntax model
@@ -116,7 +116,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
    */
   public final boolean hasVersion ()
   {
-    return StringHelper.hasText (m_sVersion);
+    return StringHelper.isNotEmpty (m_sVersion);
   }
 
   /**
@@ -187,7 +187,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
 
     // Name
     final String sName = aSyntax.getName ().trim ();
-    if (StringHelper.hasNoText (sName))
+    if (StringHelper.isEmpty (sName))
       throw new IllegalArgumentException (sLogPrefix + "Element 'name' may not be empty");
 
     // Version (optional)

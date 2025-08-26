@@ -18,27 +18,27 @@ package com.helger.ddd;
 
 import java.util.Collection;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-
 import org.w3c.dom.Element;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.builder.IBuilder;
-import com.helger.commons.collection.impl.CommonsLinkedHashSet;
-import com.helger.commons.collection.impl.ICommonsOrderedSet;
-import com.helger.commons.equals.EqualsHelper;
-import com.helger.commons.hashcode.HashCodeGenerator;
-import com.helger.commons.string.StringHelper;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.annotation.style.ReturnsMutableCopy;
+import com.helger.annotation.style.ReturnsMutableObject;
+import com.helger.base.builder.IBuilder;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.equals.EqualsHelper;
+import com.helger.base.hashcode.HashCodeGenerator;
+import com.helger.base.string.StringHelper;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.collection.commons.CommonsLinkedHashSet;
+import com.helger.collection.commons.ICommonsOrderedSet;
 import com.helger.json.IJsonObject;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.xml.microdom.IMicroElement;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Document details determined from the payload, with all fields optional.
@@ -65,8 +65,8 @@ public class DocumentDetails
   private final ICommonsOrderedSet <String> m_aFlags;
 
   /**
-   * Internal constructor. All fields are optional. Don't use this ctor
-   * directly, use {@link #builder()} instead. <br>
+   * Internal constructor. All fields are optional. Don't use this ctor directly, use
+   * {@link #builder()} instead. <br>
    * Note: reordered parameters in 0.4.1
    *
    * @param sSyntaxID
@@ -135,7 +135,7 @@ public class DocumentDetails
 
   public final boolean hasSyntaxID ()
   {
-    return StringHelper.hasText (m_sSyntaxID);
+    return StringHelper.isNotEmpty (m_sSyntaxID);
   }
 
   @Nullable
@@ -146,12 +146,11 @@ public class DocumentDetails
 
   public final boolean hasSyntaxVersion ()
   {
-    return StringHelper.hasText (m_sSyntaxVersion);
+    return StringHelper.isNotEmpty (m_sSyntaxVersion);
   }
 
   /**
-   * @return The syntax version contained in the Document Type ID. May be
-   *         <code>null</code>.
+   * @return The syntax version contained in the Document Type ID. May be <code>null</code>.
    * @since 0.2.2
    */
   @Nullable
@@ -218,12 +217,11 @@ public class DocumentDetails
 
   public final boolean hasCustomizationID ()
   {
-    return StringHelper.hasText (m_sCustomizationID);
+    return StringHelper.isNotEmpty (m_sCustomizationID);
   }
 
   /**
-   * @return The customization ID contained in the Document Type ID. May be
-   *         <code>null</code>.
+   * @return The customization ID contained in the Document Type ID. May be <code>null</code>.
    * @since 0.2.2
    */
   @Nullable
@@ -232,24 +230,13 @@ public class DocumentDetails
     return m_sCustomizationID;
   }
 
-  /**
-   * @return <code>true</code> if all key fields are present
-   * @deprecated Because the definition of "key field" is too vague
-   */
-  @Deprecated (forRemoval = true, since = "0.1.4")
-  public final boolean areAllKeyFieldsPresent ()
-  {
-    return hasSenderID () && hasReceiverID () && hasDocumentTypeID () && hasProcessID () && hasVESID ();
-  }
-
   public final boolean hasBusinessDocumentID ()
   {
-    return StringHelper.hasText (m_sBusinessDocumentID);
+    return StringHelper.isNotEmpty (m_sBusinessDocumentID);
   }
 
   /**
-   * @return The business document ID (e.g. Invoice number). May be
-   *         <code>null</code>.
+   * @return The business document ID (e.g. Invoice number). May be <code>null</code>.
    */
   @Nullable
   public final String getBusinessDocumentID ()
@@ -259,7 +246,7 @@ public class DocumentDetails
 
   public final boolean hasSenderName ()
   {
-    return StringHelper.hasText (m_sSenderName);
+    return StringHelper.isNotEmpty (m_sSenderName);
   }
 
   /**
@@ -273,7 +260,7 @@ public class DocumentDetails
 
   public final boolean hasSenderCountryCode ()
   {
-    return StringHelper.hasText (m_sSenderCountryCode);
+    return StringHelper.isNotEmpty (m_sSenderCountryCode);
   }
 
   /**
@@ -287,7 +274,7 @@ public class DocumentDetails
 
   public final boolean hasReceiverName ()
   {
-    return StringHelper.hasText (m_sReceiverName);
+    return StringHelper.isNotEmpty (m_sReceiverName);
   }
 
   /**
@@ -301,7 +288,7 @@ public class DocumentDetails
 
   public final boolean hasReceiverCountryCode ()
   {
-    return StringHelper.hasText (m_sReceiverCountryCode);
+    return StringHelper.isNotEmpty (m_sReceiverCountryCode);
   }
 
   /**
@@ -315,7 +302,7 @@ public class DocumentDetails
 
   public final boolean hasVESID ()
   {
-    return StringHelper.hasText (m_sVESID);
+    return StringHelper.isNotEmpty (m_sVESID);
   }
 
   /**
@@ -329,12 +316,11 @@ public class DocumentDetails
 
   public final boolean hasProfileName ()
   {
-    return StringHelper.hasText (m_sProfileName);
+    return StringHelper.isNotEmpty (m_sProfileName);
   }
 
   /**
-   * @return The human readable name of the profile / document type found. May
-   *         be <code>null</code>.
+   * @return The human readable name of the profile / document type found. May be <code>null</code>.
    */
   @Nullable
   public final String getProfileName ()
@@ -348,8 +334,7 @@ public class DocumentDetails
   }
 
   /**
-   * @return A copy of the contained flags. Never <code>null</code> but maybe
-   *         empty.
+   * @return A copy of the contained flags. Never <code>null</code> but maybe empty.
    * @since 0.5.0
    */
   @Nonnull
@@ -360,8 +345,7 @@ public class DocumentDetails
   }
 
   /**
-   * @return A copy of the contained flags. Never <code>null</code> but maybe
-   *         empty.
+   * @return A copy of the contained flags. Never <code>null</code> but maybe empty.
    * @since 0.5.0
    */
   @Nonnull
@@ -485,8 +469,7 @@ public class DocumentDetails
   /**
    * @param aSource
    *        The document details source to use. May not be <code>null</code>.
-   * @return A new Builder pre-filled with the provided document details. Never
-   *         <code>null</code>.
+   * @return A new Builder pre-filled with the provided document details. Never <code>null</code>.
    */
   @Nonnull
   public static Builder builder (@Nonnull final DocumentDetails aSource)

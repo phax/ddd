@@ -16,12 +16,12 @@
  */
 package com.helger.ddd.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.w3c.dom.Node;
 
-import com.helger.commons.error.list.IErrorList;
+import com.helger.diagnostics.error.list.IErrorList;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Get a value from an XML node based on certain rules.

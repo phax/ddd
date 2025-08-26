@@ -16,10 +16,10 @@
  */
 package com.helger.ddd.model.jaxb;
 
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.collection.commons.CommonsArrayList;
 import com.helger.ddd.model.jaxb.vp1.ObjectFactory;
 import com.helger.ddd.model.jaxb.vp1.ValueProvidersType;
+import com.helger.io.resource.ClassPathResource;
 import com.helger.jaxb.GenericJAXBMarshaller;
 
 /**

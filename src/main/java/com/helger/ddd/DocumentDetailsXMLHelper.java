@@ -20,21 +20,21 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.ICommonsList;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.ICommonsList;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.xml.XMLHelper;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.util.MicroHelper;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Helper class to work with the XML binding.
@@ -79,36 +79,36 @@ public final class DocumentDetailsXMLHelper
 
     final String sNamespaceURI = aTarget.getNamespaceURI ();
     if (aDD.hasSyntaxID ())
-      aTarget.appendElement (sNamespaceURI, XML_SYNTAX_ID).appendText (aDD.getSyntaxID ());
+      aTarget.addElementNS (sNamespaceURI, XML_SYNTAX_ID).addText (aDD.getSyntaxID ());
     if (aDD.hasSyntaxVersion ())
-      aTarget.appendElement (sNamespaceURI, XML_SYNTAX_VERSION).appendText (aDD.getSyntaxVersion ());
+      aTarget.addElementNS (sNamespaceURI, XML_SYNTAX_VERSION).addText (aDD.getSyntaxVersion ());
     if (aDD.hasSenderID ())
-      aTarget.appendElement (sNamespaceURI, XML_SENDER_ID).appendText (aDD.getSenderID ().getURIEncoded ());
+      aTarget.addElementNS (sNamespaceURI, XML_SENDER_ID).addText (aDD.getSenderID ().getURIEncoded ());
     if (aDD.hasReceiverID ())
-      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_ID).appendText (aDD.getReceiverID ().getURIEncoded ());
+      aTarget.addElementNS (sNamespaceURI, XML_RECEIVER_ID).addText (aDD.getReceiverID ().getURIEncoded ());
     if (aDD.hasDocumentTypeID ())
-      aTarget.appendElement (sNamespaceURI, XML_DOC_TYPE_ID).appendText (aDD.getDocumentTypeID ().getURIEncoded ());
+      aTarget.addElementNS (sNamespaceURI, XML_DOC_TYPE_ID).addText (aDD.getDocumentTypeID ().getURIEncoded ());
     if (aDD.hasProcessID ())
-      aTarget.appendElement (sNamespaceURI, XML_PROCESS_ID).appendText (aDD.getProcessID ().getURIEncoded ());
+      aTarget.addElementNS (sNamespaceURI, XML_PROCESS_ID).addText (aDD.getProcessID ().getURIEncoded ());
     if (aDD.hasCustomizationID ())
-      aTarget.appendElement (sNamespaceURI, XML_CUSTOMIZATION_ID).appendText (aDD.getCustomizationID ());
+      aTarget.addElementNS (sNamespaceURI, XML_CUSTOMIZATION_ID).addText (aDD.getCustomizationID ());
     if (aDD.hasBusinessDocumentID ())
-      aTarget.appendElement (sNamespaceURI, XML_BUSINESS_DOCUMENT_ID).appendText (aDD.getBusinessDocumentID ());
+      aTarget.addElementNS (sNamespaceURI, XML_BUSINESS_DOCUMENT_ID).addText (aDD.getBusinessDocumentID ());
     if (aDD.hasSenderName ())
-      aTarget.appendElement (sNamespaceURI, XML_SENDER_NAME).appendText (aDD.getSenderName ());
+      aTarget.addElementNS (sNamespaceURI, XML_SENDER_NAME).addText (aDD.getSenderName ());
     if (aDD.hasSenderCountryCode ())
-      aTarget.appendElement (sNamespaceURI, XML_SENDER_COUNTRY_CODE).appendText (aDD.getSenderCountryCode ());
+      aTarget.addElementNS (sNamespaceURI, XML_SENDER_COUNTRY_CODE).addText (aDD.getSenderCountryCode ());
     if (aDD.hasReceiverName ())
-      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_NAME).appendText (aDD.getReceiverName ());
+      aTarget.addElementNS (sNamespaceURI, XML_RECEIVER_NAME).addText (aDD.getReceiverName ());
     if (aDD.hasReceiverCountryCode ())
-      aTarget.appendElement (sNamespaceURI, XML_RECEIVER_COUNTRY_CODE).appendText (aDD.getReceiverCountryCode ());
+      aTarget.addElementNS (sNamespaceURI, XML_RECEIVER_COUNTRY_CODE).addText (aDD.getReceiverCountryCode ());
     if (aDD.hasVESID ())
-      aTarget.appendElement (sNamespaceURI, XML_VESID).appendText (aDD.getVESID ());
+      aTarget.addElementNS (sNamespaceURI, XML_VESID).addText (aDD.getVESID ());
     if (aDD.hasProfileName ())
-      aTarget.appendElement (sNamespaceURI, XML_PROFILE_NAME).appendText (aDD.getProfileName ());
+      aTarget.addElementNS (sNamespaceURI, XML_PROFILE_NAME).addText (aDD.getProfileName ());
     if (aDD.hasFlags ())
       for (final String sFlag : aDD.flags ())
-        aTarget.appendElement (sNamespaceURI, XML_FLAG).appendText (sFlag);
+        aTarget.addElementNS (sNamespaceURI, XML_FLAG).addText (sFlag);
   }
 
   /**
@@ -117,8 +117,8 @@ public final class DocumentDetailsXMLHelper
    * @param aObj
    *        The XML element to be converted back. May be <code>null</code>
    * @param aIF
-   *        The identifier factory that should be used to parse the participant,
-   *        document type and process identifiers. May not be <code>null</code>.
+   *        The identifier factory that should be used to parse the participant, document type and
+   *        process identifiers. May not be <code>null</code>.
    * @return <code>null</code> if the source object is <code>null</code>.
    */
   @Nullable
@@ -169,8 +169,9 @@ public final class DocumentDetailsXMLHelper
 
     final String sNamespaceURI = aTarget.getNamespaceURI ();
     final Document aDoc = aTarget.getOwnerDocument ();
-    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x)
-                                                                  : x -> aDoc.createElementNS (sNamespaceURI, x);
+    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x) : x -> aDoc
+                                                                                                           .createElementNS (sNamespaceURI,
+                                                                                                                             x);
     final BiConsumer <String, String> fAppend = (name, val) -> aTarget.appendChild (fCreate.apply (name))
                                                                       .appendChild (aDoc.createTextNode (val));
 
@@ -213,8 +214,8 @@ public final class DocumentDetailsXMLHelper
    * @param aObj
    *        The XML element to be converted back. May be <code>null</code>
    * @param aIF
-   *        The identifier factory that should be used to parse the participant,
-   *        document type and process identifiers. May not be <code>null</code>.
+   *        The identifier factory that should be used to parse the participant, document type and
+   *        process identifiers. May not be <code>null</code>.
    * @return <code>null</code> if the source object is <code>null</code>.
    */
   @Nullable

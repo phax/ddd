@@ -177,78 +177,102 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-* v0.5.3 - 2025-06-24
-    * Updated to `ddd-syntaxes-1.1.xsd` allowing multiple `xpath` elements per `get` element (the first match wins)
-    * Added support for Peppol MLS
-    * Prefering the Party Legal Name for UBL Invoice and UBL Credit Note
-* v0.5.2 - 2025-03-31
-    * Added support for Peppol PINT AE
-* v0.5.1 - 2025-03-24
-    * Added support for Peppol BIS Self-Billing
-* v0.5.0 - 2025-01-28
-    * Added the mapping of the "ProcessID" field for the `ciid16b` syntax
-    * Added a new element `flag` into the Value Provider list to be able to classify document types
-    * Updated Value Provider XSD from 1.0 to 1.1
-    * Extracted classes `DocumentDetailsXMLHelper` and `DocumentDetailsJsonHelper`
-    * Moved the public XML element names from `DocumentDetails` to `DocumentDetailsXMLHelper`
-    * Added a reverse conversion from JSON and XML back to `DocumentDetails`
-    * Implemented `DocumentDetails.equals` and `hashCode`
-* v0.4.5 - 2025-01-08
-    * XRechnung Extension VESIDs were updated to match phive-rules 3.2.4
-    * XRechnung UBL CreditNote has no Extension document types
-* v0.4.4 - 2025-01-03
-    * Added support for Customization IDs of Factur-X 1.0.x and ZUGFeRD 2.x (requires phive-rules 3.2.3)
-* v0.4.3 - 2025-01-02
-    * Added support for the custom ZUGFeRD 1.0 syntax
-* v0.4.2 - 2024-12-10
-    * Fixed the process identifier for "EN 16931 CII"
-* v0.4.1 - 2024-12-05
-    * Fixed XRechnung 3.x CII VESID to use `3.0.2` instead of `3.0.1`
-    * Added support for plain EN 16931 CII detection
-    * Switched the pseudo version of all Peppol VESIDs from `latest` to `latest-active`
-    * Added the possibility to convert the `DocumentDetails` to a standard XML
-* v0.4.0 - 2024-09-13
-    * Added support for Peppol PINT A-NZ BIS (billing and self-billing)
-    * Fixed typo in VESID of "Peppol PINT Japan Credit Note"
-    * Added XML Schemas for syntax list and value providers - therefore requiring JAXB as a dependency
-* v0.3.2 - 2024-07-29
-    * Added "syntax ID" to `DocumentDetails`
-    * Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk
-    * Added support for Peppol PINT A-NZ (billing and self-billing)
-    * Added support for Peppol PINT Japan
-    * Added support for Peppol PINT Malaysia
-    * Added support for Peppol PINT Singapore
-* v0.3.1 - 2024-07-04
-    * Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList`
-* v0.3.0 - 2024-04-06
-    * Extended syntax list
-    * Added Customization ID and Syntax Version into `DocumentDetails`
-    * Added detection of formats based on multiple conditions
-* v0.2.1 - 2024-02-06
-    * Fixed a typo in the Customization of the Peppol BIS Despatch Advice
-* v0.2.0 - 2024-01-18
-    * Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
-    * Fixed error in XRechnung 2.2 VESIDs
-    * Made all `EDDDSourceField` items optional, except for CustomizationID
-    * Added support for Peppol EUSR and Peppol TSR
-    * Added the missing VESID for UBL Orders
-* v0.1.4 - 2024-01-08
-    * Extended syntax list - added UBL 2.x Application Response
-    * Added support for Peppol MLR
-    * Added support for Sender Country Code and Receiver Country Code fields 
-* v0.1.3 - 2023-12-06
-    * Fixed XRechnung 3.0 detection 
-    * Added support for XRechnung 1.2
-    * Added support for all XRechnung Extension versions
-* v0.1.2 - 2023-11-13
-    * Added new element `ProfileName`
-    * Extended value provider mapping for "UBL 2.x Order Response"
-    * Added builder to `DocumentDetails` class
-* v0.1.1 - 2023-11-13
-    * Extended syntax list - added "UBL 2.x Despatch Advice", "UBL 2.x Order" and "UBL 2.x Order Response"
-    * Improved customizability of `DocumentDetailsDeterminator`
-* v0.1.0 - 2023-09-19
-    * Initial version supporting the following syntaxes: "UBL 2.x Invoice", "UBL 2.x Credit Note" and "CII D16B"
+v0.6.0 - 2025-08-26
+* Requires Java 17 as the minimum version
+* Updated to ph-commons 12.0.0
+* Removed all deprecated methods marked for removal
+
+v0.5.3 - 2025-06-24
+* Updated to `ddd-syntaxes-1.1.xsd` allowing multiple `xpath` elements per `get` element (the first match wins)
+* Added support for Peppol MLS
+* Prefering the Party Legal Name for UBL Invoice and UBL Credit Note
+
+v0.5.2 - 2025-03-31
+* Added support for Peppol PINT AE
+
+v0.5.1 - 2025-03-24
+* Added support for Peppol BIS Self-Billing
+
+v0.5.0 - 2025-01-28
+* Added the mapping of the "ProcessID" field for the `ciid16b` syntax
+* Added a new element `flag` into the Value Provider list to be able to classify document types
+* Updated Value Provider XSD from 1.0 to 1.1
+* Extracted classes `DocumentDetailsXMLHelper` and `DocumentDetailsJsonHelper`
+* Moved the public XML element names from `DocumentDetails` to `DocumentDetailsXMLHelper`
+* Added a reverse conversion from JSON and XML back to `DocumentDetails`
+* Implemented `DocumentDetails.equals` and `hashCode`
+
+v0.4.5 - 2025-01-08
+* XRechnung Extension VESIDs were updated to match phive-rules 3.2.4
+* XRechnung UBL CreditNote has no Extension document types
+
+v0.4.4 - 2025-01-03
+* Added support for Customization IDs of Factur-X 1.0.x and ZUGFeRD 2.x (requires phive-rules 3.2.3)
+
+v0.4.3 - 2025-01-02
+* Added support for the custom ZUGFeRD 1.0 syntax
+
+v0.4.2 - 2024-12-10
+* Fixed the process identifier for "EN 16931 CII"
+
+v0.4.1 - 2024-12-05
+* Fixed XRechnung 3.x CII VESID to use `3.0.2` instead of `3.0.1`
+* Added support for plain EN 16931 CII detection
+* Switched the pseudo version of all Peppol VESIDs from `latest` to `latest-active`
+* Added the possibility to convert the `DocumentDetails` to a standard XML
+
+v0.4.0 - 2024-09-13
+* Added support for Peppol PINT A-NZ BIS (billing and self-billing)
+* Fixed typo in VESID of "Peppol PINT Japan Credit Note"
+* Added XML Schemas for syntax list and value providers - therefore requiring JAXB as a dependency
+
+v0.3.2 - 2024-07-29
+* Added "syntax ID" to `DocumentDetails`
+* Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk
+* Added support for Peppol PINT A-NZ (billing and self-billing)
+* Added support for Peppol PINT Japan
+* Added support for Peppol PINT Malaysia
+* Added support for Peppol PINT Singapore
+
+v0.3.1 - 2024-07-04
+* Added support to merge `DDDValueProviderList` objects via `createMergedValueProviderList`
+
+v0.3.0 - 2024-04-06
+* Extended syntax list
+* Added Customization ID and Syntax Version into `DocumentDetails`
+* Added detection of formats based on multiple conditions
+
+v0.2.1 - 2024-02-06
+* Fixed a typo in the Customization of the Peppol BIS Despatch Advice
+
+v0.2.0 - 2024-01-18
+* Split enum `EDDDField` into `EDDDSourceField` and `EDDDDeterminedField`
+* Fixed error in XRechnung 2.2 VESIDs
+* Made all `EDDDSourceField` items optional, except for CustomizationID
+* Added support for Peppol EUSR and Peppol TSR
+* Added the missing VESID for UBL Orders
+
+v0.1.4 - 2024-01-08
+* Extended syntax list - added UBL 2.x Application Response
+* Added support for Peppol MLR
+* Added support for Sender Country Code and Receiver Country Code fields 
+
+v0.1.3 - 2023-12-06
+* Fixed XRechnung 3.0 detection 
+* Added support for XRechnung 1.2
+* Added support for all XRechnung Extension versions
+
+v0.1.2 - 2023-11-13
+* Added new element `ProfileName`
+* Extended value provider mapping for "UBL 2.x Order Response"
+* Added builder to `DocumentDetails` class
+
+v0.1.1 - 2023-11-13
+* Extended syntax list - added "UBL 2.x Despatch Advice", "UBL 2.x Order" and "UBL 2.x Order Response"
+* Improved customizability of `DocumentDetailsDeterminator`
+
+v0.1.0 - 2023-09-19
+* Initial version supporting the following syntaxes: "UBL 2.x Invoice", "UBL 2.x Credit Note" and "CII D16B"
 
 ---
 

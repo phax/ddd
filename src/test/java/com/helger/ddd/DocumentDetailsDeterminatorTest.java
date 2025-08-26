@@ -29,14 +29,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-import com.helger.commons.error.list.ErrorList;
-import com.helger.commons.io.file.FileSystemIterator;
-import com.helger.commons.io.file.IFileFilter;
-import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.EDDDSourceField;
+import com.helger.diagnostics.error.list.ErrorList;
+import com.helger.io.file.FileSystemIterator;
+import com.helger.io.file.IFileFilter;
+import com.helger.io.resource.ClassPathResource;
 import com.helger.xml.serialize.read.DOMReader;
 
 /**

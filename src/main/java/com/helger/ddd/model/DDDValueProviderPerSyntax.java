@@ -19,28 +19,29 @@ package com.helger.ddd.model;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
-
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.annotation.ReturnsMutableCopy;
-import com.helger.commons.annotation.ReturnsMutableObject;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.collection.impl.CommonsHashMap;
-import com.helger.commons.collection.impl.ICommonsList;
-import com.helger.commons.collection.impl.ICommonsMap;
-import com.helger.commons.state.ESuccess;
-import com.helger.commons.string.StringHelper;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.NotThreadSafe;
+import com.helger.annotation.style.ReturnsMutableCopy;
+import com.helger.annotation.style.ReturnsMutableObject;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.state.ESuccess;
+import com.helger.base.string.StringHelper;
+import com.helger.base.string.StringImplode;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.CommonsHashMap;
+import com.helger.collection.commons.ICommonsList;
+import com.helger.collection.commons.ICommonsMap;
 import com.helger.ddd.model.jaxb.vp1.VPIfType;
 import com.helger.ddd.model.jaxb.vp1.VPSelectType;
 import com.helger.ddd.model.jaxb.vp1.VPSetType;
 import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
 
+import jakarta.annotation.Nonnull;
+
 /**
- * This class contains the logic to identify missing fields based on existing
- * values. This class is specific per syntax.
+ * This class contains the logic to identify missing fields based on existing values. This class is
+ * specific per syntax.
  *
  * @author Philip Helger
  */
@@ -54,11 +55,10 @@ public class DDDValueProviderPerSyntax
    * Constructor
    *
    * @param sSyntaxID
-   *        The syntax this object works on. May neither be <code>null</code>
-   *        nor empty.
+   *        The syntax this object works on. May neither be <code>null</code> nor empty.
    * @param aSelects
-   *        Map from (SelectorField) to (Map from (SelectorValue) to (Map from
-   *        (TargetField) to (TargetValue)))
+   *        Map from (SelectorField) to (Map from (SelectorValue) to (Map from (TargetField) to
+   *        (TargetValue)))
    */
   public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
                                     @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
@@ -110,14 +110,12 @@ public class DDDValueProviderPerSyntax
      * Selector callback for a determined value
      *
      * @param aSourceValues
-     *        List of all source values used for selection. Never
-     *        <code>null</code> nor empty.
+     *        List of all source values used for selection. Never <code>null</code> nor empty.
      * @param eDeterminedField
      *        The determined field. Never <code>null</code>.
      * @param sDeterminedValue
      *        The determined values. Never <code>null</code>.
-     * @since 0.5.0 the name changed from <code>accept</code> to
-     *        <code>acceptDeterminedValue</code>
+     * @since 0.5.0 the name changed from <code>accept</code> to <code>acceptDeterminedValue</code>
      */
     void acceptDeterminedValue (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
                                 @Nonnull EDDDDeterminedField eDeterminedField,
@@ -127,8 +125,7 @@ public class DDDValueProviderPerSyntax
      * Selector callback for a flag
      *
      * @param aSourceValues
-     *        List of all source values used for selection. Never
-     *        <code>null</code> nor empty.
+     *        List of all source values used for selection. Never <code>null</code> nor empty.
      * @param sFlag
      *        The flag value Neither <code>null</code> nor empty.
      * @since 0.5.0
@@ -227,16 +224,6 @@ public class DDDValueProviderPerSyntax
     return ESuccess.FAILURE;
   }
 
-  @Nonnull
-  @ReturnsMutableCopy
-  @Deprecated (forRemoval = true, since = "0.5.0")
-  public VPDeterminedValues getAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider)
-  {
-    final VPDeterminedValues ret = new VPDeterminedValues ();
-    forAllDeducedValues (aSourceProvider, ret, new VPDeterminedFlags ());
-    return ret;
-  }
-
   public void forAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
                                    @Nonnull final VPDeterminedValues aDeterminedValues,
                                    @Nonnull final VPDeterminedFlags aDeterminedFlags)
@@ -271,10 +258,10 @@ public class DDDValueProviderPerSyntax
                                        "' contains the unknown field '" +
                                        sSetterID +
                                        "'. Valid values are: " +
-                                       StringHelper.imploder ()
-                                                   .source (EDDDDeterminedField.values (), x -> "'" + x.getID () + "'")
-                                                   .separator (", ")
-                                                   .build ());
+                                       StringImplode.imploder ()
+                                                    .source (EDDDDeterminedField.values (), x -> "'" + x.getID () + "'")
+                                                    .separator (", ")
+                                                    .build ());
     }
 
     // Special case: the selector cannot be identical to the setter. Simply
@@ -307,7 +294,7 @@ public class DDDValueProviderPerSyntax
     final String sUnifiedFlag = sJaxbFlag.trim ();
 
     // Check it is not empty
-    if (StringHelper.hasNoText (sUnifiedFlag))
+    if (StringHelper.isEmpty (sUnifiedFlag))
     {
       throw new IllegalStateException ("The selector with ID '" + eOuterSelector.getID () + "' contains an empty flag");
     }
@@ -330,7 +317,7 @@ public class DDDValueProviderPerSyntax
   private static VPIf _createIfFromJaxb (@Nonnull final EDDDSourceField eOuterSelector, @Nonnull final VPIfType aJaxbIf)
   {
     final String sConditionValue = aJaxbIf.getValue ();
-    if (StringHelper.hasNoText (sConditionValue))
+    if (StringHelper.isEmpty (sConditionValue))
       throw new IllegalStateException ("The selector '" +
                                        eOuterSelector.getID () +
                                        "' contains a condition with an empty Condition Value");
@@ -377,10 +364,10 @@ public class DDDValueProviderPerSyntax
       throw new IllegalStateException ("The selector field '" +
                                        sSelectorID +
                                        "' is unknown. Valid values are: " +
-                                       StringHelper.imploder ()
-                                                   .source (EDDDSourceField.values (), x -> "'" + x.getID () + "'")
-                                                   .separator (", ")
-                                                   .build ());
+                                       StringImplode.imploder ()
+                                                    .source (EDDDSourceField.values (), x -> "'" + x.getID () + "'")
+                                                    .separator (", ")
+                                                    .build ());
 
     final VPSelect aSelect = new VPSelect (eSelector);
 
@@ -402,13 +389,11 @@ public class DDDValueProviderPerSyntax
   }
 
   /**
-   * Create a new {@link DDDValueProviderPerSyntax} by reading it from the
-   * provided JAXB object.
+   * Create a new {@link DDDValueProviderPerSyntax} by reading it from the provided JAXB object.
    *
    * @param aJaxbSyntax
    *        The XML object to parse. May not be <code>null</code>.
-   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
-   *         the read data.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained the read data.
    */
   @Nonnull
   public static DDDValueProviderPerSyntax createFromJaxb (@Nonnull final VPSyntaxType aJaxbSyntax)

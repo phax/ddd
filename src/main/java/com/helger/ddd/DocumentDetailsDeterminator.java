@@ -42,6 +42,7 @@ import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.peppolid.factory.IIdentifierFactory;
+import com.helger.peppolid.factory.PeppolIdentifierFactory;
 import com.helger.peppolid.factory.SimpleIdentifierFactory;
 import com.helger.peppolid.peppol.PeppolIdentifierHelper;
 import com.helger.peppolid.peppol.doctype.PeppolDocumentTypeIdentifierParts;
@@ -58,8 +59,6 @@ import jakarta.annotation.Nullable;
 public final class DocumentDetailsDeterminator
 {
   public static final String DEFAULT_PARTICIPANT_ID_SCHEME = PeppolIdentifierHelper.PARTICIPANT_SCHEME_ISO6523_ACTORID_UPIS;
-  public static final String DEFAULT_DOCUMENT_TYPE_ID_SCHEME = PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS;
-  public static final String DEFAULT_PROCESS_ID_SCHEME = PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL;
 
   private static final Logger LOGGER = LoggerFactory.getLogger (DocumentDetailsDeterminator.class);
 
@@ -69,8 +68,8 @@ public final class DocumentDetailsDeterminator
   private IParticipantIdentifier m_aFallbackSenderID;
   private IParticipantIdentifier m_aFallbackReceiverID;
   private String m_sParticipantIDScheme = DEFAULT_PARTICIPANT_ID_SCHEME;
-  private String m_sDocTypeIDScheme = DEFAULT_DOCUMENT_TYPE_ID_SCHEME;
-  private String m_sProcessIDScheme = DEFAULT_PROCESS_ID_SCHEME;
+  private Function <String, String> m_aDocTypeIDSchemeDeterminator = PeppolIdentifierFactory.INSTANCE::getDefaultDocumentTypeIdentifierScheme;
+  private Function <String, String> m_aProcessIDSchemeDeterminator = x -> PeppolIdentifierHelper.DEFAULT_PROCESS_SCHEME;
   private Consumer <String> m_aInfoHdl = LOGGER::info;
   private Consumer <String> m_aWarnHdl = LOGGER::warn;
   private Consumer <String> m_aErrorHdl = LOGGER::error;
@@ -182,36 +181,38 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The Document Type Identifier Scheme to be used. Defaults to the Peppol one. May be
-   *         <code>null</code>.
+   * @return The Document Type Identifier Scheme determinator to be used. Defaults to using the
+   *         Peppol schemes. Never <code>null</code>.
    */
-  @Nullable
-  public String getDocTypeIDScheme ()
+  @Nonnull
+  public Function <String, String> getDocTypeIDSchemeDeterminator ()
   {
-    return m_sDocTypeIDScheme;
+    return m_aDocTypeIDSchemeDeterminator;
   }
 
   @Nonnull
-  public DocumentDetailsDeterminator setDocTypeIDScheme (@Nullable final String sDocTypeIDScheme)
+  public DocumentDetailsDeterminator setDocTypeIDSchemeDeterminator (@Nonnull final Function <String, String> a)
   {
-    m_sDocTypeIDScheme = sDocTypeIDScheme;
+    ValueEnforcer.notNull (a, "DocTypeIDSchemeDeterminator");
+    m_aDocTypeIDSchemeDeterminator = a;
     return this;
   }
 
   /**
-   * @return The Process Identifier Scheme to be used. Defaults to the Peppol one. May be
-   *         <code>null</code>.
+   * @return The Process Identifier Scheme determinator to be used. Defaults to using the Peppol
+   *         scheme. Never <code>null</code>.
    */
-  @Nullable
-  public String getProcessIDScheme ()
+  @Nonnull
+  public Function <String, String> getProcessIDSchemeDeterminator ()
   {
-    return m_sProcessIDScheme;
+    return m_aProcessIDSchemeDeterminator;
   }
 
   @Nonnull
-  public DocumentDetailsDeterminator setProcessIDScheme (@Nullable final String sProcessIDScheme)
+  public DocumentDetailsDeterminator setProcessIDSchemeDeterminator (@Nonnull final Function <String, String> a)
   {
-    m_sProcessIDScheme = sProcessIDScheme;
+    ValueEnforcer.notNull (a, "ProcessIDSchemeDeterminator");
+    m_aProcessIDSchemeDeterminator = a;
     return this;
   }
 
@@ -411,7 +412,8 @@ public final class DocumentDetailsDeterminator
                                                                             aRootElement.getLocalName (),
                                                                             sCustomizationID,
                                                                             sSyntaxVersion).getAsDocumentTypeIdentifierValue ();
-      aDocTypeID = m_aIF.createDocumentTypeIdentifier (m_sDocTypeIDScheme, sDocTypeIDValue);
+      final String sDocTypeIDScheme = m_aDocTypeIDSchemeDeterminator.apply (sDocTypeIDValue);
+      aDocTypeID = m_aIF.createDocumentTypeIdentifier (sDocTypeIDScheme, sDocTypeIDValue);
     }
     else
       aDocTypeID = null;
@@ -419,7 +421,10 @@ public final class DocumentDetailsDeterminator
     // Assemble Process ID
     final IProcessIdentifier aProcessID;
     if (StringHelper.isNotEmpty (sProcessID))
-      aProcessID = m_aIF.createProcessIdentifier (m_sProcessIDScheme, sProcessID);
+    {
+      String sProcessIDScheme = m_aProcessIDSchemeDeterminator.apply (sProcessID);
+      aProcessID = m_aIF.createProcessIdentifier (sProcessIDScheme, sProcessID);
+    }
     else
       aProcessID = null;
 

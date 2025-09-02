@@ -17,6 +17,7 @@
 package com.helger.ddd;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -72,10 +73,12 @@ public final class DocumentDetailsDeterminatorTest
     assertEquals ("0002:FR23342", aDD.getReceiverID ().getValue ());
 
     assertNotNull (aDD.getDocumentTypeID ());
+    assertEquals ("busdox-docid-qns", aDD.getDocumentTypeID ().getScheme ());
     assertEquals ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1",
                   aDD.getDocumentTypeID ().getValue ());
 
     assertNotNull (aDD.getProcessID ());
+    assertEquals ("cenbii-procid-ubl", aDD.getProcessID ().getScheme ());
     assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
 
     assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
@@ -88,6 +91,45 @@ public final class DocumentDetailsDeterminatorTest
     assertTrue (aDD.hasFlags ());
     assertEquals (1, aDD.flags ().size ());
     assertTrue (aDD.flags ().contains ("IsEN16931-2017CIUS"));
+  }
+
+  @Test
+  public void testDiscoveryPINTInvoice ()
+  {
+    // Read the document to be identified
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/PINT AE Commercial invoice.xml"));
+    assertNotNull (aDoc);
+
+    // Main determination
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("0235:1987654321", aDD.getSenderID ().getValue ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("0235:1345678901", aDD.getReceiverID ().getValue ());
+
+    assertNotNull (aDD.getDocumentTypeID ());
+    assertEquals ("peppol-doctype-wildcard", aDD.getDocumentTypeID ().getScheme ());
+    assertEquals ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:peppol:pint:billing-1@ae-1::2.1",
+                  aDD.getDocumentTypeID ().getValue ());
+
+    assertNotNull (aDD.getProcessID ());
+    assertEquals ("cenbii-procid-ubl", aDD.getProcessID ().getScheme ());
+    assertEquals ("urn:peppol:bis:billing", aDD.getProcessID ().getValue ());
+
+    assertEquals ("AE-CI-001Test", aDD.getBusinessDocumentID ());
+    assertEquals ("Supplier Legal Name", aDD.getSenderName ());
+    assertEquals ("AE", aDD.getSenderCountryCode ());
+    assertEquals ("Buyer Legal Name", aDD.getReceiverName ());
+    assertEquals ("AE", aDD.getReceiverCountryCode ());
+    assertEquals ("org.peppol.pint.ae:invoice:latest-active", aDD.getVESID ());
+    assertEquals ("Peppol PINT AE Invoice", aDD.getProfileName ());
+    assertFalse (aDD.hasFlags ());
   }
 
   @Test

@@ -177,6 +177,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.7.0 - 2025-09-02
+* Fixed a problem with `DocumentDetailsDeterminator` and Peppol PINT document types. The API `(get|set)(DocType|Process)IDScheme` was replaced with `(get|set)(DocType|Process)IDSchemeDeterminator`. Backwards incompatible change. 
+
 v0.6.0 - 2025-08-26
 * Requires Java 17 as the minimum version
 * Updated to ph-commons 12.0.0

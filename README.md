@@ -180,6 +180,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 v0.7.1 - work in progress
 * Added support for Peppol SG BIS Order Balance V1
 * Added support for Peppol SG BIS Billing Invoice and Credit Note. See [#3](https://github.com/phax/ddd/issues/3) - thx @3ehrtaufiqul
+* Added support for Peppol PINT EU
 
 v0.7.0 - 2025-09-02
 * Fixed a problem with `DocumentDetailsDeterminator` and Peppol PINT document types. The API `(get|set)(DocType|Process)IDScheme` was replaced with `(get|set)(DocType|Process)IDSchemeDeterminator`. Backwards incompatible change. 

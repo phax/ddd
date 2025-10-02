@@ -314,6 +314,11 @@
         <set id="VESID">org.peppol.pint.aunz:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Credit Note Self-Billing</set>
       </if>
+      <if value="urn:peppol:pint:billing-1@eu-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.eu:creditnote:latest-active</set>
+        <set id="ProfileName">Peppol PINT EU Credit Note</set>
+      </if>
       <if value="urn:peppol:pint:billing-1@jp-1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.jp:credit-note:latest-active</set>
@@ -502,6 +507,11 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.aunz:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Invoice Self-Billing</set>
+      </if>
+      <if value="urn:peppol:pint:billing-1@eu-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.eu:invoice:latest-active</set>
+        <set id="ProfileName">Peppol PINT EU Invoice</set>
       </if>
       <if value="urn:peppol:pint:billing-1@jp-1">
         <set id="SyntaxVersion">2.1</set>

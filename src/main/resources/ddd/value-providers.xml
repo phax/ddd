@@ -655,6 +655,11 @@
         <set id="VESID">dk.oioubl:order:latest</set>
         <set id="ProfileName">OIOUBL Order</set>
       </if>
+      <if value="urn:fdc:imda.gov.sg:trns:order_balance:1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.sg:order-balance:latest-active</set>
+        <set id="ProfileName">Peppol SG Order Balance V1</set>
+      </if>
     </select>
   </syntax>
   

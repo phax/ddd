@@ -177,7 +177,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.7.1 - work in progress
+v0.7.1 - 2025-10-02
 * Added support for Peppol SG BIS Order Balance V1
 * Added support for Peppol SG BIS Billing Invoice and Credit Note. See [#3](https://github.com/phax/ddd/issues/3) - thx @3ehrtaufiqul
 * Added support for Peppol PINT EU

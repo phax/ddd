@@ -202,6 +202,19 @@ public final class DocumentDetailsDeterminatorTest
 
     {
       // Read the document to be identified
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/good/Order_balance.xml"));
+      assertNotNull (aDoc);
+
+      // Main determination
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertEquals ("org.peppol.sg:order-balance:latest-active", aDD.getVESID ());
+      assertEquals ("Peppol SG Order Balance V1", aDD.getProfileName ());
+    }
+
+    {
+      // Read the document to be identified
       final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-order/unknown/Order_Example-ehf-unknownProcessID.xml"));
       assertNotNull (aDoc);
 

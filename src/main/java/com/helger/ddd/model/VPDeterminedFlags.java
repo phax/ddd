@@ -18,6 +18,7 @@ package com.helger.ddd.model;
 
 import java.util.Iterator;
 
+import com.helger.annotation.Nonempty;
 import com.helger.annotation.Nonnegative;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.base.clone.ICloneable;
@@ -59,14 +60,14 @@ public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterab
   }
 
   @Nonnull
-  public EChange add (@Nullable final String sFlag)
+  public EChange add (@Nonnull @Nonempty final String sFlag)
   {
     ValueEnforcer.notEmpty (sFlag, "Flag");
-    return EChange.valueOf (m_aSet.add (sFlag));
+    return m_aSet.addObject (sFlag);
   }
 
   @Nonnull
-  public EChange addAll (@Nullable final VPDeterminedFlags aFlags)
+  public EChange addAll (@Nonnull final VPDeterminedFlags aFlags)
   {
     ValueEnforcer.notNull (aFlags, "Flags");
     return EChange.valueOf (m_aSet.addAll (aFlags.m_aSet));
@@ -94,6 +95,12 @@ public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterab
   public ICommonsOrderedSet <String> getAsSet ()
   {
     return m_aSet.getClone ();
+  }
+
+  @Nonnull
+  public EChange remove (@Nullable final String sFlag)
+  {
+    return m_aSet.removeObject (sFlag);
   }
 
   @Nonnull

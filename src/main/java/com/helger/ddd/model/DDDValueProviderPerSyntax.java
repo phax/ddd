@@ -188,7 +188,7 @@ public class DDDValueProviderPerSyntax
                                                          @Nonnull final VPDeterminedValues aTargetDeterminedValues,
                                                          @Nonnull final VPDeterminedFlags aTargetDeterminedFlags)
   {
-    for (final Map.Entry <EDDDSourceField, VPSelect> aEntry : aSelects.entrySet ())
+    for (final var aEntry : aSelects.entrySet ())
     {
       final EDDDSourceField eSourceField = aEntry.getKey ();
       final VPSelect aSelect = aEntry.getValue ();
@@ -201,7 +201,7 @@ public class DDDValueProviderPerSyntax
         final VPIf aIf = aSelect.getIf (sSourceValue);
         if (aIf != null)
         {
-          // Is it the last condition
+          // Is it the last condition with a value or flags?
           if (aIf.hasDeterminedValuesOrFlags ())
           {
             aTargetDeterminedValues.putAll (aIf.determinedValues ());
@@ -238,9 +238,7 @@ public class DDDValueProviderPerSyntax
   @Override
   public String toString ()
   {
-    return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID)
-                                       .append ("Selectors", m_aSelects)
-                                       .getToString ();
+    return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID).append ("Selects", m_aSelects).getToString ();
   }
 
   private static void _addSetFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
@@ -354,6 +352,14 @@ public class DDDValueProviderPerSyntax
     return aIf;
   }
 
+  /**
+   * Convert a JAXB select to a domain select. This method is called indirectly recursive from
+   * <code>_createIfFromJaxb</code>.
+   *
+   * @param aJaxbSelect
+   *        The JAXB select. May not be <code>null</code>.
+   * @return The domain select. Never <code>null</code>.
+   */
   @Nonnull
   private static VPSelect _createSelectFromJaxb (@Nonnull final VPSelectType aJaxbSelect)
   {
@@ -382,6 +388,7 @@ public class DDDValueProviderPerSyntax
                                          "' already has a condition with value '" +
                                          sConditionValue +
                                          "'");
+
       aSelect.addIf (aIf);
     }
 

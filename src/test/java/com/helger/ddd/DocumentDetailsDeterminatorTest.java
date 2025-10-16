@@ -94,6 +94,49 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryInvoiceSelfBilling ()
+  {
+    // Read the document to be identified
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/SB-base-example.xml"));
+    assertNotNull (aDoc);
+
+    // Main determination
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
+
+    // Self-Billing has swapped sender and receiver
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("0002:FR23342", aDD.getSenderID ().getValue ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("0088:9482348239847239874", aDD.getReceiverID ().getValue ());
+
+    assertNotNull (aDD.getDocumentTypeID ());
+    assertEquals ("busdox-docid-qns", aDD.getDocumentTypeID ().getScheme ());
+    assertEquals ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:selfbilling:3.0::2.1",
+                  aDD.getDocumentTypeID ().getValue ());
+
+    assertNotNull (aDD.getProcessID ());
+    assertEquals ("cenbii-procid-ubl", aDD.getProcessID ().getScheme ());
+    assertEquals ("urn:fdc:peppol.eu:2017:poacc:selfbilling:01:1.0", aDD.getProcessID ().getValue ());
+
+    assertEquals ("Snippet1", aDD.getBusinessDocumentID ());
+
+    // Self-Billing has swapped sender and receiver
+    assertEquals ("Buyer Official Name", aDD.getSenderName ());
+    assertEquals ("SE", aDD.getSenderCountryCode ());
+    assertEquals ("SupplierOfficialName Ltd", aDD.getReceiverName ());
+    assertEquals ("GB", aDD.getReceiverCountryCode ());
+
+    assertEquals ("eu.peppol.bis3:invoice-self-billing:latest-active", aDD.getVESID ());
+    assertEquals ("Peppol BIS3 Invoice Self-Billing", aDD.getProfileName ());
+    assertFalse (aDD.hasFlags ());
+  }
+
+  @Test
   public void testDiscoveryPINTInvoice ()
   {
     // Read the document to be identified

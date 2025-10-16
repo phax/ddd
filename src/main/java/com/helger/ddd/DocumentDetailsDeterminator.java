@@ -346,35 +346,21 @@ public final class DocumentDetailsDeterminator
 
     // Source value provider
     final String sSourceProcessID = sProcessID;
-    final Function <EDDDSourceField, String> fctFieldProvider = field -> {
-      switch (field)
-      {
-        case CUSTOMIZATION_ID:
-          return sCustomizationID;
-        case PROCESS_ID:
-          return sSourceProcessID;
-        case BUSINESS_DOCUMENT_ID:
-          return sBusinessDocumentID;
-        case SENDER_ID_SCHEME:
-          return sSenderIDScheme;
-        case SENDER_ID_VALUE:
-          return sSenderIDValue;
-        case SENDER_NAME:
-          return sSenderName;
-        case SENDER_COUNTRY_CODE:
-          return sSenderCountryCode;
-        case RECEIVER_ID_SCHEME:
-          return sReceiverIDScheme;
-        case RECEIVER_ID_VALUE:
-          return sReceiverIDValue;
-        case RECEIVER_NAME:
-          return sReceiverName;
-        case RECEIVER_COUNTRY_CODE:
-          return sReceiverCountryCode;
-        default:
-          throw new IllegalArgumentException ("Unsupported field " + field);
-      }
-    };
+    final Function <EDDDSourceField, String> fctFieldProvider = field -> (switch (field)
+    {
+      case CUSTOMIZATION_ID -> sCustomizationID;
+      case PROCESS_ID -> sSourceProcessID;
+      case BUSINESS_DOCUMENT_ID -> sBusinessDocumentID;
+      case SENDER_ID_SCHEME -> sSenderIDScheme;
+      case SENDER_ID_VALUE -> sSenderIDValue;
+      case SENDER_NAME -> sSenderName;
+      case SENDER_COUNTRY_CODE -> sSenderCountryCode;
+      case RECEIVER_ID_SCHEME -> sReceiverIDScheme;
+      case RECEIVER_ID_VALUE -> sReceiverIDValue;
+      case RECEIVER_NAME -> sReceiverName;
+      case RECEIVER_COUNTRY_CODE -> sReceiverCountryCode;
+      default -> throw new IllegalArgumentException ("Unsupported field " + field);
+    });
 
     // Target value setter
     final VPDeterminedValues aDeterminedMatches = new VPDeterminedValues ();
@@ -428,20 +414,24 @@ public final class DocumentDetailsDeterminator
     else
       aProcessID = null;
 
+    // Swap sender and receiver for self-billing?
+    // Don't keep this action in the resulting flags
+    boolean bSwapSenderAndReceiver = aDeterminedFlags.remove ("Action-SwapSenderAndReceiver").isChanged ();
+
     // All elements are optional
     return DocumentDetails.builder ()
                           .syntaxID (aSyntax.getID ())
-                          .senderID (aSenderID)
-                          .receiverID (aReceiverID)
+                          .senderID (bSwapSenderAndReceiver ? aReceiverID : aSenderID)
+                          .receiverID (bSwapSenderAndReceiver ? aSenderID : aReceiverID)
                           .documentTypeID (aDocTypeID)
                           .customizationID (sCustomizationID)
                           .syntaxVersion (sSyntaxVersion)
                           .processID (aProcessID)
                           .businessDocumentID (sBusinessDocumentID)
-                          .senderName (sSenderName)
-                          .senderCountryCode (sSenderCountryCode)
-                          .receiverName (sReceiverName)
-                          .receiverCountryCode (sReceiverCountryCode)
+                          .senderName (bSwapSenderAndReceiver ? sReceiverName : sSenderName)
+                          .senderCountryCode (bSwapSenderAndReceiver ? sReceiverCountryCode : sSenderCountryCode)
+                          .receiverName (bSwapSenderAndReceiver ? sSenderName : sReceiverName)
+                          .receiverCountryCode (bSwapSenderAndReceiver ? sSenderCountryCode : sReceiverCountryCode)
                           .vesid (sVESID)
                           .profileName (sProfileName)
                           .flags (aDeterminedFlags.getAsSet ())

@@ -303,6 +303,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.ae:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT AE Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
@@ -313,6 +314,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.aunz:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@eu-1">
         <set id="SyntaxVersion">2.1</set>
@@ -333,6 +335,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">
         <set id="SyntaxVersion">2.1</set>
@@ -440,11 +443,13 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3.aunz.ubl:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:selfbilling:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol BIS3 Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
     </select>
   </syntax>
@@ -497,6 +502,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.ae:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT AE Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@aunz-1">
         <set id="SyntaxVersion">2.1</set>
@@ -507,6 +513,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.aunz:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT A-NZ Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@eu-1">
         <set id="SyntaxVersion">2.1</set>
@@ -527,6 +534,7 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">
         <set id="SyntaxVersion">2.1</set>
@@ -634,11 +642,13 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3.aunz.ubl:invoice-self-billing:latest-active</set>
         <set id="ProfileName">A-NZ Peppol BIS3 Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:selfbilling:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol BIS3 Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
       </if>
     </select>
   </syntax>

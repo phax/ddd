@@ -177,6 +177,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.7.2 - 2025-10-16
+* Self Billing Invoice and Credit Note have now swapped sender and receiver. See [#6](https://github.com/phax/ddd/issues/6) - thx @thijsdeconinck
+
 v0.7.1 - 2025-10-02
 * Added support for Peppol SG BIS Order Balance V1
 * Added support for Peppol SG BIS Billing Invoice and Credit Note. See [#3](https://github.com/phax/ddd/issues/3) - thx @3ehrtaufiqul

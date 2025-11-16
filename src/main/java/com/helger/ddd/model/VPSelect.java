@@ -19,6 +19,9 @@ package com.helger.ddd.model;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonnegative;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.base.clone.ICloneable;
@@ -26,9 +29,6 @@ import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.collection.commons.CommonsTreeMap;
 import com.helger.collection.commons.ICommonsSortedMap;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Represents a single source field selection with different conditions attached
@@ -42,7 +42,7 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
   private final EDDDSourceField m_eSourceField;
   private final ICommonsSortedMap <String, VPIf> m_aIfs;
 
-  public VPSelect (@Nonnull final EDDDSourceField eSourceField)
+  public VPSelect (@NonNull final EDDDSourceField eSourceField)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
 
@@ -50,7 +50,7 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
     m_aIfs = new CommonsTreeMap <> ();
   }
 
-  public VPSelect (@Nonnull final EDDDSourceField eSourceField, @Nonnull final ICommonsSortedMap <String, VPIf> aIfs)
+  public VPSelect (@NonNull final EDDDSourceField eSourceField, @NonNull final ICommonsSortedMap <String, VPIf> aIfs)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
     ValueEnforcer.notNull (aIfs, "Ifs");
@@ -60,8 +60,8 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
   }
 
   // Cloning constructor
-  private VPSelect (@Nonnull final EDDDSourceField eSourceField,
-                    @Nonnull final ICommonsSortedMap <String, VPIf> aIfs,
+  private VPSelect (@NonNull final EDDDSourceField eSourceField,
+                    @NonNull final ICommonsSortedMap <String, VPIf> aIfs,
                     final boolean bClone)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
@@ -71,7 +71,7 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
     m_aIfs = bClone ? aIfs.getClone () : aIfs;
   }
 
-  @Nonnull
+  @NonNull
   public EDDDSourceField getSourceField ()
   {
     return m_eSourceField;
@@ -94,27 +94,27 @@ public class VPSelect implements ICloneable <VPSelect>, Iterable <Map.Entry <Str
     return m_aIfs.size ();
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public ICommonsSortedMap <String, VPIf> getAllIfs ()
   {
     return m_aIfs.getClone ();
   }
 
-  @Nonnull
+  @NonNull
   public Iterator <Map.Entry <String, VPIf>> iterator ()
   {
     return m_aIfs.entrySet ().iterator ();
   }
 
-  public void addIf (@Nonnull final VPIf aIf)
+  public void addIf (@NonNull final VPIf aIf)
   {
     ValueEnforcer.notNull (aIf, "If");
 
     m_aIfs.put (aIf.getConditionValue (), aIf);
   }
 
-  @Nonnull
+  @NonNull
   public VPSelect getClone ()
   {
     // Clone here

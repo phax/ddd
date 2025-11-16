@@ -18,6 +18,9 @@ package com.helger.ddd;
 
 import java.util.function.Predicate;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.json.IJson;
@@ -26,9 +29,6 @@ import com.helger.json.IJsonObject;
 import com.helger.json.JsonArray;
 import com.helger.json.JsonObject;
 import com.helger.peppolid.factory.IIdentifierFactory;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Helper class to work with the JSON binding.
@@ -65,8 +65,8 @@ public final class DocumentDetailsJsonHelper
    *        The Document Details to be converted. May not be <code>null</code>
    * @return Never <code>null</code>.
    */
-  @Nonnull
-  public static IJsonObject getAsJson (@Nonnull final DocumentDetails aDD)
+  @NonNull
+  public static IJsonObject getAsJson (@NonNull final DocumentDetails aDD)
   {
     ValueEnforcer.notNull (aDD, "DocumentDetails");
 
@@ -116,7 +116,7 @@ public final class DocumentDetailsJsonHelper
    */
   @Nullable
   public static DocumentDetails getAsDocumentDetails (@Nullable final IJsonObject aObj,
-                                                      @Nonnull final IIdentifierFactory aIF)
+                                                      @NonNull final IIdentifierFactory aIF)
   {
     ValueEnforcer.notNull (aIF, "IdentifierFactory");
 

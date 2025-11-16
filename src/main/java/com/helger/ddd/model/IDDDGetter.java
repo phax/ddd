@@ -16,12 +16,11 @@
  */
 package com.helger.ddd.model;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Node;
 
 import com.helger.diagnostics.error.list.IErrorList;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Get a value from an XML node based on certain rules.
@@ -40,5 +39,5 @@ public interface IDDDGetter
    * @return <code>null</code> if no value was found-
    */
   @Nullable
-  String getValue (@Nonnull Node aSourceNode, @Nonnull IErrorList aErrorList);
+  String getValue (@NonNull Node aSourceNode, @NonNull IErrorList aErrorList);
 }

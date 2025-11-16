@@ -18,6 +18,8 @@ package com.helger.ddd;
 
 import java.util.Collection;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Element;
 
 import com.helger.annotation.concurrent.Immutable;
@@ -36,9 +38,6 @@ import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.xml.microdom.IMicroElement;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Document details determined from the payload, with all fields optional.
@@ -114,7 +113,7 @@ public class DocumentDetails
                              @Nullable final String sReceiverCountryCode,
                              @Nullable final String sVESID,
                              @Nullable final String sProfileName,
-                             @Nonnull final ICommonsOrderedSet <String> aFlags)
+                             @NonNull final ICommonsOrderedSet <String> aFlags)
   {
     m_sSyntaxID = sSyntaxID;
     m_aSenderID = aSenderID;
@@ -337,7 +336,7 @@ public class DocumentDetails
    * @return A copy of the contained flags. Never <code>null</code> but maybe empty.
    * @since 0.5.0
    */
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public final ICommonsOrderedSet <String> getAllFlags ()
   {
@@ -348,7 +347,7 @@ public class DocumentDetails
    * @return A copy of the contained flags. Never <code>null</code> but maybe empty.
    * @since 0.5.0
    */
-  @Nonnull
+  @NonNull
   @ReturnsMutableObject
   public final ICommonsOrderedSet <String> flags ()
   {
@@ -360,7 +359,7 @@ public class DocumentDetails
    *
    * @return Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final IJsonObject getAsJson ()
   {
     return DocumentDetailsJsonHelper.getAsJson (this);
@@ -373,7 +372,7 @@ public class DocumentDetails
    *        The micro element to append to. May not be <code>null</code>.
    * @since 0.4.1
    */
-  public void appendToMicroElement (@Nonnull final IMicroElement aTarget)
+  public void appendToMicroElement (@NonNull final IMicroElement aTarget)
   {
     DocumentDetailsXMLHelper.appendToMicroElement (this, aTarget);
   }
@@ -385,7 +384,7 @@ public class DocumentDetails
    *        The DOM element to append to. May not be <code>null</code>.
    * @since 0.4.1
    */
-  public void appendToDOMElement (@Nonnull final Element aTarget)
+  public void appendToDOMElement (@NonNull final Element aTarget)
   {
     DocumentDetailsXMLHelper.appendToDOMElement (this, aTarget);
   }
@@ -460,7 +459,7 @@ public class DocumentDetails
   /**
    * @return A new empty Builder. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public static Builder builder ()
   {
     return new Builder ();
@@ -471,8 +470,8 @@ public class DocumentDetails
    *        The document details source to use. May not be <code>null</code>.
    * @return A new Builder pre-filled with the provided document details. Never <code>null</code>.
    */
-  @Nonnull
-  public static Builder builder (@Nonnull final DocumentDetails aSource)
+  @NonNull
+  public static Builder builder (@NonNull final DocumentDetails aSource)
   {
     return new Builder (aSource);
   }
@@ -513,7 +512,7 @@ public class DocumentDetails
      * @param aSource
      *        The source object to fill from. May not be <code>null</code>.
      */
-    public Builder (@Nonnull final DocumentDetails aSource)
+    public Builder (@NonNull final DocumentDetails aSource)
     {
       ValueEnforcer.notNull (aSource, "Source");
       syntaxID (aSource.getSyntaxID ()).syntaxVersion (aSource.getSyntaxVersion ())
@@ -532,105 +531,105 @@ public class DocumentDetails
                                        .flags (aSource.flags ());
     }
 
-    @Nonnull
+    @NonNull
     public final Builder syntaxID (@Nullable final String s)
     {
       m_sSyntaxID = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder syntaxVersion (@Nullable final String s)
     {
       m_sSyntaxVersion = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder senderID (@Nullable final IParticipantIdentifier a)
     {
       m_aSenderID = a;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder receiverID (@Nullable final IParticipantIdentifier a)
     {
       m_aReceiverID = a;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder documentTypeID (@Nullable final IDocumentTypeIdentifier a)
     {
       m_aDocTypeID = a;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder processID (@Nullable final IProcessIdentifier a)
     {
       m_aProcessID = a;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder customizationID (@Nullable final String s)
     {
       m_sCustomizationID = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder businessDocumentID (@Nullable final String s)
     {
       m_sBusinessDocumentID = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder senderName (@Nullable final String s)
     {
       m_sSenderName = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder senderCountryCode (@Nullable final String s)
     {
       m_sSenderCountryCode = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder receiverName (@Nullable final String s)
     {
       m_sReceiverName = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder receiverCountryCode (@Nullable final String s)
     {
       m_sReceiverCountryCode = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder vesid (@Nullable final String s)
     {
       m_sVESID = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder profileName (@Nullable final String s)
     {
       m_sProfileName = s;
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder flags (@Nullable final String... a)
     {
       if (a == null)
@@ -640,7 +639,7 @@ public class DocumentDetails
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public final Builder flags (@Nullable final Collection <String> a)
     {
       if (a == null)
@@ -650,7 +649,7 @@ public class DocumentDetails
       return this;
     }
 
-    @Nonnull
+    @NonNull
     public DocumentDetails build ()
     {
       // All fields are optional

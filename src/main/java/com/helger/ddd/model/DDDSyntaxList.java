@@ -19,6 +19,8 @@ package com.helger.ddd.model;
 import java.time.LocalDate;
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -33,9 +35,6 @@ import com.helger.ddd.model.jaxb.syntax1.SyntaxType;
 import com.helger.ddd.model.jaxb.syntax1.SyntaxesType;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.IReadableResource;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * This class manages a set of {@link DDDSyntax} objects
@@ -63,7 +62,7 @@ public class DDDSyntaxList
   private final LocalDate m_aLastMod;
   private final ICommonsMap <String, DDDSyntax> m_aSyntaxes;
 
-  public DDDSyntaxList (@Nonnull final LocalDate aLastMod, @Nonnull final ICommonsMap <String, DDDSyntax> aSyntaxes)
+  public DDDSyntaxList (@NonNull final LocalDate aLastMod, @NonNull final ICommonsMap <String, DDDSyntax> aSyntaxes)
   {
     ValueEnforcer.notNull (aLastMod, "LastMod");
     ValueEnforcer.notNullNoNullValue (aSyntaxes, "Syntaxes");
@@ -74,7 +73,7 @@ public class DDDSyntaxList
   /**
    * @return The last modification of the syntax list.
    */
-  @Nonnull
+  @NonNull
   public final LocalDate getLastModification ()
   {
     return m_aLastMod;
@@ -84,7 +83,7 @@ public class DDDSyntaxList
    * @return A map with all contained syntaxes. Key is the syntax ID and value
    *         is the {@link DDDSyntax} object. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public final ICommonsMap <String, DDDSyntax> getAllSyntaxes ()
   {
@@ -113,7 +112,7 @@ public class DDDSyntaxList
    * @return <code>null</code> if no matching syntax was found.
    */
   @Nullable
-  public DDDSyntax findMatchingSyntax (@Nonnull final Element aRootElement)
+  public DDDSyntax findMatchingSyntax (@NonNull final Element aRootElement)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
@@ -148,8 +147,8 @@ public class DDDSyntaxList
    * @throws IllegalStateException
    *         If the XML is inconsistent
    */
-  @Nonnull
-  public static DDDSyntaxList readFromXML (@Nonnull final IReadableResource aRes)
+  @NonNull
+  public static DDDSyntaxList readFromXML (@NonNull final IReadableResource aRes)
   {
     ValueEnforcer.notNull (aRes, "Resource");
 
@@ -173,8 +172,8 @@ public class DDDSyntaxList
    * @throws IllegalStateException
    *         If the XML is inconsistent
    */
-  @Nonnull
-  public static DDDSyntaxList createFromJaxb (@Nonnull final SyntaxesType aJaxbSyntaxes)
+  @NonNull
+  public static DDDSyntaxList createFromJaxb (@NonNull final SyntaxesType aJaxbSyntaxes)
   {
     ValueEnforcer.notNull (aJaxbSyntaxes, "JaxbSyntaxes");
 
@@ -198,7 +197,7 @@ public class DDDSyntaxList
    * @see #readFromXML(IReadableResource)
    * @see #DEFAULT_SYNTAX_LIST_RES
    */
-  @Nonnull
+  @NonNull
   public static DDDSyntaxList getDefaultSyntaxList ()
   {
     return SingletonHolder.INSTANCE;
@@ -216,9 +215,9 @@ public class DDDSyntaxList
    * @throws IllegalArgumentException
    *         if the syntaxes are not distinct.
    */
-  @Nonnull
-  public static DDDSyntaxList createMergedSyntaxList (@Nonnull final DDDSyntaxList aSL1,
-                                                      @Nonnull final DDDSyntaxList aSL2)
+  @NonNull
+  public static DDDSyntaxList createMergedSyntaxList (@NonNull final DDDSyntaxList aSL1,
+                                                      @NonNull final DDDSyntaxList aSL2)
   {
     ValueEnforcer.notNull (aSL1, "SyntaxList1");
     ValueEnforcer.notNull (aSL2, "SyntaxList2");

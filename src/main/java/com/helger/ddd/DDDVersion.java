@@ -16,13 +16,13 @@
  */
 package com.helger.ddd;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.exception.InitializationException;
 import com.helger.base.rt.NonBlockingProperties;
 import com.helger.base.rt.PropertiesHelper;
 import com.helger.io.resource.ClassPathResource;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * DDD version constants
@@ -61,7 +61,7 @@ public final class DDDVersion
    * @return The version number of DDD read from the internal properties file. Never
    *         <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public static String getVersionNumber ()
   {
     return VERSION_NUMBER;
@@ -71,7 +71,7 @@ public final class DDDVersion
    * @return The build timestamp of DDD read from the internal properties file. Never
    *         <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public static String getBuildTimestamp ()
   {
     return TIMESTAMP;

@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 
 import com.helger.collection.commons.ICommonsMap;
@@ -34,8 +35,6 @@ import com.helger.io.file.IFileFilter;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.FileSystemResource;
 
-import jakarta.annotation.Nonnull;
-
 /**
  * Test class for class {@link DDDValueProviderList}.
  *
@@ -43,8 +42,8 @@ import jakarta.annotation.Nonnull;
  */
 public final class DDDValueProviderListTest
 {
-  private static void _recursiveTest (@Nonnull final String sSyntaxID,
-                                      @Nonnull final Map <EDDDSourceField, VPSelect> aSelects)
+  private static void _recursiveTest (@NonNull final String sSyntaxID,
+                                      @NonNull final Map <EDDDSourceField, VPSelect> aSelects)
   {
     for (final Map.Entry <EDDDSourceField, VPSelect> e1 : aSelects.entrySet ())
       for (final Map.Entry <String, VPIf> e2 : e1.getValue ())

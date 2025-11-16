@@ -20,6 +20,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,9 +34,6 @@ import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.xml.XMLHelper;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.util.MicroHelper;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Helper class to work with the XML binding.
@@ -72,7 +71,7 @@ public final class DocumentDetailsXMLHelper
    * @param aTarget
    *        The micro element to append to. May not be <code>null</code>.
    */
-  public static void appendToMicroElement (@Nonnull final DocumentDetails aDD, @Nonnull final IMicroElement aTarget)
+  public static void appendToMicroElement (@NonNull final DocumentDetails aDD, @NonNull final IMicroElement aTarget)
   {
     ValueEnforcer.notNull (aDD, "DocumentDetails");
     ValueEnforcer.notNull (aTarget, "Target");
@@ -123,7 +122,7 @@ public final class DocumentDetailsXMLHelper
    */
   @Nullable
   public static DocumentDetails getAsDocumentDetails (@Nullable final IMicroElement aObj,
-                                                      @Nonnull final IIdentifierFactory aIF)
+                                                      @NonNull final IIdentifierFactory aIF)
   {
     ValueEnforcer.notNull (aIF, "IdentifierFactory");
 
@@ -162,7 +161,7 @@ public final class DocumentDetailsXMLHelper
    * @param aTarget
    *        The DOM element to append to. May not be <code>null</code>.
    */
-  public static void appendToDOMElement (@Nonnull final DocumentDetails aDD, @Nonnull final Element aTarget)
+  public static void appendToDOMElement (@NonNull final DocumentDetails aDD, @NonNull final Element aTarget)
   {
     ValueEnforcer.notNull (aDD, "DocumentDetails");
     ValueEnforcer.notNull (aTarget, "Target");
@@ -220,7 +219,7 @@ public final class DocumentDetailsXMLHelper
    */
   @Nullable
   public static DocumentDetails getAsDocumentDetails (@Nullable final Element aObj,
-                                                      @Nonnull final IIdentifierFactory aIF)
+                                                      @NonNull final IIdentifierFactory aIF)
   {
     ValueEnforcer.notNull (aIF, "IdentifierFactory");
 

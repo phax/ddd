@@ -16,13 +16,13 @@
  */
 package com.helger.ddd.model;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.hashcode.HashCodeGenerator;
 import com.helger.base.tostring.ToStringGenerator;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * This class is a combination of a source field and a source value.
@@ -36,7 +36,7 @@ public final class VPSourceValue
   private final EDDDSourceField m_eSourceField;
   private final String m_sSourceValue;
 
-  public VPSourceValue (@Nonnull final EDDDSourceField eSourceField, @Nonnull @Nonempty final String sSourceValue)
+  public VPSourceValue (@NonNull final EDDDSourceField eSourceField, @NonNull @Nonempty final String sSourceValue)
   {
     ValueEnforcer.notNull (eSourceField, "SourceField");
     ValueEnforcer.notEmpty (sSourceValue, "SourceValue");
@@ -45,13 +45,13 @@ public final class VPSourceValue
     m_sSourceValue = sSourceValue;
   }
 
-  @Nonnull
+  @NonNull
   public EDDDSourceField getSourceField ()
   {
     return m_eSourceField;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getSourceValue ()
   {

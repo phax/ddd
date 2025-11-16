@@ -20,6 +20,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -29,9 +31,6 @@ import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.diagnostics.error.SingleError;
 import com.helger.diagnostics.error.list.IErrorList;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Specific implementation of {@link IDDDGetter} based on XPath
@@ -44,7 +43,7 @@ public class DDDGetterXPath implements IDDDGetter
   private final String m_sXPath;
   private final XPathExpression m_aXPathExpr;
 
-  public DDDGetterXPath (@Nonnull @Nonempty final String sXPath)
+  public DDDGetterXPath (@NonNull @Nonempty final String sXPath)
   {
     ValueEnforcer.notEmpty (sXPath, "XPath");
     m_sXPath = sXPath;
@@ -65,7 +64,7 @@ public class DDDGetterXPath implements IDDDGetter
    *         <code>null</code> nor empty.
    * @since 0.3.1
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getXPath ()
   {
@@ -73,7 +72,7 @@ public class DDDGetterXPath implements IDDDGetter
   }
 
   @Nullable
-  public String getValue (@Nonnull final Node aSourceNode, @Nonnull final IErrorList aErrorList)
+  public String getValue (@NonNull final Node aSourceNode, @NonNull final IErrorList aErrorList)
   {
     ValueEnforcer.notNull (aSourceNode, "SourceNode");
     ValueEnforcer.notNull (aErrorList, "ErrorList");

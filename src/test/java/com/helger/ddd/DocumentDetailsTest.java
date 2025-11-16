@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
@@ -36,8 +37,6 @@ import com.helger.xml.microdom.serialize.MicroWriter;
 import com.helger.xml.serialize.write.XMLWriter;
 import com.helger.xml.serialize.write.XMLWriterSettings;
 
-import jakarta.annotation.Nonnull;
-
 /**
  * Test class for class {@link DocumentDetails}
  *
@@ -45,7 +44,7 @@ import jakarta.annotation.Nonnull;
  */
 public final class DocumentDetailsTest
 {
-  @Nonnull
+  @NonNull
   private static DocumentDetails _createDD ()
   {
     final IIdentifierFactory aIF = SimpleIdentifierFactory.INSTANCE;

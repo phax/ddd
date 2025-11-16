@@ -23,6 +23,8 @@ import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -48,9 +50,6 @@ import com.helger.peppolid.peppol.PeppolIdentifierHelper;
 import com.helger.peppolid.peppol.doctype.PeppolDocumentTypeIdentifierParts;
 import com.helger.xml.XMLHelper;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 /**
  * Determine the document details from the payload.
  *
@@ -74,8 +73,8 @@ public final class DocumentDetailsDeterminator
   private Consumer <String> m_aWarnHdl = LOGGER::warn;
   private Consumer <String> m_aErrorHdl = LOGGER::error;
 
-  public DocumentDetailsDeterminator (@Nonnull final DDDSyntaxList aSyntaxList,
-                                      @Nonnull final DDDValueProviderList aValueProviderList)
+  public DocumentDetailsDeterminator (@NonNull final DDDSyntaxList aSyntaxList,
+                                      @NonNull final DDDValueProviderList aValueProviderList)
   {
     ValueEnforcer.notNull (aSyntaxList, "SyntaxList");
     ValueEnforcer.notNull (aValueProviderList, "ValueProviderList");
@@ -87,7 +86,7 @@ public final class DocumentDetailsDeterminator
    * @return The syntax list provided in the constructor. Never <code>null</code>.
    * @since 0.3.3
    */
-  @Nonnull
+  @NonNull
   public DDDSyntaxList getSyntaxList ()
   {
     return m_aSyntaxList;
@@ -97,7 +96,7 @@ public final class DocumentDetailsDeterminator
    * @return The value provider list provided in the constructor. Never <code>null</code>.
    * @since 0.3.3
    */
-  @Nonnull
+  @NonNull
   public DDDValueProviderList getValueProviderList ()
   {
     return m_aValueProviderList;
@@ -107,7 +106,7 @@ public final class DocumentDetailsDeterminator
    * @return The Identifier Factory used internally to created structured IDs. Never
    *         <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public IIdentifierFactory getIdentifierFactory ()
   {
     return m_aIF;
@@ -120,7 +119,7 @@ public final class DocumentDetailsDeterminator
    *        The Identifier Factory to use. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
+  @NonNull
   public DocumentDetailsDeterminator setIdentifierFactory (@Nullable final IIdentifierFactory aIF)
   {
     ValueEnforcer.notNull (aIF, "IdentifierFactory");
@@ -138,7 +137,7 @@ public final class DocumentDetailsDeterminator
     return m_aFallbackSenderID;
   }
 
-  @Nonnull
+  @NonNull
   public DocumentDetailsDeterminator setFallbackSenderID (@Nullable final IParticipantIdentifier aFallbackSenderID)
   {
     m_aFallbackSenderID = aFallbackSenderID;
@@ -155,7 +154,7 @@ public final class DocumentDetailsDeterminator
     return m_aFallbackReceiverID;
   }
 
-  @Nonnull
+  @NonNull
   public DocumentDetailsDeterminator setFallbackReceiverID (@Nullable final IParticipantIdentifier aFallbackReceiverID)
   {
     m_aFallbackReceiverID = aFallbackReceiverID;
@@ -173,7 +172,7 @@ public final class DocumentDetailsDeterminator
     return m_sParticipantIDScheme;
   }
 
-  @Nonnull
+  @NonNull
   public DocumentDetailsDeterminator setParticipantIDScheme (@Nullable final String sParticipantIDScheme)
   {
     m_sParticipantIDScheme = sParticipantIDScheme;
@@ -184,14 +183,14 @@ public final class DocumentDetailsDeterminator
    * @return The Document Type Identifier Scheme determinator to be used. Defaults to using the
    *         Peppol schemes. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Function <String, String> getDocTypeIDSchemeDeterminator ()
   {
     return m_aDocTypeIDSchemeDeterminator;
   }
 
-  @Nonnull
-  public DocumentDetailsDeterminator setDocTypeIDSchemeDeterminator (@Nonnull final Function <String, String> a)
+  @NonNull
+  public DocumentDetailsDeterminator setDocTypeIDSchemeDeterminator (@NonNull final Function <String, String> a)
   {
     ValueEnforcer.notNull (a, "DocTypeIDSchemeDeterminator");
     m_aDocTypeIDSchemeDeterminator = a;
@@ -202,14 +201,14 @@ public final class DocumentDetailsDeterminator
    * @return The Process Identifier Scheme determinator to be used. Defaults to using the Peppol
    *         scheme. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Function <String, String> getProcessIDSchemeDeterminator ()
   {
     return m_aProcessIDSchemeDeterminator;
   }
 
-  @Nonnull
-  public DocumentDetailsDeterminator setProcessIDSchemeDeterminator (@Nonnull final Function <String, String> a)
+  @NonNull
+  public DocumentDetailsDeterminator setProcessIDSchemeDeterminator (@NonNull final Function <String, String> a)
   {
     ValueEnforcer.notNull (a, "ProcessIDSchemeDeterminator");
     m_aProcessIDSchemeDeterminator = a;
@@ -220,14 +219,14 @@ public final class DocumentDetailsDeterminator
    * @return The handler for "information" messages that occurred during document detail
    *         determination. Default is to log with info level. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Consumer <String> getInfoHdl ()
   {
     return m_aInfoHdl;
   }
 
-  @Nonnull
-  public DocumentDetailsDeterminator setInfoHdl (@Nonnull final Consumer <String> aInfoHdl)
+  @NonNull
+  public DocumentDetailsDeterminator setInfoHdl (@NonNull final Consumer <String> aInfoHdl)
   {
     ValueEnforcer.notNull (aInfoHdl, "InfoHdl");
     m_aInfoHdl = aInfoHdl;
@@ -238,14 +237,14 @@ public final class DocumentDetailsDeterminator
    * @return The handler for "warning" messages that occurred during document detail determination.
    *         Default is to log with warning level. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Consumer <String> getWarnHdl ()
   {
     return m_aWarnHdl;
   }
 
-  @Nonnull
-  public DocumentDetailsDeterminator setWarnHdl (@Nonnull final Consumer <String> aWarnHdl)
+  @NonNull
+  public DocumentDetailsDeterminator setWarnHdl (@NonNull final Consumer <String> aWarnHdl)
   {
     ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
     m_aWarnHdl = aWarnHdl;
@@ -256,14 +255,14 @@ public final class DocumentDetailsDeterminator
    * @return The handler for "error" messages that occurred during document detail determination.
    *         Default is to log with error level. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Consumer <String> getErrorHdl ()
   {
     return m_aErrorHdl;
   }
 
-  @Nonnull
-  public DocumentDetailsDeterminator setErrorHdl (@Nonnull final Consumer <String> aErrorHdl)
+  @NonNull
+  public DocumentDetailsDeterminator setErrorHdl (@NonNull final Consumer <String> aErrorHdl)
   {
     ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
     m_aErrorHdl = aErrorHdl;
@@ -280,7 +279,7 @@ public final class DocumentDetailsDeterminator
   }
 
   @Nullable
-  public DocumentDetails findDocumentDetails (@Nonnull final Element aRootElement)
+  public DocumentDetails findDocumentDetails (@NonNull final Element aRootElement)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 

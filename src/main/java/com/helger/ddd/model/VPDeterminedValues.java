@@ -20,6 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonnegative;
 import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.base.clone.ICloneable;
@@ -27,9 +30,6 @@ import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.collection.commons.CommonsTreeMap;
 import com.helger.collection.commons.ICommonsSortedMap;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Represents a set of Determined Values in the Value Provider scope
@@ -58,38 +58,38 @@ public final class VPDeterminedValues implements
    * @param aMap
    *        The map to be copied. May not be <code>null</code>.
    */
-  private VPDeterminedValues (@Nonnull final ICommonsSortedMap <EDDDDeterminedField, String> aMap)
+  private VPDeterminedValues (@NonNull final ICommonsSortedMap <EDDDDeterminedField, String> aMap)
   {
     m_aMap = aMap.getClone ();
   }
 
-  public boolean containsKey (@Nonnull final EDDDDeterminedField eField)
+  public boolean containsKey (@NonNull final EDDDDeterminedField eField)
   {
     ValueEnforcer.notNull (eField, "Field");
     return m_aMap.containsKey (eField);
   }
 
   @Nullable
-  public String get (@Nonnull final EDDDDeterminedField eField)
+  public String get (@NonNull final EDDDDeterminedField eField)
   {
     ValueEnforcer.notNull (eField, "Field");
     return m_aMap.get (eField);
   }
 
-  public void put (@Nonnull final EDDDDeterminedField eField, @Nonnull final String sValue)
+  public void put (@NonNull final EDDDDeterminedField eField, @NonNull final String sValue)
   {
     ValueEnforcer.notNull (eField, "Field");
     ValueEnforcer.notNull (sValue, "Value");
     m_aMap.put (eField, sValue);
   }
 
-  public void putAll (@Nonnull final VPDeterminedValues aOther)
+  public void putAll (@NonNull final VPDeterminedValues aOther)
   {
     ValueEnforcer.notNull (aOther, "Other");
     m_aMap.putAll (aOther.m_aMap);
   }
 
-  @Nonnull
+  @NonNull
   public Iterator <Entry <EDDDDeterminedField, String>> iterator ()
   {
     return m_aMap.entrySet ().iterator ();
@@ -106,7 +106,7 @@ public final class VPDeterminedValues implements
     return m_aMap.size ();
   }
 
-  @Nonnull
+  @NonNull
   public VPDeterminedValues getClone ()
   {
     return new VPDeterminedValues (m_aMap);

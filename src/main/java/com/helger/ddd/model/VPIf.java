@@ -18,6 +18,8 @@ package com.helger.ddd.model;
 
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.annotation.style.ReturnsMutableObject;
@@ -27,8 +29,6 @@ import com.helger.base.tostring.ToStringGenerator;
 import com.helger.collection.commons.CommonsTreeMap;
 import com.helger.collection.commons.ICommonsMap;
 import com.helger.collection.commons.ICommonsSortedMap;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Represents a single condition in the Value Provider scope
@@ -52,7 +52,7 @@ public final class VPIf implements ICloneable <VPIf>
    *        The condition value to use. May neither be <code>null</code> nor
    *        empty.
    */
-  public VPIf (@Nonnull @Nonempty final String sConditionValue)
+  public VPIf (@NonNull @Nonempty final String sConditionValue)
   {
     ValueEnforcer.notEmpty (sConditionValue, "ConditionValue");
 
@@ -74,10 +74,10 @@ public final class VPIf implements ICloneable <VPIf>
    * @param aSelects
    *        The nested selects
    */
-  private VPIf (@Nonnull @Nonempty final String sConditionValue,
-                @Nonnull final VPDeterminedValues aDeterminedValues,
-                @Nonnull final VPDeterminedFlags aFlags,
-                @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
+  private VPIf (@NonNull @Nonempty final String sConditionValue,
+                @NonNull final VPDeterminedValues aDeterminedValues,
+                @NonNull final VPDeterminedFlags aFlags,
+                @NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
   {
     m_sConditionValue = sConditionValue;
     m_aDeterminedValues = aDeterminedValues.getClone ();
@@ -91,7 +91,7 @@ public final class VPIf implements ICloneable <VPIf>
   /**
    * @return The condition value as provided in the constructor.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getConditionValue ()
   {
@@ -103,7 +103,7 @@ public final class VPIf implements ICloneable <VPIf>
     return m_aDeterminedValues.isNotEmpty ();
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableObject
   public VPDeterminedValues determinedValues ()
   {
@@ -125,7 +125,7 @@ public final class VPIf implements ICloneable <VPIf>
    *         Never <code>null</code>.
    * @since 0.5.0
    */
-  @Nonnull
+  @NonNull
   @ReturnsMutableObject
   public VPDeterminedFlags determinedFlags ()
   {
@@ -147,21 +147,21 @@ public final class VPIf implements ICloneable <VPIf>
     return m_aNestedSelects.isNotEmpty ();
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableObject
   public ICommonsMap <EDDDSourceField, VPSelect> nestedSelects ()
   {
     return m_aNestedSelects;
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public ICommonsMap <EDDDSourceField, VPSelect> getAllNestedSelects ()
   {
     return m_aNestedSelects.getClone ();
   }
 
-  public void addNestedSelect (@Nonnull final VPSelect aSelect)
+  public void addNestedSelect (@NonNull final VPSelect aSelect)
   {
     ValueEnforcer.notNull (aSelect, "Select");
 
@@ -174,7 +174,7 @@ public final class VPIf implements ICloneable <VPIf>
     m_aNestedSelects.put (eSelector, aSelect);
   }
 
-  @Nonnull
+  @NonNull
   public VPIf getClone ()
   {
     return new VPIf (m_sConditionValue, m_aDeterminedValues, m_aDeterminedFlags, m_aNestedSelects);

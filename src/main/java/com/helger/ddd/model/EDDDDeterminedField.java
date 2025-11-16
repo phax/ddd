@@ -16,12 +16,12 @@
  */
 package com.helger.ddd.model;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.base.id.IHasID;
 import com.helger.base.lang.EnumHelper;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Defines the all the fields that can be determined based on source fields.
@@ -38,13 +38,13 @@ public enum EDDDDeterminedField implements IHasID <String>
   private final String m_sID;
   private final EDDDSourceField m_eSourceField;
 
-  EDDDDeterminedField (@Nonnull @Nonempty final String sID, @Nullable final EDDDSourceField eSourceField)
+  EDDDDeterminedField (@NonNull @Nonempty final String sID, @Nullable final EDDDSourceField eSourceField)
   {
     m_sID = sID;
     m_eSourceField = eSourceField;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getID ()
   {

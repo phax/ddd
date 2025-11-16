@@ -18,6 +18,8 @@ package com.helger.ddd.model;
 
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Node;
 
 import com.helger.annotation.Nonempty;
@@ -36,9 +38,6 @@ import com.helger.ddd.model.jaxb.syntax1.GetType;
 import com.helger.ddd.model.jaxb.syntax1.SyntaxType;
 import com.helger.diagnostics.error.list.IErrorList;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 /**
  * Defines a single supported syntax model
  *
@@ -54,12 +53,12 @@ public class DDDSyntax implements IHasID <String>, IHasName
   private final String m_sVersion;
   private final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> m_aGetters;
 
-  public DDDSyntax (@Nonnull @Nonempty final String sID,
-                    @Nonnull @Nonempty final String sRootElementNamespaceURI,
-                    @Nonnull @Nonempty final String sRootElementLocalName,
-                    @Nonnull @Nonempty final String sName,
+  public DDDSyntax (@NonNull @Nonempty final String sID,
+                    @NonNull @Nonempty final String sRootElementNamespaceURI,
+                    @NonNull @Nonempty final String sRootElementLocalName,
+                    @NonNull @Nonempty final String sName,
                     @Nullable final String sVersion,
-                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters)
+                    @NonNull @Nonempty final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> aGetters)
   {
     ValueEnforcer.notEmpty (sID, "ID");
     ValueEnforcer.notEmpty (sRootElementNamespaceURI, "RootElementNamespaceURI");
@@ -78,21 +77,21 @@ public class DDDSyntax implements IHasID <String>, IHasName
   /**
    * @return The ID of the syntax. Neither <code>null</code> nor empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getID ()
   {
     return m_sID;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getRootElementNamespaceURI ()
   {
     return m_sRootElementNamespaceURI;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getRootElementLocalName ()
   {
@@ -104,7 +103,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
     return m_sRootElementNamespaceURI.equals (sNamespaceURI) && m_sRootElementLocalName.equals (sLocalName);
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getName ()
   {
@@ -128,7 +127,7 @@ public class DDDSyntax implements IHasID <String>, IHasName
     return m_sVersion;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public final ICommonsMap <EDDDSourceField, ICommonsList <IDDDGetter>> getAllGetters ()
@@ -141,9 +140,9 @@ public class DDDSyntax implements IHasID <String>, IHasName
   }
 
   @Nullable
-  public String getValue (@Nonnull final EDDDSourceField eGetter,
-                          @Nonnull final Node aSourceNode,
-                          @Nonnull final IErrorList aErrorList)
+  public String getValue (@NonNull final EDDDSourceField eGetter,
+                          @NonNull final Node aSourceNode,
+                          @NonNull final IErrorList aErrorList)
   {
     ValueEnforcer.notNull (eGetter, "Getter");
     ValueEnforcer.notNull (aSourceNode, "SourceNode");
@@ -179,8 +178,8 @@ public class DDDSyntax implements IHasID <String>, IHasName
                                        .getToString ();
   }
 
-  @Nonnull
-  public static DDDSyntax createFromJaxb (@Nonnull final SyntaxType aSyntax)
+  @NonNull
+  public static DDDSyntax createFromJaxb (@NonNull final SyntaxType aSyntax)
   {
     final String sSyntaxID = aSyntax.getId ();
     final String sLogPrefix = "Syntax with ID '" + sSyntaxID + "': ";

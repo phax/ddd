@@ -19,6 +19,8 @@ package com.helger.ddd.model;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.annotation.style.ReturnsMutableCopy;
@@ -36,8 +38,6 @@ import com.helger.ddd.model.jaxb.vp1.VPIfType;
 import com.helger.ddd.model.jaxb.vp1.VPSelectType;
 import com.helger.ddd.model.jaxb.vp1.VPSetType;
 import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * This class contains the logic to identify missing fields based on existing values. This class is
@@ -60,8 +60,8 @@ public class DDDValueProviderPerSyntax
    *        Map from (SelectorField) to (Map from (SelectorValue) to (Map from (TargetField) to
    *        (TargetValue)))
    */
-  public DDDValueProviderPerSyntax (@Nonnull @Nonempty final String sSyntaxID,
-                                    @Nonnull @Nonempty final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
+  public DDDValueProviderPerSyntax (@NonNull @Nonempty final String sSyntaxID,
+                                    @NonNull @Nonempty final ICommonsMap <EDDDSourceField, VPSelect> aSelects)
   {
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
     ValueEnforcer.notEmpty (aSelects, "Selectors");
@@ -69,14 +69,14 @@ public class DDDValueProviderPerSyntax
     m_aSelects = aSelects;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getSyntaxID ()
   {
     return m_sSyntaxID;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public ICommonsMap <EDDDSourceField, VPSelect> getAllSelects ()
@@ -84,7 +84,7 @@ public class DDDValueProviderPerSyntax
     return m_aSelects.getClone ();
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableObject
   ICommonsMap <EDDDSourceField, VPSelect> selects ()
@@ -92,7 +92,7 @@ public class DDDValueProviderPerSyntax
     return m_aSelects;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public final ICommonsMap <EDDDSourceField, VPSelect> getAllSelectors ()
@@ -117,9 +117,9 @@ public class DDDValueProviderPerSyntax
      *        The determined values. Never <code>null</code>.
      * @since 0.5.0 the name changed from <code>accept</code> to <code>acceptDeterminedValue</code>
      */
-    void acceptDeterminedValue (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
-                                @Nonnull EDDDDeterminedField eDeterminedField,
-                                @Nonnull String sDeterminedValue);
+    void acceptDeterminedValue (@NonNull @Nonempty ICommonsList <VPSourceValue> aSourceValues,
+                                @NonNull EDDDDeterminedField eDeterminedField,
+                                @NonNull String sDeterminedValue);
 
     /**
      * Selector callback for a flag
@@ -130,12 +130,12 @@ public class DDDValueProviderPerSyntax
      *        The flag value Neither <code>null</code> nor empty.
      * @since 0.5.0
      */
-    void acceptFlag (@Nonnull @Nonempty ICommonsList <VPSourceValue> aSourceValues, @Nonnull @Nonempty String sFlag);
+    void acceptFlag (@NonNull @Nonempty ICommonsList <VPSourceValue> aSourceValues, @NonNull @Nonempty String sFlag);
   }
 
-  private static void _forEachSelectorRecursive (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
-                                                 @Nonnull final ICommonsList <VPSourceValue> aSourceValues,
-                                                 @Nonnull final ISelectorCallback aConsumer)
+  private static void _forEachSelectorRecursive (@NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
+                                                 @NonNull final ICommonsList <VPSourceValue> aSourceValues,
+                                                 @NonNull final ISelectorCallback aConsumer)
   {
     for (final Map.Entry <EDDDSourceField, VPSelect> e : aSelects.entrySet ())
     {
@@ -173,7 +173,7 @@ public class DDDValueProviderPerSyntax
     }
   }
 
-  public final void forEachSelector (@Nonnull final ISelectorCallback aConsumer)
+  public final void forEachSelector (@NonNull final ISelectorCallback aConsumer)
   {
     ValueEnforcer.notNull (aConsumer, "Consumer");
 
@@ -182,11 +182,11 @@ public class DDDValueProviderPerSyntax
     _forEachSelectorRecursive (m_aSelects, aSourceValues, aConsumer);
   }
 
-  @Nonnull
-  private static ESuccess _getAllDeducedValuesRecursive (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
-                                                         @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
-                                                         @Nonnull final VPDeterminedValues aTargetDeterminedValues,
-                                                         @Nonnull final VPDeterminedFlags aTargetDeterminedFlags)
+  @NonNull
+  private static ESuccess _getAllDeducedValuesRecursive (@NonNull final Function <EDDDSourceField, String> aSourceProvider,
+                                                         @NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects,
+                                                         @NonNull final VPDeterminedValues aTargetDeterminedValues,
+                                                         @NonNull final VPDeterminedFlags aTargetDeterminedFlags)
   {
     for (final var aEntry : aSelects.entrySet ())
     {
@@ -224,9 +224,9 @@ public class DDDValueProviderPerSyntax
     return ESuccess.FAILURE;
   }
 
-  public void forAllDeducedValues (@Nonnull final Function <EDDDSourceField, String> aSourceProvider,
-                                   @Nonnull final VPDeterminedValues aDeterminedValues,
-                                   @Nonnull final VPDeterminedFlags aDeterminedFlags)
+  public void forAllDeducedValues (@NonNull final Function <EDDDSourceField, String> aSourceProvider,
+                                   @NonNull final VPDeterminedValues aDeterminedValues,
+                                   @NonNull final VPDeterminedFlags aDeterminedFlags)
   {
     ValueEnforcer.notNull (aSourceProvider, "SourceProvider");
     ValueEnforcer.notNull (aDeterminedValues, "DeterminedValues");
@@ -241,9 +241,9 @@ public class DDDValueProviderPerSyntax
     return new ToStringGenerator (null).append ("SyntaxID", m_sSyntaxID).append ("Selects", m_aSelects).getToString ();
   }
 
-  private static void _addSetFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
-                                       @Nonnull final VPSetType aJaxbSet,
-                                       @Nonnull final VPDeterminedValues aTargetSetters)
+  private static void _addSetFromJaxb (@NonNull final EDDDSourceField eOuterSelector,
+                                       @NonNull final VPSetType aJaxbSet,
+                                       @NonNull final VPDeterminedValues aTargetSetters)
   {
     final String sSetterID = aJaxbSet.getId ();
 
@@ -285,9 +285,9 @@ public class DDDValueProviderPerSyntax
     aTargetSetters.put (eSetter, aJaxbSet.getValue ().trim ());
   }
 
-  private static void _addFlagFromJaxb (@Nonnull final EDDDSourceField eOuterSelector,
-                                        @Nonnull final String sJaxbFlag,
-                                        @Nonnull final VPDeterminedFlags aTargetFlags)
+  private static void _addFlagFromJaxb (@NonNull final EDDDSourceField eOuterSelector,
+                                        @NonNull final String sJaxbFlag,
+                                        @NonNull final VPDeterminedFlags aTargetFlags)
   {
     final String sUnifiedFlag = sJaxbFlag.trim ();
 
@@ -311,8 +311,8 @@ public class DDDValueProviderPerSyntax
     aTargetFlags.add (sUnifiedFlag);
   }
 
-  @Nonnull
-  private static VPIf _createIfFromJaxb (@Nonnull final EDDDSourceField eOuterSelector, @Nonnull final VPIfType aJaxbIf)
+  @NonNull
+  private static VPIf _createIfFromJaxb (@NonNull final EDDDSourceField eOuterSelector, @NonNull final VPIfType aJaxbIf)
   {
     final String sConditionValue = aJaxbIf.getValue ();
     if (StringHelper.isEmpty (sConditionValue))
@@ -360,8 +360,8 @@ public class DDDValueProviderPerSyntax
    *        The JAXB select. May not be <code>null</code>.
    * @return The domain select. Never <code>null</code>.
    */
-  @Nonnull
-  private static VPSelect _createSelectFromJaxb (@Nonnull final VPSelectType aJaxbSelect)
+  @NonNull
+  private static VPSelect _createSelectFromJaxb (@NonNull final VPSelectType aJaxbSelect)
   {
     // Selector field
     final String sSelectorID = aJaxbSelect.getId ();
@@ -402,8 +402,8 @@ public class DDDValueProviderPerSyntax
    *        The XML object to parse. May not be <code>null</code>.
    * @return The non-<code>null</code> {@link DDDValueProviderList} contained the read data.
    */
-  @Nonnull
-  public static DDDValueProviderPerSyntax createFromJaxb (@Nonnull final VPSyntaxType aJaxbSyntax)
+  @NonNull
+  public static DDDValueProviderPerSyntax createFromJaxb (@NonNull final VPSyntaxType aJaxbSyntax)
   {
     ValueEnforcer.notNull (aJaxbSyntax, "Syntax");
 

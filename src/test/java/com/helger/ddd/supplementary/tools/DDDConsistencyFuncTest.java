@@ -19,6 +19,7 @@ package com.helger.ddd.supplementary.tools;
 import java.util.Comparator;
 import java.util.Map;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +48,6 @@ import com.helger.phive.ublbe.UBLBEValidation;
 import com.helger.phive.xml.source.IValidationSourceXML;
 import com.helger.phive.xrechnung.XRechnungValidation;
 import com.helger.phive.zugferd.ZugferdValidation;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Check that the determined VESIDs are correct and can be validated
@@ -92,9 +91,9 @@ public final class DDDConsistencyFuncTest
         public void acceptFlag (final ICommonsList <VPSourceValue> aSourceValues, final String sFlag)
         {}
 
-        public void acceptDeterminedValue (@Nonnull @Nonempty final ICommonsList <VPSourceValue> aSourceValues,
-                                           @Nonnull final EDDDDeterminedField eDeterminedField,
-                                           @Nonnull final String sDeterminedValue)
+        public void acceptDeterminedValue (@NonNull @Nonempty final ICommonsList <VPSourceValue> aSourceValues,
+                                           @NonNull final EDDDDeterminedField eDeterminedField,
+                                           @NonNull final String sDeterminedValue)
         {
           // We only care about the VESID
           if (eDeterminedField == EDDDDeterminedField.VESID)

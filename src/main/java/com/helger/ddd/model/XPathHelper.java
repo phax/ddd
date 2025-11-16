@@ -18,11 +18,11 @@ package com.helger.ddd.model;
 
 import javax.xml.xpath.XPathFactory;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.classloader.ClassLoaderHelper;
 import com.helger.xml.EXMLParserFeature;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * XPath helper
@@ -48,7 +48,7 @@ final class XPathHelper
    * @throws IllegalStateException
    *         In case neither Saxon nor default factory could be instantiated!
    */
-  @Nonnull
+  @NonNull
   public static XPathFactory createXPathFactorySaxonFirst ()
   {
     // The XPath object used to compile the expressions

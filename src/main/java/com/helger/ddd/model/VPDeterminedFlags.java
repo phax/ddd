@@ -18,6 +18,9 @@ package com.helger.ddd.model;
 
 import java.util.Iterator;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.Nonnegative;
 import com.helger.annotation.style.ReturnsMutableCopy;
@@ -27,9 +30,6 @@ import com.helger.base.state.EChange;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.collection.commons.CommonsLinkedHashSet;
 import com.helger.collection.commons.ICommonsOrderedSet;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterable <String>
 {
@@ -49,7 +49,7 @@ public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterab
    * @param aSet
    *        The set to be copied. May not be <code>null</code>.
    */
-  private VPDeterminedFlags (@Nonnull final ICommonsOrderedSet <String> aSet)
+  private VPDeterminedFlags (@NonNull final ICommonsOrderedSet <String> aSet)
   {
     m_aSet = aSet.getClone ();
   }
@@ -59,21 +59,21 @@ public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterab
     return sFlag != null && m_aSet.contains (sFlag);
   }
 
-  @Nonnull
-  public EChange add (@Nonnull @Nonempty final String sFlag)
+  @NonNull
+  public EChange add (@NonNull @Nonempty final String sFlag)
   {
     ValueEnforcer.notEmpty (sFlag, "Flag");
     return m_aSet.addObject (sFlag);
   }
 
-  @Nonnull
-  public EChange addAll (@Nonnull final VPDeterminedFlags aFlags)
+  @NonNull
+  public EChange addAll (@NonNull final VPDeterminedFlags aFlags)
   {
     ValueEnforcer.notNull (aFlags, "Flags");
     return EChange.valueOf (m_aSet.addAll (aFlags.m_aSet));
   }
 
-  @Nonnull
+  @NonNull
   public Iterator <String> iterator ()
   {
     return m_aSet.iterator ();
@@ -90,20 +90,20 @@ public class VPDeterminedFlags implements ICloneable <VPDeterminedFlags>, Iterab
     return m_aSet.size ();
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public ICommonsOrderedSet <String> getAsSet ()
   {
     return m_aSet.getClone ();
   }
 
-  @Nonnull
+  @NonNull
   public EChange remove (@Nullable final String sFlag)
   {
     return m_aSet.removeObject (sFlag);
   }
 
-  @Nonnull
+  @NonNull
   public VPDeterminedFlags getClone ()
   {
     return new VPDeterminedFlags (m_aSet);

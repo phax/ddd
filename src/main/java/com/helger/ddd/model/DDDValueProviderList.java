@@ -18,6 +18,8 @@ package com.helger.ddd.model;
 
 import java.time.LocalDate;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +36,6 @@ import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
 import com.helger.ddd.model.jaxb.vp1.ValueProvidersType;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.IReadableResource;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The
@@ -61,8 +60,8 @@ public class DDDValueProviderList
   private final LocalDate m_aLastMod;
   private final ICommonsMap <String, DDDValueProviderPerSyntax> m_aVPPerSyntaxes;
 
-  public DDDValueProviderList (@Nonnull final LocalDate aLastMod,
-                               @Nonnull final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes)
+  public DDDValueProviderList (@NonNull final LocalDate aLastMod,
+                               @NonNull final ICommonsMap <String, DDDValueProviderPerSyntax> aSyntaxes)
   {
     ValueEnforcer.notNull (aLastMod, "LastMod");
     ValueEnforcer.notNull (aSyntaxes, "Syntaxes");
@@ -70,20 +69,20 @@ public class DDDValueProviderList
     m_aVPPerSyntaxes = aSyntaxes;
   }
 
-  @Nonnull
+  @NonNull
   public final LocalDate getLastModification ()
   {
     return m_aLastMod;
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableObject
   public final ICommonsMap <String, DDDValueProviderPerSyntax> valueProvidersPerSyntaxes ()
   {
     return m_aVPPerSyntaxes;
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
   public final ICommonsMap <String, DDDValueProviderPerSyntax> getAllValueProvidersPerSyntaxes ()
   {
@@ -110,7 +109,7 @@ public class DDDValueProviderList
    * @see #readFromXML(IReadableResource)
    * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
    */
-  @Nonnull
+  @NonNull
   public static DDDValueProviderList getDefaultValueProviderList ()
   {
     return SingletonHolder.INSTANCE;
@@ -128,8 +127,8 @@ public class DDDValueProviderList
    *         If the XML has the wrong layout
    * @see #createFromJaxb(ValueProvidersType)
    */
-  @Nonnull
-  public static DDDValueProviderList readFromXML (@Nonnull final IReadableResource aRes)
+  @NonNull
+  public static DDDValueProviderList readFromXML (@NonNull final IReadableResource aRes)
   {
     ValueEnforcer.notNull (aRes, "Resource");
 
@@ -152,8 +151,8 @@ public class DDDValueProviderList
    *         the read data.
    * @see DDDValueProviderPerSyntax#createFromJaxb(VPSyntaxType)
    */
-  @Nonnull
-  public static DDDValueProviderList createFromJaxb (@Nonnull final ValueProvidersType aJaxbVps)
+  @NonNull
+  public static DDDValueProviderList createFromJaxb (@NonNull final ValueProvidersType aJaxbVps)
   {
     ValueEnforcer.notNull (aJaxbVps, "JaxbVps");
     // Last modification
@@ -174,10 +173,10 @@ public class DDDValueProviderList
     return new DDDValueProviderList (aLastMod, aSyntaxes);
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
-  private static ICommonsMap <EDDDSourceField, VPSelect> _recursiveMergeSelects (@Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects1,
-                                                                                 @Nonnull final ICommonsMap <EDDDSourceField, VPSelect> aSelects2)
+  private static ICommonsMap <EDDDSourceField, VPSelect> _recursiveMergeSelects (@NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects1,
+                                                                                 @NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects2)
   {
     final ICommonsMap <EDDDSourceField, VPSelect> aMergedSelects = new CommonsHashMap <> ();
     for (final var aEntrySourceField : aSelects1.entrySet ())
@@ -317,9 +316,9 @@ public class DDDValueProviderList
    *         If the two objects cannot be merged.
    * @since 0.3.1
    */
-  @Nonnull
-  public static DDDValueProviderList createMergedValueProviderList (@Nonnull final DDDValueProviderList aVPL1,
-                                                                    @Nonnull final DDDValueProviderList aVPL2)
+  @NonNull
+  public static DDDValueProviderList createMergedValueProviderList (@NonNull final DDDValueProviderList aVPL1,
+                                                                    @NonNull final DDDValueProviderList aVPL2)
   {
     ValueEnforcer.notNull (aVPL1, "ValueProviderList1");
     ValueEnforcer.notNull (aVPL2, "ValueProviderList2");

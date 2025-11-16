@@ -16,13 +16,13 @@
  */
 package com.helger.ddd.model;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.base.id.IHasID;
 import com.helger.base.lang.EnumHelper;
 import com.helger.base.state.EMandatory;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Defines the supported fields for document determination. They are mapped to
@@ -50,13 +50,13 @@ public enum EDDDSourceField implements IHasID <String>
   private final String m_sID;
   private final EMandatory m_eSyntaxDefinitionMandatory;
 
-  EDDDSourceField (@Nonnull @Nonempty final String sID, @Nonnull final EMandatory eSyntaxDefinitionMandatory)
+  EDDDSourceField (@NonNull @Nonempty final String sID, @NonNull final EMandatory eSyntaxDefinitionMandatory)
   {
     m_sID = sID;
     m_eSyntaxDefinitionMandatory = eSyntaxDefinitionMandatory;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getID ()
   {

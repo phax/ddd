@@ -451,6 +451,11 @@
         <set id="ProfileName">Peppol BIS3 Credit Note Self-Billing</set>
         <flag>Action-SwapSenderAndReceiver</flag>
       </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:mfin.gov.hr:cius-2025:1.0#conformant#urn:mfin.gov.hr:ext-2025:1.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">hr.gov.porezna.eracun:ubl-creditnote:latest-active</set>
+        <set id="ProfileName">HR eRacun Credit Note</set>
+      </if>
     </select>
   </syntax>
   
@@ -649,6 +654,11 @@
         <set id="VESID">eu.peppol.bis3:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol BIS3 Invoice Self-Billing</set>
         <flag>Action-SwapSenderAndReceiver</flag>
+      </if>
+      <if value="urn:cen.eu:en16931:2017#compliant#urn:mfin.gov.hr:cius-2025:1.0#conformant#urn:mfin.gov.hr:ext-2025:1.0">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">hr.gov.porezna.eracun:ubl-invoice:latest-active</set>
+        <set id="ProfileName">HR eRacun Invoice</set>
       </if>
     </select>
   </syntax>

@@ -177,6 +177,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.8.1 - work in progress
+* Added support for HR eRacun UBL Invoice and UBL Credit Note
+
 v0.8.0 - 2025-11-16
 * Updated to ph-commons 12.1.0
 * Using JSpecify annotations

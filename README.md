@@ -32,6 +32,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * CII D16B (ID `cii-d16b`)
 * fatturaPA 1.2 (ID `fatturapa-12`) - added in v0.3.2
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
+* Peppol Tax Data Document (ID `peppol-tdd`) - added in v0.8.1
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
 * UBL 2.x Catalogue (ID `ubl2-catalogue`) - added in v0.3.0
@@ -179,6 +180,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 v0.8.1 - work in progress
 * Added support for HR eRacun UBL Invoice and UBL Credit Note
+* Added new syntax ID `peppol-tdd` for Peppol Tax Data Documents
 
 v0.8.0 - 2025-11-16
 * Updated to ph-commons 12.1.0

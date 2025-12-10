@@ -89,6 +89,20 @@
       <xpath>*[local-name()='ProfileID']/text()</xpath>
     </get>
   </syntax>
+  
+  <syntax id="peppol-tdd" nsuri="urn:peppol:schema:taxdata:1.0" root="TaxData">
+    <name>Peppol Tax Data Document</name>
+    <version>1.0</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='CustomizationID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ProfileID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ID']/text()</xpath>
+    </get>
+  </syntax>
 
   <syntax id="ubl2-applicationresponse" nsuri="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2" root="ApplicationResponse">
     <name>UBL 2.x Application Response</name>

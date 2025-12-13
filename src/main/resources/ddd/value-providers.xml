@@ -164,7 +164,7 @@
   <syntax id="peppol-tdd">
     <select id="CustomizationID">
       <if value="urn:peppol:taxdata:ae-1">
-        <set id="VESID">org.peppol.taxdata:ae-1:latest</set>
+        <set id="VESID">org.peppol.taxdata:ae:latest</set>
         <set id="ProfileName">Peppol UAE Tax Data 1.0</set>
       </if>
     </select>

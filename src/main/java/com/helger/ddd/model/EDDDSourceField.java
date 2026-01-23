@@ -25,8 +25,8 @@ import com.helger.base.lang.EnumHelper;
 import com.helger.base.state.EMandatory;
 
 /**
- * Defines the supported fields for document determination. They are mapped to
- * different source elements per syntax.
+ * Defines the supported fields for document determination. They are mapped to different source
+ * elements per syntax.
  *
  * @author Philip Helger
  */
@@ -64,9 +64,9 @@ public enum EDDDSourceField implements IHasID <String>
   }
 
   /**
-   * @return <code>true</code> if this field needs to be present in all syntax
-   *         definitions. If this field is mandatory, it doesn't mean that the
-   *         field needs to be present in all instances.
+   * @return <code>true</code> if this field needs to be present in all syntax definitions. If this
+   *         field is mandatory, it doesn't mean that the field needs to be present in all
+   *         instances.
    */
   public boolean isSyntaxDefinitionMandatory ()
   {

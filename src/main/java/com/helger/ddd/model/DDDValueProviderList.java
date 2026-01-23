@@ -34,13 +34,13 @@ import com.helger.collection.commons.ICommonsSortedMap;
 import com.helger.ddd.model.jaxb.ValueProviderListMarshaller;
 import com.helger.ddd.model.jaxb.vp1.VPSyntaxType;
 import com.helger.ddd.model.jaxb.vp1.ValueProvidersType;
+import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.IReadableResource;
 
 /**
- * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The
- * key is the syntax ID. A default mapping is provided as part of the library.
- * See {@link #getDefaultValueProviderList()}.
+ * This class manages a list of {@link DDDValueProviderPerSyntax} objects. The key is the syntax ID.
+ * A default mapping is provided as part of the library. See {@link #getDefaultValueProviderList()}.
  *
  * @author Philip Helger
  */
@@ -104,8 +104,7 @@ public class DDDValueProviderList
   }
 
   /**
-   * @return The value provider list from the default file. Never
-   *         <code>null</code>.
+   * @return The value provider list from the default file. Never <code>null</code>.
    * @see #readFromXML(IReadableResource)
    * @see #DEFAULT_VALUE_PROVIDER_LIST_RES
    */
@@ -116,13 +115,11 @@ public class DDDValueProviderList
   }
 
   /**
-   * Create a new {@link DDDValueProviderList} by reading it from the provided
-   * readable resource.
+   * Create a new {@link DDDValueProviderList} by reading it from the provided readable resource.
    *
    * @param aRes
    *        The XML resource to read from. May not be <code>null</code>.
-   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
-   *         the read data.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained the read data.
    * @throws IllegalArgumentException
    *         If the XML has the wrong layout
    * @see #createFromJaxb(ValueProvidersType)
@@ -134,21 +131,20 @@ public class DDDValueProviderList
 
     LOGGER.info ("Reading DDDValueProviderList from '" + aRes.getPath () + "'");
 
-    final ValueProvidersType aJaxbVps = new ValueProviderListMarshaller ().read (aRes);
+    final ErrorList aErrors = new ErrorList ();
+    final ValueProvidersType aJaxbVps = new ValueProviderListMarshaller ().setCollectErrors (aErrors).read (aRes);
     if (aJaxbVps == null)
-      throw new IllegalArgumentException ("Failed to read DDD syntax list as XML");
+      throw new IllegalArgumentException ("Failed to read DDD syntax list as XML:\n" + aErrors);
 
     return createFromJaxb (aJaxbVps);
   }
 
   /**
-   * Create a new {@link DDDValueProviderList} by reading it from the provided
-   * readable resource.
+   * Create a new {@link DDDValueProviderList} by reading it from the provided readable resource.
    *
    * @param aJaxbVps
    *        The JAXB object to read. May not be <code>null</code>.
-   * @return The non-<code>null</code> {@link DDDValueProviderList} contained
-   *         the read data.
+   * @return The non-<code>null</code> {@link DDDValueProviderList} contained the read data.
    * @see DDDValueProviderPerSyntax#createFromJaxb(VPSyntaxType)
    */
   @NonNull
@@ -216,53 +212,50 @@ public class DDDValueProviderList
             // If contained in VPL1 and VPL2
             if (aIf1.hasDeterminedValuesOrFlags ())
             {
-              if (aIf2.hasDeterminedValuesOrFlags ())
+              if (!aIf2.hasDeterminedValuesOrFlags ())
+                throw new IllegalStateException ("Cannot merge two <Ifs> where one has Determined Value or Flags and the other one has Nested Selects");
+              // Merge all determined values
+              for (final var aEntryValue : aIf1.determinedValues ())
               {
-                // Merge all determined values
-                for (final var aEntryValue : aIf1.determinedValues ())
+                final EDDDDeterminedField eDeterminedField = aEntryValue.getKey ();
+                final String sDeterminedValue1 = aEntryValue.getValue ();
+                final String sDeterminedValue2 = aIf2.determinedValues ().get (eDeterminedField);
+                if (sDeterminedValue2 == null)
                 {
-                  final EDDDDeterminedField eDeterminedField = aEntryValue.getKey ();
-                  final String sDeterminedValue1 = aEntryValue.getValue ();
-                  final String sDeterminedValue2 = aIf2.determinedValues ().get (eDeterminedField);
-                  if (sDeterminedValue2 == null)
+                  // Only contained in VPL1
+                  aMergedIf.determinedValues ().put (eDeterminedField, sDeterminedValue1);
+                }
+                else
+                {
+                  if (sDeterminedValue1.equals (sDeterminedValue2))
                   {
-                    // Only contained in VPL1
+                    LOGGER.info ("Merged <If>-values '" + sDeterminedValue1 + "' are identical.");
                     aMergedIf.determinedValues ().put (eDeterminedField, sDeterminedValue1);
                   }
                   else
                   {
-                    if (sDeterminedValue1.equals (sDeterminedValue2))
-                    {
-                      LOGGER.info ("Merged <If>-values '" + sDeterminedValue1 + "' are identical.");
-                      aMergedIf.determinedValues ().put (eDeterminedField, sDeterminedValue1);
-                    }
-                    else
-                    {
-                      // In the future we might provide a parameter that allows
-                      // for overwriting old values. Currently this is not
-                      // foreseen
-                      throw new IllegalStateException ("Cannot merge two <Ifs> for because Determined Value field " +
-                                                       eDeterminedField +
-                                                       " has 2 different values ('" +
-                                                       sDeterminedValue1 +
-                                                       "' vs. '" +
-                                                       sDeterminedValue2 +
-                                                       "')");
-                    }
+                    // In the future we might provide a parameter that allows
+                    // for overwriting old values. Currently this is not
+                    // foreseen
+                    throw new IllegalStateException ("Cannot merge two <Ifs> for because Determined Value field " +
+                                                     eDeterminedField +
+                                                     " has 2 different values ('" +
+                                                     sDeterminedValue1 +
+                                                     "' vs. '" +
+                                                     sDeterminedValue2 +
+                                                     "')");
                   }
                 }
-
-                // Add all determined values only contained in If2
-                for (final var aEntryValue : aIf2.determinedValues ())
-                  if (!aIf1.determinedValues ().containsKey (aEntryValue.getKey ()))
-                    aMergedIf.determinedValues ().put (aEntryValue.getKey (), aEntryValue.getValue ());
-
-                // Merge all flags
-                aMergedIf.determinedFlags ().addAll (aIf1.determinedFlags ());
-                aMergedIf.determinedFlags ().addAll (aIf2.determinedFlags ());
               }
-              else
-                throw new IllegalStateException ("Cannot merge two <Ifs> where one has Determined Value or Flags and the other one has Nested Selects");
+
+              // Add all determined values only contained in If2
+              for (final var aEntryValue : aIf2.determinedValues ())
+                if (!aIf1.determinedValues ().containsKey (aEntryValue.getKey ()))
+                  aMergedIf.determinedValues ().put (aEntryValue.getKey (), aEntryValue.getValue ());
+
+              // Merge all flags
+              aMergedIf.determinedFlags ().addAll (aIf1.determinedFlags ());
+              aMergedIf.determinedFlags ().addAll (aIf2.determinedFlags ());
             }
             else
             {
@@ -299,19 +292,17 @@ public class DDDValueProviderList
   }
 
   /**
-   * Merge the two provided {@link DDDValueProviderList} objects to a new one.
-   * This is a real recursive merge on all layers. So either new syntaxes might
-   * be added as well as existing syntaxes might be extended. However, and
-   * overwrite of existing data is not possible and will lead to an exception.
+   * Merge the two provided {@link DDDValueProviderList} objects to a new one. This is a real
+   * recursive merge on all layers. So either new syntaxes might be added as well as existing
+   * syntaxes might be extended. However, and overwrite of existing data is not possible and will
+   * lead to an exception.
    *
    * @param aVPL1
-   *        The first {@link DDDValueProviderList} to merge. Must not be
-   *        <code>null</code>.
+   *        The first {@link DDDValueProviderList} to merge. Must not be <code>null</code>.
    * @param aVPL2
-   *        The second {@link DDDValueProviderList} to merge. Must not be
-   *        <code>null</code>.
-   * @return The merged {@link DDDValueProviderList} containing the data of both
-   *         source objects and never <code>null</code>.
+   *        The second {@link DDDValueProviderList} to merge. Must not be <code>null</code>.
+   * @return The merged {@link DDDValueProviderList} containing the data of both source objects and
+   *         never <code>null</code>.
    * @throws IllegalStateException
    *         If the two objects cannot be merged.
    * @since 0.3.1
@@ -324,9 +315,9 @@ public class DDDValueProviderList
     ValueEnforcer.notNull (aVPL2, "ValueProviderList2");
 
     // find latest last modification
-    final LocalDate aLastMod = aVPL1.getLastModification ()
-                                    .isAfter (aVPL2.getLastModification ()) ? aVPL1.getLastModification ()
-                                                                            : aVPL2.getLastModification ();
+    final LocalDate aLastMod = aVPL1.getLastModification ().isAfter (aVPL2.getLastModification ()) ? aVPL1
+                                                                                                          .getLastModification ()
+                                                                                                   : aVPL2.getLastModification ();
 
     // Merge on syntax level
     final ICommonsMap <String, DDDValueProviderPerSyntax> aMergedVPsPerSyntax = new CommonsHashMap <> ();

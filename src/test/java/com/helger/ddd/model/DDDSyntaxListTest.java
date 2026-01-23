@@ -18,7 +18,6 @@ package com.helger.ddd.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -40,28 +39,31 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
-    assertTrue (aMap.containsKey ("cii-d16b"));
-    assertTrue (aMap.containsKey ("fatturapa-12"));
-    assertTrue (aMap.containsKey ("peppol-eusr"));
-    assertTrue (aMap.containsKey ("peppol-tdd"));
-    assertTrue (aMap.containsKey ("peppol-tsr"));
-    assertTrue (aMap.containsKey ("ubl2-applicationresponse"));
-    assertTrue (aMap.containsKey ("ubl2-catalogue"));
-    assertTrue (aMap.containsKey ("ubl2-cataloguedeletion"));
-    assertTrue (aMap.containsKey ("ubl2-catalogueitemspecificationupdate"));
-    assertTrue (aMap.containsKey ("ubl2-cataloguepricingupdate"));
-    assertTrue (aMap.containsKey ("ubl2-cataloguerequest"));
-    assertTrue (aMap.containsKey ("ubl2-creditnote"));
-    assertTrue (aMap.containsKey ("ubl2-despatchadvice"));
-    assertTrue (aMap.containsKey ("ubl2-invoice"));
-    assertTrue (aMap.containsKey ("ubl2-order"));
-    assertTrue (aMap.containsKey ("ubl2-ordercancellation"));
-    assertTrue (aMap.containsKey ("ubl2-orderchange"));
-    assertTrue (aMap.containsKey ("ubl2-orderresponse"));
-    assertTrue (aMap.containsKey ("ubl2-orderresponsesimple"));
-    assertTrue (aMap.containsKey ("ubl2-statement"));
-    assertTrue (aMap.containsKey ("ubl2-utilitystatement"));
-    assertTrue (aMap.containsKey ("zugferd1"));
-    assertEquals (23, aMap.size ());
+    assertNotNull (aMap.remove ("cii-d16b"));
+    assertNotNull (aMap.remove ("fatturapa-12"));
+    assertNotNull (aMap.remove ("peppol-eusr"));
+    assertNotNull (aMap.remove ("peppol-tdd"));
+    assertNotNull (aMap.remove ("peppol-tsr"));
+    // assertNotNull (aMap.remove ("sbd"));
+    // assertNotNull (aMap.remove ("sbdh"));
+    assertNotNull (aMap.remove ("ubl2-applicationresponse"));
+    assertNotNull (aMap.remove ("ubl2-catalogue"));
+    assertNotNull (aMap.remove ("ubl2-cataloguedeletion"));
+    assertNotNull (aMap.remove ("ubl2-catalogueitemspecificationupdate"));
+    assertNotNull (aMap.remove ("ubl2-cataloguepricingupdate"));
+    assertNotNull (aMap.remove ("ubl2-cataloguerequest"));
+    assertNotNull (aMap.remove ("ubl2-creditnote"));
+    assertNotNull (aMap.remove ("ubl2-despatchadvice"));
+    assertNotNull (aMap.remove ("ubl2-invoice"));
+    assertNotNull (aMap.remove ("ubl2-order"));
+    assertNotNull (aMap.remove ("ubl2-ordercancellation"));
+    assertNotNull (aMap.remove ("ubl2-orderchange"));
+    assertNotNull (aMap.remove ("ubl2-orderresponse"));
+    assertNotNull (aMap.remove ("ubl2-orderresponsesimple"));
+    assertNotNull (aMap.remove ("ubl2-reminder"));
+    assertNotNull (aMap.remove ("ubl2-statement"));
+    assertNotNull (aMap.remove ("ubl2-utilitystatement"));
+    assertNotNull (aMap.remove ("zugferd1"));
+    assertEquals ("Left: " + aMap.toString (), 0, aMap.size ());
   }
 }

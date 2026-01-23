@@ -179,6 +179,14 @@
     </select>
   </syntax>
   
+  <!--
+  <syntax id="sbd">
+  </syntax>
+  
+  <syntax id="sbdh">
+  </syntax>
+  -->
+  
   <syntax id="ubl2-applicationresponse">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:mlr:3">

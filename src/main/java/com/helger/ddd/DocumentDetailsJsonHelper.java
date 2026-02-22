@@ -16,8 +16,6 @@
  */
 package com.helger.ddd;
 
-import java.util.function.Predicate;
-
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -77,7 +75,7 @@ public final class DocumentDetailsJsonHelper
       ret.add (JSON_SYNTAX_VERSION, aDD.getSyntaxVersion ());
     if (aDD.hasSenderID ())
       ret.add (JSON_SENDER_ID, aDD.getSenderID ().getURIEncoded ());
-    if (aDD.getReceiverID () != null)
+    if (aDD.hasReceiverID ())
       ret.add (JSON_RECEIVER_ID, aDD.getReceiverID ().getURIEncoded ());
     if (aDD.hasDocumentTypeID ())
       ret.add (JSON_DOC_TYPE_ID, aDD.getDocumentTypeID ().getURIEncoded ());
@@ -140,7 +138,7 @@ public final class DocumentDetailsJsonHelper
                           .vesid (aObj.getAsString (JSON_VESID))
                           .profileName (aObj.getAsString (JSON_PROFILE_NAME))
                           .flags (aFlags == null ? null : aFlags.getAll ()
-                                                                .getAllMapped ((Predicate <? super IJson>) IJson::isValue,
+                                                                .getAllMapped (IJson::isValue,
                                                                                x -> x.getAsValue ().getAsString ()))
                           .build ();
   }

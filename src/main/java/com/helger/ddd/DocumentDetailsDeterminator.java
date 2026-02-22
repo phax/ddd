@@ -272,10 +272,27 @@ public final class DocumentDetailsDeterminator
   @Nullable
   private IParticipantIdentifier _createPID (@Nullable final String sSchemeID, @Nullable final String sValue)
   {
+    final String sRealSchemeID = StringHelper.trim (sSchemeID);
+    final String sRealValue = StringHelper.trim (sValue);
+
+    final String sPIDValue;
+    if (StringHelper.isEmpty (sRealSchemeID))
+    {
+      if (StringHelper.isEmpty (sRealValue))
+        return null;
+      sPIDValue = sRealValue;
+    }
+    else
+    {
+      if (StringHelper.isEmpty (sRealValue))
+        sPIDValue = sRealSchemeID;
+      else
+        sPIDValue = sRealSchemeID + ":" + sRealValue;
+    }
+
     // Participant ID Scheme: iso6523-actorid-upis
     // Scheme is e.g. "0088"
-    return m_aIF.createParticipantIdentifier (m_sParticipantIDScheme,
-                                              StringHelper.trim (sSchemeID) + ":" + StringHelper.trim (sValue));
+    return m_aIF.createParticipantIdentifier (m_sParticipantIDScheme, sPIDValue);
   }
 
   @Nullable
@@ -372,21 +389,13 @@ public final class DocumentDetailsDeterminator
       final String sNewValue = aEntry.getValue ();
       switch (aEntry.getKey ())
       {
-        case PROCESS_ID:
-          sProcessID = sNewValue;
-          break;
-        case SYNTAX_VERSION:
-          sSyntaxVersion = sNewValue;
-          break;
-        case VESID:
-          sVESID = sNewValue;
-          break;
-        case PROFILE_NAME:
-          sProfileName = sNewValue;
-          break;
-        default:
-          throw new IllegalStateException ("The field " + aEntry.getKey () + " is unknown");
+        case PROCESS_ID -> sProcessID = sNewValue;
+        case SYNTAX_VERSION -> sSyntaxVersion = sNewValue;
+        case VESID -> sVESID = sNewValue;
+        case PROFILE_NAME -> sProfileName = sNewValue;
+        default -> throw new IllegalStateException ("The field " + aEntry.getKey () + " is unknown");
       }
+
     }
 
     // Assemble Document Type ID
@@ -407,7 +416,7 @@ public final class DocumentDetailsDeterminator
     final IProcessIdentifier aProcessID;
     if (StringHelper.isNotEmpty (sProcessID))
     {
-      String sProcessIDScheme = m_aProcessIDSchemeDeterminator.apply (sProcessID);
+      final String sProcessIDScheme = m_aProcessIDSchemeDeterminator.apply (sProcessID);
       aProcessID = m_aIF.createProcessIdentifier (sProcessIDScheme, sProcessID);
     }
     else
@@ -415,7 +424,7 @@ public final class DocumentDetailsDeterminator
 
     // Swap sender and receiver for self-billing?
     // Don't keep this action in the resulting flags
-    boolean bSwapSenderAndReceiver = aDeterminedFlags.remove ("Action-SwapSenderAndReceiver").isChanged ();
+    final boolean bSwapSenderAndReceiver = aDeterminedFlags.remove ("Action-SwapSenderAndReceiver").isChanged ();
 
     // All elements are optional
     return DocumentDetails.builder ()

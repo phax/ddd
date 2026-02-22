@@ -178,7 +178,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.8.2 - work in progress
+v0.8.2 - 2026-02-22
 * Determined sender and receiver Participant ID are now null, if neither scheme nor value are present
 
 v0.8.1 - 2025-12-13

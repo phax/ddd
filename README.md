@@ -1,7 +1,9 @@
 # DDD
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.helger/ddd)](https://img.shields.io/maven-central/v/com.helger/ddd)
+<!-- ph-badge-start -->
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/)
 [![javadoc](https://javadoc.io/badge2/com.helger/ddd/javadoc.svg)](https://javadoc.io/doc/com.helger/ddd)
+<!-- ph-badge-end -->
 
 Document Details Determinator - determine [VESID](https://github.com/phax/ph-diver)s from payload to use with https://github.com/phax/phive and https://github.com/phax/phive-rules
 

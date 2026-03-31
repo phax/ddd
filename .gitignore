@@ -1,9 +1,11 @@
+.claude/
 .settings/
 .idea/
 target/
 
 *.pmd
 *.iml
+
 .project 
 .classpath 
 release.properties

@@ -35,6 +35,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * fatturaPA 1.2 (ID `fatturapa-12`) - added in v0.3.2
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Tax Data Document (ID `peppol-tdd`) - added in v0.8.1
+* Peppol ViDA Pilot Tax Data Document (ID `peppol-vida-tdd`) - added in v0.8.3
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4
 * UBL 2.x Catalogue (ID `ubl2-catalogue`) - added in v0.3.0
@@ -179,6 +180,10 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 
 # News and noteworthy
+
+v0.8.3 - 2026-04-02
+* Added support for Peppol ViDA Pilot TDD 1.0.0 syntax
+* Added support for Peppol SK TDD 1.0.0 syntax
 
 v0.8.2 - 2026-02-22
 * Determined sender and receiver Participant ID are now `null`, if neither scheme nor value are present

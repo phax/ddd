@@ -43,6 +43,8 @@ public final class DDDSyntaxListTest
     assertNotNull (aMap.remove ("fatturapa-12"));
     assertNotNull (aMap.remove ("peppol-eusr"));
     assertNotNull (aMap.remove ("peppol-tdd"));
+    assertNotNull (aMap.remove ("peppol-sk-tdd"));
+    assertNotNull (aMap.remove ("peppol-vida-tdd"));
     assertNotNull (aMap.remove ("peppol-tsr"));
     // assertNotNull (aMap.remove ("sbd"));
     // assertNotNull (aMap.remove ("sbdh"));

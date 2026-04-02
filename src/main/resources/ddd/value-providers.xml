@@ -170,6 +170,24 @@
     </select>
   </syntax>
   
+  <syntax id="peppol-sk-tdd">
+    <select id="CustomizationID">
+      <if value="urn:peppol:taxdata:sk-1">
+        <set id="VESID">org.peppol.taxdata:sk:latest</set>
+        <set id="ProfileName">Peppol SK Tax Data 1.0</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="peppol-vida-tdd">
+    <select id="CustomizationID">
+      <if value="urn:peppol:taxdata:vida-1">
+        <set id="VESID">org.peppol.taxdata:vida:latest</set>
+        <set id="ProfileName">Peppol ViDA Pilot Tax Data 1.0</set>
+      </if>
+    </select>
+  </syntax>
+
   <syntax id="peppol-tsr">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:edec:trns:transaction-statistics-reporting:1.0">

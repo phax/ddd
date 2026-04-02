@@ -17,7 +17,6 @@
 package com.helger.ddd.supplementary.tools;
 
 import java.util.Comparator;
-import java.util.Map;
 
 import org.jspecify.annotations.NonNull;
 import org.junit.Test;
@@ -29,7 +28,6 @@ import com.helger.base.numeric.mutable.MutableInt;
 import com.helger.base.string.StringImplode;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.ddd.model.DDDValueProviderList;
-import com.helger.ddd.model.DDDValueProviderPerSyntax;
 import com.helger.ddd.model.DDDValueProviderPerSyntax.ISelectorCallback;
 import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.VPSourceValue;
@@ -81,9 +79,7 @@ public final class DDDConsistencyFuncTest
 
     // For each value provider of each syntax
     final DDDValueProviderList aVPL = DDDValueProviderList.getDefaultValueProviderList ();
-    for (final Map.Entry <String, DDDValueProviderPerSyntax> e1 : aVPL.valueProvidersPerSyntaxes ()
-                                                                      .getSortedByKey (Comparator.naturalOrder ())
-                                                                      .entrySet ())
+    for (final var e1 : aVPL.valueProvidersPerSyntaxes ().getSortedByKey (Comparator.naturalOrder ()).entrySet ())
     {
       LOGGER.info ("Syntax " + e1.getKey ());
 

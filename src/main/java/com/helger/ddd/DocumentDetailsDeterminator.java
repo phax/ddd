@@ -31,6 +31,10 @@ import org.w3c.dom.Element;
 
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.string.StringHelper;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.CommonsLinkedHashSet;
+import com.helger.collection.commons.ICommonsList;
+import com.helger.collection.commons.ICommonsOrderedSet;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
@@ -39,6 +43,8 @@ import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
 import com.helger.ddd.model.VPDeterminedFlags;
 import com.helger.ddd.model.VPDeterminedValues;
+import com.helger.ddd.unwrap.DDDDocumentUnwrapperSBDH;
+import com.helger.ddd.unwrap.DDDDocumentUnwrapperXHE;
 import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
@@ -69,6 +75,7 @@ public final class DocumentDetailsDeterminator
   private String m_sParticipantIDScheme = DEFAULT_PARTICIPANT_ID_SCHEME;
   private Function <String, String> m_aDocTypeIDSchemeDeterminator = PeppolIdentifierFactory.INSTANCE::getDefaultDocumentTypeIdentifierScheme;
   private Function <String, String> m_aProcessIDSchemeDeterminator = x -> PeppolIdentifierHelper.DEFAULT_PROCESS_SCHEME;
+  private final ICommonsList <IDDDDocumentUnwrapper> m_aUnwrappers = new CommonsArrayList <> ();
   private Consumer <String> m_aInfoHdl = LOGGER::info;
   private Consumer <String> m_aWarnHdl = LOGGER::warn;
   private Consumer <String> m_aErrorHdl = LOGGER::error;
@@ -269,6 +276,36 @@ public final class DocumentDetailsDeterminator
     return this;
   }
 
+  /**
+   * Add a single document unwrapper for detecting and extracting payloads from envelope formats.
+   *
+   * @param aUnwrapper
+   *        The unwrapper to add. May not be <code>null</code>.
+   * @return this for chaining
+   * @since 0.8.4
+   */
+  @NonNull
+  public DocumentDetailsDeterminator addUnwrapper (@NonNull final IDDDDocumentUnwrapper aUnwrapper)
+  {
+    ValueEnforcer.notNull (aUnwrapper, "Unwrapper");
+    m_aUnwrappers.add (aUnwrapper);
+    return this;
+  }
+
+  /**
+   * Add the default unwrappers for SBDH and XHE envelope detection.
+   *
+   * @return this for chaining
+   * @since 0.8.4
+   */
+  @NonNull
+  public DocumentDetailsDeterminator addDefaultUnwrappers ()
+  {
+    m_aUnwrappers.add (new DDDDocumentUnwrapperSBDH ());
+    m_aUnwrappers.add (new DDDDocumentUnwrapperXHE ());
+    return this;
+  }
+
   @Nullable
   private IParticipantIdentifier _createPID (@Nullable final String sSchemeID, @Nullable final String sValue)
   {
@@ -300,12 +337,33 @@ public final class DocumentDetailsDeterminator
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
+    // Try to unwrap envelope formats (potentially recursive: SBDH -> XHE -> business doc)
+    Element aEffectiveElement = aRootElement;
+    final ICommonsOrderedSet <String> aEnvelopeFlags = new CommonsLinkedHashSet <> ();
+    boolean bUnwrapped;
+    do
+    {
+      bUnwrapped = false;
+      for (final IDDDDocumentUnwrapper aUnwrapper : m_aUnwrappers)
+      {
+        final Element aInnerElement = aUnwrapper.unwrap (aEffectiveElement);
+        if (aInnerElement != null)
+        {
+          m_aInfoHdl.accept ("Unwrapped envelope of type '" + aUnwrapper.getWrappingType () + "'");
+          aEffectiveElement = aInnerElement;
+          aEnvelopeFlags.add (aUnwrapper.getWrappingType ());
+          bUnwrapped = true;
+          break;
+        }
+      }
+    } while (bUnwrapped);
+
     // Get the qualified name of the root element
-    final QName aQName = XMLHelper.getQName (aRootElement);
+    final QName aQName = XMLHelper.getQName (aEffectiveElement);
     m_aInfoHdl.accept ("Searching document details for " + aQName.toString ());
 
     // First find the matching syntax from the root element
-    final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aRootElement);
+    final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aEffectiveElement);
     if (aSyntax == null)
     {
       m_aErrorHdl.accept ("Unsupported Document Type syntax " + aQName.toString ());
@@ -322,23 +380,27 @@ public final class DocumentDetailsDeterminator
 
     // Get all the values from the source XML
     final ErrorList aErrorList = new ErrorList ();
-    final String sCustomizationID = aSyntax.getValue (EDDDSourceField.CUSTOMIZATION_ID, aRootElement, aErrorList);
+    final String sCustomizationID = aSyntax.getValue (EDDDSourceField.CUSTOMIZATION_ID, aEffectiveElement, aErrorList);
     // optional
-    String sProcessID = aSyntax.getValue (EDDDSourceField.PROCESS_ID, aRootElement, aErrorList);
-    final String sSenderIDScheme = aSyntax.getValue (EDDDSourceField.SENDER_ID_SCHEME, aRootElement, aErrorList);
-    final String sSenderIDValue = aSyntax.getValue (EDDDSourceField.SENDER_ID_VALUE, aRootElement, aErrorList);
+    String sProcessID = aSyntax.getValue (EDDDSourceField.PROCESS_ID, aEffectiveElement, aErrorList);
+    final String sSenderIDScheme = aSyntax.getValue (EDDDSourceField.SENDER_ID_SCHEME, aEffectiveElement, aErrorList);
+    final String sSenderIDValue = aSyntax.getValue (EDDDSourceField.SENDER_ID_VALUE, aEffectiveElement, aErrorList);
     IParticipantIdentifier aSenderID = _createPID (sSenderIDScheme, sSenderIDValue);
-    final String sReceiverIDScheme = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_SCHEME, aRootElement, aErrorList);
-    final String sReceiverIDValue = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_VALUE, aRootElement, aErrorList);
+    final String sReceiverIDScheme = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_SCHEME,
+                                                       aEffectiveElement,
+                                                       aErrorList);
+    final String sReceiverIDValue = aSyntax.getValue (EDDDSourceField.RECEIVER_ID_VALUE, aEffectiveElement, aErrorList);
     IParticipantIdentifier aReceiverID = _createPID (sReceiverIDScheme, sReceiverIDValue);
     final String sBusinessDocumentID = aSyntax.getValue (EDDDSourceField.BUSINESS_DOCUMENT_ID,
-                                                         aRootElement,
+                                                         aEffectiveElement,
                                                          aErrorList);
-    final String sSenderName = aSyntax.getValue (EDDDSourceField.SENDER_NAME, aRootElement, aErrorList);
-    final String sSenderCountryCode = aSyntax.getValue (EDDDSourceField.SENDER_COUNTRY_CODE, aRootElement, aErrorList);
-    final String sReceiverName = aSyntax.getValue (EDDDSourceField.RECEIVER_NAME, aRootElement, aErrorList);
+    final String sSenderName = aSyntax.getValue (EDDDSourceField.SENDER_NAME, aEffectiveElement, aErrorList);
+    final String sSenderCountryCode = aSyntax.getValue (EDDDSourceField.SENDER_COUNTRY_CODE,
+                                                        aEffectiveElement,
+                                                        aErrorList);
+    final String sReceiverName = aSyntax.getValue (EDDDSourceField.RECEIVER_NAME, aEffectiveElement, aErrorList);
     final String sReceiverCountryCode = aSyntax.getValue (EDDDSourceField.RECEIVER_COUNTRY_CODE,
-                                                          aRootElement,
+                                                          aEffectiveElement,
                                                           aErrorList);
     // optional value
     String sSyntaxVersion = aSyntax.getVersion ();
@@ -402,8 +464,8 @@ public final class DocumentDetailsDeterminator
     final IDocumentTypeIdentifier aDocTypeID;
     if (StringHelper.isNotEmpty (sCustomizationID) && StringHelper.isNotEmpty (sSyntaxVersion))
     {
-      final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aRootElement.getNamespaceURI (),
-                                                                            aRootElement.getLocalName (),
+      final String sDocTypeIDValue = new PeppolDocumentTypeIdentifierParts (aEffectiveElement.getNamespaceURI (),
+                                                                            aEffectiveElement.getLocalName (),
                                                                             sCustomizationID,
                                                                             sSyntaxVersion).getAsDocumentTypeIdentifierValue ();
       final String sDocTypeIDScheme = m_aDocTypeIDSchemeDeterminator.apply (sDocTypeIDValue);
@@ -421,6 +483,10 @@ public final class DocumentDetailsDeterminator
     }
     else
       aProcessID = null;
+
+    // Add envelope flags to determined flags
+    for (final String sEnvelopeFlag : aEnvelopeFlags)
+      aDeterminedFlags.add (sEnvelopeFlag);
 
     // Swap sender and receiver for self-billing?
     // Don't keep this action in the resulting flags

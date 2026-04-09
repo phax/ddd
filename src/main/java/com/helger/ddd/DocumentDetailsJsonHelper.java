@@ -52,6 +52,7 @@ public final class DocumentDetailsJsonHelper
   private static final String JSON_VESID = "vesid";
   private static final String JSON_PROFILE_NAME = "profileName";
   private static final String JSON_FLAGS = "flags";
+  private static final String JSON_WRAPPERS = "wrappers";
 
   private DocumentDetailsJsonHelper ()
   {}
@@ -99,6 +100,8 @@ public final class DocumentDetailsJsonHelper
       ret.add (JSON_PROFILE_NAME, aDD.getProfileName ());
     if (aDD.hasFlags ())
       ret.add (JSON_FLAGS, new JsonArray ().addAll (aDD.flags ()));
+    if (aDD.hasWrappers ())
+      ret.add (JSON_WRAPPERS, new JsonArray ().addAll (aDD.wrappers ()));
     return ret;
   }
 
@@ -122,6 +125,7 @@ public final class DocumentDetailsJsonHelper
       return null;
 
     final IJsonArray aFlags = aObj.getAsArray (JSON_FLAGS);
+    final IJsonArray aWrappers = aObj.getAsArray (JSON_WRAPPERS);
     return DocumentDetails.builder ()
                           .syntaxID (aObj.getAsString (JSON_SYNTAX_ID))
                           .syntaxVersion (aObj.getAsString (JSON_SYNTAX_VERSION))
@@ -140,6 +144,10 @@ public final class DocumentDetailsJsonHelper
                           .flags (aFlags == null ? null : aFlags.getAll ()
                                                                 .getAllMapped (IJson::isValue,
                                                                                x -> x.getAsValue ().getAsString ()))
+                          .wrappers (aWrappers == null ? null : aWrappers.getAll ()
+                                                                         .getAllMapped (IJson::isValue,
+                                                                                        x -> x.getAsValue ()
+                                                                                               .getAsString ()))
                           .build ();
   }
 }

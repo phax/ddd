@@ -181,6 +181,13 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.8.4 - 2026-04-09
+* Added new interface `IDDDDocumentUnwrapper` for detecting and extracting payloads from envelope/wrapper formats
+* Added built-in DOM-based unwrapper implementations `DDDDocumentUnwrapperSBDH` (for SBDH) and `DDDDocumentUnwrapperXHE` (for XHE) in package `com.helger.ddd.unwrap`
+* Added `addUnwrapper` and `addDefaultUnwrappers` methods to `DocumentDetailsDeterminator` for registering unwrappers
+* Unwrapping is recursive, so nested envelopes (e.g. SBDH wrapping XHE wrapping a business document) are supported
+* Added new `wrappers` field to `DocumentDetails` (with JSON key `wrappers` and XML element `Wrapper`) to report which envelope types were detected
+
 v0.8.3 - 2026-04-02
 * Added support for Peppol ViDA Pilot TDD 1.0.0 syntax
 * Added support for Peppol SK TDD 1.0.0 syntax

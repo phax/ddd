@@ -59,6 +59,7 @@ public final class DocumentDetailsXMLHelper
   public static final String XML_VESID = "VESID";
   public static final String XML_PROFILE_NAME = "ProfileName";
   public static final String XML_FLAG = "Flag";
+  public static final String XML_WRAPPER = "Wrapper";
 
   private DocumentDetailsXMLHelper ()
   {}
@@ -108,6 +109,9 @@ public final class DocumentDetailsXMLHelper
     if (aDD.hasFlags ())
       for (final String sFlag : aDD.flags ())
         aTarget.addElementNS (sNamespaceURI, XML_FLAG).addText (sFlag);
+    if (aDD.hasWrappers ())
+      for (final String sWrapper : aDD.wrappers ())
+        aTarget.addElementNS (sNamespaceURI, XML_WRAPPER).addText (sWrapper);
   }
 
   /**
@@ -130,6 +134,7 @@ public final class DocumentDetailsXMLHelper
       return null;
 
     final ICommonsList <IMicroElement> aFlags = aObj.getAllChildElements (XML_FLAG);
+    final ICommonsList <IMicroElement> aWrappers = aObj.getAllChildElements (XML_WRAPPER);
     return DocumentDetails.builder ()
                           .syntaxID (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_ID))
                           .syntaxVersion (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_VERSION))
@@ -150,6 +155,8 @@ public final class DocumentDetailsXMLHelper
                           .vesid (MicroHelper.getChildTextContent (aObj, XML_VESID))
                           .profileName (MicroHelper.getChildTextContent (aObj, XML_PROFILE_NAME))
                           .flags (aFlags == null ? null : aFlags.getAllMapped (IMicroElement::getTextContentTrimmed))
+                          .wrappers (aWrappers == null ? null
+                                                       : aWrappers.getAllMapped (IMicroElement::getTextContentTrimmed))
                           .build ();
   }
 
@@ -205,6 +212,9 @@ public final class DocumentDetailsXMLHelper
     if (aDD.hasFlags ())
       for (final String sFlag : aDD.flags ())
         fAppend.accept (XML_FLAG, sFlag);
+    if (aDD.hasWrappers ())
+      for (final String sWrapper : aDD.wrappers ())
+        fAppend.accept (XML_WRAPPER, sWrapper);
   }
 
   /**
@@ -232,6 +242,8 @@ public final class DocumentDetailsXMLHelper
     };
 
     final ICommonsList <Element> aFlags = new CommonsArrayList <> (XMLHelper.getChildElementIterator (aObj, XML_FLAG));
+    final ICommonsList <Element> aWrappers = new CommonsArrayList <> (XMLHelper.getChildElementIterator (aObj,
+                                                                                                         XML_WRAPPER));
     return DocumentDetails.builder ()
                           .syntaxID (fGet.apply (aObj, XML_SYNTAX_ID))
                           .syntaxVersion (fGet.apply (aObj, XML_SYNTAX_VERSION))
@@ -248,6 +260,7 @@ public final class DocumentDetailsXMLHelper
                           .vesid (fGet.apply (aObj, XML_VESID))
                           .profileName (fGet.apply (aObj, XML_PROFILE_NAME))
                           .flags (aFlags.getAllMapped (Element::getTextContent))
+                          .wrappers (aWrappers.getAllMapped (Element::getTextContent))
                           .build ();
   }
 }

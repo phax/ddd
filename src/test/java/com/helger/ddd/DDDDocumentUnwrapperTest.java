@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,8 +35,8 @@ import com.helger.io.resource.ClassPathResource;
 import com.helger.xml.serialize.read.DOMReader;
 
 /**
- * Test class for {@link IDDDDocumentUnwrapper}, {@link DDDDocumentUnwrapperSBDH}
- * and {@link DDDDocumentUnwrapperXHE}.
+ * Test class for {@link IDDDDocumentUnwrapper}, {@link DDDDocumentUnwrapperSBDH} and
+ * {@link DDDDocumentUnwrapperXHE}.
  *
  * @author Philip Helger
  */
@@ -50,6 +51,7 @@ public final class DDDDocumentUnwrapperTest
    *
    * @return The parsed invoice element, never <code>null</code>.
    */
+  @NonNull
   private static Element _readBaseInvoice ()
   {
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/good/base-example.xml"));
@@ -64,7 +66,8 @@ public final class DDDDocumentUnwrapperTest
    *        The business document element to wrap.
    * @return The SBDH root element containing the business document.
    */
-  private static Element _wrapInSBDH (final Element aBusinessDoc)
+  @NonNull
+  private static Element _wrapInSBDH (@NonNull final Element aBusinessDoc)
   {
     final Document aDoc = aBusinessDoc.getOwnerDocument ();
     final Element aSBD = aDoc.createElementNS (SBDH_NS, "StandardBusinessDocument");
@@ -88,7 +91,8 @@ public final class DDDDocumentUnwrapperTest
    *        The business document element to wrap.
    * @return The XHE root element containing the business document.
    */
-  private static Element _wrapInXHE (final Element aBusinessDoc)
+  @NonNull
+  private static Element _wrapInXHE (@NonNull final Element aBusinessDoc)
   {
     final Document aDoc = aBusinessDoc.getOwnerDocument ();
     final Element aXHE = aDoc.createElementNS (XHE_NS, "XHE");
@@ -105,6 +109,7 @@ public final class DDDDocumentUnwrapperTest
     return aXHE;
   }
 
+  @NonNull
   private static DocumentDetailsDeterminator _createDDD ()
   {
     return new DocumentDetailsDeterminator (DDDSyntaxList.getDefaultSyntaxList (),
@@ -125,7 +130,8 @@ public final class DDDDocumentUnwrapperTest
     assertNotNull (aDD.getSenderID ());
     assertNotNull (aDD.getReceiverID ());
     assertNotNull (aDD.getDocumentTypeID ());
-    assertTrue (aDD.flags ().contains ("SBDH"));
+    assertTrue (aDD.wrappers ().contains ("SBDH"));
+    assertFalse (aDD.wrappers ().contains ("XHE"));
   }
 
   @Test
@@ -142,7 +148,8 @@ public final class DDDDocumentUnwrapperTest
     assertNotNull (aDD.getSenderID ());
     assertNotNull (aDD.getReceiverID ());
     assertNotNull (aDD.getDocumentTypeID ());
-    assertTrue (aDD.flags ().contains ("XHE"));
+    assertFalse (aDD.wrappers ().contains ("SBDH"));
+    assertTrue (aDD.wrappers ().contains ("XHE"));
   }
 
   @Test
@@ -158,8 +165,8 @@ public final class DDDDocumentUnwrapperTest
     assertNotNull (aDD);
 
     assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
-    assertTrue (aDD.flags ().contains ("SBDH"));
-    assertTrue (aDD.flags ().contains ("XHE"));
+    assertTrue (aDD.wrappers ().contains ("SBDH"));
+    assertTrue (aDD.wrappers ().contains ("XHE"));
   }
 
   @Test
@@ -185,8 +192,8 @@ public final class DDDDocumentUnwrapperTest
     assertNotNull (aDD);
 
     assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
-    assertFalse (aDD.flags ().contains ("SBDH"));
-    assertFalse (aDD.flags ().contains ("XHE"));
+    assertFalse (aDD.wrappers ().contains ("SBDH"));
+    assertFalse (aDD.wrappers ().contains ("XHE"));
   }
 
   @Test
@@ -199,8 +206,7 @@ public final class DDDDocumentUnwrapperTest
     final Element aSBDH = aDoc.createElementNS (SBDH_NS, "StandardBusinessDocumentHeader");
     aSBD.appendChild (aSBDH);
 
-    final DDDDocumentUnwrapperSBDH aUnwrapper = new DDDDocumentUnwrapperSBDH ();
-    assertNull (aUnwrapper.unwrap (aSBD));
+    assertNull (DDDDocumentUnwrapperSBDH.INSTANCE.unwrap (aSBD));
   }
 
   @Test
@@ -213,8 +219,7 @@ public final class DDDDocumentUnwrapperTest
     final Element aPayloads = aDoc.createElementNS (XHE_AC_NS, "xha:Payloads");
     aXHE.appendChild (aPayloads);
 
-    final DDDDocumentUnwrapperXHE aUnwrapper = new DDDDocumentUnwrapperXHE ();
-    assertNull (aUnwrapper.unwrap (aXHE));
+    assertNull (DDDDocumentUnwrapperXHE.INSTANCE.unwrap (aXHE));
   }
 
   @Test
@@ -223,18 +228,16 @@ public final class DDDDocumentUnwrapperTest
     final Element aInvoice = _readBaseInvoice ();
 
     // SBDH unwrapper should return null for a non-SBDH document
-    final DDDDocumentUnwrapperSBDH aSBDHUnwrapper = new DDDDocumentUnwrapperSBDH ();
-    assertNull (aSBDHUnwrapper.unwrap (aInvoice));
+    assertNull (DDDDocumentUnwrapperSBDH.INSTANCE.unwrap (aInvoice));
 
     // XHE unwrapper should return null for a non-XHE document
-    final DDDDocumentUnwrapperXHE aXHEUnwrapper = new DDDDocumentUnwrapperXHE ();
-    assertNull (aXHEUnwrapper.unwrap (aInvoice));
+    assertNull (DDDDocumentUnwrapperXHE.INSTANCE.unwrap (aInvoice));
   }
 
   @Test
   public void testWrappingTypes ()
   {
-    assertEquals ("SBDH", new DDDDocumentUnwrapperSBDH ().getWrappingType ());
-    assertEquals ("XHE", new DDDDocumentUnwrapperXHE ().getWrappingType ());
+    assertEquals ("SBDH", DDDDocumentUnwrapperSBDH.INSTANCE.getWrappingType ());
+    assertEquals ("XHE", DDDDocumentUnwrapperXHE.INSTANCE.getWrappingType ());
   }
 }

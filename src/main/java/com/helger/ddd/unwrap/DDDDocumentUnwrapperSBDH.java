@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.ddd.IDDDDocumentUnwrapper;
 
@@ -33,8 +34,12 @@ import com.helger.ddd.IDDDDocumentUnwrapper;
  * @author Philip Helger
  * @since 0.8.4
  */
+@Immutable
 public class DDDDocumentUnwrapperSBDH implements IDDDDocumentUnwrapper
 {
+  /** Default instance */
+  public static final DDDDocumentUnwrapperSBDH INSTANCE = new DDDDocumentUnwrapperSBDH ();
+
   /** SBDH namespace URI */
   public static final String NAMESPACE_URI = "http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader";
 

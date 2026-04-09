@@ -32,9 +32,7 @@ import org.w3c.dom.Element;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.CommonsArrayList;
-import com.helger.collection.commons.CommonsLinkedHashSet;
 import com.helger.collection.commons.ICommonsList;
-import com.helger.collection.commons.ICommonsOrderedSet;
 import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
@@ -301,8 +299,8 @@ public final class DocumentDetailsDeterminator
   @NonNull
   public DocumentDetailsDeterminator addDefaultUnwrappers ()
   {
-    m_aUnwrappers.add (new DDDDocumentUnwrapperSBDH ());
-    m_aUnwrappers.add (new DDDDocumentUnwrapperXHE ());
+    m_aUnwrappers.add (DDDDocumentUnwrapperSBDH.INSTANCE);
+    m_aUnwrappers.add (DDDDocumentUnwrapperXHE.INSTANCE);
     return this;
   }
 
@@ -338,8 +336,9 @@ public final class DocumentDetailsDeterminator
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
     // Try to unwrap envelope formats (potentially recursive: SBDH -> XHE -> business doc)
+    // Theoretically an unwrapper may allow to be used self-recursively
     Element aEffectiveElement = aRootElement;
-    final ICommonsOrderedSet <String> aEnvelopeFlags = new CommonsLinkedHashSet <> ();
+    final ICommonsList <String> aWrappingTypes = new CommonsArrayList <> ();
     boolean bUnwrapped;
     do
     {
@@ -351,7 +350,7 @@ public final class DocumentDetailsDeterminator
         {
           m_aInfoHdl.accept ("Unwrapped envelope of type '" + aUnwrapper.getWrappingType () + "'");
           aEffectiveElement = aInnerElement;
-          aEnvelopeFlags.add (aUnwrapper.getWrappingType ());
+          aWrappingTypes.add (aUnwrapper.getWrappingType ());
           bUnwrapped = true;
           break;
         }
@@ -484,10 +483,6 @@ public final class DocumentDetailsDeterminator
     else
       aProcessID = null;
 
-    // Add envelope flags to determined flags
-    for (final String sEnvelopeFlag : aEnvelopeFlags)
-      aDeterminedFlags.add (sEnvelopeFlag);
-
     // Swap sender and receiver for self-billing?
     // Don't keep this action in the resulting flags
     final boolean bSwapSenderAndReceiver = aDeterminedFlags.remove ("Action-SwapSenderAndReceiver").isChanged ();
@@ -509,6 +504,7 @@ public final class DocumentDetailsDeterminator
                           .vesid (sVESID)
                           .profileName (sProfileName)
                           .flags (aDeterminedFlags.getAsSet ())
+                          .wrappers (aWrappingTypes)
                           .build ();
   }
 }

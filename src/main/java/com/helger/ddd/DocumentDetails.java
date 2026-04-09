@@ -31,7 +31,9 @@ import com.helger.base.equals.EqualsHelper;
 import com.helger.base.hashcode.HashCodeGenerator;
 import com.helger.base.string.StringHelper;
 import com.helger.base.tostring.ToStringGenerator;
+import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.CommonsLinkedHashSet;
+import com.helger.collection.commons.ICommonsList;
 import com.helger.collection.commons.ICommonsOrderedSet;
 import com.helger.json.IJsonObject;
 import com.helger.peppolid.IDocumentTypeIdentifier;
@@ -62,6 +64,7 @@ public class DocumentDetails
   private final String m_sVESID;
   private final String m_sProfileName;
   private final ICommonsOrderedSet <String> m_aFlags;
+  private final ICommonsList <String> m_aWrappers;
 
   /**
    * Internal constructor. All fields are optional. Don't use this ctor directly, use
@@ -98,6 +101,9 @@ public class DocumentDetails
    *        Profile filename
    * @param aFlags
    *        The determined flags. Never <code>null</code> but maybe empty.
+   * @param aWrappers
+   *        The detected envelope/wrapper types (e.g. "SBDH", "XHE"). Never <code>null</code> but
+   *        maybe empty. Added in 0.8.4.
    */
   protected DocumentDetails (@Nullable final String sSyntaxID,
                              @Nullable final String sSyntaxVersion,
@@ -113,7 +119,8 @@ public class DocumentDetails
                              @Nullable final String sReceiverCountryCode,
                              @Nullable final String sVESID,
                              @Nullable final String sProfileName,
-                             @NonNull final ICommonsOrderedSet <String> aFlags)
+                             @NonNull final ICommonsOrderedSet <String> aFlags,
+                             @NonNull final ICommonsList <String> aWrappers)
   {
     m_sSyntaxID = sSyntaxID;
     m_aSenderID = aSenderID;
@@ -130,6 +137,7 @@ public class DocumentDetails
     m_sVESID = sVESID;
     m_sProfileName = sProfileName;
     m_aFlags = aFlags.getClone ();
+    m_aWrappers = aWrappers.getClone ();
   }
 
   public final boolean hasSyntaxID ()
@@ -354,6 +362,33 @@ public class DocumentDetails
     return m_aFlags;
   }
 
+  public final boolean hasWrappers ()
+  {
+    return m_aWrappers.isNotEmpty ();
+  }
+
+  /**
+   * @return A copy of the detected wrapper types. Never <code>null</code> but maybe empty.
+   * @since 0.8.4
+   */
+  @NonNull
+  @ReturnsMutableCopy
+  public final ICommonsList <String> getAllWrappers ()
+  {
+    return m_aWrappers.getClone ();
+  }
+
+  /**
+   * @return The detected wrapper types. Never <code>null</code> but maybe empty.
+   * @since 0.8.4
+   */
+  @NonNull
+  @ReturnsMutableObject
+  public final ICommonsList <String> wrappers ()
+  {
+    return m_aWrappers;
+  }
+
   /**
    * Convert all document details as a JSON object.
    *
@@ -411,7 +446,8 @@ public class DocumentDetails
            EqualsHelper.equals (m_sReceiverCountryCode, rhs.m_sReceiverCountryCode) &&
            EqualsHelper.equals (m_sVESID, rhs.m_sVESID) &&
            EqualsHelper.equals (m_sProfileName, rhs.m_sProfileName) &&
-           EqualsHelper.equals (m_aFlags, rhs.m_aFlags);
+           EqualsHelper.equals (m_aFlags, rhs.m_aFlags) &&
+           EqualsHelper.equals (m_aWrappers, rhs.m_aWrappers);
   }
 
   @Override
@@ -432,6 +468,7 @@ public class DocumentDetails
                                        .append (m_sVESID)
                                        .append (m_sProfileName)
                                        .append (m_aFlags)
+                                       .append (m_aWrappers)
                                        .getHashCode ();
   }
 
@@ -453,6 +490,7 @@ public class DocumentDetails
                                        .append ("VESID", m_sVESID)
                                        .append ("ProfileName", m_sProfileName)
                                        .append ("Flags", m_aFlags)
+                                       .append ("Wrappers", m_aWrappers)
                                        .getToString ();
   }
 
@@ -499,6 +537,7 @@ public class DocumentDetails
     private String m_sVESID;
     private String m_sProfileName;
     private final ICommonsOrderedSet <String> m_aFlags = new CommonsLinkedHashSet <> ();
+    private final ICommonsList <String> m_aWrappers = new CommonsArrayList <> ();
 
     /**
      * Builder constructor with all fields empty.
@@ -528,7 +567,8 @@ public class DocumentDetails
                                        .receiverCountryCode (aSource.getReceiverCountryCode ())
                                        .vesid (aSource.getVESID ())
                                        .profileName (aSource.getProfileName ())
-                                       .flags (aSource.flags ());
+                                       .flags (aSource.flags ())
+                                       .wrappers (aSource.wrappers ());
     }
 
     @NonNull
@@ -650,6 +690,26 @@ public class DocumentDetails
     }
 
     @NonNull
+    public final Builder wrappers (@Nullable final String... a)
+    {
+      if (a == null)
+        m_aWrappers.clear ();
+      else
+        m_aWrappers.addAll (a);
+      return this;
+    }
+
+    @NonNull
+    public final Builder wrappers (@Nullable final Collection <String> a)
+    {
+      if (a == null)
+        m_aWrappers.clear ();
+      else
+        m_aWrappers.addAll (a);
+      return this;
+    }
+
+    @NonNull
     public DocumentDetails build ()
     {
       // All fields are optional
@@ -667,7 +727,8 @@ public class DocumentDetails
                                   m_sReceiverCountryCode,
                                   m_sVESID,
                                   m_sProfileName,
-                                  m_aFlags);
+                                  m_aFlags,
+                                  m_aWrappers);
     }
   }
 }

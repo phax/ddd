@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.jspecify.annotations.NonNull;
@@ -27,6 +28,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.helger.base.wrapper.Wrapper;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.unwrap.DDDDocumentUnwrapperSBDH;
@@ -60,7 +62,7 @@ public final class DDDDocumentUnwrapperTest
   }
 
   /**
-   * Wrap a business document element in an SBDH envelope.
+   * Wrap a business document element in an SBDH envelope. No cloning happens.
    *
    * @param aBusinessDoc
    *        The business document element to wrap.
@@ -85,7 +87,7 @@ public final class DDDDocumentUnwrapperTest
   }
 
   /**
-   * Wrap a business document element in an XHE envelope.
+   * Wrap a business document element in an XHE envelope. No cloning happens.
    *
    * @param aBusinessDoc
    *        The business document element to wrap.
@@ -123,8 +125,11 @@ public final class DDDDocumentUnwrapperTest
     final Element aSBD = _wrapInSBDH (aInvoice);
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD);
+    final Wrapper <Element> aInnerElement = Wrapper.empty ();
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, aInnerElement::set);
     assertNotNull (aDD);
+    assertTrue (aInnerElement.isSet ());
+    assertSame (aInvoice, aInnerElement.get ());
 
     assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
     assertNotNull (aDD.getSenderID ());
@@ -141,8 +146,11 @@ public final class DDDDocumentUnwrapperTest
     final Element aXHE = _wrapInXHE (aInvoice);
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aXHE);
+    final Wrapper <Element> aInnerElement = Wrapper.empty ();
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aXHE, aInnerElement::set);
     assertNotNull (aDD);
+    assertTrue (aInnerElement.isSet ());
+    assertSame (aInvoice, aInnerElement.get ());
 
     assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
     assertNotNull (aDD.getSenderID ());
@@ -161,8 +169,11 @@ public final class DDDDocumentUnwrapperTest
     final Element aSBD = _wrapInSBDH (aXHE);
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD);
+    final Wrapper <Element> aInnerElement = Wrapper.empty ();
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, aInnerElement::set);
     assertNotNull (aDD);
+    assertTrue (aInnerElement.isSet ());
+    assertSame (aInvoice, aInnerElement.get ());
 
     assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
     assertTrue (aDD.wrappers ().contains ("SBDH"));

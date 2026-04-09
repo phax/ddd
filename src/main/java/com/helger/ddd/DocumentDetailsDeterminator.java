@@ -330,8 +330,35 @@ public final class DocumentDetailsDeterminator
     return m_aIF.createParticipantIdentifier (m_sParticipantIDScheme, sPIDValue);
   }
 
+  /**
+   * Find the document details from the provided XML root element. This is the main entry point.
+   *
+   * @param aRootElement
+   *        The root element of the XML document. May not be <code>null</code>.
+   * @return The document details or <code>null</code> if the document type could not be determined.
+   * @see #findDocumentDetails(Element, Consumer)
+   */
   @Nullable
   public DocumentDetails findDocumentDetails (@NonNull final Element aRootElement)
+  {
+    return findDocumentDetails (aRootElement, null);
+  }
+
+  /**
+   * Find the document details from the provided XML root element and provide a consumer to capture
+   * any potentially unwrapped inner element.
+   *
+   * @param aRootElement
+   *        The root element of the XML document. May not be <code>null</code>.
+   * @param aEffectiveElementConsumer
+   *        An optional consumer that receives the effective (potentially unwrapped) element that
+   *        was used for document detail determination. May be <code>null</code>.
+   * @return The document details or <code>null</code> if the document type could not be determined.
+   * @since 0.8.5
+   */
+  @Nullable
+  public DocumentDetails findDocumentDetails (@NonNull final Element aRootElement,
+                                              @Nullable final Consumer <Element> aEffectiveElementConsumer)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
@@ -356,6 +383,10 @@ public final class DocumentDetailsDeterminator
         }
       }
     } while (bUnwrapped);
+
+    // Notify consumer about the effective element
+    if (aEffectiveElementConsumer != null)
+      aEffectiveElementConsumer.accept (aEffectiveElement);
 
     // Get the qualified name of the root element
     final QName aQName = XMLHelper.getQName (aEffectiveElement);

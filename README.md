@@ -181,6 +181,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.8.6 - work in progress
+* Removed OSGI bundling
+
 v0.8.5 - 2026-04-09
 * Added new overload `DocumentDetailsDeterminator.findDocumentDetails(Element, Consumer<Element>)` that provides access to the effective (unwrapped) inner element via a consumer callback
 

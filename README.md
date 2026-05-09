@@ -32,6 +32,15 @@ Each syntax is uniquely determined by the combination of the XML root element na
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
+* ebInterface 3.0 (ID `ebinterface-3p0`) - added in v0.8.6
+* ebInterface 3.0.2 (ID `ebinterface-3p02`) - added in v0.8.6
+* ebInterface 4.0 (ID `ebinterface-4p0`) - added in v0.8.6
+* ebInterface 4.1 (ID `ebinterface-4p1`) - added in v0.8.6
+* ebInterface 4.2 (ID `ebinterface-4p2`) - added in v0.8.6
+* ebInterface 4.3 (ID `ebinterface-4p3`) - added in v0.8.6
+* ebInterface 5.0 (ID `ebinterface-5p0`) - added in v0.8.6
+* ebInterface 6.0 (ID `ebinterface-6p0`) - added in v0.8.6
+* ebInterface 6.1 (ID `ebinterface-6p1`) - added in v0.8.6
 * fatturaPA 1.2 (ID `fatturapa-12`) - added in v0.3.2
 * KSeF FA(1) (ID `ksef-fa1`) - added in v0.8.6
 * KSeF FA(2) (ID `ksef-fa2`) - added in v0.8.6
@@ -189,6 +198,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 v0.8.6 - work in progress
 * Added support for the Polish KSeF FA(1), FA(2) and FA(3) syntaxes (`ksef-fa1`, `ksef-fa2`, `ksef-fa3`). Each KSeF schema version is detected via its unique target namespace and mapped to the corresponding `pl.ksef:ksef:*` VESID. See [#9](https://github.com/phax/ddd/issues/9) - thx @JDTm
 * Added support for Peppol OM (Oman): new syntax `peppol-om-tdd` for the OM Tax Data Document, plus PINT OM Invoice/Credit Note (and Self-Billing variants) detection in the UBL Invoice and UBL Credit Note value providers
+* Added support for Austrian ebInterface (versions 3.0, 3.0.2, 4.0, 4.1, 4.2, 4.3, 5.0, 6.0, 6.1). Each version is detected purely by its unique target namespace and mapped to the corresponding `at.ebinterface:invoice:*` VESID
+* `DDDGetterXPath` now also evaluates literal-string XPath expressions (returning a constant value) as a fallback when the expression does not yield a node set
 * Removed OSGI bundling
 
 v0.8.5 - 2026-04-09

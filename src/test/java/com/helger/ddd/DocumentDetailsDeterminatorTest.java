@@ -357,6 +357,67 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryEbInterface ()
+  {
+    // The decision is purely based on the namespace URI - no CustomizationID in
+    // the documents
+    final String [] aSyntaxIDs = { "ebinterface-3p0",
+                                   "ebinterface-3p02",
+                                   "ebinterface-4p0",
+                                   "ebinterface-4p1",
+                                   "ebinterface-4p2",
+                                   "ebinterface-4p3",
+                                   "ebinterface-5p0",
+                                   "ebinterface-6p0",
+                                   "ebinterface-6p1" };
+    final String [] aVersions = { "3.0", "3.0.2", "4.0", "4.1", "4.2", "4.3", "5.0", "6.0", "6.1" };
+    for (int i = 0; i < aSyntaxIDs.length; i++)
+    {
+      final String sSyntaxID = aSyntaxIDs[i];
+      final String sVersion = aVersions[i];
+
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals (sSyntaxID, aDD.getSyntaxID ());
+      assertEquals ("at.ebinterface:invoice:" + sVersion, aDD.getVESID ());
+      assertEquals ("ebInterface " + sVersion, aDD.getProfileName ());
+      // Sender / receiver fields are populated from the Biller / InvoiceRecipient blocks
+      assertNotNull (aDD.getSenderID ());
+      assertNotNull (aDD.getReceiverID ());
+      assertNotNull (aDD.getSenderName ());
+      assertNotNull (aDD.getReceiverName ());
+      // ebInterface 3.x has no @CountryCode attribute - country code is not extracted there
+      if (!sVersion.startsWith ("3."))
+      {
+        assertNotNull (aDD.getSenderCountryCode ());
+        assertNotNull (aDD.getReceiverCountryCode ());
+      }
+    }
+
+    // Detailed check on a single version
+    {
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ebinterface-6p1/good/example.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertEquals ("993433000298", aDD.getBusinessDocumentID ());
+      assertEquals ("ATU00000006", aDD.getSenderID ().getValue ());
+      assertEquals ("Schrauben Willi", aDD.getSenderName ());
+      assertEquals ("AT", aDD.getSenderCountryCode ());
+      assertEquals ("ATU00000006", aDD.getReceiverID ().getValue ());
+      assertEquals ("Mustermann GmbH", aDD.getReceiverName ());
+      assertEquals ("AT", aDD.getReceiverCountryCode ());
+    }
+  }
+
+  @Test
   public void testDiscoveryPeppolOMTDD ()
   {
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/peppol-om-tdd/good/simple.xml"));

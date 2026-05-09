@@ -34,6 +34,7 @@ import com.helger.ddd.model.VPSourceValue;
 import com.helger.diver.api.coord.DVRCoordinate;
 import com.helger.phive.api.executorset.ValidationExecutorSetRegistry;
 import com.helger.phive.cii.CIIValidation;
+import com.helger.phive.ebinterface.EbInterfaceValidation;
 import com.helger.phive.ehf.EHFValidation;
 import com.helger.phive.en16931.EN16931Validation;
 import com.helger.phive.eracun.HReRacunValidation;
@@ -66,6 +67,7 @@ public final class DDDConsistencyFuncTest
     // Must be first
     EN16931Validation.initEN16931 (aVesRegistry);
     CIIValidation.initCII (aVesRegistry);
+    EbInterfaceValidation.initEbInterface (aVesRegistry);
     EHFValidation.initEHF (aVesRegistry);
     FatturaPAValidation.initFatturaPA (aVesRegistry);
     HReRacunValidation.init (aVesRegistry);

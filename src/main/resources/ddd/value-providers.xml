@@ -139,6 +139,87 @@
     </select>
   </syntax>
   
+  <syntax id="ebinterface-3p0">
+    <select id="CustomizationID">
+      <if value="ebinterface-3p0">
+        <set id="VESID">at.ebinterface:invoice:3.0</set>
+        <set id="ProfileName">ebInterface 3.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-3p02">
+    <select id="CustomizationID">
+      <if value="ebinterface-3p02">
+        <set id="VESID">at.ebinterface:invoice:3.0.2</set>
+        <set id="ProfileName">ebInterface 3.0.2</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-4p0">
+    <select id="CustomizationID">
+      <if value="ebinterface-4p0">
+        <set id="VESID">at.ebinterface:invoice:4.0</set>
+        <set id="ProfileName">ebInterface 4.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-4p1">
+    <select id="CustomizationID">
+      <if value="ebinterface-4p1">
+        <set id="VESID">at.ebinterface:invoice:4.1</set>
+        <set id="ProfileName">ebInterface 4.1</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-4p2">
+    <select id="CustomizationID">
+      <if value="ebinterface-4p2">
+        <set id="VESID">at.ebinterface:invoice:4.2</set>
+        <set id="ProfileName">ebInterface 4.2</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-4p3">
+    <select id="CustomizationID">
+      <if value="ebinterface-4p3">
+        <set id="VESID">at.ebinterface:invoice:4.3</set>
+        <set id="ProfileName">ebInterface 4.3</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-5p0">
+    <select id="CustomizationID">
+      <if value="ebinterface-5p0">
+        <set id="VESID">at.ebinterface:invoice:5.0</set>
+        <set id="ProfileName">ebInterface 5.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-6p0">
+    <select id="CustomizationID">
+      <if value="ebinterface-6p0">
+        <set id="VESID">at.ebinterface:invoice:6.0</set>
+        <set id="ProfileName">ebInterface 6.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ebinterface-6p1">
+    <select id="CustomizationID">
+      <if value="ebinterface-6p1">
+        <set id="VESID">at.ebinterface:invoice:6.1</set>
+        <set id="ProfileName">ebInterface 6.1</set>
+      </if>
+    </select>
+  </syntax>
+
   <syntax id="fatturapa-12">
     <select id="CustomizationID">
       <if value="FPA12">

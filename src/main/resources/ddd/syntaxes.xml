@@ -57,6 +57,271 @@
     </get>
   </syntax>
   
+  <syntax id="ebinterface-3p0" nsuri="http://www.ebinterface.at/schema/3p0/" root="Invoice">
+    <name>ebInterface</name>
+    <version>3.0</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-3p0"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <!-- ebInterface 3.0 has no @CountryCode attribute - Country is plain xs:string and may be a name or a code -->
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-3p02" nsuri="http://www.ebinterface.at/schema/3p02/" root="Invoice">
+    <name>ebInterface</name>
+    <version>3.0.2</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-3p02"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <!-- ebInterface 3.0.2 has no @CountryCode attribute - Country is plain xs:string and may be a name or a code -->
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-4p0" nsuri="http://www.ebinterface.at/schema/4p0/" root="Invoice">
+    <name>ebInterface</name>
+    <version>4.0</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-4p0"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-4p1" nsuri="http://www.ebinterface.at/schema/4p1/" root="Invoice">
+    <name>ebInterface</name>
+    <version>4.1</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-4p1"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-4p2" nsuri="http://www.ebinterface.at/schema/4p2/" root="Invoice">
+    <name>ebInterface</name>
+    <version>4.2</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-4p2"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-4p3" nsuri="http://www.ebinterface.at/schema/4p3/" root="Invoice">
+    <name>ebInterface</name>
+    <version>4.3</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-4p3"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-5p0" nsuri="http://www.ebinterface.at/schema/5p0/" root="Invoice">
+    <name>ebInterface</name>
+    <version>5.0</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-5p0"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-6p0" nsuri="http://www.ebinterface.at/schema/6p0/" root="Invoice">
+    <name>ebInterface</name>
+    <version>6.0</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-6p0"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ebinterface-6p1" nsuri="http://www.ebinterface.at/schema/6p1/" root="Invoice">
+    <name>ebInterface</name>
+    <version>6.1</version>
+    <get id="CustomizationID">
+      <xpath>"ebinterface-6p1"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='InvoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Biller']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='Biller']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='VATIdentificationNumber']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/@CountryCode</xpath>
+      <xpath>*[local-name()='InvoiceRecipient']/*[local-name()='Address']/*[local-name()='Country']/text()</xpath>
+    </get>
+  </syntax>
+
   <syntax id="fatturapa-12" nsuri="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" root="FatturaElettronica">
     <name>fatturaPA</name>
     <version>1.2</version>

@@ -40,6 +40,15 @@ public final class DDDSyntaxListTest
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
     assertNotNull (aMap.remove ("cii-d16b"));
+    assertNotNull (aMap.remove ("ebinterface-3p0"));
+    assertNotNull (aMap.remove ("ebinterface-3p02"));
+    assertNotNull (aMap.remove ("ebinterface-4p0"));
+    assertNotNull (aMap.remove ("ebinterface-4p1"));
+    assertNotNull (aMap.remove ("ebinterface-4p2"));
+    assertNotNull (aMap.remove ("ebinterface-4p3"));
+    assertNotNull (aMap.remove ("ebinterface-5p0"));
+    assertNotNull (aMap.remove ("ebinterface-6p0"));
+    assertNotNull (aMap.remove ("ebinterface-6p1"));
     assertNotNull (aMap.remove ("fatturapa-12"));
     assertNotNull (aMap.remove ("ksef-fa1"));
     assertNotNull (aMap.remove ("ksef-fa2"));

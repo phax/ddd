@@ -130,6 +130,12 @@
     </dependency>
     <dependency>
       <groupId>com.helger.phive.rules</groupId>
+      <artifactId>phive-rules-ebinterface</artifactId>
+      <version>${phive-rules.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.phive.rules</groupId>
       <artifactId>phive-rules-ehf</artifactId>
       <version>${phive-rules.version}</version>
       <scope>test</scope>

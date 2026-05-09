@@ -3,10 +3,11 @@
 .idea/
 target/
 
-*.pmd
 *.iml
+*.pmd
 
-.project 
-.classpath 
+.project
+.classpath
+potential.md
 release.properties
 zz

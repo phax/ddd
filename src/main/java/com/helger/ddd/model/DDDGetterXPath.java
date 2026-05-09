@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.string.StringHelper;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.diagnostics.error.SingleError;
 import com.helger.diagnostics.error.list.IErrorList;
@@ -41,6 +42,7 @@ import com.helger.diagnostics.error.list.IErrorList;
 public class DDDGetterXPath implements IDDDGetter
 {
   private final String m_sXPath;
+  // Status variable
   private final XPathExpression m_aXPathExpr;
 
   public DDDGetterXPath (@NonNull @Nonempty final String sXPath)
@@ -79,10 +81,21 @@ public class DDDGetterXPath implements IDDDGetter
 
     try
     {
+      // Try evaluating result as a node set
       final NodeList aNL = (NodeList) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.NODESET);
       final int nSize = aNL.getLength ();
       if (nSize == 1)
         return aNL.item (0).getNodeValue ();
+
+      if (nSize == 0)
+      {
+        // Fall back to STRING evaluation - allows literal-string XPath
+        // expressions like "constant" to return a constant value
+        final String sStringResult = (String) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.STRING);
+        if (StringHelper.isNotEmpty (sStringResult))
+          return sStringResult;
+      }
+
       aErrorList.add (SingleError.builderError ()
                                  .errorText ("The XPath expression '" +
                                              m_sXPath +
@@ -94,6 +107,19 @@ public class DDDGetterXPath implements IDDDGetter
     }
     catch (final Exception ex)
     {
+      // NODESET evaluation may throw for literal-string XPath expressions -
+      // try STRING evaluation as a fallback
+      try
+      {
+        final String sStringResult = (String) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.STRING);
+        if (StringHelper.isNotEmpty (sStringResult))
+          return sStringResult;
+      }
+      catch (final Exception ex2)
+      {
+        // Ignore and fall through to the error report
+      }
+
       aErrorList.add (SingleError.builderError ()
                                  .errorText ("The Failed to apply XPath expression '" + m_sXPath + "' on XML node")
                                  .linkedException (ex)

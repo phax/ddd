@@ -197,6 +197,15 @@
     </select>
   </syntax>
   
+  <syntax id="peppol-om-tdd">
+    <select id="CustomizationID">
+      <if value="urn:peppol:taxdata:om-1">
+        <set id="VESID">org.peppol.taxdata:om:latest</set>
+        <set id="ProfileName">Peppol OM Tax Data 1.0</set>
+      </if>
+    </select>
+  </syntax>
+
   <syntax id="peppol-sk-tdd">
     <select id="CustomizationID">
       <if value="urn:peppol:taxdata:sk-1">
@@ -397,6 +406,17 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.my:creditnote-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Credit Note Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
+      </if>
+      <if value="urn:peppol:pint:billing-1@om-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.om:creditnote:latest-active</set>
+        <set id="ProfileName">Peppol PINT OM Credit Note</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@om-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.om:creditnote-self-billing:latest-active</set>
+        <set id="ProfileName">Peppol PINT OM Credit Note Self-Billing</set>
         <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">
@@ -601,6 +621,17 @@
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">org.peppol.pint.my:invoice-self-billing:latest-active</set>
         <set id="ProfileName">Peppol PINT Malaysia Invoice Self-Billing</set>
+        <flag>Action-SwapSenderAndReceiver</flag>
+      </if>
+      <if value="urn:peppol:pint:billing-1@om-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.om:invoice:latest-active</set>
+        <set id="ProfileName">Peppol PINT OM Invoice</set>
+      </if>
+      <if value="urn:peppol:pint:selfbilling-1@om-1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.pint.om:invoice-self-billing:latest-active</set>
+        <set id="ProfileName">Peppol PINT OM Invoice Self-Billing</set>
         <flag>Action-SwapSenderAndReceiver</flag>
       </if>
       <if value="urn:peppol:pint:billing-1@sg-1">

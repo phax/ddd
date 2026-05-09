@@ -357,6 +357,30 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryPeppolOMTDD ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/peppol-om-tdd/good/simple.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("peppol-om-tdd", aDD.getSyntaxID ());
+
+    assertEquals ("urn:peppol:taxdata:om-1", aDD.getCustomizationID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("0235:dummy-sender", aDD.getSenderID ().getValue ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("0242:dummy-receiver", aDD.getReceiverID ().getValue ());
+
+    assertEquals ("org.peppol.taxdata:om:latest", aDD.getVESID ());
+    assertEquals ("Peppol OM Tax Data 1.0", aDD.getProfileName ());
+  }
+
+  @Test
   public void testReadAllTestfiles ()
   {
     final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();

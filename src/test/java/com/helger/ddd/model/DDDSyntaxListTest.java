@@ -46,6 +46,7 @@ public final class DDDSyntaxListTest
     assertNotNull (aMap.remove ("ksef-fa3"));
     assertNotNull (aMap.remove ("peppol-eusr"));
     assertNotNull (aMap.remove ("peppol-tdd"));
+    assertNotNull (aMap.remove ("peppol-om-tdd"));
     assertNotNull (aMap.remove ("peppol-sk-tdd"));
     assertNotNull (aMap.remove ("peppol-vida-tdd"));
     assertNotNull (aMap.remove ("peppol-tsr"));

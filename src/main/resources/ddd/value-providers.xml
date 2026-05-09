@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2024-12-10">
+     lastmod="2026-05-09">
   <syntax id="cii-d16b">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -152,6 +152,33 @@
     </select>
   </syntax>
   
+  <syntax id="ksef-fa1">
+    <select id="CustomizationID">
+      <if value="FA (1)">
+        <set id="VESID">pl.ksef:ksef:1.0.0</set>
+        <set id="ProfileName">KSeF FA(1)</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ksef-fa2">
+    <select id="CustomizationID">
+      <if value="FA (2)">
+        <set id="VESID">pl.ksef:ksef:2.0.0</set>
+        <set id="ProfileName">KSeF FA(2)</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="ksef-fa3">
+    <select id="CustomizationID">
+      <if value="FA (3)">
+        <set id="VESID">pl.ksef:ksef:3.0.0</set>
+        <set id="ProfileName">KSeF FA(3)</set>
+      </if>
+    </select>
+  </syntax>
+
   <syntax id="peppol-eusr">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:edec:trns:end-user-statistics-report:1.1">

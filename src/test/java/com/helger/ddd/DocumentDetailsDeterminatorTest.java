@@ -271,6 +271,92 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryKSeFFA1 ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ksef-fa1/good/example3-with-nip.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ksef-fa1", aDD.getSyntaxID ());
+
+    assertEquals ("FA (1)", aDD.getCustomizationID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("9999999999", aDD.getSenderID ().getValue ());
+    assertEquals ("ABC AGD sp. z o. o.", aDD.getSenderName ());
+    assertEquals ("PL", aDD.getSenderCountryCode ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("1111111111", aDD.getReceiverID ().getValue ());
+    assertEquals ("CDE sp. j.", aDD.getReceiverName ());
+    assertEquals ("PL", aDD.getReceiverCountryCode ());
+
+    assertEquals ("pl.ksef:ksef:1.0.0", aDD.getVESID ());
+    assertEquals ("KSeF FA(1)", aDD.getProfileName ());
+  }
+
+  @Test
+  public void testDiscoveryKSeFFA2 ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ksef-fa2/good/example1.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ksef-fa2", aDD.getSyntaxID ());
+
+    assertEquals ("FA (2)", aDD.getCustomizationID ());
+    assertEquals ("FV2022/02/150", aDD.getBusinessDocumentID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("9999999999", aDD.getSenderID ().getValue ());
+    assertEquals ("ABC AGD sp. z o. o.", aDD.getSenderName ());
+    assertEquals ("PL", aDD.getSenderCountryCode ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("1111111111", aDD.getReceiverID ().getValue ());
+    assertEquals ("F.H.U. Jan Kowalski", aDD.getReceiverName ());
+    assertEquals ("PL", aDD.getReceiverCountryCode ());
+
+    assertEquals ("pl.ksef:ksef:2.0.0", aDD.getVESID ());
+    assertEquals ("KSeF FA(2)", aDD.getProfileName ());
+  }
+
+  @Test
+  public void testDiscoveryKSeFFA3 ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ksef-fa3/good/example1.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertTrue (aDD.hasSyntaxID ());
+    assertEquals ("ksef-fa3", aDD.getSyntaxID ());
+
+    assertEquals ("FA (3)", aDD.getCustomizationID ());
+    assertEquals ("FV2026/02/150", aDD.getBusinessDocumentID ());
+
+    assertNotNull (aDD.getSenderID ());
+    assertEquals ("9999999999", aDD.getSenderID ().getValue ());
+    assertEquals ("ABC AGD sp. z o. o.", aDD.getSenderName ());
+    assertEquals ("PL", aDD.getSenderCountryCode ());
+
+    assertNotNull (aDD.getReceiverID ());
+    assertEquals ("1111111111", aDD.getReceiverID ().getValue ());
+    assertEquals ("F.H.U. Jan Kowalski", aDD.getReceiverName ());
+    assertEquals ("PL", aDD.getReceiverCountryCode ());
+
+    assertEquals ("pl.ksef:ksef:3.0.0", aDD.getVESID ());
+    assertEquals ("KSeF FA(3)", aDD.getProfileName ());
+  }
+
+  @Test
   public void testReadAllTestfiles ()
   {
     final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();

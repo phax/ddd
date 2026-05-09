@@ -18,7 +18,7 @@
 
 -->
 <syntaxes xmlns="urn:com:helger:ddd:syntaxes:v1.0"
-          lastmod="2024-04-04">
+          lastmod="2026-05-09">
   <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>
@@ -65,6 +65,100 @@
     </get>
     <get id="BusinessDocumentID">
       <xpath>*[local-name()='FatturaElettronicaBody']/*[local-name()='DatiGenerali']/*[local-name()='DatiGeneraliDocumento']/*[local-name()='Numero']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ksef-fa1" nsuri="http://crd.gov.pl/wzor/2021/11/29/11089/" root="Faktura">
+    <name>KSeF FA</name>
+    <version>1</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='Naglowek']/*[local-name()='KodFormularza']/@kodSystemowy</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='Fa']/*[local-name()='P_2']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='PelnaNazwa']/text()</xpath>
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwisko']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='Adres']/*[local-name()='AdresPol']/*[local-name()='KodKraju']/text()</xpath>
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='Adres']/*[local-name()='AdresZagr']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NrID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='PelnaNazwa']/text()</xpath>
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwisko']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='Adres']/*[local-name()='AdresPol']/*[local-name()='KodKraju']/text()</xpath>
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='Adres']/*[local-name()='AdresZagr']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ksef-fa2" nsuri="http://crd.gov.pl/wzor/2023/06/29/12648/" root="Faktura">
+    <name>KSeF FA</name>
+    <version>2</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='Naglowek']/*[local-name()='KodFormularza']/@kodSystemowy</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='Fa']/*[local-name()='P_2']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwa']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='Adres']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NrID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwa']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='Adres']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="ksef-fa3" nsuri="http://crd.gov.pl/wzor/2025/06/25/13775/" root="Faktura">
+    <name>KSeF FA</name>
+    <version>3</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='Naglowek']/*[local-name()='KodFormularza']/@kodSystemowy</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='Fa']/*[local-name()='P_2']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwa']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='Podmiot1']/*[local-name()='Adres']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NIP']/text()</xpath>
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='NrID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='DaneIdentyfikacyjne']/*[local-name()='Nazwa']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='Podmiot2']/*[local-name()='Adres']/*[local-name()='KodKraju']/text()</xpath>
     </get>
   </syntax>
 

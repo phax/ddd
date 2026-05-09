@@ -33,6 +33,9 @@ Each syntax is uniquely determined by the combination of the XML root element na
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
 * CII D16B (ID `cii-d16b`)
 * fatturaPA 1.2 (ID `fatturapa-12`) - added in v0.3.2
+* KSeF FA(1) (ID `ksef-fa1`) - added in v0.8.6
+* KSeF FA(2) (ID `ksef-fa2`) - added in v0.8.6
+* KSeF FA(3) (ID `ksef-fa3`) - added in v0.8.6
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Tax Data Document (ID `peppol-tdd`) - added in v0.8.1
 * Peppol ViDA Pilot Tax Data Document (ID `peppol-vida-tdd`) - added in v0.8.3
@@ -182,6 +185,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 # News and noteworthy
 
 v0.8.6 - work in progress
+* Added support for the Polish KSeF FA(1), FA(2) and FA(3) syntaxes (`ksef-fa1`, `ksef-fa2`, `ksef-fa3`). Each KSeF schema version is detected via its unique target namespace and mapped to the corresponding `pl.ksef:ksef:*` VESID. See [#9](https://github.com/phax/ddd/issues/9) - thx @JDTm
 * Removed OSGI bundling
 
 v0.8.5 - 2026-04-09

@@ -148,6 +148,12 @@
     </dependency>
     <dependency>
       <groupId>com.helger.phive.rules</groupId>
+      <artifactId>phive-rules-ksef</artifactId>
+      <version>${phive-rules.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.phive.rules</groupId>
       <artifactId>phive-rules-oioubl</artifactId>
       <version>${phive-rules.version}</version>
       <scope>test</scope>

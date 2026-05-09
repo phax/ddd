@@ -41,6 +41,9 @@ public final class DDDSyntaxListTest
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
     assertNotNull (aMap.remove ("cii-d16b"));
     assertNotNull (aMap.remove ("fatturapa-12"));
+    assertNotNull (aMap.remove ("ksef-fa1"));
+    assertNotNull (aMap.remove ("ksef-fa2"));
+    assertNotNull (aMap.remove ("ksef-fa3"));
     assertNotNull (aMap.remove ("peppol-eusr"));
     assertNotNull (aMap.remove ("peppol-tdd"));
     assertNotNull (aMap.remove ("peppol-sk-tdd"));

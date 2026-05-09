@@ -39,6 +39,7 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Tax Data Document (ID `peppol-tdd`) - added in v0.8.1
 * Peppol OM Tax Data Document (ID `peppol-om-tdd`) - added in v0.8.6
+* Peppol SK Tax Data Document (ID `peppol-sk-tdd`) - added in v0.8.3
 * Peppol ViDA Pilot Tax Data Document (ID `peppol-vida-tdd`) - added in v0.8.3
 * Peppol Transaction Statistics Report (ID `peppol-tsr`) - added in v0.2.0
 * UBL 2.x Application Response (ID `ubl2-applicationresponse`) - added in v0.1.4

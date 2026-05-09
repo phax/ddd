@@ -195,12 +195,12 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.8.6 - work in progress
+v0.8.6 - 2026-05-09
+* Removed OSGI bundling
 * Added support for the Polish KSeF FA(1), FA(2) and FA(3) syntaxes (`ksef-fa1`, `ksef-fa2`, `ksef-fa3`). Each KSeF schema version is detected via its unique target namespace and mapped to the corresponding `pl.ksef:ksef:*` VESID. See [#9](https://github.com/phax/ddd/issues/9) - thx @JDTm
 * Added support for Peppol OM (Oman): new syntax `peppol-om-tdd` for the OM Tax Data Document, plus PINT OM Invoice/Credit Note (and Self-Billing variants) detection in the UBL Invoice and UBL Credit Note value providers
 * Added support for Austrian ebInterface (versions 3.0, 3.0.2, 4.0, 4.1, 4.2, 4.3, 5.0, 6.0, 6.1). Each version is detected purely by its unique target namespace and mapped to the corresponding `at.ebinterface:invoice:*` VESID
 * `DDDGetterXPath` now also evaluates literal-string XPath expressions (returning a constant value) as a fallback when the expression does not yield a node set
-* Removed OSGI bundling
 
 v0.8.5 - 2026-04-09
 * Added new overload `DocumentDetailsDeterminator.findDocumentDetails(Element, Consumer<Element>)` that provides access to the effective (unwrapped) inner element via a consumer callback

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InvoiceAnnulment xmlns="http://schemas.nav.gov.hu/OSA/3.0/annul" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.nav.gov.hu/OSA/3.0/annul invoiceAnnulment.xsd"
+ xmlns:common="http://schemas.nav.gov.hu/NTCA/1.0/common" xmlns:base="http://schemas.nav.gov.hu/OSA/3.0/base">
+  <annulmentReference>2021/00345</annulmentReference>
+  <annulmentTimestamp>2021-05-15T10:00:00.000Z</annulmentTimestamp>
+  <annulmentCode>ERRATIC_DATA</annulmentCode>
+  <annulmentReason>Hibás adattartalom</annulmentReason>
+</InvoiceAnnulment>

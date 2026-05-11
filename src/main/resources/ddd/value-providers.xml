@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-05-09">
+     lastmod="2026-05-11">
   <syntax id="cii-d16b">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -256,6 +256,42 @@
       <if value="FA (3)">
         <set id="VESID">pl.ksef:ksef:3.0.0</set>
         <set id="ProfileName">KSeF FA(3)</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="osa-invoice-data-2">
+    <select id="CustomizationID">
+      <if value="osa-invoice-data-2">
+        <set id="VESID">hu.gov.nav.osa:invoice-data:2.0</set>
+        <set id="ProfileName">OSA InvoiceData 2.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="osa-invoice-annulment-2">
+    <select id="CustomizationID">
+      <if value="osa-invoice-annulment-2">
+        <set id="VESID">hu.gov.nav.osa:invoice-annulment:2.0</set>
+        <set id="ProfileName">OSA InvoiceAnnulment 2.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="osa-invoice-data-3">
+    <select id="CustomizationID">
+      <if value="osa-invoice-data-3">
+        <set id="VESID">hu.gov.nav.osa:invoice-data:3.0</set>
+        <set id="ProfileName">OSA InvoiceData 3.0</set>
+      </if>
+    </select>
+  </syntax>
+
+  <syntax id="osa-invoice-annulment-3">
+    <select id="CustomizationID">
+      <if value="osa-invoice-annulment-3">
+        <set id="VESID">hu.gov.nav.osa:invoice-annulment:3.0</set>
+        <set id="ProfileName">OSA InvoiceAnnulment 3.0</set>
       </if>
     </select>
   </syntax>

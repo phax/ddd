@@ -41,6 +41,7 @@ import com.helger.phive.eracun.HReRacunValidation;
 import com.helger.phive.fatturapa.FatturaPAValidation;
 import com.helger.phive.ksef.KSeFValidation;
 import com.helger.phive.oioubl.OIOUBLValidation;
+import com.helger.phive.osa.OSAValidation;
 import com.helger.phive.peppol.PeppolValidation;
 import com.helger.phive.peppol.italy.PeppolItalyValidation;
 import com.helger.phive.simplerinvoicing.SimplerInvoicingValidation;
@@ -73,6 +74,7 @@ public final class DDDConsistencyFuncTest
     HReRacunValidation.init (aVesRegistry);
     KSeFValidation.initKSeF (aVesRegistry);
     OIOUBLValidation.initOIOUBL (aVesRegistry);
+    OSAValidation.initOSA (aVesRegistry);
     PeppolValidation.initStandard (aVesRegistry);
     PeppolItalyValidation.init (aVesRegistry);
     SimplerInvoicingValidation.initSimplerInvoicing (aVesRegistry);

@@ -45,6 +45,10 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * KSeF FA(1) (ID `ksef-fa1`) - added in v0.8.6
 * KSeF FA(2) (ID `ksef-fa2`) - added in v0.8.6
 * KSeF FA(3) (ID `ksef-fa3`) - added in v0.8.6
+* OSA InvoiceAnnulment 2.0 (ID `osa-invoice-annulment-2`) - added in v0.8.7
+* OSA InvoiceAnnulment 3.0 (ID `osa-invoice-annulment-3`) - added in v0.8.7
+* OSA InvoiceData 2.0 (ID `osa-invoice-data-2`) - added in v0.8.7
+* OSA InvoiceData 3.0 (ID `osa-invoice-data-3`) - added in v0.8.7
 * Peppol End User Statistics Report (ID `peppol-eusr`) - added in v0.2.0
 * Peppol Tax Data Document (ID `peppol-tdd`) - added in v0.8.1
 * Peppol OM Tax Data Document (ID `peppol-om-tdd`) - added in v0.8.6
@@ -194,6 +198,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 
 # News and noteworthy
+
+v0.8.7 - work in progress
+* Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`). Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID
 
 v0.8.6 - 2026-05-09
 * Removed OSGI bundling

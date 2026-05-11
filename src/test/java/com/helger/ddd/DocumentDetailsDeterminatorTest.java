@@ -418,6 +418,64 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryOSAInvoiceData ()
+  {
+    final String [] aSyntaxIDs = { "osa-invoice-data-2", "osa-invoice-data-3" };
+    final String [] aVersions = { "2.0", "3.0" };
+    for (int i = 0; i < aSyntaxIDs.length; i++)
+    {
+      final String sSyntaxID = aSyntaxIDs[i];
+      final String sVersion = aVersions[i];
+
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals (sSyntaxID, aDD.getSyntaxID ());
+      assertEquals (sSyntaxID, aDD.getCustomizationID ());
+      assertEquals ("hu.gov.nav.osa:invoiceData:" + sVersion, aDD.getVESID ());
+      assertEquals ("OSA InvoiceData " + sVersion, aDD.getProfileName ());
+
+      assertNotNull (aDD.getBusinessDocumentID ());
+      assertNotNull (aDD.getSenderID ());
+      assertNotNull (aDD.getSenderName ());
+      assertEquals ("HU", aDD.getSenderCountryCode ());
+      assertNotNull (aDD.getReceiverID ());
+      assertNotNull (aDD.getReceiverName ());
+      assertEquals ("HU", aDD.getReceiverCountryCode ());
+    }
+  }
+
+  @Test
+  public void testDiscoveryOSAInvoiceAnnulment ()
+  {
+    final String [] aSyntaxIDs = { "osa-invoice-annulment-2", "osa-invoice-annulment-3" };
+    final String [] aVersions = { "2.0", "3.0" };
+    for (int i = 0; i < aSyntaxIDs.length; i++)
+    {
+      final String sSyntaxID = aSyntaxIDs[i];
+      final String sVersion = aVersions[i];
+
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals (sSyntaxID, aDD.getSyntaxID ());
+      assertEquals (sSyntaxID, aDD.getCustomizationID ());
+      assertEquals ("hu.gov.nav.osa:invoiceAnnulment:" + sVersion, aDD.getVESID ());
+      assertEquals ("OSA InvoiceAnnulment " + sVersion, aDD.getProfileName ());
+
+      assertNotNull (aDD.getBusinessDocumentID ());
+    }
+  }
+
+  @Test
   public void testDiscoveryPeppolOMTDD ()
   {
     final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/peppol-om-tdd/good/simple.xml"));

@@ -18,7 +18,7 @@
 
 -->
 <syntaxes xmlns="urn:com:helger:ddd:syntaxes:v1.0"
-          lastmod="2026-05-09">
+          lastmod="2026-05-11">
   <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>
@@ -424,6 +424,106 @@
     </get>
     <get id="ReceiverCountryCode">
       <xpath>*[local-name()='Podmiot2']/*[local-name()='Adres']/*[local-name()='KodKraju']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="osa-invoice-data-2" nsuri="http://schemas.nav.gov.hu/OSA/2.0/data" root="InvoiceData">
+    <name>Hungarian OSA InvoiceData</name>
+    <version>2.0</version>
+    <get id="CustomizationID">
+      <xpath>"osa-invoice-data-2"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='invoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierName']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierName']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerName']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerName']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="osa-invoice-annulment-2" nsuri="http://schemas.nav.gov.hu/OSA/2.0/annul" root="InvoiceAnnulment">
+    <name>Hungarian OSA InvoiceAnnulment</name>
+    <version>2.0</version>
+    <get id="CustomizationID">
+      <xpath>"osa-invoice-annulment-2"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='annulmentReference']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="osa-invoice-data-3" nsuri="http://schemas.nav.gov.hu/OSA/3.0/data" root="InvoiceData">
+    <name>Hungarian OSA InvoiceData</name>
+    <version>3.0</version>
+    <get id="CustomizationID">
+      <xpath>"osa-invoice-data-3"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='invoiceNumber']/text()</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierName']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierName']/text()</xpath>
+    </get>
+    <get id="SenderCountryCode">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='supplierInfo']/*[local-name()='supplierAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerVatData']/*[local-name()='customerTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerVatData']/*[local-name()='customerTaxNumber']/*[local-name()='taxpayerId']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerName']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerName']/text()</xpath>
+    </get>
+    <get id="ReceiverCountryCode">
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='detailedAddress']/*[local-name()='countryCode']/text()</xpath>
+      <xpath>*[local-name()='invoiceMain']/*[local-name()='batchInvoice']/*[local-name()='invoice']/*[local-name()='invoiceHead']/*[local-name()='customerInfo']/*[local-name()='customerAddress']/*[local-name()='simpleAddress']/*[local-name()='countryCode']/text()</xpath>
+    </get>
+  </syntax>
+
+  <syntax id="osa-invoice-annulment-3" nsuri="http://schemas.nav.gov.hu/OSA/3.0/annul" root="InvoiceAnnulment">
+    <name>Hungarian OSA InvoiceAnnulment</name>
+    <version>3.0</version>
+    <get id="CustomizationID">
+      <xpath>"osa-invoice-annulment-3"</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='annulmentReference']/text()</xpath>
     </get>
   </syntax>
 

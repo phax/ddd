@@ -376,7 +376,9 @@ public final class DocumentDetailsDeterminatorTest
       final String sSyntaxID = aSyntaxIDs[i];
       final String sVersion = aVersions[i];
 
-      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" +
+                                                                         sSyntaxID +
+                                                                         "/good/example.xml"));
       assertNotNull (aDoc);
 
       final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
@@ -427,7 +429,9 @@ public final class DocumentDetailsDeterminatorTest
       final String sSyntaxID = aSyntaxIDs[i];
       final String sVersion = aVersions[i];
 
-      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" +
+                                                                         sSyntaxID +
+                                                                         "/good/example.xml"));
       assertNotNull (aDoc);
 
       final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
@@ -436,7 +440,7 @@ public final class DocumentDetailsDeterminatorTest
       assertTrue (aDD.hasSyntaxID ());
       assertEquals (sSyntaxID, aDD.getSyntaxID ());
       assertEquals (sSyntaxID, aDD.getCustomizationID ());
-      assertEquals ("hu.gov.nav.osa:invoiceData:" + sVersion, aDD.getVESID ());
+      assertEquals ("hu.gov.nav.osa:invoice-data:" + sVersion, aDD.getVESID ());
       assertEquals ("OSA InvoiceData " + sVersion, aDD.getProfileName ());
 
       assertNotNull (aDD.getBusinessDocumentID ());
@@ -459,7 +463,9 @@ public final class DocumentDetailsDeterminatorTest
       final String sSyntaxID = aSyntaxIDs[i];
       final String sVersion = aVersions[i];
 
-      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" + sSyntaxID + "/good/example.xml"));
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" +
+                                                                         sSyntaxID +
+                                                                         "/good/example.xml"));
       assertNotNull (aDoc);
 
       final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
@@ -468,7 +474,7 @@ public final class DocumentDetailsDeterminatorTest
       assertTrue (aDD.hasSyntaxID ());
       assertEquals (sSyntaxID, aDD.getSyntaxID ());
       assertEquals (sSyntaxID, aDD.getCustomizationID ());
-      assertEquals ("hu.gov.nav.osa:invoiceAnnulment:" + sVersion, aDD.getVESID ());
+      assertEquals ("hu.gov.nav.osa:invoice-annulment:" + sVersion, aDD.getVESID ());
       assertEquals ("OSA InvoiceAnnulment " + sVersion, aDD.getProfileName ());
 
       assertNotNull (aDD.getBusinessDocumentID ());

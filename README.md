@@ -199,7 +199,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.8.7 - work in progress
+v0.8.7 - 2026-05-13
 * Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`). Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID
 
 v0.8.6 - 2026-05-09

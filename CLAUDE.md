@@ -29,6 +29,8 @@ mvn test -Dtest=DocumentDetailsDeterminatorTest#testFindDocumentDetails
 
 Requires **Java 17+**. CI tests on Java 17, 21, and 25.
 
+The build runs `forbiddenapis` (against `ph-forbidden-apis-1.1.1`) — using a banned Java 9+ signature will fail the build, not just emit a warning.
+
 ## Architecture
 
 This is a single-module Maven project (parent: `com.helger:parent-pom`).
@@ -45,6 +47,8 @@ This is a single-module Maven project (parent: `com.helger:parent-pom`).
 | `EDDDDeterminedField` | Enum of derived fields (VESID, ProcessID, SyntaxVersion, ProfileName) |
 | `DocumentDetailsXMLHelper` / `DocumentDetailsJsonHelper` | Serialization to/from XML and JSON |
 
+JAXB classes for the syntax and value-provider models are generated into `target/generated-sources/xjc/` (packages `com.helger.ddd.model.jaxb.syntax1` and `com.helger.ddd.model.jaxb.vp1`). Do not edit these — change the XSDs in `src/main/resources/schemas/` and rebuild.
+
 ### Value provider rule model (`com.helger.ddd.model`)
 
 `VPSelect` -> `VPIf` -> `VPSourceValue` -> `VPDeterminedValues` / `VPDeterminedFlags` - a tree of conditions matching source field values to determine output fields.
@@ -53,6 +57,8 @@ This is a single-module Maven project (parent: `com.helger:parent-pom`).
 
 - `syntaxes.xml` - all supported syntax definitions with XPath mappings
 - `value-providers.xml` - all value provider rules mapping CustomizationIDs to VESIDs/profiles
+
+Both files carry a `lastmod="YYYY-MM-DD"` attribute on the root element — bump it to the current date when changing either file.
 
 XSD schemas for these files are in `src/main/resources/schemas/`. JAXB classes are generated from these schemas during build.
 
@@ -64,7 +70,7 @@ XSD schemas for these files are in `src/main/resources/schemas/`. JAXB classes a
 
 ## Testing
 
-Tests use JUnit 4 (`@Test` annotations). Test XML documents are in `src/test/resources/external/` organized by syntax type (e.g., `ubl2-invoice/`, `cii-d16b/`).
+Tests use JUnit 4 (`@Test` annotations). Test XML documents are in `src/test/resources/external/<syntax-id>/` with `good/` and `bad/` subdirectories — `DocumentDetailsDeterminatorTest#testReadAllTestfiles` iterates these automatically, so new fixtures only need to be dropped in the right folder.
 
 Key test classes:
 - `DocumentDetailsDeterminatorTest` - end-to-end determination from XML files

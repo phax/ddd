@@ -31,7 +31,7 @@ These fields are to be determined differently depending on a specific syntax (se
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
-* CII D16B (ID `cii-d16b`)
+* Cross Industry Invoice (ID `cii`) - renamed from `cii-d16b` in v0.8.8
 * ebInterface 3.0 (ID `ebinterface-3p0`) - added in v0.8.6
 * ebInterface 3.0.2 (ID `ebinterface-3p02`) - added in v0.8.6
 * ebInterface 4.0 (ID `ebinterface-4p0`) - added in v0.8.6
@@ -198,6 +198,10 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 ```
 
 # News and noteworthy
+
+v0.8.8 - work in progress
+* Renamed the `cii-d16b` syntax to the version-neutral `cii` so each value-provider entry can pin its own CII release. See [#10](https://github.com/phax/ddd/issues/10) - thx @Jef-VDD
+* Removed the manual `<set id="ProcessID">` overrides from all `cii` value-provider entries — the ProcessID is now extracted from the XML via the syntax's XPath, which lets downstream value-providers override it. See [#10](https://github.com/phax/ddd/issues/10)
 
 v0.8.7 - 2026-05-13
 * Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`). Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID

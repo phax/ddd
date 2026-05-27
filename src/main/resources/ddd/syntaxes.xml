@@ -18,8 +18,8 @@
 
 -->
 <syntaxes xmlns="urn:com:helger:ddd:syntaxes:v1.0"
-          lastmod="2026-05-11">
-  <syntax id="cii-d16b" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
+          lastmod="2026-05-27">
+  <syntax id="cii" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>
     <get id="CustomizationID">

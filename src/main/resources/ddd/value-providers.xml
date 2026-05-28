@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-05-27">
+     lastmod="2026-05-28">
   <syntax id="cii">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -123,9 +123,24 @@
         <set id="ProfileName">Factur-X 1.0.x (Extended Profile)</set>
         <flag>IsEN16931-2017CIUS</flag>
       </if>
+
+      <if value="urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr">
+        <set id="SyntaxVersion">D22B</set>
+        <set id="VESID">fr.ctc:extended-cii:latest</set>
+        <set id="ProfileName">French CTC Extended CII</set>
+      </if>
     </select>
   </syntax>
-  
+
+  <syntax id="cdar">
+    <select id="CustomizationID">
+      <if value="urn.cpro.gouv.fr:1p0:CDV:invoice">
+        <set id="VESID">fr.ctc:cdar:latest</set>
+        <set id="ProfileName">French CTC CDAR Invoice</set>
+      </if>
+    </select>
+  </syntax>
+
   <syntax id="ebinterface-3p0">
     <select id="CustomizationID">
       <if value="ebinterface-3p0">
@@ -642,9 +657,14 @@
         <set id="VESID">hr.gov.porezna.eracun:ubl-creditnote:latest-active</set>
         <set id="ProfileName">HR eRacun Credit Note</set>
       </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">fr.ctc:extended-ubl-creditnote:latest</set>
+        <set id="ProfileName">French CTC Extended UBL Credit Note</set>
+      </if>
     </select>
   </syntax>
-  
+
   <syntax id="ubl2-despatchadvice">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:despatch_advice:3:extended:urn:www.agid.gov.it:trns:ddt:3.1">
@@ -857,9 +877,14 @@
         <set id="VESID">hr.gov.porezna.eracun:ubl-invoice:latest-active</set>
         <set id="ProfileName">HR eRacun Invoice</set>
       </if>
+      <if value="urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">fr.ctc:extended-ubl-invoice:latest</set>
+        <set id="ProfileName">French CTC Extended UBL Invoice</set>
+      </if>
     </select>
   </syntax>
-  
+
   <syntax id="ubl2-order">
     <select id="CustomizationID">
       <if value="urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1">

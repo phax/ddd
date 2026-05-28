@@ -31,6 +31,7 @@ These fields are to be determined differently depending on a specific syntax (se
 Each syntax is uniquely determined by the combination of the XML root element namespace URI and local name.
 
 DDD offers a mapping of the above mentioned fields on a set of predefined syntaxes (in alphabetical order):
+* Cross Domain Acknowledgement and Response D22B (ID `cdar`) - added in v0.8.8
 * Cross Industry Invoice (ID `cii`) - renamed from `cii-d16b` in v0.8.8
 * ebInterface 3.0 (ID `ebinterface-3p0`) - added in v0.8.6
 * ebInterface 3.0.2 (ID `ebinterface-3p02`) - added in v0.8.6
@@ -202,6 +203,8 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 v0.8.8 - work in progress
 * Renamed the `cii-d16b` syntax to the version-neutral `cii` so each value-provider entry can pin its own CII release. See [#10](https://github.com/phax/ddd/issues/10) - thx @Jef-VDD
 * Removed the manual `<set id="ProcessID">` overrides from all `cii` value-provider entries — the ProcessID is now extracted from the XML via the syntax's XPath, which lets downstream value-providers override it. See [#10](https://github.com/phax/ddd/issues/10)
+* Added value-provider entries for the French CTC Extended-CTC-FR profile on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr` to the `fr.ctc:extended-*:latest` VESIDs. The CII entry pins `SyntaxVersion` to `D22B`. See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
+* Added support for the French CTC CDAR (Cross Domain Acknowledgement and Response D22B) syntax (`cdar`), detected via namespace `urn:un:unece:uncefact:data:standard:CrossDomainAcknowledgementAndResponse:100` and mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:invoice` to VESID `fr.ctc:cdar:latest`. See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
 
 v0.8.7 - 2026-05-13
 * Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`). Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID

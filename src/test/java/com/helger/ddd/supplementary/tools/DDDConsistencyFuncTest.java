@@ -39,6 +39,7 @@ import com.helger.phive.ehf.EHFValidation;
 import com.helger.phive.en16931.EN16931Validation;
 import com.helger.phive.eracun.HReRacunValidation;
 import com.helger.phive.fatturapa.FatturaPAValidation;
+import com.helger.phive.france.FranceCTCValidation;
 import com.helger.phive.ksef.KSeFValidation;
 import com.helger.phive.oioubl.OIOUBLValidation;
 import com.helger.phive.osa.OSAValidation;
@@ -71,6 +72,7 @@ public final class DDDConsistencyFuncTest
     EbInterfaceValidation.initEbInterface (aVesRegistry);
     EHFValidation.initEHF (aVesRegistry);
     FatturaPAValidation.initFatturaPA (aVesRegistry);
+    FranceCTCValidation.initFranceCTC (aVesRegistry);
     HReRacunValidation.init (aVesRegistry);
     KSeFValidation.initKSeF (aVesRegistry);
     OIOUBLValidation.initOIOUBL (aVesRegistry);

@@ -162,6 +162,12 @@
     </dependency>
     <dependency>
       <groupId>com.helger.phive.rules</groupId>
+      <artifactId>phive-rules-france</artifactId>
+      <version>${phive-rules.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.phive.rules</groupId>
       <artifactId>phive-rules-ksef</artifactId>
       <version>${phive-rules.version}</version>
       <scope>test</scope>

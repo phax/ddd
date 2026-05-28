@@ -18,7 +18,7 @@
 
 -->
 <syntaxes xmlns="urn:com:helger:ddd:syntaxes:v1.0"
-          lastmod="2026-05-27">
+          lastmod="2026-05-28">
   <syntax id="cii" nsuri="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" root="CrossIndustryInvoice">
     <name>Cross Industry Invoice</name>
     <version>D16B</version>
@@ -56,7 +56,39 @@
       <xpath>*[local-name()='SupplyChainTradeTransaction']/*[local-name()='ApplicableHeaderTradeAgreement']/*[local-name()='BuyerTradeParty']/*[local-name()='PostalTradeAddress']/*[local-name()='CountryID']/text()</xpath>
     </get>
   </syntax>
-  
+
+  <syntax id="cdar" nsuri="urn:un:unece:uncefact:data:standard:CrossDomainAcknowledgementAndResponse:100" root="CrossDomainAcknowledgementAndResponse">
+    <name>Cross Domain Acknowledgement and Response</name>
+    <version>D22B</version>
+    <get id="CustomizationID">
+      <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='GuidelineSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="ProcessID">
+      <xpath>*[local-name()='ExchangedDocumentContext']/*[local-name()='BusinessProcessSpecifiedDocumentContextParameter']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="BusinessDocumentID">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='ID']/text()</xpath>
+    </get>
+    <get id="SenderIDScheme">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='SenderTradeParty']/*[local-name()='GlobalID']/@schemeID</xpath>
+    </get>
+    <get id="SenderIDValue">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='SenderTradeParty']/*[local-name()='GlobalID']/text()</xpath>
+    </get>
+    <get id="SenderName">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='SenderTradeParty']/*[local-name()='Name']/text()</xpath>
+    </get>
+    <get id="ReceiverIDScheme">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='RecipientTradeParty'][1]/*[local-name()='GlobalID']/@schemeID</xpath>
+    </get>
+    <get id="ReceiverIDValue">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='RecipientTradeParty'][1]/*[local-name()='GlobalID']/text()</xpath>
+    </get>
+    <get id="ReceiverName">
+      <xpath>*[local-name()='ExchangedDocument']/*[local-name()='RecipientTradeParty'][1]/*[local-name()='Name']/text()</xpath>
+    </get>
+  </syntax>
+
   <syntax id="ebinterface-3p0" nsuri="http://www.ebinterface.at/schema/3p0/" root="Invoice">
     <name>ebInterface</name>
     <version>3.0</version>

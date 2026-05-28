@@ -39,6 +39,7 @@ public final class DDDSyntaxListTest
     assertNotNull (aSL.getLastModification ());
 
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
+    assertNotNull (aMap.remove ("cdar"));
     assertNotNull (aMap.remove ("cii"));
     assertNotNull (aMap.remove ("ebinterface-3p0"));
     assertNotNull (aMap.remove ("ebinterface-3p02"));

@@ -200,7 +200,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.8.8 - work in progress
+v0.8.8 - 2026-05-28
 * Renamed the `cii-d16b` syntax to the version-neutral `cii` so each value-provider entry can pin its own CII release. See [#10](https://github.com/phax/ddd/issues/10) - thx @Jef-VDD
 * Removed the manual `<set id="ProcessID">` overrides from all `cii` value-provider entries — the ProcessID is now extracted from the XML via the syntax's XPath, which lets downstream value-providers override it. See [#10](https://github.com/phax/ddd/issues/10)
 * Added value-provider entries for the French CTC Extended-CTC-FR profile on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr` to the `fr.ctc:extended-*:latest` VESIDs. The CII entry pins `SyntaxVersion` to `D22B`. See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD

@@ -202,7 +202,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
-v0.8.9 - work in progress
+v0.8.9 - 2026-06-03
 * Added new overload `DDDSyntaxList.findMatchingSyntax (String, String)` to look up a syntax by namespace URI and local name without needing an XML `Element`. Returns `null` if either parameter is `null`
 
 v0.8.8 - 2026-05-28

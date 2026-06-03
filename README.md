@@ -3,6 +3,8 @@
 <!-- ph-badge-start -->
 [![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/)
 [![javadoc](https://javadoc.io/badge2/com.helger/ddd/javadoc.svg)](https://javadoc.io/doc/com.helger/ddd)
+
+> If this project saved you some time or made your day a little easier, a star would mean a lot — it helps others find it too.
 <!-- ph-badge-end -->
 
 Document Details Determinator - determine [VESID](https://github.com/phax/ph-diver)s from payload to use with https://github.com/phax/phive and https://github.com/phax/phive-rules

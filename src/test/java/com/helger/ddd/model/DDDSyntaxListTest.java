@@ -18,9 +18,12 @@ package com.helger.ddd.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.ICommonsMap;
 
 /**
@@ -38,6 +41,7 @@ public final class DDDSyntaxListTest
 
     assertNotNull (aSL.getLastModification ());
 
+    // Creates a copy
     final ICommonsMap <String, DDDSyntax> aMap = aSL.getAllSyntaxes ();
     assertNotNull (aMap.remove ("cdar"));
     assertNotNull (aMap.remove ("cii"));
@@ -85,5 +89,34 @@ public final class DDDSyntaxListTest
     assertNotNull (aMap.remove ("ubl2-utilitystatement"));
     assertNotNull (aMap.remove ("zugferd1"));
     assertEquals ("Left: " + aMap.toString (), 0, aMap.size ());
+  }
+
+  @Test
+  public void testAllSyntaxesWithNamespaceUri ()
+  {
+    for (final var e : DDDSyntaxList.getDefaultSyntaxList ().getAllSyntaxes ().values ())
+      assertTrue (StringHelper.isNotEmpty (e.getRootElementNamespaceURI ()));
+  }
+
+  @Test
+  public void testFindMatchingSyntaxByNamespaceAndLocalName ()
+  {
+    final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();
+
+    // Positive match against a known syntax
+    final DDDSyntax aMatch = aSL.findMatchingSyntax ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+                                                     "Invoice");
+    assertNotNull (aMatch);
+    assertEquals ("ubl2-invoice", aMatch.getID ());
+
+    // Unknown namespace / local name combination
+    assertNull (aSL.findMatchingSyntax ("urn:does:not:exist", "Invoice"));
+    assertNull (aSL.findMatchingSyntax ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2", "Unknown"));
+
+    // Null parameters return null (no registered syntax has a null namespace
+    // URI or local name)
+    assertNull (aSL.findMatchingSyntax (null, null));
+    assertNull (aSL.findMatchingSyntax (null, "Invoice"));
+    assertNull (aSL.findMatchingSyntax ("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2", null));
   }
 }

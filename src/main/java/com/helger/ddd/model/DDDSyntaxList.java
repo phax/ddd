@@ -80,8 +80,8 @@ public class DDDSyntaxList
   }
 
   /**
-   * @return A map with all contained syntaxes. Key is the syntax ID and value
-   *         is the {@link DDDSyntax} object. Never <code>null</code>.
+   * @return A map with all contained syntaxes. Key is the syntax ID and value is the
+   *         {@link DDDSyntax} object. Never <code>null</code>.
    */
   @NonNull
   @ReturnsMutableCopy
@@ -104,8 +104,32 @@ public class DDDSyntaxList
   }
 
   /**
-   * Find a matching syntax based on an XML document root element namespace URI
-   * and local name.
+   * Find a matching syntax based on a root element namespace URI and local name.
+   *
+   * @param sNamespaceURI
+   *        The XML namespace URI to match. May be <code>null</code>.
+   * @param sLocalName
+   *        The XML root element local name to match. May be <code>null</code>.
+   * @return <code>null</code> if no matching syntax was found. If either parameter is
+   *         <code>null</code>, <code>null</code> is returned immediately, because all currently
+   *         registered syntaxes have a non-<code>null</code> namespace URI and local name.
+   * @since 0.8.9
+   */
+  @Nullable
+  public DDDSyntax findMatchingSyntax (@Nullable final String sNamespaceURI, @Nullable final String sLocalName)
+  {
+    if (sNamespaceURI == null || sLocalName == null)
+      return null;
+
+    for (final DDDSyntax aSyntax : m_aSyntaxes.values ())
+      if (aSyntax.matches (sNamespaceURI, sLocalName))
+        return aSyntax;
+
+    return null;
+  }
+
+  /**
+   * Find a matching syntax based on an XML document root element namespace URI and local name.
    *
    * @param aRootElement
    *        The root element of an XML document. May not be <code>null</code>.
@@ -116,14 +140,7 @@ public class DDDSyntaxList
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
 
-    final String sNamespaceURI = aRootElement.getNamespaceURI ();
-    final String sLocalName = aRootElement.getLocalName ();
-
-    for (final DDDSyntax aSyntax : m_aSyntaxes.values ())
-      if (aSyntax.matches (sNamespaceURI, sLocalName))
-        return aSyntax;
-
-    return null;
+    return findMatchingSyntax (aRootElement.getNamespaceURI (), aRootElement.getLocalName ());
   }
 
   @Override
@@ -135,9 +152,8 @@ public class DDDSyntaxList
   }
 
   /**
-   * Create a new {@link DDDSyntaxList} object from the internal XML
-   * representation. This is primarily used to read the
-   * {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
+   * Create a new {@link DDDSyntaxList} object from the internal XML representation. This is
+   * primarily used to read the {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
    *
    * @param aRes
    *        The resource to read. Must not be <code>null</code>.
@@ -162,9 +178,8 @@ public class DDDSyntaxList
   }
 
   /**
-   * Create a new {@link DDDSyntaxList} object from the internal Jaxb
-   * representation. This is primarily used to read the
-   * {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
+   * Create a new {@link DDDSyntaxList} object from the internal Jaxb representation. This is
+   * primarily used to read the {@link #DEFAULT_SYNTAX_LIST_RES} into memory.
    *
    * @param aJaxbSyntaxes
    *        The JAXB object to read. Must not be <code>null</code>.
@@ -192,8 +207,7 @@ public class DDDSyntaxList
   }
 
   /**
-   * @return The syntax list from the default syntax list file. Never
-   *         <code>null</code>.
+   * @return The syntax list from the default syntax list file. Never <code>null</code>.
    * @see #readFromXML(IReadableResource)
    * @see #DEFAULT_SYNTAX_LIST_RES
    */
@@ -204,8 +218,8 @@ public class DDDSyntaxList
   }
 
   /**
-   * Merge the two syntax lists into a single one. Each syntax must only be
-   * contained in one list to be mergable - otherwise an exception is thrown.
+   * Merge the two syntax lists into a single one. Each syntax must only be contained in one list to
+   * be mergable - otherwise an exception is thrown.
    *
    * @param aSL1
    *        First syntax list. May not be <code>null</code>.
@@ -223,9 +237,9 @@ public class DDDSyntaxList
     ValueEnforcer.notNull (aSL2, "SyntaxList2");
 
     // find latest last modification
-    final LocalDate aLastMod = aSL1.getLastModification ()
-                                   .isAfter (aSL2.getLastModification ()) ? aSL1.getLastModification ()
-                                                                          : aSL2.getLastModification ();
+    final LocalDate aLastMod = aSL1.getLastModification ().isAfter (aSL2.getLastModification ()) ? aSL1
+                                                                                                       .getLastModification ()
+                                                                                                 : aSL2.getLastModification ();
 
     final ICommonsMap <String, DDDSyntax> aMergedMap = new CommonsHashMap <> ();
     for (final Map.Entry <String, DDDSyntax> aEntry1 : aSL1.m_aSyntaxes.entrySet ())

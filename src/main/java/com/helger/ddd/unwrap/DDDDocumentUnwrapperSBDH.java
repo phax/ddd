@@ -40,6 +40,8 @@ public class DDDDocumentUnwrapperSBDH implements IDDDDocumentUnwrapper
   /** Default instance */
   public static final DDDDocumentUnwrapperSBDH INSTANCE = new DDDDocumentUnwrapperSBDH ();
 
+  public static final String WRAPPING_TYPE = "SBDH";
+
   /** SBDH namespace URI */
   public static final String NAMESPACE_URI = "http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader";
 
@@ -47,7 +49,7 @@ public class DDDDocumentUnwrapperSBDH implements IDDDDocumentUnwrapper
   @Nonempty
   public String getWrappingType ()
   {
-    return "SBDH";
+    return WRAPPING_TYPE;
   }
 
   @Nullable

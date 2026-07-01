@@ -39,6 +39,8 @@ public class DDDDocumentUnwrapperXHE implements IDDDDocumentUnwrapper
   /** Default instance */
   public static final DDDDocumentUnwrapperXHE INSTANCE = new DDDDocumentUnwrapperXHE ();
 
+  public static final String WRAPPING_TYPE = "XHE";
+
   /** XHE root element namespace URI */
   public static final String NAMESPACE_URI_XHE = "http://docs.oasis-open.org/bdxr/ns/XHE/1/ExchangeHeaderEnvelope";
 
@@ -49,7 +51,7 @@ public class DDDDocumentUnwrapperXHE implements IDDDDocumentUnwrapper
   @Nonempty
   public String getWrappingType ()
   {
-    return "XHE";
+    return WRAPPING_TYPE;
   }
 
   @Nullable

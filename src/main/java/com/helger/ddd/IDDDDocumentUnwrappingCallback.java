@@ -27,7 +27,17 @@ import org.w3c.dom.Element;
  */
 public interface IDDDDocumentUnwrappingCallback
 {
+  /**
+   * Call for each unwrapping layer.
+   *
+   * @param aUnwrapper
+   *        The unwrapper instance that is used. Never <code>null</code>.
+   * @param aOuterElement
+   *        The outer element that gets unwrapped. Never <code>null</code>.
+   * @param aInnerElement
+   *        The inner element that is the result of the unwrapping. Never <code>null</code>.
+   */
   void onUnwrap (@NonNull IDDDDocumentUnwrapper aUnwrapper,
-                 @NonNull Element aEffectiveElement,
+                 @NonNull Element aOuterElement,
                  @NonNull Element aInnerElement);
 }

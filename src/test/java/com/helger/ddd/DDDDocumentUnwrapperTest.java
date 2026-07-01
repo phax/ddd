@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.helger.base.numeric.mutable.MutableInt;
 import com.helger.base.wrapper.Wrapper;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
@@ -126,8 +127,10 @@ public final class DDDDocumentUnwrapperTest
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
     final Wrapper <Element> aInnerElement = Wrapper.empty ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, aInnerElement::set);
+    final MutableInt aCounter = new MutableInt (0);
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, (u, o, n) -> aCounter.inc (), aInnerElement::set);
     assertNotNull (aDD);
+    assertEquals (1, aCounter.intValue ());
     assertTrue (aInnerElement.isSet ());
     assertSame (aInvoice, aInnerElement.get ());
 
@@ -147,8 +150,10 @@ public final class DDDDocumentUnwrapperTest
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
     final Wrapper <Element> aInnerElement = Wrapper.empty ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aXHE, aInnerElement::set);
+    final MutableInt aCounter = new MutableInt (0);
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aXHE, (u, o, n) -> aCounter.inc (), aInnerElement::set);
     assertNotNull (aDD);
+    assertEquals (1, aCounter.intValue ());
     assertTrue (aInnerElement.isSet ());
     assertSame (aInvoice, aInnerElement.get ());
 
@@ -170,8 +175,10 @@ public final class DDDDocumentUnwrapperTest
 
     final DocumentDetailsDeterminator aDDD = _createDDD ().addDefaultUnwrappers ();
     final Wrapper <Element> aInnerElement = Wrapper.empty ();
-    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, aInnerElement::set);
+    final MutableInt aCounter = new MutableInt (0);
+    final DocumentDetails aDD = aDDD.findDocumentDetails (aSBD, (u, o, n) -> aCounter.inc (), aInnerElement::set);
     assertNotNull (aDD);
+    assertEquals (2, aCounter.intValue ());
     assertTrue (aInnerElement.isSet ());
     assertSame (aInvoice, aInnerElement.get ());
 

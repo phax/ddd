@@ -17,7 +17,6 @@
 package com.helger.ddd;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -37,7 +36,6 @@ import com.helger.ddd.model.DDDSyntax;
 import com.helger.ddd.model.DDDSyntaxList;
 import com.helger.ddd.model.DDDValueProviderList;
 import com.helger.ddd.model.DDDValueProviderPerSyntax;
-import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.EDDDSourceField;
 import com.helger.ddd.model.VPDeterminedFlags;
 import com.helger.ddd.model.VPDeterminedValues;
@@ -336,12 +334,12 @@ public final class DocumentDetailsDeterminator
    * @param aRootElement
    *        The root element of the XML document. May not be <code>null</code>.
    * @return The document details or <code>null</code> if the document type could not be determined.
-   * @see #findDocumentDetails(Element, Consumer)
+   * @see #findDocumentDetails(Element, IDDDDocumentUnwrappingCallback, Consumer)
    */
   @Nullable
   public DocumentDetails findDocumentDetails (@NonNull final Element aRootElement)
   {
-    return findDocumentDetails (aRootElement, null);
+    return findDocumentDetails (aRootElement, null, null);
   }
 
   /**
@@ -350,6 +348,9 @@ public final class DocumentDetailsDeterminator
    *
    * @param aRootElement
    *        The root element of the XML document. May not be <code>null</code>.
+   * @param aUnwrappingCallback
+   *        The unwrapping callback to be invoked for each unwrapping level. May be
+   *        <code>null</code> (since 0.8.10).
    * @param aEffectiveElementConsumer
    *        An optional consumer that receives the effective (potentially unwrapped) element that
    *        was used for document detail determination. May be <code>null</code>.
@@ -358,6 +359,7 @@ public final class DocumentDetailsDeterminator
    */
   @Nullable
   public DocumentDetails findDocumentDetails (@NonNull final Element aRootElement,
+                                              @Nullable final IDDDDocumentUnwrappingCallback aUnwrappingCallback,
                                               @Nullable final Consumer <Element> aEffectiveElementConsumer)
   {
     ValueEnforcer.notNull (aRootElement, "RootElement");
@@ -375,6 +377,10 @@ public final class DocumentDetailsDeterminator
         final Element aInnerElement = aUnwrapper.unwrap (aEffectiveElement);
         if (aInnerElement != null)
         {
+          // Invoke callback
+          if (aUnwrappingCallback != null)
+            aUnwrappingCallback.onUnwrap (aUnwrapper, aEffectiveElement, aInnerElement);
+
           m_aInfoHdl.accept ("Unwrapped envelope of type '" + aUnwrapper.getWrappingType () + "'");
           aEffectiveElement = aInnerElement;
           aWrappingTypes.add (aUnwrapper.getWrappingType ());
@@ -476,7 +482,7 @@ public final class DocumentDetailsDeterminator
     aValueProvider.forAllDeducedValues (fctFieldProvider, aDeterminedMatches, aDeterminedFlags);
 
     String sProfileName = null;
-    for (final Map.Entry <EDDDDeterminedField, String> aEntry : aDeterminedMatches)
+    for (final var aEntry : aDeterminedMatches)
     {
       final String sNewValue = aEntry.getValue ();
       switch (aEntry.getKey ())
@@ -487,7 +493,6 @@ public final class DocumentDetailsDeterminator
         case PROFILE_NAME -> sProfileName = sNewValue;
         default -> throw new IllegalStateException ("The field " + aEntry.getKey () + " is unknown");
       }
-
     }
 
     // Assemble Document Type ID

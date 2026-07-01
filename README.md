@@ -202,6 +202,10 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.8.10 - 2026-07-01
+* Added new interface `IDDDDocumentUnwrappingCallback`
+* Invoking the new callback interface on each unwrapping layer
+
 v0.8.9 - 2026-06-03
 * Added new overload `DDDSyntaxList.findMatchingSyntax (String, String)` to look up a syntax by namespace URI and local name without needing an XML `Element`. Returns `null` if either parameter is `null`
 

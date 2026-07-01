@@ -23,8 +23,8 @@ import org.w3c.dom.Element;
 import com.helger.annotation.Nonempty;
 
 /**
- * SPI interface for detecting envelope/wrapper formats (such as SBDH or XHE)
- * and extracting the inner business document payload element.
+ * Interface for detecting envelope/wrapper formats (such as SBDH or XHE) and extracting the inner
+ * business document payload element.
  *
  * @author Philip Helger
  * @since 0.8.4
@@ -32,24 +32,22 @@ import com.helger.annotation.Nonempty;
 public interface IDDDDocumentUnwrapper
 {
   /**
-   * @return A stable identifier for the envelope format handled by this
-   *         unwrapper (e.g. <code>"SBDH"</code>, <code>"XHE"</code>). This
-   *         value is used as a flag in the resulting {@link DocumentDetails}.
-   *         Never <code>null</code>.
+   * @return A stable identifier for the envelope format handled by this unwrapper (e.g.
+   *         <code>"SBDH"</code>, <code>"XHE"</code>). This value is used as a flag in the resulting
+   *         {@link DocumentDetails}. Never <code>null</code>.
    */
   @NonNull
   @Nonempty
   String getWrappingType ();
 
   /**
-   * Check if the provided root element is an envelope format handled by this
-   * unwrapper, and if so, extract the inner payload element.
+   * Check if the provided root element is an envelope format handled by this unwrapper, and if so,
+   * extract the inner payload element.
    *
    * @param aRootElement
    *        The root element to check. Never <code>null</code>.
-   * @return The extracted inner payload element, or <code>null</code> if this
-   *         unwrapper does not handle the provided element or if no payload
-   *         could be found.
+   * @return The extracted inner payload element, or <code>null</code> if this unwrapper does not
+   *         handle the provided element or if no payload could be found.
    */
   @Nullable
   Element unwrap (@NonNull Element aRootElement);

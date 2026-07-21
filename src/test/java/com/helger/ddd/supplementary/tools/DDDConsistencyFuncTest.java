@@ -33,24 +33,8 @@ import com.helger.ddd.model.EDDDDeterminedField;
 import com.helger.ddd.model.VPSourceValue;
 import com.helger.diver.api.coord.DVRCoordinate;
 import com.helger.phive.api.executorset.ValidationExecutorSetRegistry;
-import com.helger.phive.cii.CIIValidation;
-import com.helger.phive.ebinterface.EbInterfaceValidation;
-import com.helger.phive.ehf.EHFValidation;
-import com.helger.phive.en16931.EN16931Validation;
-import com.helger.phive.eracun.HReRacunValidation;
-import com.helger.phive.fatturapa.FatturaPAValidation;
-import com.helger.phive.france.FranceCTCValidation;
-import com.helger.phive.ksef.KSeFValidation;
-import com.helger.phive.oioubl.OIOUBLValidation;
-import com.helger.phive.osa.OSAValidation;
-import com.helger.phive.peppol.PeppolValidation;
-import com.helger.phive.peppol.italy.PeppolItalyValidation;
-import com.helger.phive.simplerinvoicing.SimplerInvoicingValidation;
-import com.helger.phive.ubl.UBLValidation;
-import com.helger.phive.ublbe.UBLBEValidation;
+import com.helger.phive.rules.all.PhiveRulesValidation;
 import com.helger.phive.xml.source.IValidationSourceXML;
-import com.helger.phive.xrechnung.XRechnungValidation;
-import com.helger.phive.zugferd.ZugferdValidation;
 
 /**
  * Check that the determined VESIDs are correct and can be validated
@@ -66,24 +50,7 @@ public final class DDDConsistencyFuncTest
   {
     final MutableInt aChecks = new MutableInt (0);
     final ValidationExecutorSetRegistry <IValidationSourceXML> aVesRegistry = new ValidationExecutorSetRegistry <> ();
-    // Must be first
-    EN16931Validation.initEN16931 (aVesRegistry);
-    CIIValidation.initCII (aVesRegistry);
-    EbInterfaceValidation.initEbInterface (aVesRegistry);
-    EHFValidation.initEHF (aVesRegistry);
-    FatturaPAValidation.initFatturaPA (aVesRegistry);
-    FranceCTCValidation.initFranceCTC (aVesRegistry);
-    HReRacunValidation.init (aVesRegistry);
-    KSeFValidation.initKSeF (aVesRegistry);
-    OIOUBLValidation.initOIOUBL (aVesRegistry);
-    OSAValidation.initOSA (aVesRegistry);
-    PeppolValidation.initStandard (aVesRegistry);
-    PeppolItalyValidation.init (aVesRegistry);
-    SimplerInvoicingValidation.initSimplerInvoicing (aVesRegistry);
-    UBLValidation.initUBLAllVersions (aVesRegistry);
-    UBLBEValidation.initUBLBE (aVesRegistry);
-    XRechnungValidation.initXRechnung (aVesRegistry);
-    ZugferdValidation.initZugferd (aVesRegistry);
+    PhiveRulesValidation.initPhiveRules (aVesRegistry);
 
     // For each value provider of each syntax
     final DDDValueProviderList aVPL = DDDValueProviderList.getDefaultValueProviderList ();

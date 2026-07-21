@@ -67,7 +67,7 @@
     <jaxb-plugin.version>4.0.16</jaxb-plugin.version>
     <ph-jaxb-plugin.version>5.1.2</ph-jaxb-plugin.version>
     
-    <phive-rules.version>4.3.9</phive-rules.version>
+    <phive-rules.version>4.4.0</phive-rules.version>
   </properties>
   
   <dependencyManagement>
@@ -82,7 +82,7 @@
       <dependency>
         <groupId>com.helger.peppol</groupId>
         <artifactId>peppol-commons-parent-pom</artifactId>
-        <version>12.5.5</version>
+        <version>12.6.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -133,97 +133,7 @@
     </dependency>
     <dependency>
       <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-cii</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-ebinterface</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-ehf</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-eracun</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-fatturapa</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-france</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-ksef</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-oioubl</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-osa</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-peppol</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-peppol-italy</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-simplerinvoicing</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-ubl</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-ublbe</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-xrechnung</artifactId>
-      <version>${phive-rules.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phive.rules</groupId>
-      <artifactId>phive-rules-zugferd</artifactId>
+      <artifactId>phive-rules-all</artifactId>
       <version>${phive-rules.version}</version>
       <scope>test</scope>
     </dependency>

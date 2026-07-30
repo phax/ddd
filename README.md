@@ -202,6 +202,9 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 # News and noteworthy
 
+v0.8.11 - work in progress
+* Added a value-provider entry for the French CTC CDAR e-Invoicing Flux 2 lifecycle profile on the `cdar` syntax, mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:einvoicingF2` to VESID `fr.ctc:cdar:latest`
+
 v0.8.10 - 2026-07-01
 * Added new interface `IDDDDocumentUnwrappingCallback`
 * Invoking the new callback interface on each unwrapping layer

@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-05-28">
+     lastmod="2026-07-30">
   <syntax id="cii">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -137,6 +137,10 @@
       <if value="urn.cpro.gouv.fr:1p0:CDV:invoice">
         <set id="VESID">fr.ctc:cdar:latest</set>
         <set id="ProfileName">French CTC CDAR Invoice</set>
+      </if>
+      <if value="urn.cpro.gouv.fr:1p0:CDV:einvoicingF2">
+        <set id="VESID">fr.ctc:cdar:latest</set>
+        <set id="ProfileName">French CTC CDAR e-Invoicing Flux 2</set>
       </if>
     </select>
   </syntax>

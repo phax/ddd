@@ -175,6 +175,7 @@ They were introduced in DDD v0.5.0.
 
 Example for actually used flags:
 * **`IsEN16931-2017CIUS`** - indicates that a document type is a CIUS to EN 16931:2017
+* **`IsEN16931-2026CIUS`** - indicates that a document type is a CIUS to EN 16931:2026
 
 ## Adding custom value providers
 
@@ -204,6 +205,7 @@ Add the following to your `pom.xml` to use this artifact, replacing `x.y.z` with
 
 v0.8.11 - work in progress
 * Added a value-provider entry for the French CTC CDAR e-Invoicing Flux 2 lifecycle profile on the `cdar` syntax, mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:einvoicingF2` to VESID `fr.ctc:cdar:latest`
+* Added value-provider entries for EN 16931:2026 on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2026` to the new flag `IsEN16931-2026CIUS`. The CII entry pins `SyntaxVersion` to `D25A`, the UBL entries to `2.5`. No VESID is determined, because phive-rules contains no EN 16931:2026 validation rules yet
 
 v0.8.10 - 2026-07-01
 * Added new interface `IDDDDocumentUnwrappingCallback`

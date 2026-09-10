@@ -18,13 +18,19 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-07-30">
+     lastmod="2026-09-10">
   <syntax id="cii">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
         <set id="VESID">eu.cen.en16931:cii:latest</set>
         <set id="ProfileName">EN 16931 CII</set>
         <flag>IsEN16931-2017CIUS</flag>
+      </if>
+      <if value="urn:cen.eu:en16931:2026">
+        <!-- No EN 16931:2026 validation rules available atm -->
+        <set id="SyntaxVersion">D25A</set>
+        <set id="ProfileName">EN 16931:2026 CII</set>
+        <flag>IsEN16931-2026CIUS</flag>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <!-- No specific Peppol CII rules atm -->
@@ -477,6 +483,12 @@
         <set id="ProfileName">EN 16931 UBL Credit Note</set>
         <flag>IsEN16931-2017CIUS</flag>
       </if>
+      <if value="urn:cen.eu:en16931:2026">
+        <!-- No EN 16931:2026 validation rules available atm -->
+        <set id="SyntaxVersion">2.5</set>
+        <set id="ProfileName">EN 16931:2026 UBL Credit Note</set>
+        <flag>IsEN16931-2026CIUS</flag>
+      </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">eu.peppol.bis3:creditnote:latest-active</set>
@@ -696,6 +708,12 @@
         <set id="VESID">eu.cen.en16931:ubl:latest</set>
         <set id="ProfileName">EN 16931 UBL Invoice</set>
         <flag>IsEN16931-2017CIUS</flag>
+      </if>
+      <if value="urn:cen.eu:en16931:2026">
+        <!-- No EN 16931:2026 validation rules available atm -->
+        <set id="SyntaxVersion">2.5</set>
+        <set id="ProfileName">EN 16931:2026 UBL Invoice</set>
+        <flag>IsEN16931-2026CIUS</flag>
       </if>
       <if value="urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0">
         <set id="SyntaxVersion">2.1</set>

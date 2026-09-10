@@ -506,6 +506,115 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryEN169312026 ()
+  {
+    {
+      // CII D25A example taken from the en16931-cii2ubl project
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/cii/no-vesid/d25a-header-invoice.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals ("cii", aDD.getSyntaxID ());
+      assertEquals ("urn:cen.eu:en16931:2026", aDD.getCustomizationID ());
+      assertEquals ("D25A-HDR-INV-1", aDD.getBusinessDocumentID ());
+
+      assertNotNull (aDD.getSenderID ());
+      assertEquals ("0088:4035811234567", aDD.getSenderID ().getValue ());
+      assertEquals ("Seller Ltd", aDD.getSenderName ());
+      assertEquals ("AT", aDD.getSenderCountryCode ());
+
+      // BT-49 (Buyer electronic address) is not present in this document
+      assertNull (aDD.getReceiverID ());
+      assertEquals ("Buyer Ltd", aDD.getReceiverName ());
+      assertEquals ("AT", aDD.getReceiverCountryCode ());
+
+      assertNotNull (aDD.getProcessID ());
+      assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
+
+      assertEquals ("D25A", aDD.getSyntaxVersion ());
+      assertEquals ("EN 16931:2026 CII", aDD.getProfileName ());
+      // No EN 16931:2026 validation rules available atm
+      assertNull (aDD.getVESID ());
+      assertTrue (aDD.hasFlags ());
+      assertEquals (1, aDD.flags ().size ());
+      assertTrue (aDD.flags ().contains ("IsEN16931-2026CIUS"));
+    }
+
+    {
+      // UBL 2.5 example taken from the en16931-ubl2cii project
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-invoice/no-vesid/d25a-header-invoice-ubl.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals ("ubl2-invoice", aDD.getSyntaxID ());
+      assertEquals ("urn:cen.eu:en16931:2026", aDD.getCustomizationID ());
+      assertEquals ("D25A-HDR-INV-1", aDD.getBusinessDocumentID ());
+
+      assertNotNull (aDD.getSenderID ());
+      assertEquals ("0088:4035811234567", aDD.getSenderID ().getValue ());
+      assertEquals ("Seller Ltd", aDD.getSenderName ());
+      assertEquals ("AT", aDD.getSenderCountryCode ());
+
+      // BT-49 (Buyer electronic address) is not present in this document
+      assertNull (aDD.getReceiverID ());
+      assertEquals ("Buyer Ltd", aDD.getReceiverName ());
+      assertEquals ("AT", aDD.getReceiverCountryCode ());
+
+      assertNotNull (aDD.getProcessID ());
+      assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
+
+      assertEquals ("2.5", aDD.getSyntaxVersion ());
+      assertEquals ("EN 16931:2026 UBL Invoice", aDD.getProfileName ());
+      // No EN 16931:2026 validation rules available atm
+      assertNull (aDD.getVESID ());
+      assertTrue (aDD.hasFlags ());
+      assertEquals (1, aDD.flags ().size ());
+      assertTrue (aDD.flags ().contains ("IsEN16931-2026CIUS"));
+    }
+
+    {
+      // UBL 2.5 example taken from the en16931-ubl2cii project
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-creditnote/no-vesid/d25a-header-creditnote-ubl.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertTrue (aDD.hasSyntaxID ());
+      assertEquals ("ubl2-creditnote", aDD.getSyntaxID ());
+      assertEquals ("urn:cen.eu:en16931:2026", aDD.getCustomizationID ());
+      assertEquals ("D25A-HDR-CN-1", aDD.getBusinessDocumentID ());
+
+      assertNotNull (aDD.getSenderID ());
+      assertEquals ("0088:4035811234567", aDD.getSenderID ().getValue ());
+      assertEquals ("Seller Ltd", aDD.getSenderName ());
+      assertEquals ("AT", aDD.getSenderCountryCode ());
+
+      // BT-49 (Buyer electronic address) is not present in this document
+      assertNull (aDD.getReceiverID ());
+      assertEquals ("Buyer Ltd", aDD.getReceiverName ());
+      assertEquals ("AT", aDD.getReceiverCountryCode ());
+
+      assertNotNull (aDD.getProcessID ());
+      assertEquals ("urn:fdc:peppol.eu:2017:poacc:billing:01:1.0", aDD.getProcessID ().getValue ());
+
+      assertEquals ("2.5", aDD.getSyntaxVersion ());
+      assertEquals ("EN 16931:2026 UBL Credit Note", aDD.getProfileName ());
+      // No EN 16931:2026 validation rules available atm
+      assertNull (aDD.getVESID ());
+      assertTrue (aDD.hasFlags ());
+      assertEquals (1, aDD.flags ().size ());
+      assertTrue (aDD.flags ().contains ("IsEN16931-2026CIUS"));
+    }
+  }
+
+  @Test
   public void testReadAllTestfiles ()
   {
     final DDDSyntaxList aSL = DDDSyntaxList.getDefaultSyntaxList ();

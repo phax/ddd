@@ -100,9 +100,8 @@ public class DDDGetterXPath implements IDDDGetter
                                  .errorText ("The XPath expression '" +
                                              m_sXPath +
                                              "' returned " +
-                                             (nSize == 0 ? "an empty NodeSet" : "a NodeSet with " +
-                                                                                nSize +
-                                                                                " elements"))
+                                             (nSize == 0 ? "an empty NodeSet"
+                                                         : "a NodeSet with " + nSize + " elements"))
                                  .build ());
     }
     catch (final Exception ex)

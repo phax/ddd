@@ -141,13 +141,14 @@ public final class DocumentDetailsJsonHelper
                           .receiverCountryCode (aObj.getAsString (JSON_RECEIVER_COUNTRY_CODE))
                           .vesid (aObj.getAsString (JSON_VESID))
                           .profileName (aObj.getAsString (JSON_PROFILE_NAME))
-                          .flags (aFlags == null ? null : aFlags.getAll ()
-                                                                .getAllMapped (IJson::isValue,
-                                                                               x -> x.getAsValue ().getAsString ()))
-                          .wrappers (aWrappers == null ? null : aWrappers.getAll ()
-                                                                         .getAllMapped (IJson::isValue,
-                                                                                        x -> x.getAsValue ()
-                                                                                               .getAsString ()))
+                          .flags (aFlags == null ? null
+                                                 : aFlags.getAll ()
+                                                         .getAllMapped (IJson::isValue,
+                                                                        x -> x.getAsValue ().getAsString ()))
+                          .wrappers (aWrappers == null ? null
+                                                       : aWrappers.getAll ()
+                                                                  .getAllMapped (IJson::isValue,
+                                                                                 x -> x.getAsValue ().getAsString ()))
                           .build ();
   }
 }

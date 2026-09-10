@@ -49,8 +49,7 @@ public final class VPIf implements ICloneable <VPIf>
    * Constructor
    *
    * @param sConditionValue
-   *        The condition value to use. May neither be <code>null</code> nor
-   *        empty.
+   *        The condition value to use. May neither be <code>null</code> nor empty.
    */
   public VPIf (@NonNull @Nonempty final String sConditionValue)
   {
@@ -111,8 +110,7 @@ public final class VPIf implements ICloneable <VPIf>
   }
 
   /**
-   * @return <code>true</code> if at least one flag is present,
-   *         <code>false</code> if not.
+   * @return <code>true</code> if at least one flag is present, <code>false</code> if not.
    * @since 0.5.0
    */
   public boolean hasDeterminedFlags ()
@@ -121,8 +119,7 @@ public final class VPIf implements ICloneable <VPIf>
   }
 
   /**
-   * @return A set of specific flag that apply to a specific document type.
-   *         Never <code>null</code>.
+   * @return A set of specific flag that apply to a specific document type. Never <code>null</code>.
    * @since 0.5.0
    */
   @NonNull
@@ -133,8 +130,7 @@ public final class VPIf implements ICloneable <VPIf>
   }
 
   /**
-   * @return <code>true</code> if either a determined value or a flag is
-   *         present.
+   * @return <code>true</code> if either a determined value or a flag is present.
    * @since 0.5.0
    */
   public boolean hasDeterminedValuesOrFlags ()

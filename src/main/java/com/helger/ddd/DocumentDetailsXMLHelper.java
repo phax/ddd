@@ -175,9 +175,8 @@ public final class DocumentDetailsXMLHelper
 
     final String sNamespaceURI = aTarget.getNamespaceURI ();
     final Document aDoc = aTarget.getOwnerDocument ();
-    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x) : x -> aDoc
-                                                                                                           .createElementNS (sNamespaceURI,
-                                                                                                                             x);
+    final Function <String, Node> fCreate = sNamespaceURI == null ? x -> aDoc.createElement (x)
+                                                                  : x -> aDoc.createElementNS (sNamespaceURI, x);
     final BiConsumer <String, String> fAppend = (name, val) -> aTarget.appendChild (fCreate.apply (name))
                                                                       .appendChild (aDoc.createTextNode (val));
 

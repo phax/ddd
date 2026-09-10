@@ -31,8 +31,7 @@ import com.helger.collection.commons.CommonsTreeMap;
 import com.helger.collection.commons.ICommonsSortedMap;
 
 /**
- * Represents a single source field selection with different conditions attached
- * to it.
+ * Represents a single source field selection with different conditions attached to it.
  *
  * @author Philip Helger
  * @since 0.2.2

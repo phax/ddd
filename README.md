@@ -1,8 +1,8 @@
 # DDD
 
 <!-- ph-badge-start -->
-[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger/ddd/)
-[![javadoc](https://javadoc.io/badge2/com.helger/ddd/javadoc.svg)](https://javadoc.io/doc/com.helger/ddd)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger/ddd-parent-pom/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger/ddd-parent-pom/)
+[![javadoc](https://javadoc.io/badge2/com.helger/ddd-model/javadoc.svg)](https://javadoc.io/doc/com.helger/ddd-model)
 
 > If this project saved you some time or made your day a little easier, a star would mean a lot — it helps others find it too.
 <!-- ph-badge-end -->

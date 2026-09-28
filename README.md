@@ -216,7 +216,8 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 # News and noteworthy
 
 v0.9.0 - work in progress
-* Split the project into the two artifacts `com.helger:ddd-model` (containing `DocumentDetails`, `DocumentDetailsJsonHelper` and `DocumentDetailsXMLHelper`) and `com.helger:ddd` (containing everything else). `ddd-model` only requires `ph-xml`, `ph-json` and `edelivery-id`, so consumers that merely carry or deserialize a `DocumentDetails` no longer need `peppol-id` and `ph-jaxb`. The artifact `com.helger:ddd` keeps its coordinates and its full functionality, and depends on `com.helger:ddd-model`, so existing users need no change
+* Updated to peppol-commons 13.1.0
+* Split the project into the two artifacts `com.helger:ddd-model` (containing `DocumentDetails`, `DocumentDetailsJsonHelper` and `DocumentDetailsXMLHelper`) and `com.helger:ddd` (containing everything else). `ddd-model` only requires `ph-xml`, `ph-json` and `edelivery-id`, so consumers that merely carry or deserialize a `DocumentDetails` no longer need `peppol-id`, `ph-jaxb`, `ph-jaxb-adapter` and `ph-xsds-xmldsig`. The artifact `com.helger:ddd` keeps its coordinates and its full functionality, and depends on `com.helger:ddd-model`, so existing users need no change
 * Added a value-provider entry for the French CTC CDAR e-Invoicing Flux 2 lifecycle profile on the `cdar` syntax, mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:einvoicingF2` to VESID `fr.ctc:cdar:latest`
 * Added value-provider entries for EN 16931:2026 on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2026` to the new flag `IsEN16931-2026CIUS`. The CII entry pins `SyntaxVersion` to `D25A`, the UBL entries to `2.5`. No VESID is determined, because phive-rules contains no EN 16931:2026 validation rules yet
 

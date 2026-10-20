@@ -215,6 +215,10 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 
 # News and noteworthy
 
+v0.9.1 - work in progress
+* Updated to ph-commons 12.5.2
+* Added `DocumentDetailsDeterminator.setLogHandler (ILogHandler)` to redirect the info, warning and error messages in one go
+
 v0.9.0 - 2026-09-28
 * Updated to peppol-commons 13.1.0
 * Split the project into the two artifacts `com.helger:ddd-model` (containing `DocumentDetails`, `DocumentDetailsJsonHelper` and `DocumentDetailsXMLHelper`) and `com.helger:ddd` (containing everything else).

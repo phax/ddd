@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.log.ILogHandler;
 import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.ICommonsList;
@@ -269,6 +270,28 @@ public final class DocumentDetailsDeterminator
   {
     ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
     m_aErrorHdl = aErrorHdl;
+    return this;
+  }
+
+  /**
+   * Set the info, warning and error handler in one go, so that all messages that occur during
+   * document detail determination go to the same sink. Use for example
+   * {@link ILogHandler#createForLogger(Logger)}, {@link ILogHandler#createForConsumer(Consumer)} or
+   * <code>ErrorListLogHandler</code> to collect the messages.
+   *
+   * @param aLogHandler
+   *        The log handler to be used for info, warning and error messages. May not be
+   *        <code>null</code>.
+   * @return this for chaining
+   * @since 0.9.1
+   */
+  @NonNull
+  public DocumentDetailsDeterminator setLogHandler (@NonNull final ILogHandler aLogHandler)
+  {
+    ValueEnforcer.notNull (aLogHandler, "LogHandler");
+    m_aInfoHdl = aLogHandler::info;
+    m_aWarnHdl = aLogHandler::warn;
+    m_aErrorHdl = aLogHandler::error;
     return this;
   }
 

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+import com.helger.annotation.misc.ChangeNextMajorRelease;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.log.ILogHandler;
 import com.helger.base.string.StringHelper;
@@ -64,6 +65,69 @@ public final class DocumentDetailsDeterminator
 
   private static final Logger LOGGER = LoggerFactory.getLogger (DocumentDetailsDeterminator.class);
 
+  /**
+   * A log handler that redirects a single level to a legacy handler and delegates everything else
+   * to another log handler. Needed for the deprecated separate setters only.
+   */
+  @ChangeNextMajorRelease ("Remove again")
+  private static final class LegacyLevelLogHandler implements ILogHandler
+  {
+    private final ILogHandler m_aDelegate;
+    private final Consumer <String> m_aInfoHdl;
+    private final Consumer <String> m_aWarnHdl;
+    private final Consumer <String> m_aErrorHdl;
+
+    LegacyLevelLogHandler (@NonNull final ILogHandler aDelegate,
+                           @Nullable final Consumer <String> aInfoHdl,
+                           @Nullable final Consumer <String> aWarnHdl,
+                           @Nullable final Consumer <String> aErrorHdl)
+    {
+      m_aDelegate = aDelegate;
+      m_aInfoHdl = aInfoHdl;
+      m_aWarnHdl = aWarnHdl;
+      m_aErrorHdl = aErrorHdl;
+    }
+
+    @Override
+    public void trace (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      m_aDelegate.trace (sMsg, aThrowable);
+    }
+
+    @Override
+    public void debug (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      m_aDelegate.debug (sMsg, aThrowable);
+    }
+
+    @Override
+    public void info (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      if (m_aInfoHdl != null)
+        m_aInfoHdl.accept (sMsg);
+      else
+        m_aDelegate.info (sMsg, aThrowable);
+    }
+
+    @Override
+    public void warn (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      if (m_aWarnHdl != null)
+        m_aWarnHdl.accept (sMsg);
+      else
+        m_aDelegate.warn (sMsg, aThrowable);
+    }
+
+    @Override
+    public void error (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      if (m_aErrorHdl != null)
+        m_aErrorHdl.accept (sMsg);
+      else
+        m_aDelegate.error (sMsg, aThrowable);
+    }
+  }
+
   private final DDDSyntaxList m_aSyntaxList;
   private final DDDValueProviderList m_aValueProviderList;
   private IIdentifierFactory m_aIF = SimpleIdentifierFactory.INSTANCE;
@@ -73,9 +137,7 @@ public final class DocumentDetailsDeterminator
   private Function <String, String> m_aDocTypeIDSchemeDeterminator = PeppolIdentifierFactory.INSTANCE::getDefaultDocumentTypeIdentifierScheme;
   private Function <String, String> m_aProcessIDSchemeDeterminator = x -> PeppolIdentifierHelper.DEFAULT_PROCESS_SCHEME;
   private final ICommonsList <IDDDDocumentUnwrapper> m_aUnwrappers = new CommonsArrayList <> ();
-  private Consumer <String> m_aInfoHdl = LOGGER::info;
-  private Consumer <String> m_aWarnHdl = LOGGER::warn;
-  private Consumer <String> m_aErrorHdl = LOGGER::error;
+  private ILogHandler m_aLogHandler = ILogHandler.createForLogger (LOGGER);
 
   public DocumentDetailsDeterminator (@NonNull final DDDSyntaxList aSyntaxList,
                                       @NonNull final DDDValueProviderList aValueProviderList)
@@ -220,68 +282,26 @@ public final class DocumentDetailsDeterminator
   }
 
   /**
-   * @return The handler for "information" messages that occurred during document detail
-   *         determination. Default is to log with info level. Never <code>null</code>.
+   * @return The log handler that receives the info, warning and error messages that occurred during
+   *         document detail determination. Default is to log to the logger of this class. Never
+   *         <code>null</code>.
+   * @since 0.9.1
    */
   @NonNull
-  public Consumer <String> getInfoHdl ()
+  public ILogHandler getLogHandler ()
   {
-    return m_aInfoHdl;
-  }
-
-  @NonNull
-  public DocumentDetailsDeterminator setInfoHdl (@NonNull final Consumer <String> aInfoHdl)
-  {
-    ValueEnforcer.notNull (aInfoHdl, "InfoHdl");
-    m_aInfoHdl = aInfoHdl;
-    return this;
+    return m_aLogHandler;
   }
 
   /**
-   * @return The handler for "warning" messages that occurred during document detail determination.
-   *         Default is to log with warning level. Never <code>null</code>.
-   */
-  @NonNull
-  public Consumer <String> getWarnHdl ()
-  {
-    return m_aWarnHdl;
-  }
-
-  @NonNull
-  public DocumentDetailsDeterminator setWarnHdl (@NonNull final Consumer <String> aWarnHdl)
-  {
-    ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
-    m_aWarnHdl = aWarnHdl;
-    return this;
-  }
-
-  /**
-   * @return The handler for "error" messages that occurred during document detail determination.
-   *         Default is to log with error level. Never <code>null</code>.
-   */
-  @NonNull
-  public Consumer <String> getErrorHdl ()
-  {
-    return m_aErrorHdl;
-  }
-
-  @NonNull
-  public DocumentDetailsDeterminator setErrorHdl (@NonNull final Consumer <String> aErrorHdl)
-  {
-    ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
-    m_aErrorHdl = aErrorHdl;
-    return this;
-  }
-
-  /**
-   * Set the info, warning and error handler in one go, so that all messages that occur during
-   * document detail determination go to the same sink. Use for example
-   * {@link ILogHandler#createForLogger(Logger)}, {@link ILogHandler#createForConsumer(Consumer)} or
-   * <code>ErrorListLogHandler</code> to collect the messages.
+   * Set the log handler that receives all info, warning and error messages that occur during
+   * document detail determination. This replaces any handler set by the deprecated level specific
+   * setters. Use for example {@link ILogHandler#createForLogger(Logger)},
+   * {@link ILogHandler#createForConsumer(Consumer)} or <code>ErrorListLogHandler</code> to collect
+   * the messages.
    *
    * @param aLogHandler
-   *        The log handler to be used for info, warning and error messages. May not be
-   *        <code>null</code>.
+   *        The log handler to be used. May not be <code>null</code>.
    * @return this for chaining
    * @since 0.9.1
    */
@@ -289,9 +309,88 @@ public final class DocumentDetailsDeterminator
   public DocumentDetailsDeterminator setLogHandler (@NonNull final ILogHandler aLogHandler)
   {
     ValueEnforcer.notNull (aLogHandler, "LogHandler");
-    m_aInfoHdl = aLogHandler::info;
-    m_aWarnHdl = aLogHandler::warn;
-    m_aErrorHdl = aLogHandler::error;
+    m_aLogHandler = aLogHandler;
+    return this;
+  }
+
+  /**
+   * @return The handler for "information" messages that occurred during document detail
+   *         determination. Never <code>null</code>.
+   * @deprecated Since 0.9.1; use {@link #getLogHandler()} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public Consumer <String> getInfoHdl ()
+  {
+    return m_aLogHandler::info;
+  }
+
+  /**
+   * @param aInfoHdl
+   *        The handler for "information" messages. May not be <code>null</code>.
+   * @return this for chaining
+   * @deprecated Since 0.9.1; use {@link #setLogHandler(ILogHandler)} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public DocumentDetailsDeterminator setInfoHdl (@NonNull final Consumer <String> aInfoHdl)
+  {
+    ValueEnforcer.notNull (aInfoHdl, "InfoHdl");
+    m_aLogHandler = new LegacyLevelLogHandler (m_aLogHandler, aInfoHdl, null, null);
+    return this;
+  }
+
+  /**
+   * @return The handler for "warning" messages that occurred during document detail determination.
+   *         Never <code>null</code>.
+   * @deprecated Since 0.9.1; use {@link #getLogHandler()} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public Consumer <String> getWarnHdl ()
+  {
+    return m_aLogHandler::warn;
+  }
+
+  /**
+   * @param aWarnHdl
+   *        The handler for "warning" messages. May not be <code>null</code>.
+   * @return this for chaining
+   * @deprecated Since 0.9.1; use {@link #setLogHandler(ILogHandler)} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public DocumentDetailsDeterminator setWarnHdl (@NonNull final Consumer <String> aWarnHdl)
+  {
+    ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
+    m_aLogHandler = new LegacyLevelLogHandler (m_aLogHandler, null, aWarnHdl, null);
+    return this;
+  }
+
+  /**
+   * @return The handler for "error" messages that occurred during document detail determination.
+   *         Never <code>null</code>.
+   * @deprecated Since 0.9.1; use {@link #getLogHandler()} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public Consumer <String> getErrorHdl ()
+  {
+    return m_aLogHandler::error;
+  }
+
+  /**
+   * @param aErrorHdl
+   *        The handler for "error" messages. May not be <code>null</code>.
+   * @return this for chaining
+   * @deprecated Since 0.9.1; use {@link #setLogHandler(ILogHandler)} instead.
+   */
+  @NonNull
+  @Deprecated (since = "0.9.1")
+  public DocumentDetailsDeterminator setErrorHdl (@NonNull final Consumer <String> aErrorHdl)
+  {
+    ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
+    m_aLogHandler = new LegacyLevelLogHandler (m_aLogHandler, null, null, aErrorHdl);
     return this;
   }
 
@@ -404,7 +503,7 @@ public final class DocumentDetailsDeterminator
           if (aUnwrappingCallback != null)
             aUnwrappingCallback.onUnwrap (aUnwrapper, aEffectiveElement, aInnerElement);
 
-          m_aInfoHdl.accept ("Unwrapped envelope of type '" + aUnwrapper.getWrappingType () + "'");
+          m_aLogHandler.info ("Unwrapped envelope of type '" + aUnwrapper.getWrappingType () + "'");
           aEffectiveElement = aInnerElement;
           aWrappingTypes.add (aUnwrapper.getWrappingType ());
           bUnwrapped = true;
@@ -419,13 +518,13 @@ public final class DocumentDetailsDeterminator
 
     // Get the qualified name of the root element
     final QName aQName = XMLHelper.getQName (aEffectiveElement);
-    m_aInfoHdl.accept ("Searching document details for " + aQName.toString ());
+    m_aLogHandler.info ("Searching document details for " + aQName.toString ());
 
     // First find the matching syntax from the root element
     final DDDSyntax aSyntax = m_aSyntaxList.findMatchingSyntax (aEffectiveElement);
     if (aSyntax == null)
     {
-      m_aErrorHdl.accept ("Unsupported Document Type syntax " + aQName.toString ());
+      m_aLogHandler.error ("Unsupported Document Type syntax " + aQName.toString ());
       return null;
     }
 
@@ -433,7 +532,7 @@ public final class DocumentDetailsDeterminator
     final DDDValueProviderPerSyntax aValueProvider = m_aValueProviderList.getValueProviderPerSyntax (aSyntax.getID ());
     if (aValueProvider == null)
     {
-      m_aErrorHdl.accept ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
+      m_aLogHandler.error ("The value provider has no mapping for syntax with ID '" + aSyntax.getID () + "'");
       return null;
     }
 
@@ -472,12 +571,12 @@ public final class DocumentDetailsDeterminator
     // Handle fallbacks (if any)
     if (aSenderID == null && m_aFallbackSenderID != null)
     {
-      m_aWarnHdl.accept ("Falling back to the default sender ID '" + m_aFallbackSenderID.getURIEncoded () + "'");
+      m_aLogHandler.warn ("Falling back to the default sender ID '" + m_aFallbackSenderID.getURIEncoded () + "'");
       aSenderID = m_aFallbackSenderID;
     }
     if (aReceiverID == null && m_aFallbackReceiverID != null)
     {
-      m_aWarnHdl.accept ("Falling back to the default receiver ID '" + m_aFallbackReceiverID.getURIEncoded () + "'");
+      m_aLogHandler.warn ("Falling back to the default receiver ID '" + m_aFallbackReceiverID.getURIEncoded () + "'");
       aReceiverID = m_aFallbackReceiverID;
     }
 

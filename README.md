@@ -215,8 +215,8 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 
 # News and noteworthy
 
-v0.9.1 - work in progress
-* Updated to ph-commons 12.5.2
+v0.9.1 - 2026-10-22
+* Requires ph-commons 12.5.2
 * `DocumentDetailsDeterminator` now uses an `ILogHandler` natively: added `getLogHandler ()` and `setLogHandler (ILogHandler)`.
   The separate info, warning and error handler accessors (`getInfoHdl`, `setInfoHdl`, `getWarnHdl`, `setWarnHdl`, `getErrorHdl`, `setErrorHdl`) are deprecated
 

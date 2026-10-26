@@ -506,6 +506,38 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryOIOUBLCatalogue ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-catalogue/good/OIOUBL_Catalogue_v2p2.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertEquals ("ubl2-catalogue", aDD.getSyntaxID ());
+    assertEquals ("OIOUBL-2.1", aDD.getCustomizationID ());
+    assertEquals ("2.1", aDD.getSyntaxVersion ());
+    assertEquals ("dk.oioubl:catalogue:latest", aDD.getVESID ());
+    assertEquals ("OIOUBL Catalogue", aDD.getProfileName ());
+  }
+
+  @Test
+  public void testDiscoveryOIOUBLCatalogueDeletion ()
+  {
+    final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/ubl2-cataloguedeletion/good/OIOUBL_CatalogueDeletion_v2p2.xml"));
+    assertNotNull (aDoc);
+
+    final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+    assertNotNull (aDD);
+
+    assertEquals ("ubl2-cataloguedeletion", aDD.getSyntaxID ());
+    assertEquals ("OIOUBL-2.1", aDD.getCustomizationID ());
+    assertEquals ("2.1", aDD.getSyntaxVersion ());
+    assertEquals ("dk.oioubl:catalogue-deletion:latest", aDD.getVESID ());
+    assertEquals ("OIOUBL Catalogue Deletion", aDD.getProfileName ());
+  }
+
+  @Test
   public void testDiscoveryEN169312026 ()
   {
     {

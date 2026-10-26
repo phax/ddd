@@ -215,6 +215,10 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 
 # News and noteworthy
 
+v0.9.2 - work in progress
+* Fixed the swapped VESIDs of the OIOUBL Catalogue and Catalogue Deletion.
+  See [#13](https://github.com/phax/ddd/issues/13) - thx @asger-weirsoee
+
 v0.9.1 - 2026-10-22
 * Requires ph-commons 12.5.2
 * `DocumentDetailsDeterminator` now uses an `ILogHandler` natively: added `getLogHandler ()` and `setLogHandler (ILogHandler)`.

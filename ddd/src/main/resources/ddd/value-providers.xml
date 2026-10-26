@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-09-10">
+     lastmod="2026-10-26">
   <syntax id="cii">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -429,7 +429,7 @@
       </if>
       <if value="OIOUBL-2.1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">dk.oioubl:catalogue-deletion:latest</set>
+        <set id="VESID">dk.oioubl:catalogue:latest</set>
         <set id="ProfileName">OIOUBL Catalogue</set>
       </if>
     </select>
@@ -439,7 +439,7 @@
     <select id="CustomizationID">
       <if value="OIOUBL-2.1">
         <set id="SyntaxVersion">2.1</set>
-        <set id="VESID">dk.oioubl:catalogue:latest</set>
+        <set id="VESID">dk.oioubl:catalogue-deletion:latest</set>
         <set id="ProfileName">OIOUBL Catalogue Deletion</set>
       </if>
     </select>

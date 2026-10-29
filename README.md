@@ -215,6 +215,10 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 
 # News and noteworthy
 
+v0.9.3 - work in progress
+* Fixed the invalid ZUGFeRD 1.0 Extended Profile CustomizationID (`rn:ferd:...` instead of `urn:ferd:...`).
+  See [#14](https://github.com/phax/ddd/issues/14) - thx @KbraBass
+
 v0.9.2 - 2026-10-26
 * Fixed the swapped VESIDs of the OIOUBL Catalogue and Catalogue Deletion.
   See [#13](https://github.com/phax/ddd/issues/13) - thx @asger-weirsoee

@@ -18,7 +18,7 @@
 
 -->
 <vps xmlns="urn:com:helger:ddd:value-providers:v1.0"
-     lastmod="2026-10-26">
+     lastmod="2026-10-29">
   <syntax id="cii">
     <select id="CustomizationID">
       <if value="urn:cen.eu:en16931:2017">
@@ -1084,7 +1084,7 @@
       <if value="urn:ferd:CrossIndustryDocument:invoice:1p0:comfort">
         <set id="ProfileName">ZUGFeRD 1.0 (Comfort Profile)</set>
       </if>
-      <if value="rn:ferd:CrossIndustryDocument:invoice:1p0:extended">
+      <if value="urn:ferd:CrossIndustryDocument:invoice:1p0:extended">
         <set id="ProfileName">ZUGFeRD 1.0 (Extended Profile)</set>
       </if>
     </select>

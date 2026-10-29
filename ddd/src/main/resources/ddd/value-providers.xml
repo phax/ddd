@@ -402,6 +402,11 @@
         <set id="VESID">org.peppol:mls:latest</set>
         <set id="ProfileName">Peppol Message Level Status</set>
       </if>
+      <if value="urn:fdc:peppol.eu:logistics:trns:application_response:1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.logistics:application-response:latest</set>
+        <set id="ProfileName">Peppol Logistics Application Response</set>
+      </if>
     </select>
   </syntax>
   
@@ -697,6 +702,11 @@
         <set id="SyntaxVersion">2.2</set>
         <set id="VESID">no.ehf.g3:despatch-advice:latest</set>
         <set id="ProfileName">EHF Despatch Advice V3</set>
+      </if>
+      <if value="urn:fdc:peppol.eu:logistics:trns:advanced_despatch_advice:1">
+        <set id="SyntaxVersion">2.1</set>
+        <set id="VESID">org.peppol.logistics:advanced-despatch-advice:latest</set>
+        <set id="ProfileName">Peppol Logistics Advanced Despatch Advice</set>
       </if>
     </select>
   </syntax>
@@ -1045,7 +1055,17 @@
       </if>
     </select>
   </syntax>
-
+  
+  <syntax id="ubl2-receiptadvice">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:receipt_advice:1">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">org.peppol.logistics:receipt-advice:latest</set>
+        <set id="ProfileName">Peppol Logistics Receipt Advice</set>
+      </if>
+    </select>
+  </syntax>
+  
   <syntax id="ubl2-reminder">
     <select id="CustomizationID">
       <if value="OIOUBL-2.1">
@@ -1065,13 +1085,73 @@
       </if>
     </select>
   </syntax>
-
+  
+  <syntax id="ubl2-transportationstatus">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:transportation_status:1">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">org.peppol.logistics:transportation-status:latest</set>
+        <set id="ProfileName">Peppol Logistics Transportation Status</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-transportationstatusrequest">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:transportation_status_request:1">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">org.peppol.logistics:transportation-status-request:latest</set>
+        <set id="ProfileName">Peppol Logistics Transportation Status Request</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-transportexecutionplan">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:transport_execution_plan:1">
+        <set id="SyntaxVersion">2.4</set>
+        <set id="VESID">org.peppol.logistics:transport-execution-plan:latest</set>
+        <set id="ProfileName">Peppol Logistics Transport Execution Plan</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-transportexecutionplanrequest">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:transport_execution_plan_request:1">
+        <set id="SyntaxVersion">2.4</set>
+        <set id="VESID">org.peppol.logistics:transport-execution-plan-request:latest</set>
+        <set id="ProfileName">Peppol Logistics Transport Execution Plan Request</set>
+      </if>
+    </select>
+  </syntax>
+  
   <syntax id="ubl2-utilitystatement">
     <select id="CustomizationID">
       <if value="OIOUBL-2.1">
         <set id="SyntaxVersion">2.1</set>
         <set id="VESID">dk.oioubl:utility-statement:latest</set>
         <set id="ProfileName">OIOUBL Utility Statement</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-waybill">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:waybill:1">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">org.peppol.logistics:waybill:latest</set>
+        <set id="ProfileName">Peppol Logistics Waybill</set>
+      </if>
+    </select>
+  </syntax>
+  
+  <syntax id="ubl2-weightstatement">
+    <select id="CustomizationID">
+      <if value="urn:fdc:peppol.eu:logistics:trns:weight_statement:1">
+        <set id="SyntaxVersion">2.3</set>
+        <set id="VESID">org.peppol.logistics:weight-statement:latest</set>
+        <set id="ProfileName">Peppol Logistics Weight Statement</set>
       </if>
     </select>
   </syntax>

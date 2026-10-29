@@ -72,9 +72,16 @@ DDD offers a mapping of the above mentioned fields on a set of predefined syntax
 * UBL 2.x Order Change (ID `ubl2-orderchange`) - added in v0.3.0
 * UBL 2.x Order Response (ID `ubl2-orderresponse`) - added in v0.1.1
 * UBL 2.x Order Response Simple (ID `ubl2-orderresponsesimple`) - added in v0.3.0
+* UBL 2.x Receipt Advice (ID `ubl2-receiptadvice`) - added in v0.9.3
 * UBL 2.x Reminder (ID `ubl2-reminder`) - added in v0.3.0
 * UBL 2.x Statement (ID `ubl2-statement`) - added in v0.3.0
+* UBL 2.x Transport Execution Plan (ID `ubl2-transportexecutionplan`) - added in v0.9.3
+* UBL 2.x Transport Execution Plan Request (ID `ubl2-transportexecutionplanrequest`) - added in v0.9.3
+* UBL 2.x Transportation Status (ID `ubl2-transportationstatus`) - added in v0.9.3
+* UBL 2.x Transportation Status Request (ID `ubl2-transportationstatusrequest`) - added in v0.9.3
 * UBL 2.x Utility Statement (ID `ubl2-utilitystatement`) - added in v0.3.0
+* UBL 2.x Waybill (ID `ubl2-waybill`) - added in v0.9.3
+* UBL 2.x Weight Statement (ID `ubl2-weightstatement`) - added in v0.9.3
 * ZUGFeRD 1.0 (ID `zugferd1`) - added in v0.4.3
 
 The goal is to deduce certain (missing) values based on other values (class `DDDValueProviderPerSyntax`).
@@ -218,6 +225,10 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 v0.9.3 - work in progress
 * Fixed the invalid ZUGFeRD 1.0 Extended Profile CustomizationID (`rn:ferd:...` instead of `urn:ferd:...`).
   See [#14](https://github.com/phax/ddd/issues/14) - thx @KbraBass
+* Added support for the Peppol Logistics document types (release 1.3.1), mapped to the VESIDs `org.peppol.logistics:*:latest` of `phive-rules-peppol-logistics`.
+  Added the new syntaxes `ubl2-receiptadvice`, `ubl2-transportationstatus`, `ubl2-transportationstatusrequest`, `ubl2-transportexecutionplan`, `ubl2-transportexecutionplanrequest`, `ubl2-waybill` and `ubl2-weightstatement`.
+  Added value-provider entries for the Peppol Logistics Advanced Despatch Advice to `ubl2-despatchadvice` and for the Peppol Logistics Application Response to `ubl2-applicationresponse`.
+  The Receipt Advice sender is the `DeliveryCustomerParty`, the Transport Execution Plan Request sender is the `TransportUserParty` and the Waybill sender is the `ConsignorParty`
 
 v0.9.2 - 2026-10-26
 * Fixed the swapped VESIDs of the OIOUBL Catalogue and Catalogue Deletion.

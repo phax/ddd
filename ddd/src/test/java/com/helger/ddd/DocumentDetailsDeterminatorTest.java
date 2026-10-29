@@ -538,6 +538,73 @@ public final class DocumentDetailsDeterminatorTest
   }
 
   @Test
+  public void testDiscoveryPeppolLogistics ()
+  {
+    // Syntax ID, file name, syntax version, VESID artefact ID and profile name suffix
+    final String [] [] aTestCases = { { "ubl2-despatchadvice",
+                                        "AdvancedDespatchAdvice",
+                                        "2.1",
+                                        "advanced-despatch-advice",
+                                        "Advanced Despatch Advice" },
+                                      { "ubl2-weightstatement",
+                                        "WeightStatement",
+                                        "2.3",
+                                        "weight-statement",
+                                        "Weight Statement" },
+                                      { "ubl2-transportexecutionplanrequest",
+                                        "TransportExecutionPlanRequest",
+                                        "2.4",
+                                        "transport-execution-plan-request",
+                                        "Transport Execution Plan Request" },
+                                      { "ubl2-transportexecutionplan",
+                                        "TransportExecutionPlan",
+                                        "2.4",
+                                        "transport-execution-plan",
+                                        "Transport Execution Plan" },
+                                      { "ubl2-waybill", "Waybill", "2.3", "waybill", "Waybill" },
+                                      { "ubl2-transportationstatusrequest",
+                                        "TransportationStatusRequest",
+                                        "2.3",
+                                        "transportation-status-request",
+                                        "Transportation Status Request" },
+                                      { "ubl2-transportationstatus",
+                                        "TransportationStatus",
+                                        "2.3",
+                                        "transportation-status",
+                                        "Transportation Status" },
+                                      { "ubl2-receiptadvice",
+                                        "ReceiptAdvice",
+                                        "2.3",
+                                        "receipt-advice",
+                                        "Receipt Advice" },
+                                      { "ubl2-applicationresponse",
+                                        "ApplicationResponse",
+                                        "2.1",
+                                        "application-response",
+                                        "Application Response" } };
+    for (final String [] aTestCase : aTestCases)
+    {
+      final Document aDoc = DOMReader.readXMLDOM (new ClassPathResource ("external/" +
+                                                                         aTestCase[0] +
+                                                                         "/good/Peppol-Logistics-" +
+                                                                         aTestCase[1] +
+                                                                         "_Example_Full.xml"));
+      assertNotNull (aDoc);
+
+      final DocumentDetails aDD = DDD.findDocumentDetails (aDoc.getDocumentElement ());
+      assertNotNull (aDD);
+
+      assertEquals (aTestCase[0], aDD.getSyntaxID ());
+      assertEquals (aTestCase[2], aDD.getSyntaxVersion ());
+      assertEquals ("org.peppol.logistics:" + aTestCase[3] + ":latest", aDD.getVESID ());
+      assertEquals ("Peppol Logistics " + aTestCase[4], aDD.getProfileName ());
+      assertNotNull (aDD.getSenderID ());
+      assertNotNull (aDD.getReceiverID ());
+      assertNotNull (aDD.getBusinessDocumentID ());
+    }
+  }
+
+  @Test
   public void testDiscoveryEN169312026 ()
   {
     {

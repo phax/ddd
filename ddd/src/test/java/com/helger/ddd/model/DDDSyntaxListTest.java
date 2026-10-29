@@ -84,9 +84,16 @@ public final class DDDSyntaxListTest
     assertNotNull (aMap.remove ("ubl2-orderchange"));
     assertNotNull (aMap.remove ("ubl2-orderresponse"));
     assertNotNull (aMap.remove ("ubl2-orderresponsesimple"));
+    assertNotNull (aMap.remove ("ubl2-receiptadvice"));
     assertNotNull (aMap.remove ("ubl2-reminder"));
     assertNotNull (aMap.remove ("ubl2-statement"));
+    assertNotNull (aMap.remove ("ubl2-transportationstatus"));
+    assertNotNull (aMap.remove ("ubl2-transportationstatusrequest"));
+    assertNotNull (aMap.remove ("ubl2-transportexecutionplan"));
+    assertNotNull (aMap.remove ("ubl2-transportexecutionplanrequest"));
     assertNotNull (aMap.remove ("ubl2-utilitystatement"));
+    assertNotNull (aMap.remove ("ubl2-waybill"));
+    assertNotNull (aMap.remove ("ubl2-weightstatement"));
     assertNotNull (aMap.remove ("zugferd1"));
     assertEquals ("Left: " + aMap.toString (), 0, aMap.size ());
   }

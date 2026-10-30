@@ -222,7 +222,7 @@ Use `ddd` if you need to determine a `DocumentDetails` object from an XML payloa
 
 # News and noteworthy
 
-v0.9.3 - work in progress
+v0.9.3 - 2026-10-30
 * Fixed the invalid ZUGFeRD 1.0 Extended Profile CustomizationID (`rn:ferd:...` instead of `urn:ferd:...`).
   See [#14](https://github.com/phax/ddd/issues/14) - thx @KbraBass
 * Added support for the Peppol Logistics document types (release 1.3.1), mapped to the VESIDs `org.peppol.logistics:*:latest` of `phive-rules-peppol-logistics`.

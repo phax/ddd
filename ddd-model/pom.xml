@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.helger</groupId>
     <artifactId>ddd-parent-pom</artifactId>
-    <version>0.9.3</version>
+    <version>0.9.4-SNAPSHOT</version>
   </parent>
   <artifactId>ddd-model</artifactId>
   <packaging>jar</packaging>

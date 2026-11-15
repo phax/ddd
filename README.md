@@ -198,7 +198,7 @@ Please note that when merging value provider lists, the lists are woven into eac
 
 # Maven usage
 
-This project consists of two artifacts.
+This project consists of two artifacts and a BOM.
 Add the following to your `pom.xml` to use them, replacing `x.y.z` with the latest version:
 
 ```xml
@@ -220,7 +220,22 @@ Add the following to your `pom.xml` to use them, replacing `x.y.z` with the late
 Use `ddd-model` if you only need to carry or deserialize a `DocumentDetails` object that was determined elsewhere.
 Use `ddd` if you need to determine a `DocumentDetails` object from an XML payload - it contains `ddd-model` as a transitive dependency.
 
+Alternatively use the following code in your `dependencyManagement` section to use it as a BOM (since v0.9.4):
+
+```xml
+<dependency>
+  <groupId>com.helger</groupId>
+  <artifactId>ddd-bom</artifactId>
+  <version>x.y.z</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
 # News and noteworthy
+
+v0.9.4 - 2026-11-15
+* Added the new module `ddd-bom` as a Maven BOM (Bill of Materials) for all ddd artifacts
 
 v0.9.3 - 2026-10-30
 * Fixed the invalid ZUGFeRD 1.0 Extended Profile CustomizationID (`rn:ferd:...` instead of `urn:ferd:...`).
@@ -254,22 +269,32 @@ v0.8.10 - 2026-07-01
 * Invoking the new callback interface on each unwrapping layer
 
 v0.8.9 - 2026-06-03
-* Added new overload `DDDSyntaxList.findMatchingSyntax (String, String)` to look up a syntax by namespace URI and local name without needing an XML `Element`. Returns `null` if either parameter is `null`
+* Added new overload `DDDSyntaxList.findMatchingSyntax (String, String)` to look up a syntax by namespace URI and local name without needing an XML `Element`.
+  Returns `null` if either parameter is `null`
 
 v0.8.8 - 2026-05-28
-* Renamed the `cii-d16b` syntax to the version-neutral `cii` so each value-provider entry can pin its own CII release. See [#10](https://github.com/phax/ddd/issues/10) - thx @Jef-VDD
-* Removed the manual `<set id="ProcessID">` overrides from all `cii` value-provider entries — the ProcessID is now extracted from the XML via the syntax's XPath, which lets downstream value-providers override it. See [#10](https://github.com/phax/ddd/issues/10)
-* Added value-provider entries for the French CTC Extended-CTC-FR profile on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr` to the `fr.ctc:extended-*:latest` VESIDs. The CII entry pins `SyntaxVersion` to `D22B`. See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
-* Added support for the French CTC CDAR (Cross Domain Acknowledgement and Response D22B) syntax (`cdar`), detected via namespace `urn:un:unece:uncefact:data:standard:CrossDomainAcknowledgementAndResponse:100` and mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:invoice` to VESID `fr.ctc:cdar:latest`. See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
+* Renamed the `cii-d16b` syntax to the version-neutral `cii` so each value-provider entry can pin its own CII release.
+  See [#10](https://github.com/phax/ddd/issues/10) - thx @Jef-VDD
+* Removed the manual `<set id="ProcessID">` overrides from all `cii` value-provider entries — the ProcessID is now extracted from the XML via the syntax's XPath, which lets downstream value-providers override it.
+  See [#10](https://github.com/phax/ddd/issues/10)
+* Added value-provider entries for the French CTC Extended-CTC-FR profile on the `cii`, `ubl2-invoice` and `ubl2-creditnote` syntaxes, mapping CustomizationID `urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr` to the `fr.ctc:extended-*:latest` VESIDs.
+  The CII entry pins `SyntaxVersion` to `D22B`.
+  See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
+* Added support for the French CTC CDAR (Cross Domain Acknowledgement and Response D22B) syntax (`cdar`), detected via namespace `urn:un:unece:uncefact:data:standard:CrossDomainAcknowledgementAndResponse:100` and mapping CustomizationID `urn.cpro.gouv.fr:1p0:CDV:invoice` to VESID `fr.ctc:cdar:latest`.
+  See [#11](https://github.com/phax/ddd/issues/11) - thx @Jef-VDD
 
 v0.8.7 - 2026-05-13
-* Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`). Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID
+* Added support for the Hungarian NAV Online Számla (OSA) syntaxes for InvoiceData and InvoiceAnnulment, versions 2.0 and 3.0 (`osa-invoice-data-2`, `osa-invoice-annulment-2`, `osa-invoice-data-3`, `osa-invoice-annulment-3`).
+  Each version is detected via its unique target namespace and mapped to the corresponding `hu.gov.nav.osa:*` VESID
 
 v0.8.6 - 2026-05-09
 * Removed OSGI bundling
-* Added support for the Polish KSeF FA(1), FA(2) and FA(3) syntaxes (`ksef-fa1`, `ksef-fa2`, `ksef-fa3`). Each KSeF schema version is detected via its unique target namespace and mapped to the corresponding `pl.ksef:ksef:*` VESID. See [#9](https://github.com/phax/ddd/issues/9) - thx @JDTm
+* Added support for the Polish KSeF FA(1), FA(2) and FA(3) syntaxes (`ksef-fa1`, `ksef-fa2`, `ksef-fa3`).
+  Each KSeF schema version is detected via its unique target namespace and mapped to the corresponding `pl.ksef:ksef:*` VESID.
+  See [#9](https://github.com/phax/ddd/issues/9) - thx @JDTm
 * Added support for Peppol OM (Oman): new syntax `peppol-om-tdd` for the OM Tax Data Document, plus PINT OM Invoice/Credit Note (and Self-Billing variants) detection in the UBL Invoice and UBL Credit Note value providers
-* Added support for Austrian ebInterface (versions 3.0, 3.0.2, 4.0, 4.1, 4.2, 4.3, 5.0, 6.0, 6.1). Each version is detected purely by its unique target namespace and mapped to the corresponding `at.ebinterface:invoice:*` VESID
+* Added support for Austrian ebInterface (versions 3.0, 3.0.2, 4.0, 4.1, 4.2, 4.3, 5.0, 6.0, 6.1).
+  Each version is detected purely by its unique target namespace and mapped to the corresponding `at.ebinterface:invoice:*` VESID
 * `DDDGetterXPath` now also evaluates literal-string XPath expressions (returning a constant value) as a fallback when the expression does not yield a node set
 
 v0.8.5 - 2026-04-09
@@ -298,15 +323,19 @@ v0.8.0 - 2025-11-16
 * Using JSpecify annotations
 
 v0.7.2 - 2025-10-16
-* Self Billing Invoice and Credit Note have now swapped sender and receiver. See [#6](https://github.com/phax/ddd/issues/6) - thx @thijsdeconinck
+* Self Billing Invoice and Credit Note have now swapped sender and receiver.
+  See [#6](https://github.com/phax/ddd/issues/6) - thx @thijsdeconinck
 
 v0.7.1 - 2025-10-02
 * Added support for Peppol SG BIS Order Balance V1
-* Added support for Peppol SG BIS Billing Invoice and Credit Note. See [#3](https://github.com/phax/ddd/issues/3) - thx @3ehrtaufiqul
+* Added support for Peppol SG BIS Billing Invoice and Credit Note.
+  See [#3](https://github.com/phax/ddd/issues/3) - thx @3ehrtaufiqul
 * Added support for Peppol PINT EU
 
 v0.7.0 - 2025-09-02
-* Fixed a problem with `DocumentDetailsDeterminator` and Peppol PINT document types. The API `(get|set)(DocType|Process)IDScheme` was replaced with `(get|set)(DocType|Process)IDSchemeDeterminator`. Backwards incompatible change. 
+* Fixed a problem with `DocumentDetailsDeterminator` and Peppol PINT document types.
+  The API `(get|set)(DocType|Process)IDScheme` was replaced with `(get|set)(DocType|Process)IDSchemeDeterminator`.
+  Backwards incompatible change.
 
 v0.6.0 - 2025-08-26
 * Requires Java 17 as the minimum version
@@ -359,7 +388,8 @@ v0.4.0 - 2024-09-13
 
 v0.3.2 - 2024-07-29
 * Added "syntax ID" to `DocumentDetails`
-* Added fatturaPA support. See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk
+* Added fatturaPA support.
+  See [#1](https://github.com/phax/ddd/issues/1) - thx @jstaerk
 * Added support for Peppol PINT A-NZ (billing and self-billing)
 * Added support for Peppol PINT Japan
 * Added support for Peppol PINT Malaysia

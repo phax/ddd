@@ -102,7 +102,6 @@
     <dependency>
       <groupId>com.helger.phive.rules</groupId>
       <artifactId>phive-rules-all</artifactId>
-      <version>${phive-rules.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

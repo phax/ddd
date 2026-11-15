@@ -33,10 +33,11 @@ The build runs `forbiddenapis` (against `ph-forbidden-apis-1.1.1`) — using a b
 
 ## Architecture
 
-This is a multi-module Maven project. The aggregator is `com.helger:ddd-parent-pom` (parent: `com.helger:parent-pom`) and it has two modules:
+This is a multi-module Maven project. The aggregator is `com.helger:ddd-parent-pom` (parent: `com.helger:parent-pom`) and it has three modules:
 
 | Module | Artifact | Contains | Depends on |
 |--------|----------|----------|------------|
+| `ddd-bom` | `com.helger:ddd-bom` | BOM (`dependencyManagement` only) for `ddd-model` and `ddd`, at `${project.version}` | - |
 | `ddd-model` | `com.helger:ddd-model` | `DocumentDetails`, `DocumentDetailsJsonHelper`, `DocumentDetailsXMLHelper` | `ph-xml`, `ph-json`, `edelivery-id` |
 | `ddd` | `com.helger:ddd` | `DocumentDetailsDeterminator`, `DDDVersion`, `IDDDDocumentUnwrapper`, `model/`, `unwrap/`, all data files and the JAXB build | `ddd-model`, `ph-jaxb`, `ph-jaxb-adapter`, `peppol-id` |
 

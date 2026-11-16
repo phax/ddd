@@ -69,7 +69,7 @@ public final class DocumentDetailsDeterminator
    * A log handler that redirects a single level to a legacy handler and delegates everything else
    * to another log handler. Needed for the deprecated separate setters only.
    */
-  @ChangeNextMajorRelease ("Remove again")
+  @ChangeNextMajorRelease ("Remove again in 0.10.0+")
   private static final class LegacyLevelLogHandler implements ILogHandler
   {
     private final ILogHandler m_aDelegate;

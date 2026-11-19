@@ -22,7 +22,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import com.helger.annotation.concurrent.Immutable;
+import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.annotation.style.ReturnsMutableObject;
 import com.helger.base.builder.IBuilder;
@@ -46,7 +46,7 @@ import com.helger.xml.microdom.IMicroElement;
  *
  * @author Philip Helger
  */
-@Immutable
+@NotThreadSafe
 public class DocumentDetails
 {
   private final String m_sSyntaxID;
@@ -352,7 +352,7 @@ public class DocumentDetails
   }
 
   /**
-   * @return A copy of the contained flags. Never <code>null</code> but maybe empty.
+   * @return The contained flags (not a copy). Never <code>null</code> but maybe empty.
    * @since 0.5.0
    */
   @NonNull
@@ -429,7 +429,7 @@ public class DocumentDetails
   {
     if (o == this)
       return true;
-    if (!getClass ().equals (o.getClass ()))
+    if (o == null || !getClass ().equals (o.getClass ()))
       return false;
     final DocumentDetails rhs = (DocumentDetails) o;
     return EqualsHelper.equals (m_sSyntaxID, rhs.m_sSyntaxID) &&

@@ -234,6 +234,17 @@ Alternatively use the following code in your `dependencyManagement` section to u
 
 # News and noteworthy
 
+v0.9.5 - work in progress
+* Fixed `DocumentDetails.equals (null)` throwing a `NullPointerException`
+* The XPath factory creation now falls back to the default JAXP factory on any `Throwable` when instantiating Saxon
+* `DDDDocumentUnwrapperXHE` now also checks the namespace URI of the `Payloads`, `Payload` and `PayloadContent` elements
+* `DocumentDetailsXMLHelper.getAsDocumentDetails` now trims all text values, both for the micro DOM and the W3C DOM variant
+* Fixed some error messages and annotations
+* `DDDGetterXPath` now guards the evaluation of the shared compiled XPath expression and the XPath factory with a lock, making concurrent document detail determination thread-safe
+* `DDDGetterXPath` now returns the text content of a selected element without child elements, and reports an error for an element with child elements (previously `null` was returned for all elements)
+* The top-level selects of `DDDValueProviderPerSyntax` are now sorted by source field, making the evaluation order deterministic
+* `DocumentDetails` is now annotated as `@NotThreadSafe` instead of `@Immutable`, because `flags ()` and `wrappers ()` expose the mutable internal collections
+
 v0.9.4 - 2026-11-15
 * Added the new module `ddd-bom` as a Maven BOM (Bill of Materials) for all ddd artifacts
 

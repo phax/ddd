@@ -16,22 +16,26 @@
  */
 package com.helger.ddd.model;
 
+import javax.xml.namespace.QName;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.Immutable;
+import com.helger.base.concurrent.SimpleLock;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.string.StringHelper;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.diagnostics.error.SingleError;
 import com.helger.diagnostics.error.list.IErrorList;
+import com.helger.xml.XMLHelper;
 
 /**
  * Specific implementation of {@link IDDDGetter} based on XPath
@@ -44,6 +48,8 @@ public class DDDGetterXPath implements IDDDGetter
   private final String m_sXPath;
   // Status variable
   private final XPathExpression m_aXPathExpr;
+  // XPathExpression is neither thread-safe nor reentrant
+  private final SimpleLock m_aLock = new SimpleLock ();
 
   public DDDGetterXPath (@NonNull @Nonempty final String sXPath)
   {
@@ -53,7 +59,8 @@ public class DDDGetterXPath implements IDDDGetter
     // Compile once in the constructor
     try
     {
-      m_aXPathExpr = XPathHelper.XPATH_FACTORY.newXPath ().compile (sXPath);
+      m_aXPathExpr = XPathHelper.XPATH_FACTORY_LOCK.lockedGetThrowing ( () -> XPathHelper.XPATH_FACTORY.newXPath ()
+                                                                                                    .compile (sXPath));
     }
     catch (final XPathExpressionException ex)
     {
@@ -74,6 +81,12 @@ public class DDDGetterXPath implements IDDDGetter
   }
 
   @Nullable
+  private Object _evaluate (@NonNull final Node aSourceNode, @NonNull final QName aReturnType) throws XPathExpressionException
+  {
+    return m_aLock.lockedGetThrowing ( () -> m_aXPathExpr.evaluate (aSourceNode, aReturnType));
+  }
+
+  @Nullable
   public String getValue (@NonNull final Node aSourceNode, @NonNull final IErrorList aErrorList)
   {
     ValueEnforcer.notNull (aSourceNode, "SourceNode");
@@ -82,16 +95,32 @@ public class DDDGetterXPath implements IDDDGetter
     try
     {
       // Try evaluating result as a node set
-      final NodeList aNL = (NodeList) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.NODESET);
+      final NodeList aNL = (NodeList) _evaluate (aSourceNode, XPathConstants.NODESET);
       final int nSize = aNL.getLength ();
       if (nSize == 1)
-        return aNL.item (0).getNodeValue ();
+      {
+        final Node aNode = aNL.item (0);
+        if (aNode instanceof final Element aElement && XMLHelper.hasChildElementNodes (aElement))
+        {
+          // Avoid concatenating the text of a structured element
+          aErrorList.add (SingleError.builderError ()
+                                     .errorText ("The XPath expression '" +
+                                                 m_sXPath +
+                                                 "' selected the element " +
+                                                 XMLHelper.getQName (aElement) +
+                                                 " which has child elements")
+                                     .build ());
+          return null;
+        }
+        // Works for attributes, text nodes and simple elements
+        return aNode.getTextContent ();
+      }
 
       if (nSize == 0)
       {
         // Fall back to STRING evaluation - allows literal-string XPath
         // expressions like "constant" to return a constant value
-        final String sStringResult = (String) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.STRING);
+        final String sStringResult = (String) _evaluate (aSourceNode, XPathConstants.STRING);
         if (StringHelper.isNotEmpty (sStringResult))
           return sStringResult;
       }
@@ -110,7 +139,7 @@ public class DDDGetterXPath implements IDDDGetter
       // try STRING evaluation as a fallback
       try
       {
-        final String sStringResult = (String) m_aXPathExpr.evaluate (aSourceNode, XPathConstants.STRING);
+        final String sStringResult = (String) _evaluate (aSourceNode, XPathConstants.STRING);
         if (StringHelper.isNotEmpty (sStringResult))
           return sStringResult;
       }
@@ -120,7 +149,7 @@ public class DDDGetterXPath implements IDDDGetter
       }
 
       aErrorList.add (SingleError.builderError ()
-                                 .errorText ("The Failed to apply XPath expression '" + m_sXPath + "' on XML node")
+                                 .errorText ("Failed to apply XPath expression '" + m_sXPath + "' on XML node")
                                  .linkedException (ex)
                                  .build ());
     }

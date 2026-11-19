@@ -55,11 +55,13 @@ public class DDDDocumentUnwrapperXHE implements IDDDDocumentUnwrapper
   }
 
   @Nullable
-  private static Element _getFirstChildElement (@NonNull final Element aParent, @NonNull final String sLocalName)
+  private static Element _getFirstChildElement (@NonNull final Element aParent,
+                                                @NonNull final String sNamespaceURI,
+                                                @NonNull final String sLocalName)
   {
     for (Node aChild = aParent.getFirstChild (); aChild != null; aChild = aChild.getNextSibling ())
       if (aChild instanceof final Element aChildElement)
-        if (sLocalName.equals (aChildElement.getLocalName ()))
+        if (sNamespaceURI.equals (aChildElement.getNamespaceURI ()) && sLocalName.equals (aChildElement.getLocalName ()))
           return aChildElement;
     return null;
   }
@@ -82,15 +84,15 @@ public class DDDDocumentUnwrapperXHE implements IDDDDocumentUnwrapper
       return null;
 
     // Navigate: Payloads -> Payload[1] -> PayloadContent -> first child element
-    final Element aPayloads = _getFirstChildElement (aRootElement, "Payloads");
+    final Element aPayloads = _getFirstChildElement (aRootElement, NAMESPACE_URI_AC, "Payloads");
     if (aPayloads == null)
       return null;
 
-    final Element aPayload = _getFirstChildElement (aPayloads, "Payload");
+    final Element aPayload = _getFirstChildElement (aPayloads, NAMESPACE_URI_AC, "Payload");
     if (aPayload == null)
       return null;
 
-    final Element aPayloadContent = _getFirstChildElement (aPayload, "PayloadContent");
+    final Element aPayloadContent = _getFirstChildElement (aPayload, NAMESPACE_URI_AC, "PayloadContent");
     if (aPayloadContent == null)
       return null;
 

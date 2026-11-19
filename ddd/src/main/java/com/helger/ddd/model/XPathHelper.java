@@ -22,6 +22,7 @@ import org.jspecify.annotations.NonNull;
 
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.classloader.ClassLoaderHelper;
+import com.helger.base.concurrent.SimpleLock;
 import com.helger.xml.EXMLParserFeature;
 
 /**
@@ -33,6 +34,8 @@ import com.helger.xml.EXMLParserFeature;
 final class XPathHelper
 {
   static final XPathFactory XPATH_FACTORY;
+  // XPathFactory is not thread-safe
+  static final SimpleLock XPATH_FACTORY_LOCK = new SimpleLock ();
 
   static
   {
@@ -60,7 +63,7 @@ final class XPathHelper
                                                 "net.sf.saxon.xpath.XPathFactoryImpl",
                                                 ClassLoaderHelper.getContextClassLoader ());
     }
-    catch (final Exception ex)
+    catch (final Throwable t)
     {
       // Must be Throwable because of e.g. IllegalAccessError (see issue #19)
       // Seems like Saxon is not in the class path - fall back to default JAXP

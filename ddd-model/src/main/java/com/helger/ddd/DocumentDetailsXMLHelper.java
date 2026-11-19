@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
 
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.peppolid.factory.IIdentifierFactory;
@@ -136,24 +137,24 @@ public final class DocumentDetailsXMLHelper
     final ICommonsList <IMicroElement> aFlags = aObj.getAllChildElements (XML_FLAG);
     final ICommonsList <IMicroElement> aWrappers = aObj.getAllChildElements (XML_WRAPPER);
     return DocumentDetails.builder ()
-                          .syntaxID (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_ID))
-                          .syntaxVersion (MicroHelper.getChildTextContent (aObj, XML_SYNTAX_VERSION))
-                          .senderID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContent (aObj,
+                          .syntaxID (MicroHelper.getChildTextContentTrimmed (aObj, XML_SYNTAX_ID))
+                          .syntaxVersion (MicroHelper.getChildTextContentTrimmed (aObj, XML_SYNTAX_VERSION))
+                          .senderID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContentTrimmed (aObj,
                                                                                                       XML_SENDER_ID)))
-                          .receiverID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContent (aObj,
+                          .receiverID (aIF.parseParticipantIdentifier (MicroHelper.getChildTextContentTrimmed (aObj,
                                                                                                         XML_RECEIVER_ID)))
-                          .documentTypeID (aIF.parseDocumentTypeIdentifier (MicroHelper.getChildTextContent (aObj,
+                          .documentTypeID (aIF.parseDocumentTypeIdentifier (MicroHelper.getChildTextContentTrimmed (aObj,
                                                                                                              XML_DOC_TYPE_ID)))
-                          .processID (aIF.parseProcessIdentifier (MicroHelper.getChildTextContent (aObj,
+                          .processID (aIF.parseProcessIdentifier (MicroHelper.getChildTextContentTrimmed (aObj,
                                                                                                    XML_PROCESS_ID)))
-                          .customizationID (MicroHelper.getChildTextContent (aObj, XML_CUSTOMIZATION_ID))
-                          .businessDocumentID (MicroHelper.getChildTextContent (aObj, XML_BUSINESS_DOCUMENT_ID))
-                          .senderName (MicroHelper.getChildTextContent (aObj, XML_SENDER_NAME))
-                          .senderCountryCode (MicroHelper.getChildTextContent (aObj, XML_SENDER_COUNTRY_CODE))
-                          .receiverName (MicroHelper.getChildTextContent (aObj, XML_RECEIVER_NAME))
-                          .receiverCountryCode (MicroHelper.getChildTextContent (aObj, XML_RECEIVER_COUNTRY_CODE))
-                          .vesid (MicroHelper.getChildTextContent (aObj, XML_VESID))
-                          .profileName (MicroHelper.getChildTextContent (aObj, XML_PROFILE_NAME))
+                          .customizationID (MicroHelper.getChildTextContentTrimmed (aObj, XML_CUSTOMIZATION_ID))
+                          .businessDocumentID (MicroHelper.getChildTextContentTrimmed (aObj, XML_BUSINESS_DOCUMENT_ID))
+                          .senderName (MicroHelper.getChildTextContentTrimmed (aObj, XML_SENDER_NAME))
+                          .senderCountryCode (MicroHelper.getChildTextContentTrimmed (aObj, XML_SENDER_COUNTRY_CODE))
+                          .receiverName (MicroHelper.getChildTextContentTrimmed (aObj, XML_RECEIVER_NAME))
+                          .receiverCountryCode (MicroHelper.getChildTextContentTrimmed (aObj, XML_RECEIVER_COUNTRY_CODE))
+                          .vesid (MicroHelper.getChildTextContentTrimmed (aObj, XML_VESID))
+                          .profileName (MicroHelper.getChildTextContentTrimmed (aObj, XML_PROFILE_NAME))
                           .flags (aFlags == null ? null : aFlags.getAllMapped (IMicroElement::getTextContentTrimmed))
                           .wrappers (aWrappers == null ? null
                                                        : aWrappers.getAllMapped (IMicroElement::getTextContentTrimmed))
@@ -237,7 +238,7 @@ public final class DocumentDetailsXMLHelper
 
     final BiFunction <Node, String, String> fGet = (node, name) -> {
       final Element e = XMLHelper.getFirstChildElementOfName (node, name);
-      return e == null ? null : e.getTextContent ();
+      return e == null ? null : StringHelper.trim (e.getTextContent ());
     };
 
     final ICommonsList <Element> aFlags = new CommonsArrayList <> (XMLHelper.getChildElementIterator (aObj, XML_FLAG));
@@ -258,8 +259,8 @@ public final class DocumentDetailsXMLHelper
                           .receiverCountryCode (fGet.apply (aObj, XML_RECEIVER_COUNTRY_CODE))
                           .vesid (fGet.apply (aObj, XML_VESID))
                           .profileName (fGet.apply (aObj, XML_PROFILE_NAME))
-                          .flags (aFlags.getAllMapped (Element::getTextContent))
-                          .wrappers (aWrappers.getAllMapped (Element::getTextContent))
+                          .flags (aFlags.getAllMapped (x -> StringHelper.trim (x.getTextContent ())))
+                          .wrappers (aWrappers.getAllMapped (x -> StringHelper.trim (x.getTextContent ())))
                           .build ();
   }
 }

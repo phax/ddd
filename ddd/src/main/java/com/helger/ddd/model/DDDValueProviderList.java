@@ -134,7 +134,7 @@ public class DDDValueProviderList
     final ErrorList aErrors = new ErrorList ();
     final ValueProvidersType aJaxbVps = new ValueProviderListMarshaller ().setCollectErrors (aErrors).read (aRes);
     if (aJaxbVps == null)
-      throw new IllegalArgumentException ("Failed to read DDD syntax list as XML:\n" + aErrors);
+      throw new IllegalArgumentException ("Failed to read DDD value provider list as XML:\n" + aErrors);
 
     return createFromJaxb (aJaxbVps);
   }
@@ -174,7 +174,7 @@ public class DDDValueProviderList
   private static ICommonsMap <EDDDSourceField, VPSelect> _recursiveMergeSelects (@NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects1,
                                                                                  @NonNull final ICommonsMap <EDDDSourceField, VPSelect> aSelects2)
   {
-    final ICommonsMap <EDDDSourceField, VPSelect> aMergedSelects = new CommonsHashMap <> ();
+    final ICommonsMap <EDDDSourceField, VPSelect> aMergedSelects = new CommonsTreeMap <> ();
     for (final var aEntrySourceField : aSelects1.entrySet ())
     {
       final EDDDSourceField eSourceField = aEntrySourceField.getKey ();

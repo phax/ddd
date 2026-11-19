@@ -186,7 +186,7 @@ public final class DocumentDetailsDeterminator
    * @return this for chaining
    */
   @NonNull
-  public DocumentDetailsDeterminator setIdentifierFactory (@Nullable final IIdentifierFactory aIF)
+  public DocumentDetailsDeterminator setIdentifierFactory (@NonNull final IIdentifierFactory aIF)
   {
     ValueEnforcer.notNull (aIF, "IdentifierFactory");
     m_aIF = aIF;

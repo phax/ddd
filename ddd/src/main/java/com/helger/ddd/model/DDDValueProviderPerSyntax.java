@@ -32,6 +32,7 @@ import com.helger.base.string.StringImplode;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.CommonsHashMap;
+import com.helger.collection.commons.CommonsTreeMap;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.collection.commons.ICommonsMap;
 import com.helger.ddd.model.jaxb.vp1.VPIfType;
@@ -66,7 +67,8 @@ public class DDDValueProviderPerSyntax
     ValueEnforcer.notEmpty (sSyntaxID, "SyntaxID");
     ValueEnforcer.notEmpty (aSelects, "Selectors");
     m_sSyntaxID = sSyntaxID;
-    m_aSelects = aSelects;
+    // Sorted by source field, so that the evaluation order is deterministic
+    m_aSelects = new CommonsTreeMap <> (aSelects);
   }
 
   @NonNull
@@ -410,7 +412,7 @@ public class DDDValueProviderPerSyntax
     final String sSyntaxID = aJaxbSyntax.getId ();
 
     // Read all selects
-    final ICommonsMap <EDDDSourceField, VPSelect> aSelects = new CommonsHashMap <> ();
+    final ICommonsMap <EDDDSourceField, VPSelect> aSelects = new CommonsTreeMap <> ();
     for (final VPSelectType aJaxbSelect : aJaxbSyntax.getSelect ())
     {
       final VPSelect aSelect = _createSelectFromJaxb (aJaxbSelect);

@@ -40,7 +40,7 @@ public final class VPIf implements ICloneable <VPIf>
 {
   private final String m_sConditionValue;
 
-  // The following 2 fields are mutually exclusive
+  // The determined values and flags are mutually exclusive with the nested selects
   private final VPDeterminedValues m_aDeterminedValues;
   private final VPDeterminedFlags m_aDeterminedFlags;
   private final ICommonsSortedMap <EDDDSourceField, VPSelect> m_aNestedSelects;
